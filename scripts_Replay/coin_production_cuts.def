@@ -1,0 +1,19 @@
+Block: RawDecode
+Pedestal_event       g.evtyp == 99
+COIN_ONLY_event      g.evtyp == 4
+SHMS_COIN_event      g.evtyp == 5
+HMS_COIN_event       g.evtyp == 6 
+COIN_ALL_event       g.evtyp == 7
+ALL_COIN             g.evtyp >= 4 &&g.evtyp <= 7 
+RawDecode_master  ALL_COIN
+
+Block: Decode
+pTRIG4_ROC1          T.coin.pTRIG4_ROC1_tdcTimeRaw>0
+pTRIG5_ROC1          T.coin.pTRIG5_ROC1_tdcTimeRaw>0
+pTRIG6_ROC1          T.coin.pTRIG6_ROC1_tdcTimeRaw>0
+ALL_COIN_NO_EDTM     T.coin.hEDTM_tdcTime==0.0&&T.coin.pEDTM_tdcTime==0.0&&ALL_COIN		     
+Decode_master     ALL_COIN_NO_EDTM
+
+Block: CoarseTracking
+TRACK_FOUND          P.dc.ntrack>0&&H.dc.ntrack>0&&ALL_COIN_NO_EDTM
+CoarseTracking_master TRACK_FOUND
