@@ -63,8 +63,8 @@ void peepYield::SlaveBegin(TTree * /*tree*/)
 
   h2SHMSp_kaon            = new TH2F("SHMSp_kaon","NPE in SHMS Aerogel and Heavy Gas;Aerogel NPE;HGC NPE",50,0.1,25,50,0.1,10);
   h2SHMSp_kaon_cut        = new TH2F("SHMSp_kaon_cut","NPE in SHMS Aerogel and Heavy Gas, Kaons Selected;Aerogel NPE;HGC NPE",50,0.0,25,50,0.0,10);
-  h2SHMSp_pion            = new TH2F("SHMSp_pion","NPE in SHMS Noble and Heavy Gas;Noble NPE;HGC NPE",50,0.1,25,50,0.1,10);
-  h2SHMSp_pion_cut        = new TH2F("SHMSp_pion_cut","NPE in SHMS Noble and Heavy Gas, Pions Selected;Noble NPE;HGC NPE",50,0.0,25,50,0.0,10);
+  h2SHMSp_pion            = new TH2F("SHMSp_pion","Normalized SHMS Calorimeter Energy and NPE in Heavy Gas;Normalized Energy;HGC NPE",50,0.1,2.0,50,0.1,30);
+  h2SHMSp_pion_cut        = new TH2F("SHMSp_pion_cut","Normalized SHMS Calorimeter Energy and NPE in Heavy Gas, Pions Selected;Normalized Energy;HGC NPE",50,0.0,2.0,50,0.0,30);
 
   h1SHMS_delta           = new TH1F("SHMS_delta","SHMS #delta;#delta;Counts",100,-50,50);
   h1SHMS_delta_cut       = new TH1F("SHMS_delta_cut","SHMS #delta Cut;#delta;Counts",100,-50,50);
@@ -156,7 +156,7 @@ Bool_t peepYield::Process(Long64_t entry)
   h1SHMS_electron->Fill(P_cal_etotnorm[0]);
 
   h2SHMSp_kaon->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
-  h2SHMSp_pion->Fill(P_ngcer_npeSum[0],P_hgcer_npeSum[0]);
+  h2SHMSp_pion->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
   
   h1SHMS_delta->Fill(P_gtr_dp[0]);
   h1HMS_delta->Fill(H_gtr_dp[0]);
@@ -198,7 +198,7 @@ Bool_t peepYield::Process(Long64_t entry)
     if (abs((CTime_epCoinTime_ROC1[0] - 10.0)) < 2.0) {
       h2ROC1_Coin_Beta_proton->Fill((CTime_epCoinTime_ROC1[0] - 10.0),P_gtr_beta[0]);
       h2SHMSp_kaon_cut->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
-      h2SHMSp_pion_cut->Fill(P_ngcer_npeSum[0],P_hgcer_npeSum[0]);
+      h2SHMSp_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
       h1mmissp_cut->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
 
       h2WvsQ2->Fill(Q2[0],W[0]);
