@@ -395,11 +395,16 @@ void SHMSADCGates::Terminate()
   gSystem->RedirectOutput("/dev/null","a");
   Double_t HGC_Window[4];
   for (Int_t ipmt = 0; ipmt < 4; ipmt++) {
-    TSpectrum *s = new TSpectrum(1);
-    s->Search(PHGCPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
-    TList *functions = PHGCPULSETIMEDIFF[ipmt]->GetListOfFunctions();
-    TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
-    HGC_Window[ipmt] = *pm->GetX();
+    if (PHGCPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
+      TSpectrum *s = new TSpectrum(1);
+      s->Search(PHGCPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
+      TList *functions = PHGCPULSETIMEDIFF[ipmt]->GetListOfFunctions();
+      TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
+      HGC_Window[ipmt] = *pm->GetX();
+    }
+    else {
+      HGC_Window[ipmt] = 1e+38;
+    }
   }
 
   /*Double_t NGC_Window[4];
@@ -413,56 +418,90 @@ void SHMSADCGates::Terminate()
   
   Double_t AERONEG_Window[7];
   for (Int_t ipmt = 0; ipmt < 7; ipmt++) {
-    TSpectrum *s = new TSpectrum(1);
-    s->Search(PAERONEGPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
-    TList *functions = PAERONEGPULSETIMEDIFF[ipmt]->GetListOfFunctions();
-    TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
-    AERONEG_Window[ipmt] = *pm->GetX();
+    if (PAERONEGPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
+      TSpectrum *s = new TSpectrum(1);
+      s->Search(PAERONEGPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
+      TList *functions = PAERONEGPULSETIMEDIFF[ipmt]->GetListOfFunctions();
+      TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
+      AERONEG_Window[ipmt] = *pm->GetX();
+    }
+    else {
+      AERONEG_Window[ipmt] = 1e+38;
+    }
   }
 
   Double_t AEROPOS_Window[7];
   for (Int_t ipmt = 0; ipmt < 7; ipmt++) {
-    TSpectrum *s = new TSpectrum(1);
-    s->Search(PAEROPOSPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
-    TList *functions = PAEROPOSPULSETIMEDIFF[ipmt]->GetListOfFunctions();
-    TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
-    AEROPOS_Window[ipmt] = *pm->GetX();
+    if (PAEROPOSPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
+      TSpectrum *s = new TSpectrum(1);
+      s->Search(PAEROPOSPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
+      TList *functions = PAEROPOSPULSETIMEDIFF[ipmt]->GetListOfFunctions();
+      TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
+      AEROPOS_Window[ipmt] = *pm->GetX();
+    }
+    else {
+      AEROPOS_Window[ipmt] = 1e+38;
+    }
   }
 
   Double_t PRECALNEG_Window[14];
   for (Int_t ipmt = 0; ipmt < 14; ipmt++) {
-    TSpectrum *s = new TSpectrum(1);
-    s->Search(PPRECALNEGPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
-    TList *functions = PPRECALNEGPULSETIMEDIFF[ipmt]->GetListOfFunctions();
-    TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
-    PRECALNEG_Window[ipmt] = *pm->GetX();
+    if (PPRECALNEGPULSETIMEDIFF[ipmt]->GetEntries() !=0) {
+      TSpectrum *s = new TSpectrum(1);
+      s->Search(PPRECALNEGPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
+      TList *functions = PPRECALNEGPULSETIMEDIFF[ipmt]->GetListOfFunctions();
+      TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
+      PRECALNEG_Window[ipmt] = *pm->GetX();
+    }
+    else {
+      PRECALNEG_Window[ipmt] = 1e+38;
+    }
   }
 
   Double_t PRECALPOS_Window[14];
   for (Int_t ipmt = 0; ipmt < 14; ipmt++) {
-    TSpectrum *s = new TSpectrum(1);
-    s->Search(PPRECALPOSPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
-    TList *functions = PPRECALPOSPULSETIMEDIFF[ipmt]->GetListOfFunctions();
-    TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
-    PRECALPOS_Window[ipmt] = *pm->GetX();
-  }
-  
-  Double_t CAL_Window[224];
-  for (Int_t ipmt = 0; ipmt < 224; ipmt++) {
-    TSpectrum *s = new TSpectrum(1);
-    s->Search(PCALPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
-    TList *functions = PCALPULSETIMEDIFF[ipmt]->GetListOfFunctions();
-    TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
-    CAL_Window[ipmt] = *pm->GetX();
+    if (PPRECALPOSPULSETIMEDIFF[ipmt]->GetEntries() !=0) {
+      TSpectrum *s = new TSpectrum(1);
+      s->Search(PPRECALPOSPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
+      TList *functions = PPRECALPOSPULSETIMEDIFF[ipmt]->GetListOfFunctions();
+      TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
+      PRECALPOS_Window[ipmt] = *pm->GetX();
+    }
+    else {
+      PRECALPOS_Window[ipmt] = 1e+38;
+    }
   }
 
+  Double_t CAL_Window[224];
+  for (Int_t ipmt = 0; ipmt < 224; ipmt++) {
+    if (PCALPULSETIMEDIFF[ipmt]->GetEntries() < 50) {
+      cout << PCALPULSETIMEDIFF[ipmt]->GetEntries() << endl;
+      TSpectrum *s = new TSpectrum(1);
+      s->Search(PCALPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
+      TList *functions = PCALPULSETIMEDIFF[ipmt]->GetListOfFunctions();
+      TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
+      if (pm) {
+	CAL_Window[ipmt] = *pm->GetX();
+      }
+      else CAL_Window[ipmt] = 1e+38;
+    }
+    else {
+      CAL_Window[ipmt] = 1e+38;
+    }
+  }
+  
   Double_t DC_Window[12];
   for (Int_t ipmt = 0; ipmt < 12; ipmt++) {
-    TSpectrum *s = new TSpectrum(1);
-    s->Search(PDCRAWTDC[ipmt], 1.0, "nobackground&&nodraw", 0.001);
-    TList *functions = PDCRAWTDC[ipmt]->GetListOfFunctions();
-    TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
-    DC_Window[ipmt] = *pm->GetX();
+    if (PDCRAWTDC[ipmt]->GetEntries() != 0) {
+      TSpectrum *s = new TSpectrum(1);
+      s->Search(PDCRAWTDC[ipmt], 1.0, "nobackground&&nodraw", 0.001);
+      TList *functions = PDCRAWTDC[ipmt]->GetListOfFunctions();
+      TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
+      DC_Window[ipmt] = *pm->GetX();
+    }
+    else {
+      DC_Window[ipmt] = 1e+38;
+    }
   }
   
   Double_t HODO1xNeg_Window[18];
