@@ -358,7 +358,7 @@ void peepYield::Terminate()
 
   //Start output of .root file with all histograms
   TString option = GetOption();
-  TFile *Histogram_file = new TFile(Form("../Histograms/KaonLT_Run%i.root",option.Atoi()),"RECREATE");
+  TFile *Histogram_file = new TFile(Form("../../HISTOGRAMS/KaonLT_Run%i.root",option.Atoi()),"RECREATE");
   TDirectory *DCuts = Histogram_file->mkdir("Spectrometer Delta and Calorimeter Cuts"); DCuts->cd();
   h1HMS_delta->Write("HMS Delta Before Cuts"); h1HMS_delta_cut->Write("HMS Delta After Cuts");
   h1SHMS_delta->Write("SHMS Delta Before Cuts"); h1SHMS_delta_cut->Write("SHMS Delta After Cuts");

@@ -58,8 +58,8 @@ void replay_production_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   SHMS->AddEvtType(7);
   gHaApps->Add(SHMS);
   // Add Noble Gas Cherenkov to SHMS apparatus
-  THcCherenkov* pngcer = new THcCherenkov("ngcer", "Noble Gas Cherenkov");
-  SHMS->AddDetector(pngcer);
+  //THcCherenkov* pngcer = new THcCherenkov("ngcer", "Noble Gas Cherenkov");
+  //SHMS->AddDetector(pngcer);
   // Add drift chambers to SHMS apparatus
   THcDC* pdc = new THcDC("dc", "Drift Chambers");
   SHMS->AddDetector(pdc);
@@ -242,15 +242,15 @@ void replay_production_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define DEF-file+
-  analyzer->SetOdefFile("UTIL_KAON/scripts_Replay/coin_production.def");
+  analyzer->SetOdefFile("UTIL_KAONLT/scripts_Replay/coin_production.def");
   // Define cuts file
-  analyzer->SetCutFile("UTIL_KAON/scripts_Replay/coin_production_cuts.def");  // optional
+  analyzer->SetCutFile("UTIL_KAONLT/scripts_Replay/coin_production_cuts.def");  // optional
   // File to record accounting information for cuts
   //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template
   //analyzer->PrintReport("TEMPLATES/COIN/PRODUCTION/coin_production.template",
-  //Form("REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+			//Form("REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%d_%d.report", RunNumber, MaxEvent));  // optional
 
 }

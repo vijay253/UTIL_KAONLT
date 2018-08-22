@@ -60,7 +60,7 @@ void SHMSADCGates::SlaveBegin(TTree * /*tree*/)
      GetOutputList()->Add(h1PHGCERPulseTimeStarttimeDiff[ipmt]);
    }
 
-   h1PNGCERPulseTime              = new TH1F*[4];
+   /*h1PNGCERPulseTime              = new TH1F*[4];
    h1PNGCERPulseTimeStarttimeDiff = new TH1F*[4];
    for (Int_t ipmt=0; ipmt<4; ipmt++) {
      h1PNGCERPulseTime[ipmt] = new TH1F(Form("PNGCERPulseTime%d",ipmt+1),Form("Pulse Time Information for SHMS NGC PMT%d;Time (ns);Counts",ipmt+1),700,-600,100);
@@ -68,7 +68,7 @@ void SHMSADCGates::SlaveBegin(TTree * /*tree*/)
 
      GetOutputList()->Add(h1PNGCERPulseTime[ipmt]);
      GetOutputList()->Add(h1PNGCERPulseTimeStarttimeDiff[ipmt]);
-   }
+     }*/
 
    h1PAERONegPulseTime              = new TH1F*[7];
    h1PAERONegPulseTimeStarttimeDiff = new TH1F*[7];
@@ -164,7 +164,7 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    // The return value is currently not used.
 
    fReader.SetEntry(entry);
-
+   
    for (Int_t i = 0; i <= *Ndata_P_hgcer_adcPulseTime; i++) {
      if (P_hgcer_adcErrorFlag[i] == 1) continue;
      if (P_hgcer_adcCounter[i] < 1 || P_hgcer_adcCounter[i] > 4) continue;
@@ -173,53 +173,58 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
      h1PHGCERPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hgcer_adcPulseTime[i] + *P_hod_starttime);   
    }
 
-   for (Int_t i = 0; i <= *Ndata_P_ngcer_adcPulseTime; i++) {
+   /*for (Int_t i = 0; i <= *Ndata_P_ngcer_adcPulseTime; i++) {
      if (P_ngcer_adcErrorFlag[i] == 1) continue;
      if (P_ngcer_adcCounter[i] < 1 || P_ngcer_adcCounter[i] > 4) continue;
      Int_t current_pmt = P_ngcer_adcCounter[i] - 1;
      h1PNGCERPulseTime[current_pmt]->Fill(-P_ngcer_adcPulseTime[i]);
      h1PNGCERPulseTimeStarttimeDiff[current_pmt]->Fill(-P_ngcer_adcPulseTime[i] + *P_hod_starttime); 
-   }
+     }*/
    
    for (Int_t i = 0; i <= *Ndata_P_aero_negAdcPulseTime; i++) {
      if (P_aero_negAdcErrorFlag[i] == 1) continue;
      if (P_aero_negAdcCounter[i] < 1 || P_aero_negAdcCounter[i] > 7) continue;
+     if (P_aero_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_aero_negAdcCounter[i] - 1;
      h1PAERONegPulseTime[current_pmt]->Fill(-P_aero_negAdcPulseTime[i]);
      h1PAERONegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_aero_negAdcPulseTime[i] + *P_hod_starttime); 
    }
-
+   
    for (Int_t i = 0; i <= *Ndata_P_aero_posAdcPulseTime; i++) {
      if (P_aero_posAdcErrorFlag[i] == 1) continue;
      if (P_aero_posAdcCounter[i] < 1 || P_aero_posAdcCounter[i] > 7) continue;
+     if (P_aero_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_aero_posAdcCounter[i] - 1;
      h1PAEROPosPulseTime[current_pmt]->Fill(-P_aero_posAdcPulseTime[i]);
      h1PAEROPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_aero_posAdcPulseTime[i] + *P_hod_starttime); 
    }
-
+   
    for (Int_t i = 0; i <= *Ndata_P_precal_negAdcPulseTime; i++) {
      if (P_precal_negAdcErrorFlag[i] == 1) continue;
      if (P_precal_negAdcCounter[i] < 1 || P_precal_negAdcCounter[i] > 14) continue;
+     if (P_precal_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_precal_negAdcCounter[i] - 1;
      h1PPRECALNegPulseTime[current_pmt]->Fill(-P_precal_negAdcPulseTime[i]);
      h1PPRECALNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_precal_negAdcPulseTime[i] + *P_hod_starttime); 
    }
-
+   
    for (Int_t i = 0; i <= *Ndata_P_precal_posAdcPulseTime; i++) {
      if (P_precal_posAdcErrorFlag[i] == 1) continue;
      if (P_precal_posAdcCounter[i] < 1 || P_precal_posAdcCounter[i] > 14) continue;
+     if (P_precal_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_precal_posAdcCounter[i] - 1;
      h1PPRECALPosPulseTime[current_pmt]->Fill(-P_precal_posAdcPulseTime[i]);
      h1PPRECALPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_precal_posAdcPulseTime[i] + *P_hod_starttime); 
    }
-
+   
    for (Int_t i = 0; i <= *Ndata_P_cal_adcPulseTime; i++) {
      if (P_cal_adcErrorFlag[i] == 1) continue;
      if (P_cal_adcCounter[i] < 1 || P_cal_adcCounter[i] > 255) continue;
+     if (P_cal_adcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_cal_adcCounter[i] - 1;
      h1PCALPulseTimeStarttimeDiff[current_pmt]->Fill(-P_cal_adcPulseTime[i] + *P_hod_starttime); 
    }
-
+   
    for (Int_t i = 0; i <= *Ndata_P_dc_1u1_rawtdc; i++) {
      h1PDCRawTdc[0]->Fill(P_dc_1u1_rawtdc[i]); 
      h1PDCRawTdc[1]->Fill(P_dc_1u2_rawtdc[i]);
@@ -234,17 +239,19 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
      h1PDCRawTdc[10]->Fill(P_dc_2x1_rawtdc[i]); 
      h1PDCRawTdc[11]->Fill(P_dc_2x2_rawtdc[i]);
    }
-
+   
    for (Int_t i = 0; i <= *Ndata_P_hod_1x_negAdcPulseTime; i++) {
      if (P_hod_1x_negAdcErrorFlag[i] == 1) continue;
      if (P_hod_1x_negAdcCounter[i] < 1 || P_hod_1x_negAdcCounter[i] > 13) continue;
+     if (P_hod_1x_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1x_negAdcCounter[i] - 1;
      h1PHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1x_negAdcPulseTime[i] + *P_hod_starttime); 
    }
-
+   
    for (Int_t i = 0; i <= *Ndata_P_hod_1x_posAdcPulseTime; i++) {
      if (P_hod_1x_posAdcErrorFlag[i] == 1) continue;
      if (P_hod_1x_posAdcCounter[i] < 1 || P_hod_1x_posAdcCounter[i] > 13) continue;
+     if (P_hod_1x_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1x_posAdcCounter[i] - 1;
      h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1x_posAdcPulseTime[i] + *P_hod_starttime); 
    }
@@ -252,6 +259,7 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    for (Int_t i = 0; i <= *Ndata_P_hod_1y_negAdcPulseTime; i++) {
      if (P_hod_1y_negAdcErrorFlag[i] == 1) continue;
      if (P_hod_1y_negAdcCounter[i] < 1 || P_hod_1y_negAdcCounter[i] > 13) continue;
+     if (P_hod_1y_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1y_negAdcCounter[i] - 1;
      h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1y_negAdcPulseTime[i] + *P_hod_starttime); 
    }
@@ -259,6 +267,7 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    for (Int_t i = 0; i <= *Ndata_P_hod_1y_posAdcPulseTime; i++) {
      if (P_hod_1y_posAdcErrorFlag[i] == 1) continue;
      if (P_hod_1y_posAdcCounter[i] < 1 || P_hod_1y_posAdcCounter[i] > 13) continue;
+     if (P_hod_1y_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1y_posAdcCounter[i] - 1;
      h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1y_posAdcPulseTime[i] + *P_hod_starttime); 
    }
@@ -266,6 +275,7 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    for (Int_t i = 0; i <= *Ndata_P_hod_2x_negAdcPulseTime; i++) {
      if (P_hod_2x_negAdcErrorFlag[i] == 1) continue;
      if (P_hod_2x_negAdcCounter[i] < 1 || P_hod_2x_negAdcCounter[i] > 14) continue;
+     if (P_hod_2x_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2x_negAdcCounter[i] - 1;
      h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2x_negAdcPulseTime[i] + *P_hod_starttime); 
    }
@@ -273,6 +283,7 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    for (Int_t i = 0; i <= *Ndata_P_hod_2x_posAdcPulseTime; i++) {
      if (P_hod_2x_posAdcErrorFlag[i] == 1) continue;
      if (P_hod_2x_posAdcCounter[i] < 1 || P_hod_2x_posAdcCounter[i] > 14) continue;
+     if (P_hod_2x_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2x_posAdcCounter[i] - 1;
      h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2x_posAdcPulseTime[i] + *P_hod_starttime); 
    }
@@ -280,6 +291,7 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    for (Int_t i = 0; i <= *Ndata_P_hod_2y_negAdcPulseTime; i++) {
      if (P_hod_2y_negAdcErrorFlag[i] == 1) continue;
      if (P_hod_2y_negAdcCounter[i] < 1 || P_hod_2y_negAdcCounter[i] > 18) continue;
+     if (P_hod_2y_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2y_negAdcCounter[i] - 1;
      h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2y_negAdcPulseTime[i] + *P_hod_starttime); 
    }
@@ -287,10 +299,11 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    for (Int_t i = 0; i <= *Ndata_P_hod_2y_posAdcPulseTime; i++) {
      if (P_hod_2y_posAdcErrorFlag[i] == 1) continue;
      if (P_hod_2y_posAdcCounter[i] < 1 || P_hod_2y_posAdcCounter[i] > 18) continue;
+     if (P_hod_2y_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2y_posAdcCounter[i] - 1;
      h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2y_posAdcPulseTime[i] + *P_hod_starttime); 
    }
-
+   
    return kTRUE;
 }
 
@@ -308,6 +321,8 @@ void SHMSADCGates::Terminate()
   // a query. It always runs on the client, it can be used to present
   // the results graphically or save the results to file.
 
+  Info("Terminate", "Branches Sorted, Now Calculating Windows");
+  
   TH1F* PHGCPULSETIME[4];
   TH1F* PHGCPULSETIMEDIFF[4];
   for (Int_t ipmt = 0; ipmt < 4; ipmt++) {
@@ -315,13 +330,13 @@ void SHMSADCGates::Terminate()
     PHGCPULSETIMEDIFF[ipmt] = dynamic_cast<TH1F*> (GetOutputList()->FindObject(Form("PHGCERPulseTimeStarttimeDiff%d",ipmt+1)));
   }
 
-  TH1F* PNGCPULSETIME[4];
+  /*TH1F* PNGCPULSETIME[4];
   TH1F* PNGCPULSETIMEDIFF[4];
   for (Int_t ipmt = 0; ipmt < 4; ipmt++) {
     PNGCPULSETIME[ipmt] = dynamic_cast<TH1F*> (GetOutputList()->FindObject(Form("PNGCERPulseTime%d",ipmt+1)));
     PNGCPULSETIMEDIFF[ipmt] = dynamic_cast<TH1F*> (GetOutputList()->FindObject(Form("PNGCERPulseTimeStarttimeDiff%d",ipmt+1)));
-  }
-
+    }*/
+  
   TH1F* PAERONEGPULSETIME[7];
   TH1F* PAERONEGPULSETIMEDIFF[7];
   TH1F* PAEROPOSPULSETIME[7];
@@ -385,15 +400,15 @@ void SHMSADCGates::Terminate()
     HGC_Window[ipmt] = *pm->GetX();
   }
 
-  Double_t NGC_Window[4];
+  /*Double_t NGC_Window[4];
   for (Int_t ipmt = 0; ipmt < 4; ipmt++) {
     TSpectrum *s = new TSpectrum(1);
     s->Search(PNGCPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
     TList *functions = PNGCPULSETIMEDIFF[ipmt]->GetListOfFunctions();
     TPolyMarker *pm = (TPolyMarker*)functions->FindObject("TPolyMarker");
     NGC_Window[ipmt] = *pm->GetX();
-  }
-
+    }*/
+  
   Double_t AERONEG_Window[7];
   for (Int_t ipmt = 0; ipmt < 7; ipmt++) {
     TSpectrum *s = new TSpectrum(1);
@@ -567,10 +582,10 @@ void SHMSADCGates::Terminate()
   Int_t HGCMinPMT3 = HGC_Window[2] - 10; Int_t HGCMaxPMT3 = HGC_Window[2] + 10;
   Int_t HGCMinPMT4 = HGC_Window[3] - 10; Int_t HGCMaxPMT4 = HGC_Window[3] + 10;
 
-  Int_t NGCMinPMT1 = NGC_Window[0] - 10; Int_t NGCMaxPMT1 = NGC_Window[0] + 10;
+  /*Int_t NGCMinPMT1 = NGC_Window[0] - 10; Int_t NGCMaxPMT1 = NGC_Window[0] + 10;
   Int_t NGCMinPMT2 = NGC_Window[1] - 10; Int_t NGCMaxPMT2 = NGC_Window[1] + 10;
   Int_t NGCMinPMT3 = NGC_Window[2] - 10; Int_t NGCMaxPMT3 = NGC_Window[2] + 10;
-  Int_t NGCMinPMT4 = NGC_Window[3] - 10; Int_t NGCMaxPMT4 = NGC_Window[3] + 10;
+  Int_t NGCMinPMT4 = NGC_Window[3] - 10; Int_t NGCMaxPMT4 = NGC_Window[3] + 10;*/
   
   Int_t HODOPosMin[72]; Int_t HODOPosMax[72];
   Int_t HODONegMin[72]; Int_t HODONegMax[72];
@@ -677,7 +692,7 @@ void SHMSADCGates::Terminate()
   SHMSWindows << Form(";Values obtained from Run %s",option.Data()) << endl;
   SHMSWindows << Form("phgcer_adcTimeWindowMin = %d, %d, %d, %d\nphgcer_adcTimeWindowMax = %d, %d, %d, %d\n",HGCMinPMT1,HGCMinPMT2,HGCMinPMT3,HGCMinPMT4,HGCMaxPMT1,HGCMaxPMT2,HGCMaxPMT3,HGCMaxPMT4) << endl;
   SHMSWindows << Form(";Values obtained from Run %s",option.Data()) << endl;
-  SHMSWindows << Form("pngcer_adcTimeWindowMin = %d, %d, %d, %d\npngcer_adcTimeWindowMax = %d, %d, %d, %d\n",NGCMinPMT1,NGCMinPMT2,NGCMinPMT3,NGCMinPMT4,NGCMaxPMT1,NGCMaxPMT2,NGCMaxPMT3,NGCMaxPMT4) << endl;
+  //SHMSWindows << Form("pngcer_adcTimeWindowMin = %d, %d, %d, %d\npngcer_adcTimeWindowMax = %d, %d, %d, %d\n",NGCMinPMT1,NGCMinPMT2,NGCMinPMT3,NGCMinPMT4,NGCMaxPMT1,NGCMaxPMT2,NGCMaxPMT3,NGCMaxPMT4) << endl;
   SHMSWindows << Form(";Values obtained from Run %s\nphodo_PosAdcTimeWindowMin =",option.Data());
   for (Int_t ipmt = 0; ipmt < 18; ipmt++) {
     SHMSWindows << Form(" %d, %d, %d, %d\n",HODOPosMin[4*ipmt],HODOPosMin[4*ipmt+1],HODOPosMin[4*ipmt+2],HODOPosMin[4*ipmt+3]);
@@ -720,17 +735,17 @@ void SHMSADCGates::Terminate()
   SHMSWindows.close();
 
   //Start output of .root file with all histograms
-  TFile *Histogram_file = new TFile(Form("../Histograms/SHMSADCGates_Run%i.root",option.Atoi()),"RECREATE");
+  TFile *Histogram_file = new TFile(Form("../../HISTOGRAMS/SHMSADCGates_Run%i.root",option.Atoi()),"RECREATE");
   TDirectory *DHGC = Histogram_file->mkdir("Heavy Gas Cherenkov ADC Timing Spectra"); DHGC->cd();
   for (Int_t ipmt=0; ipmt < 4; ipmt++) {
     PHGCPULSETIMEDIFF[ipmt]->Write(Form("HGC PMT %i",ipmt+1));
     }
 
-  TDirectory *DNGC = Histogram_file->mkdir("Noble Gas Cherenkov ADC Timing Spectra"); DNGC->cd();
+  /*TDirectory *DNGC = Histogram_file->mkdir("Noble Gas Cherenkov ADC Timing Spectra"); DNGC->cd();
   for (Int_t ipmt=0; ipmt < 4; ipmt++) {
     PNGCPULSETIMEDIFF[ipmt]->Write(Form("NGC PMT %i",ipmt+1));
-    }
-
+    }*/
+  
   TDirectory *DAERO = Histogram_file->mkdir("Aerogel Cherenkov ADC Timing Spectra"); DAERO->cd();
   for (Int_t ipmt=0; ipmt < 7; ipmt++) {
     PAERONEGPULSETIMEDIFF[ipmt]->Write(Form("AERO NEG PMT %i",ipmt+1));

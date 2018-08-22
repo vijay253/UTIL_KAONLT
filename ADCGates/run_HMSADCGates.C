@@ -23,7 +23,7 @@ void run_HMSADCGates(Int_t RunNumber = 0, Int_t MaxEvent = 0)
 
   //Begin Checking ADC Gates
   TChain ch("T");
-  ch.Add(Form("../../ROOTfiles/coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
+  ch.Add(Form("../../ROOTfiles/ADCGates_HMS_coin_replay_production_all_%i_%i.root",RunNumber,MaxEvent));
   TString option = Form("%i",RunNumber);
 
   TProof *proof = TProof::Open("workers=4");

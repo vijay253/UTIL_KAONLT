@@ -28,8 +28,8 @@ public :
    TH1F          **h1PHGCERPulseTime;
    TH1F          **h1PHGCERPulseTimeStarttimeDiff;
 
-   TH1F          **h1PNGCERPulseTime;
-   TH1F          **h1PNGCERPulseTimeStarttimeDiff;
+   //TH1F          **h1PNGCERPulseTime;
+   //TH1F          **h1PNGCERPulseTimeStarttimeDiff;
 
    TH1F          **h1PAERONegPulseTime;
    TH1F          **h1PAERONegPulseTimeStarttimeDiff;
@@ -63,10 +63,10 @@ public :
    TTreeReaderArray<Double_t> P_hgcer_adcErrorFlag = {fReader, "P.hgcer.adcErrorFlag"};
    TTreeReaderArray<Double_t> P_hgcer_adcPulseTime = {fReader, "P.hgcer.adcPulseTime"};
 
-   TTreeReaderValue<Int_t> Ndata_P_ngcer_adcPulseTime = {fReader, "Ndata.P.ngcer.adcPulseTime"};
-   TTreeReaderArray<Double_t> P_ngcer_adcCounter = {fReader, "P.ngcer.adcCounter"};
-   TTreeReaderArray<Double_t> P_ngcer_adcErrorFlag = {fReader, "P.ngcer.adcErrorFlag"};
-   TTreeReaderArray<Double_t> P_ngcer_adcPulseTime = {fReader, "P.ngcer.adcPulseTime"};
+   //TTreeReaderValue<Int_t> Ndata_P_ngcer_adcPulseTime = {fReader, "Ndata.P.ngcer.adcPulseTime"};
+   //TTreeReaderArray<Double_t> P_ngcer_adcCounter = {fReader, "P.ngcer.adcCounter"};
+   //TTreeReaderArray<Double_t> P_ngcer_adcErrorFlag = {fReader, "P.ngcer.adcErrorFlag"};
+   //TTreeReaderArray<Double_t> P_ngcer_adcPulseTime = {fReader, "P.ngcer.adcPulseTime"};
 
    TTreeReaderValue<Int_t> Ndata_P_aero_negAdcPulseTime = {fReader, "Ndata.P.aero.negAdcPulseTime"};
    TTreeReaderArray<Double_t> P_aero_negAdcCounter = {fReader, "P.aero.negAdcCounter"};
@@ -149,7 +149,7 @@ public :
    
    TTreeReaderValue<Double_t> P_hod_starttime = {fReader, "P.hod.starttime"};
 
-   SHMSADCGates(TTree * /*tree*/ =0) {h1PHGCERPulseTime=0,h1PHGCERPulseTimeStarttimeDiff=0,h1PNGCERPulseTime=0,h1PNGCERPulseTimeStarttimeDiff=0,h1PAERONegPulseTime=0,h1PAERONegPulseTimeStarttimeDiff=0,h1PAEROPosPulseTime=0,h1PAEROPosPulseTimeStarttimeDiff=0,h1PPRECALNegPulseTime=0,h1PPRECALNegPulseTimeStarttimeDiff=0,h1PPRECALPosPulseTime=0,h1PPRECALPosPulseTimeStarttimeDiff=0,h1PCALPulseTimeStarttimeDiff=0,h1PDCRawTdc=0,h1PHODO1xNegPulseTimeStarttimeDiff=0,h1PHODO1xPosPulseTimeStarttimeDiff=0,h1PHODO1yNegPulseTimeStarttimeDiff=0,h1PHODO1yPosPulseTimeStarttimeDiff=0,h1PHODO2xNegPulseTimeStarttimeDiff=0,h1PHODO2xPosPulseTimeStarttimeDiff=0,h1PHODO2yNegPulseTimeStarttimeDiff=0,h1PHODO2yPosPulseTimeStarttimeDiff=0;}
+   SHMSADCGates(TTree * /*tree*/ =0) {h1PHGCERPulseTime=0,h1PHGCERPulseTimeStarttimeDiff=0,/*h1PNGCERPulseTime=0,h1PNGCERPulseTimeStarttimeDiff=0,*/h1PAERONegPulseTime=0,h1PAERONegPulseTimeStarttimeDiff=0,h1PAEROPosPulseTime=0,h1PAEROPosPulseTimeStarttimeDiff=0,h1PPRECALNegPulseTime=0,h1PPRECALNegPulseTimeStarttimeDiff=0,h1PPRECALPosPulseTime=0,h1PPRECALPosPulseTimeStarttimeDiff=0,h1PCALPulseTimeStarttimeDiff=0,h1PDCRawTdc=0,h1PHODO1xNegPulseTimeStarttimeDiff=0,h1PHODO1xPosPulseTimeStarttimeDiff=0,h1PHODO1yNegPulseTimeStarttimeDiff=0,h1PHODO1yPosPulseTimeStarttimeDiff=0,h1PHODO2xNegPulseTimeStarttimeDiff=0,h1PHODO2xPosPulseTimeStarttimeDiff=0,h1PHODO2yNegPulseTimeStarttimeDiff=0,h1PHODO2yPosPulseTimeStarttimeDiff=0;}
    virtual ~SHMSADCGates() { }
    virtual Int_t   Version() const { return 2; }
    virtual void    Begin(TTree *tree);
