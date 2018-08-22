@@ -22,7 +22,7 @@ EOF
 mv bcmcurrent_$RUNNUMBER.param ../../PARAM/HMS/BCM/CALIB/bcmcurrent_$RUNNUMBER.param
 cd ../../
 echo -e "\n\nStarting Replay Script\n\n"
-hcana -q "UTIL_KAON/scripts_Replay/replay_production_coin.C($RUNNUMBER,$MAXEVENTS)"
+hcana -q "UTIL_KAON/scripts_Replay/KaonLT_replay_production_coin.C($RUNNUMBER,$MAXEVENTS)"
 cd UTIL_KAON/scripts_KaonYield/
 echo -e "\n\nYield Calculation\n\n"
-root -l "run_peepYield.C($RUNNUMBER,$MAXEVENTS,0,0)"
+root -b "run_peepYield.C($RUNNUMBER,$MAXEVENTS,0,0)"
