@@ -32,6 +32,7 @@
 #include <TSpectrum.h>
 #include <TPolyMarker.h>
 #include <TMath.h>
+#include <TSystem.h>
 
 void SHMSADCGates::Begin(TTree * /*tree*/)
 {
@@ -165,10 +166,11 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
 
    fReader.SetEntry(entry);
    
-   for (Int_t i = 0; i <= *Ndata_P_hgcer_adcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hgcer_adcPulseTime; i++) {
      if (P_hgcer_adcErrorFlag[i] == 1) continue;
-     if (P_hgcer_adcCounter[i] < 1 || P_hgcer_adcCounter[i] > 4) continue;
+     //if (P_hgcer_adcCounter[i] < 1 || P_hgcer_adcCounter[i] > 4) continue;
      Int_t current_pmt = P_hgcer_adcCounter[i] - 1;
+     if (entry < 100) cout << entry << "   "  << *Ndata_P_hgcer_adcPulseTime << "   " << P_hgcer_adcCounter[i] << endl;
      h1PHGCERPulseTime[current_pmt]->Fill(-P_hgcer_adcPulseTime[i]);
      h1PHGCERPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hgcer_adcPulseTime[i] + *P_hod_starttime);   
    }
@@ -181,51 +183,51 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
      h1PNGCERPulseTimeStarttimeDiff[current_pmt]->Fill(-P_ngcer_adcPulseTime[i] + *P_hod_starttime); 
      }*/
    
-   for (Int_t i = 0; i <= *Ndata_P_aero_negAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_aero_negAdcPulseTime; i++) {
      if (P_aero_negAdcErrorFlag[i] == 1) continue;
-     if (P_aero_negAdcCounter[i] < 1 || P_aero_negAdcCounter[i] > 7) continue;
-     if (P_aero_negAdcPulseTime[i] == 0) continue;
+     //if (P_aero_negAdcCounter[i] < 1 || P_aero_negAdcCounter[i] > 7) continue;
+     //if (P_aero_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_aero_negAdcCounter[i] - 1;
      h1PAERONegPulseTime[current_pmt]->Fill(-P_aero_negAdcPulseTime[i]);
      h1PAERONegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_aero_negAdcPulseTime[i] + *P_hod_starttime); 
    }
    
-   for (Int_t i = 0; i <= *Ndata_P_aero_posAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_aero_posAdcPulseTime; i++) {
      if (P_aero_posAdcErrorFlag[i] == 1) continue;
-     if (P_aero_posAdcCounter[i] < 1 || P_aero_posAdcCounter[i] > 7) continue;
-     if (P_aero_posAdcPulseTime[i] == 0) continue;
+     //if (P_aero_posAdcCounter[i] < 1 || P_aero_posAdcCounter[i] > 7) continue;
+     //if (P_aero_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_aero_posAdcCounter[i] - 1;
      h1PAEROPosPulseTime[current_pmt]->Fill(-P_aero_posAdcPulseTime[i]);
      h1PAEROPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_aero_posAdcPulseTime[i] + *P_hod_starttime); 
    }
    
-   for (Int_t i = 0; i <= *Ndata_P_precal_negAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_precal_negAdcPulseTime; i++) {
      if (P_precal_negAdcErrorFlag[i] == 1) continue;
-     if (P_precal_negAdcCounter[i] < 1 || P_precal_negAdcCounter[i] > 14) continue;
-     if (P_precal_negAdcPulseTime[i] == 0) continue;
+     //if (P_precal_negAdcCounter[i] < 1 || P_precal_negAdcCounter[i] > 14) continue;
+     //if (P_precal_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_precal_negAdcCounter[i] - 1;
      h1PPRECALNegPulseTime[current_pmt]->Fill(-P_precal_negAdcPulseTime[i]);
      h1PPRECALNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_precal_negAdcPulseTime[i] + *P_hod_starttime); 
    }
    
-   for (Int_t i = 0; i <= *Ndata_P_precal_posAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_precal_posAdcPulseTime; i++) {
      if (P_precal_posAdcErrorFlag[i] == 1) continue;
-     if (P_precal_posAdcCounter[i] < 1 || P_precal_posAdcCounter[i] > 14) continue;
-     if (P_precal_posAdcPulseTime[i] == 0) continue;
+     //if (P_precal_posAdcCounter[i] < 1 || P_precal_posAdcCounter[i] > 14) continue;
+     //if (P_precal_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_precal_posAdcCounter[i] - 1;
      h1PPRECALPosPulseTime[current_pmt]->Fill(-P_precal_posAdcPulseTime[i]);
      h1PPRECALPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_precal_posAdcPulseTime[i] + *P_hod_starttime); 
    }
    
-   for (Int_t i = 0; i <= *Ndata_P_cal_adcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_cal_adcPulseTime; i++) {
      if (P_cal_adcErrorFlag[i] == 1) continue;
-     if (P_cal_adcCounter[i] < 1 || P_cal_adcCounter[i] > 255) continue;
-     if (P_cal_adcPulseTime[i] == 0) continue;
+     //if (P_cal_adcCounter[i] < 1 || P_cal_adcCounter[i] > 255) continue;
+     //if (P_cal_adcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_cal_adcCounter[i] - 1;
      h1PCALPulseTimeStarttimeDiff[current_pmt]->Fill(-P_cal_adcPulseTime[i] + *P_hod_starttime); 
    }
    
-   for (Int_t i = 0; i <= *Ndata_P_dc_1u1_rawtdc; i++) {
+   for (Int_t i = 0; i < *Ndata_P_dc_1u1_rawtdc; i++) {
      h1PDCRawTdc[0]->Fill(P_dc_1u1_rawtdc[i]); 
      h1PDCRawTdc[1]->Fill(P_dc_1u2_rawtdc[i]);
      h1PDCRawTdc[2]->Fill(P_dc_1v1_rawtdc[i]); 
@@ -240,66 +242,66 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
      h1PDCRawTdc[11]->Fill(P_dc_2x2_rawtdc[i]);
    }
    
-   for (Int_t i = 0; i <= *Ndata_P_hod_1x_negAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hod_1x_negAdcPulseTime; i++) {
      if (P_hod_1x_negAdcErrorFlag[i] == 1) continue;
-     if (P_hod_1x_negAdcCounter[i] < 1 || P_hod_1x_negAdcCounter[i] > 13) continue;
-     if (P_hod_1x_negAdcPulseTime[i] == 0) continue;
+     //if (P_hod_1x_negAdcCounter[i] < 1 || P_hod_1x_negAdcCounter[i] > 13) continue;
+     //if (P_hod_1x_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1x_negAdcCounter[i] - 1;
      h1PHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1x_negAdcPulseTime[i] + *P_hod_starttime); 
    }
    
-   for (Int_t i = 0; i <= *Ndata_P_hod_1x_posAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hod_1x_posAdcPulseTime; i++) {
      if (P_hod_1x_posAdcErrorFlag[i] == 1) continue;
-     if (P_hod_1x_posAdcCounter[i] < 1 || P_hod_1x_posAdcCounter[i] > 13) continue;
-     if (P_hod_1x_posAdcPulseTime[i] == 0) continue;
+     //if (P_hod_1x_posAdcCounter[i] < 1 || P_hod_1x_posAdcCounter[i] > 13) continue;
+     //if (P_hod_1x_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1x_posAdcCounter[i] - 1;
      h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1x_posAdcPulseTime[i] + *P_hod_starttime); 
    }
 
-   for (Int_t i = 0; i <= *Ndata_P_hod_1y_negAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hod_1y_negAdcPulseTime; i++) {
      if (P_hod_1y_negAdcErrorFlag[i] == 1) continue;
-     if (P_hod_1y_negAdcCounter[i] < 1 || P_hod_1y_negAdcCounter[i] > 13) continue;
-     if (P_hod_1y_negAdcPulseTime[i] == 0) continue;
+     //if (P_hod_1y_negAdcCounter[i] < 1 || P_hod_1y_negAdcCounter[i] > 13) continue;
+     //if (P_hod_1y_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1y_negAdcCounter[i] - 1;
      h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1y_negAdcPulseTime[i] + *P_hod_starttime); 
    }
 
-   for (Int_t i = 0; i <= *Ndata_P_hod_1y_posAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hod_1y_posAdcPulseTime; i++) {
      if (P_hod_1y_posAdcErrorFlag[i] == 1) continue;
-     if (P_hod_1y_posAdcCounter[i] < 1 || P_hod_1y_posAdcCounter[i] > 13) continue;
-     if (P_hod_1y_posAdcPulseTime[i] == 0) continue;
+     //if (P_hod_1y_posAdcCounter[i] < 1 || P_hod_1y_posAdcCounter[i] > 13) continue;
+     //if (P_hod_1y_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1y_posAdcCounter[i] - 1;
      h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1y_posAdcPulseTime[i] + *P_hod_starttime); 
    }
 
-   for (Int_t i = 0; i <= *Ndata_P_hod_2x_negAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hod_2x_negAdcPulseTime; i++) {
      if (P_hod_2x_negAdcErrorFlag[i] == 1) continue;
-     if (P_hod_2x_negAdcCounter[i] < 1 || P_hod_2x_negAdcCounter[i] > 14) continue;
-     if (P_hod_2x_negAdcPulseTime[i] == 0) continue;
+     //if (P_hod_2x_negAdcCounter[i] < 1 || P_hod_2x_negAdcCounter[i] > 14) continue;
+     //if (P_hod_2x_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2x_negAdcCounter[i] - 1;
      h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2x_negAdcPulseTime[i] + *P_hod_starttime); 
    }
 
-   for (Int_t i = 0; i <= *Ndata_P_hod_2x_posAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hod_2x_posAdcPulseTime; i++) {
      if (P_hod_2x_posAdcErrorFlag[i] == 1) continue;
-     if (P_hod_2x_posAdcCounter[i] < 1 || P_hod_2x_posAdcCounter[i] > 14) continue;
-     if (P_hod_2x_posAdcPulseTime[i] == 0) continue;
+     //if (P_hod_2x_posAdcCounter[i] < 1 || P_hod_2x_posAdcCounter[i] > 14) continue;
+     //if (P_hod_2x_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2x_posAdcCounter[i] - 1;
      h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2x_posAdcPulseTime[i] + *P_hod_starttime); 
    }
 
-   for (Int_t i = 0; i <= *Ndata_P_hod_2y_negAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hod_2y_negAdcPulseTime; i++) {
      if (P_hod_2y_negAdcErrorFlag[i] == 1) continue;
-     if (P_hod_2y_negAdcCounter[i] < 1 || P_hod_2y_negAdcCounter[i] > 18) continue;
-     if (P_hod_2y_negAdcPulseTime[i] == 0) continue;
+     //if (P_hod_2y_negAdcCounter[i] < 1 || P_hod_2y_negAdcCounter[i] > 18) continue;
+     //if (P_hod_2y_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2y_negAdcCounter[i] - 1;
      h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2y_negAdcPulseTime[i] + *P_hod_starttime); 
    }
 
-   for (Int_t i = 0; i <= *Ndata_P_hod_2y_posAdcPulseTime; i++) {
+   for (Int_t i = 0; i < *Ndata_P_hod_2y_posAdcPulseTime; i++) {
      if (P_hod_2y_posAdcErrorFlag[i] == 1) continue;
-     if (P_hod_2y_posAdcCounter[i] < 1 || P_hod_2y_posAdcCounter[i] > 18) continue;
-     if (P_hod_2y_posAdcPulseTime[i] == 0) continue;
+     //if (P_hod_2y_posAdcCounter[i] < 1 || P_hod_2y_posAdcCounter[i] > 18) continue;
+     //if (P_hod_2y_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2y_posAdcCounter[i] - 1;
      h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2y_posAdcPulseTime[i] + *P_hod_starttime); 
    }
@@ -390,7 +392,7 @@ void SHMSADCGates::Terminate()
   
 
   //Begin peak Finding
-
+  gSystem->RedirectOutput("/dev/null","a");
   Double_t HGC_Window[4];
   for (Int_t ipmt = 0; ipmt < 4; ipmt++) {
     TSpectrum *s = new TSpectrum(1);
@@ -570,7 +572,8 @@ void SHMSADCGates::Terminate()
       HODO2yPos_Window[ipmt] = 1e+38;
     }
   }
-  
+  gSystem->RedirectOutput(0);
+
   //Begin Calculation of Window Values
   Int_t AeroPosMin = TMath::Mean(7,AEROPOS_Window) - 35;
   Int_t AeroPosMax = TMath::Mean(7,AEROPOS_Window) + 20;
