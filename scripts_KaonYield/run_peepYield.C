@@ -32,7 +32,7 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
   }
 
   //Begin Scaler Efficiency Calculation
-  TString rootFileNameString = Form("../../ROOTfiles/coin_replay_production_%i_%i.root",RunNumber,MaxEvent);
+  TString rootFileNameString = Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_%i_%i.root",RunNumber,MaxEvent);
   TString threshold = Form("%f",threshold_cut);
   TString runNum = Form("%d",RunNumber);
   TString prescal = Form("%d", pscal);
@@ -46,7 +46,7 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
 
   //Begin Counting Good Kaon Events
   TChain ch("T");
-  ch.Add(Form("../../ROOTfiles/KaonLT_coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
+  ch.Add(Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
   TString option = Form("%i",RunNumber);
 
   TProof *proof = TProof::Open("workers=4");

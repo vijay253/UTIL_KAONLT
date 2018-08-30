@@ -59,8 +59,8 @@ void KaonYield::SlaveBegin(TTree * /*tree*/)
   h2ROC1_Coin_Beta_noID_proton = new TH2F("ROC1_Coin_Beta_noID_proton","Proton Coincident Time vs #beta for ROC1 (no particle ID);Time (ns);#beta",800,-40,40,200,0.0,2.0);
   h2ROC1_Coin_Beta_proton = new TH2F("ROC1_Coin_Beta_proton","Proton Coincident Time vs #beta for ROC1;Time (ns);#beta",800,-40,40,200,0.0,2.0);
 
-  h1HMS_electron        = new TH1F("HMS_electron","Normalized HMS Calorimeter Energy;Normalized Energy;Counts",200,0.01,1.5);
-  h1HMS_electron_cut    = new TH1F("HMS_electron_cut","Normalized HMS Calorimeter Energy, Electrons Selected;Normalized Energy;Counts",200,0.01,1.5);
+  h2HMS_electron        = new TH2F("HMS_electron","Normalized HMS Calorimeter Energy vs Cherenkov;Normalized Energy;CER NPE",200,0.01,1.5,60,0.1,30);
+  h2HMS_electron_cut    = new TH2F("HMS_electron_cut","Normalized HMS Calorimeter Energy vs Cherenkov, Electrons Selected;Normalized Energy;CER NPE",200,0.01,1.5,60,0.0,30);
 
   h1SHMS_electron        = new TH1F("SHMS_electron","Normalized SHMS Calorimeter Energy;Normalized Energy;Counts",200,0.01,1.5);
   h1SHMS_electron_cut    = new TH1F("SHMS_electron_cut","Normalized SHMS Calorimeter Energy, Electrons Removed;Normalized Energy;Counts",200,0.01,1.5);
@@ -120,8 +120,8 @@ void KaonYield::SlaveBegin(TTree * /*tree*/)
   GetOutputList()->Add(h2ROC1_Coin_Beta_pion);
   GetOutputList()->Add(h2ROC1_Coin_Beta_noID_proton);
   GetOutputList()->Add(h2ROC1_Coin_Beta_proton);
-  GetOutputList()->Add(h1HMS_electron);
-  GetOutputList()->Add(h1HMS_electron_cut);
+  GetOutputList()->Add(h2HMS_electron);
+  GetOutputList()->Add(h2HMS_electron_cut);
   GetOutputList()->Add(h1SHMS_electron);
   GetOutputList()->Add(h1SHMS_electron_cut);
   GetOutputList()->Add(h2SHMSK_kaon);
@@ -187,7 +187,7 @@ Bool_t KaonYield::Process(Long64_t entry)
 
   //if (*fEvtType != 4) return kTRUE;
   
-  h1HMS_electron->Fill(H_cal_etotnorm[0]);
+  h2HMS_electron->Fill(H_cal_etotnorm[0],H_cer_npeSum[0]);
   h1SHMS_electron->Fill(P_cal_etotnorm[0]);
 
   h2SHMSK_kaon->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
@@ -209,7 +209,7 @@ Bool_t KaonYield::Process(Long64_t entry)
   h1mmisspi->Fill(sqrt(pow(emiss[0] + sqrt(pow(0.493677,2) + pow(P_gtr_p[0],2)) - sqrt(pow(0.13957018,2) + pow(P_gtr_p[0],2)),2)-pow(pmiss[0],2)));
   h1mmissp->Fill(sqrt(pow(emiss[0] + sqrt(pow(0.493677,2) + pow(P_gtr_p[0],2)) - sqrt(pow(0.93828,2) + pow(P_gtr_p[0],2)),2)-pow(pmiss[0],2)));
 
-  if (H_cal_etotnorm[0] < 0.9) return kTRUE;
+  if (H_cal_etotnorm[0] < 0.9 || H_cer_npeSum[0] < 1.5) return kTRUE;
   if (P_cal_etotnorm[0] > 0.6) return kTRUE;
 
   if (TMath::Abs(H_gtr_dp[0]) > 10.0) return kTRUE;
@@ -220,7 +220,7 @@ Bool_t KaonYield::Process(Long64_t entry)
   if (TMath::Abs(H_gtr_th[0]) > 0.080) return kTRUE;
   if (TMath::Abs(H_gtr_ph[0]) > 0.035) return kTRUE;
 
-  h1HMS_electron_cut->Fill(H_cal_etotnorm[0]);
+  h2HMS_electron_cut->Fill(H_cal_etotnorm[0],H_cer_npeSum[0]);
   h1SHMS_electron_cut->Fill(P_cal_etotnorm[0]);
   
   h1SHMS_delta_cut->Fill(P_gtr_dp[0]);
@@ -308,6 +308,9 @@ void KaonYield::Terminate()
 
   Info("Terminate", "Outputting Good Kaon Selection");
 
+  TH2F* HMS_electron = dynamic_cast<TH2F*> (GetOutputList()->FindObject("HMS_electron"));
+  TH2F* HMS_electron_cut = dynamic_cast<TH2F*> (GetOutputList()->FindObject("HMS_electron_cut"));
+
   //Perform Random Subtraction
   h1mmissK_rand->Scale(1.0/3.0);
   h1mmisspi_rand->Scale(1.0/3.0);
@@ -353,15 +356,15 @@ void KaonYield::Terminate()
 
   
   //Start of Canvas Painting
-  
+  /*
   TCanvas *cCuts = new TCanvas("Cuts","Summary of Common Cuts");
   cCuts->Divide(2,4);
   cCuts->cd(1); h1HMS_delta->Draw();
   cCuts->cd(2); h1HMS_delta_cut->Draw();
   cCuts->cd(3); h1SHMS_delta->Draw();
   cCuts->cd(4); h1SHMS_delta_cut->Draw();
-  cCuts->cd(5); h1HMS_electron->Draw();
-  cCuts->cd(6); h1HMS_electron_cut->Draw();
+  cCuts->cd(5); HMS_electron->Draw();
+  cCuts->cd(6); HMS_electron_cut->Draw();
   cCuts->cd(7); h1SHMS_electron->Draw();
   cCuts->cd(8); h1SHMS_electron_cut->Draw();
 
@@ -456,7 +459,7 @@ void KaonYield::Terminate()
   cpID->cd(6); h2ROC1_Coin_Beta_proton->Draw("Colz");
   cpID->cd(7); h1mmissp->Draw();
   cpID->cd(8); h1mmissp_remove->Draw("hist");
-  
+  */
 
   TCanvas *cKine = new TCanvas("Kine","Summary of Higher Order Kinemaics");
   cKine->Divide(2,2);
@@ -496,11 +499,11 @@ void KaonYield::Terminate()
 
   //Start output of .root file with all histograms
   TString option = GetOption();
-  TFile *Histogram_file = new TFile(Form("../../HISTOGRAMS/KaonLT_Run%i.root",option.Atoi()),"RECREATE");
+  TFile *Histogram_file = new TFile(Form("../HISTOGRAMS/KaonLT_Run%i.root",option.Atoi()),"RECREATE");
   TDirectory *DCuts = Histogram_file->mkdir("Spectrometer Delta and Calorimeter Cuts"); DCuts->cd();
   h1HMS_delta->Write("HMS Delta Before Cuts"); h1HMS_delta_cut->Write("HMS Delta After Cuts");
   h1SHMS_delta->Write("SHMS Delta Before Cuts"); h1SHMS_delta_cut->Write("SHMS Delta After Cuts");
-  h1HMS_electron->Write("HMS Calorimeter Before Cuts"); h1HMS_electron_cut->Write("HMS Calorimeter After Cuts");
+  HMS_electron->Write("HMS Calorimeter Before Cuts"); HMS_electron_cut->Write("HMS Calorimeter After Cuts");
   h1SHMS_electron->Write("SHMS Calorimeter Before Cuts"); h1SHMS_electron_cut->Write("SHMS Calorimeter After Cuts");
 
   TDirectory *DAngles = Histogram_file->mkdir("Spectrometer Angular Cuts"); DAngles->cd();
