@@ -754,7 +754,7 @@ void HMSADCGates::Terminate()
   HMSWindows.close();
   
   //Start output of .root file with all histograms
-  TFile *Histogram_file = new TFile(Form("../../HISTOGRAMS/HMSADCGates_Run%i.root",option.Atoi()),"RECREATE");
+  TFile *Histogram_file = new TFile(Form("../HISTOGRAMS/HMSADCGates_Run%i.root",option.Atoi()),"RECREATE");
   TDirectory *DCER = Histogram_file->mkdir("Gas Cherenkov ADC Timing Spectra"); DCER->cd();
   for (Int_t ipmt=0; ipmt < 2; ipmt++) {
     HCERPULSETIMEDIFF[ipmt]->Write(Form("CER PMT %i",ipmt+1));
