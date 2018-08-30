@@ -13,16 +13,16 @@ if [[ $2 -eq "" ]]; then
     MAXEVENTS=-1 
 fi
 cd ../
-echo -e "\n\nStarting Scaler Replay Script\n\n"
-hcana -q "SCRIPTS/COIN/SCALERS/replay_coin_scalers.C($RUNNUMBER,100000)"
-cd CALIBRATION/bcm_current_map/
-root -b<<EOF
-.x run.C("../../ROOTfiles/coin_replay_scalers_${RUNNUMBER}_100000.root")
-EOF
-mv bcmcurrent_$RUNNUMBER.param ../../PARAM/HMS/BCM/CALIB/bcmcurrent_$RUNNUMBER.param
-cd ../../
+#echo -e "\n\nStarting Scaler Replay Script\n\n"
+#hcana -q "SCRIPTS/COIN/SCALERS/replay_coin_scalers.C($RUNNUMBER,100000)"
+#cd CALIBRATION/bcm_current_map/
+#root -b<<EOF
+#.x run.C("../../ROOTfiles/coin_replay_scalers_${RUNNUMBER}_100000.root")
+#EOF
+#mv bcmcurrent_$RUNNUMBER.param ../../PARAM/HMS/BCM/CALIB/bcmcurrent_$RUNNUMBER.param
+#cd ../../
 echo -e "\n\nStarting Replay Script\n\n"
-hcana -q "UTIL_KAON/scripts_Replay/KaonLT_replay_production_coin.C($RUNNUMBER,$MAXEVENTS)"
-cd UTIL_KAON/scripts_KaonYield/
+./hcana -q "UTIL_KAONLT/scripts_Replay/replay_production_coin.C($RUNNUMBER,$MAXEVENTS)"
+cd UTIL_KAONLT/scripts_KaonYield/
 echo -e "\n\nYield Calculation\n\n"
 root -b "run_peepYield.C($RUNNUMBER,$MAXEVENTS,0,0)"
