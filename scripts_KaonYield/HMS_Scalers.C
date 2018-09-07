@@ -263,4 +263,12 @@ void HMS_Scalers::Terminate()
   
   cout << "\n\n" << Form("EDTM Events: %.0f", EDTM_sum) << endl;
 
+  ofstream myfile1;
+  myfile1.open ("kaonyieldVar", fstream::app);
+  myfile1 << Form("%.0f     %.0f     %.3f     %.3f     %.3f     %.3f     %.3f     %.3f\n",EDTM_sum, charge_sum[2], acctrig_sum/trig_sum[4], ((acctrig_sum/trig_sum[4])*sqrt((1/trig_sum[4])+(1/acctrig_sum))),
+		  1 - ((6/5)*(SHMS_PRE_sum[1]-SHMS_PRE_sum[2])/(SHMS_PRE_sum[1])),
+		  (SHMS_PRE_sum[1]-SHMS_PRE_sum[2])/(SHMS_PRE_sum[1]) * sqrt( (sqrt(SHMS_PRE_sum[1]) + sqrt(SHMS_PRE_sum[2]))/(SHMS_PRE_sum[1] - SHMS_PRE_sum[2]) + (sqrt(SHMS_PRE_sum[1])/SHMS_PRE_sum[1]) ),
+		  1 - ((6/5)*(PRE_sum[1]-PRE_sum[2])/(PRE_sum[1])),
+		  (PRE_sum[1]-PRE_sum[2])/(PRE_sum[1]) * sqrt( (sqrt(PRE_sum[1]) + sqrt(PRE_sum[2]))/(PRE_sum[1] - PRE_sum[2]) + (sqrt(PRE_sum[1])/PRE_sum[1]) ));
+  myfile1.close();
 }

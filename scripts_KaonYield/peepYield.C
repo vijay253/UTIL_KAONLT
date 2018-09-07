@@ -95,6 +95,8 @@ void peepYield::SlaveBegin(TTree * /*tree*/)
   h1pymiss                = new TH1F("pymiss","Plot of P_{miss,y};P_{miss,y} GeV/c;Counts",1000,-10.0,10.0);
   h1pzmiss                = new TH1F("pzmiss","Plot of P_{miss,z};P_{miss,z} GeV/c;Counts",1000,-10.0,10.0);
 
+  h1EDTM                  = new TH1F("EDTM","EDTM Time;EDTM TDC Time;Counts",10000,-5000,5000);
+
   GetOutputList()->Add(h2ROC1_Coin_Beta_noID_proton);
   GetOutputList()->Add(h2ROC1_Coin_Beta_proton);
   GetOutputList()->Add(h2HMS_electron);
@@ -128,6 +130,7 @@ void peepYield::SlaveBegin(TTree * /*tree*/)
   GetOutputList()->Add(h1pxmiss);
   GetOutputList()->Add(h1pymiss);
   GetOutputList()->Add(h1pzmiss);
+  GetOutputList()->Add(h1EDTM);
 }
 
 Bool_t peepYield::Process(Long64_t entry)
@@ -151,6 +154,8 @@ Bool_t peepYield::Process(Long64_t entry)
   fReader.SetEntry(entry);
 
   //if (*fEvtType != 4) return kTRUE;
+
+  h1EDTM->Fill(*pEDTM);
   
   h2HMS_electron->Fill(H_cal_etotnorm[0],H_cer_npeSum[0]);
   h1SHMS_electron->Fill(P_cal_etotnorm[0]);
@@ -236,6 +241,7 @@ void peepYield::Terminate()
 
   Info("Terminate", "Outputting Good Kaon Selection");
 
+  TH1F* EDTM = dynamic_cast<TH1F*> (GetOutputList()->FindObject("EDTM"));
   TH2F* HMS_electron = dynamic_cast<TH2F*> (GetOutputList()->FindObject("HMS_electron"));
   TH2F* HMS_electron_cut = dynamic_cast<TH2F*> (GetOutputList()->FindObject("HMS_electron_cut"));
 
@@ -400,6 +406,9 @@ void peepYield::Terminate()
   h1pxmiss->Write("Missing Momentum x");
   h1pymiss->Write("Missing Momentum y");
   h1pzmiss->Write("Missing Momentum z");
+
+  TDirectory *DEDTM = Histogram_file->mkdir("Accepted EDTM Events"); DEDTM->cd();
+  EDTM->Write("EDTM TDC Time");
   Histogram_file->Close();
   
   //cout << Form("Number of good kaon events: %.0f +/- %.0f\n",200*Lambda_Fit_Full->Integral(1.0,1.25),sqrt(200*Lambda_Fit_Full->Integral(1.0,1.25)));
@@ -409,10 +418,8 @@ void peepYield::Terminate()
   const int total_width = 154;
   const string line = sep + string( total_width-1, '-' ) + '|' ;
 
-
   ofstream myfile1;
   myfile1.open ("kaonyieldVar", fstream::app);
-  myfile1 <<
-    left << 200*Lambda_Fit_Full->Integral(1.0,1.25) << "\n";
+  myfile1 << Form("%.0f     %.0f     %.0f     ", 200*Lambda_Fit_Full->Integral(1.0,1.25), sqrt(200*Lambda_Fit_Full->Integral(1.0,1.25)), EDTM->GetEntries());
   myfile1.close();
 }

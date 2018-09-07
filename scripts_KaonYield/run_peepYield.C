@@ -31,6 +31,11 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
     if( pscal<=0 ) return;
   }
 
+  ofstream myfile1;
+  myfile1.open ("kaonyieldVar", fstream::app);
+  myfile1 << left << "HeeP" << RunNumber << "   " << pscal << "   ";
+  myfile1.close();
+
   //Begin Scaler Efficiency Calculation
   TString rootFileNameString = Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_%i_%i.root",RunNumber,MaxEvent);
   TString threshold = Form("%f",threshold_cut);
@@ -40,9 +45,9 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
   TString line2 = "coin_cut t(\"" + rootFileNameString + "\")";
   TString line3 = "t.Loop(\"" + runNum + "\"," + threshold + "," + prescal + ")";
 
-  gROOT->ProcessLine(line1);
-  gROOT->ProcessLine(line2);
-  gROOT->ProcessLine(line3);
+  //gROOT->ProcessLine(line1);
+  //gROOT->ProcessLine(line2);
+  //gROOT->ProcessLine(line3);
 
   //Begin Counting Good Kaon Events
   TChain ch("T");
@@ -54,4 +59,8 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
   ch.SetProof();
   ch.Process("peepYield.C+",option);
   proof->Close();
+
+  TChain sc("TSH");
+  sc.Add(Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
+  sc.Process("HMS_Scalers.C+",threshold);
 }
