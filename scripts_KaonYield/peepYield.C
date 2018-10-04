@@ -420,6 +420,7 @@ void peepYield::Terminate()
   //cout << Form("Number of good kaon events: %.0f +/- %.0f\n",200*Lambda_Fit_Full->Integral(1.0,1.25),sqrt(200*Lambda_Fit_Full->Integral(1.0,1.25)));
 
   // values for controlling format
+  /*
   const string sep = "	" ;
   const int total_width = 154;
   const string line = sep + string( total_width-1, '-' ) + '|' ;
@@ -427,5 +428,5 @@ void peepYield::Terminate()
   ofstream myfile1;
   myfile1.open ("kaonyieldVar", fstream::app);
   myfile1 << Form("%.0f     %.0f     %.0f     ", 200*Lambda_Fit_Full->Integral(1.0,1.25), sqrt(200*Lambda_Fit_Full->Integral(1.0,1.25)), EDTM->GetEntries());
-  myfile1.close();
+  myfile1.close();*/
 }
