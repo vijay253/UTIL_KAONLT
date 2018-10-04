@@ -12,15 +12,12 @@ block H.cer.npeSum
 block P.cal.etotnorm
 block P.aero.npeSum
 block P.hgcer.npeSum
-block P.ngcer.npeSum
 block H.gtr.dp
 block P.gtr.dp
 block P.gtr.p
 block H.kin.primary.*
 block P.kin.secondary.*
-block H.bcm.CurrentFlag
-block H.bcm.bcm4a.AvgCurrent
-block T.coin.pTRIG1_ROC2_tdcTime
+block T.coin.pTRIG5_ROC2_tdcTime
 block T.coin.pEDTM_tdcTime
 
 begin epics
