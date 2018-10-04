@@ -262,19 +262,19 @@ Bool_t KaonYield::Process(Long64_t entry)
   }
 
   if (P_hgcer_npeSum[0] > 1.5) { //Event identified as Pion
-    h2ROC1_Coin_Beta_noID_pion->Fill((CTime_ePiCoinTime_ROC1[0] - 47.5),P_gtr_beta[0]);
+    h2ROC1_Coin_Beta_noID_pion->Fill((CTime_ePiCoinTime_ROC1[0] - 44.5),P_gtr_beta[0]);
     
     if (abs(P_gtr_beta[0]-1.00) > 0.1) return kTRUE;
   
-    if (abs((CTime_ePiCoinTime_ROC1[0] - 47.5)) < 2.0) {
-      h2ROC1_Coin_Beta_pion->Fill((CTime_ePiCoinTime_ROC1[0] - 47.5),P_gtr_beta[0]);
+    if (abs((CTime_ePiCoinTime_ROC1[0] - 44.5)) < 2.0) {
+      h2ROC1_Coin_Beta_pion->Fill((CTime_ePiCoinTime_ROC1[0] - 44.5),P_gtr_beta[0]);
       h2SHMSpi_kaon_cut->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
       h2SHMSpi_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
       //h1mmisspi_cut->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
       h1mmisspi_cut->Fill(pow(emiss[0] + sqrt(pow(0.493677,2) + pow(P_gtr_p[0],2)) - sqrt(pow(0.13957018,2) + pow(P_gtr_p[0],2)),2)-pow(pmiss[0],2));
     }
 
-    if (abs((CTime_ePiCoinTime_ROC1[0] - 47.5)) > 3.0 && abs((CTime_ePiCoinTime_ROC1[0] - 47.5)) < 15.0) {
+    if (abs((CTime_ePiCoinTime_ROC1[0] - 44.5)) > 6.0 && abs((CTime_ePiCoinTime_ROC1[0] - 44.5)) < 18.5) {
       h1mmisspi_rand->Fill(pow(emiss[0] + sqrt(pow(0.493677,2) + pow(P_gtr_p[0],2)) - sqrt(pow(0.13957018,2) + pow(P_gtr_p[0],2)),2)-pow(pmiss[0],2));
       h1mmisspi_remove->Fill(pow(emiss[0] + sqrt(pow(0.493677,2) + pow(P_gtr_p[0],2)) - sqrt(pow(0.13957018,2) + pow(P_gtr_p[0],2)),2)-pow(pmiss[0],2));
       //h1mmisspi_rand->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
@@ -283,18 +283,18 @@ Bool_t KaonYield::Process(Long64_t entry)
   }
 
   if (P_aero_npeSum[0] < 1.5 && P_hgcer_npeSum[0] < 1.5) { //Event identified as Proton
-    h2ROC1_Coin_Beta_noID_proton->Fill((CTime_epCoinTime_ROC1[0] - 47.5),P_gtr_beta[0]);
+    h2ROC1_Coin_Beta_noID_proton->Fill((CTime_epCoinTime_ROC1[0] - 45),P_gtr_beta[0]);
     
     if (abs(P_gtr_beta[0]-1.00) > 0.1) return kTRUE;
   
-    if (abs((CTime_epCoinTime_ROC1[0] - 47.5)) < 2.0) {
-      h2ROC1_Coin_Beta_proton->Fill((CTime_epCoinTime_ROC1[0] - 47.5),P_gtr_beta[0]);
+    if (abs((CTime_epCoinTime_ROC1[0] - 45)) < 2.0) {
+      h2ROC1_Coin_Beta_proton->Fill((CTime_epCoinTime_ROC1[0] - 45),P_gtr_beta[0]);
       h2SHMSp_kaon_cut->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
       h2SHMSp_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
       h1mmissp_cut->Fill(pow(emiss[0] + sqrt(pow(0.13957018,2) + pow(P_gtr_p[0],2)) - sqrt(pow(0.93828,2) + pow(P_gtr_p[0],2)),2)-pow(pmiss[0],2));
     }
 
-    if (abs((CTime_epCoinTime_ROC1[0] - 47.5)) > 3.0 && abs((CTime_epCoinTime_ROC1[0] - 47.5)) < 15.0) {
+    if (abs((CTime_epCoinTime_ROC1[0] - 45)) > 6.0 && abs((CTime_epCoinTime_ROC1[0] - 45)) < 18.5) {
       h1mmissp_rand->Fill(pow(emiss[0] + sqrt(pow(0.13957018,2) + pow(P_gtr_p[0],2)) - sqrt(pow(0.93828,2) + pow(P_gtr_p[0],2)),2)-pow(pmiss[0],2));
       h1mmissp_remove->Fill(pow(emiss[0] + sqrt(pow(0.13957018,2) + pow(P_gtr_p[0],2)) - sqrt(pow(0.93828,2) + pow(P_gtr_p[0],2)),2)-pow(pmiss[0],2));
     }
@@ -533,7 +533,9 @@ void KaonYield::Terminate()
   TPaveText *ptLambdaEvt = new TPaveText(0.527698,0.652567,0.738421,0.791456,"NDC");
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",200*Lambda_Fit_Full->Integral(1.0,1.25))); ptLambdaEvt->Draw();
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",h1mmissK_remove->Integral(h1mmissK_remove->GetXaxis()->FindBin(1.06),h1mmissK_remove->GetXaxis()->FindBin(1.16)) - (Back_Fit->Integral(1.06,1.16) / 0.005))); ptLambdaEvt->Draw();
-  ptLambdaEvt->AddText(Form("Run: %i \n # of #Lambda Events: %.0f",option.Atoi(),Gauss_Fit->Integral(1.0,1.25) / 0.005)); ptLambdaEvt->Draw();
+  ptLambdaEvt->AddText(Form("Run: %i",option.Atoi()));
+  ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",Gauss_Fit->Integral(1.0,1.25) / 0.005));
+  ptLambdaEvt->Draw();
   //cout << Back_Fit->Integral(1.06,1.16) / 0.005 << endl;
   //  cKine->Print(Form("lambda_%i.pdf",option.Atoi()));
 
