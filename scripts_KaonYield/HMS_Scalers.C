@@ -36,8 +36,8 @@ void HMS_Scalers::Begin(TTree * /*tree*/)
   // When running with PROOF Begin() is only called on the client.
   // The tree argument is deprecated (on PROOF 0 is passed).
 
-  TString option = GetOption();
-  Current = option.Atoi();
+  /*TString option = GetOption();
+    Current = option.Atoi();*/
   Info("Begin", "Starting scalar corrections");
   //Info("Begin", Form("Threshold current is taken as: %s",option.Data()));
 }
@@ -50,13 +50,13 @@ void HMS_Scalers::SlaveBegin(TTree * /*tree*/)
 
   
 
-  TString option = GetOption();/*
+  /*TString option = GetOption();
   TString Current_st = option(option.Length()-2,option.Length());
   if (Current_st.BeginsWith(".")) {
     Current_st = option(option.Length()-1,option.Length());
   }
-  Current = Current_st.Atoi();*/
-  Current = option.Atoi();
+  Current = Current_st.Atoi();
+  Current = option.Atoi();*/
 
   bcm_name[0] = "BCM1 ";
   bcm_name[1] = "BCM2 ";
@@ -162,11 +162,11 @@ Bool_t HMS_Scalers::Process(Long64_t entry)
     if (*H_1Mhz_scalerTime != previous_time) {
       current_I = (bcm_value[ibcm] - previous_charge[ibcm])/(*H_1Mhz_scalerTime - previous_time);
     }
-    if (current_I > Current) {
+    if (current_I > 5) {
       charge_sum[ibcm] += (bcm_value[ibcm] - previous_charge[ibcm]);
       time_sum[ibcm] += (*H_1Mhz_scalerTime - previous_time);
     }
-    if (ibcm == 2 && (current_I > Current)) {
+    if (ibcm == 2 && (current_I > 5)) {
       EDTM_current = (EDTM_value - previous_EDTM);
       EDTM_sum += EDTM_current;
       acctrig_sum += ((acctrig_value - EDTM_current) - previous_acctrig);
@@ -223,7 +223,7 @@ void HMS_Scalers::Terminate()
   // a query. It always runs on the client, it can be used to present
   // the results graphically or save the results to file.
   
-  cout << Form("\n\nUsed current threshold value: %d uA", Current) << endl;
+  cout << "\n\nUsed current threshold value: 5 uA" << endl;
 
   for (Int_t ibcm = 0; ibcm < NBCM; ibcm++) {
     cout << Form("%s charge: %.3f uC, Beam over threshold for %.3f s", bcm_name[ibcm].c_str(), charge_sum[ibcm], time_sum[ibcm]) << endl;
@@ -262,13 +262,14 @@ void HMS_Scalers::Terminate()
   }
   
   cout << "\n\n" << Form("EDTM Events: %.0f", EDTM_sum) << endl;
-
+  
+  TString option = GetOption();
   ofstream myfile1;
-  myfile1.open ("kaonyieldVar", fstream::app);
-  myfile1 << Form("%.0f     %.0f     %.3f     %.3f     %.3f     %.3f     %.3f     %.3f\n",EDTM_sum, charge_sum[2], acctrig_sum/trig_sum[4], ((acctrig_sum/trig_sum[4])*sqrt((1/trig_sum[4])+(1/acctrig_sum))),
-		  1 - ((6/5)*(SHMS_PRE_sum[1]-SHMS_PRE_sum[2])/(SHMS_PRE_sum[1])),
-		  (SHMS_PRE_sum[1]-SHMS_PRE_sum[2])/(SHMS_PRE_sum[1]) * sqrt( (sqrt(SHMS_PRE_sum[1]) + sqrt(SHMS_PRE_sum[2]))/(SHMS_PRE_sum[1] - SHMS_PRE_sum[2]) + (sqrt(SHMS_PRE_sum[1])/SHMS_PRE_sum[1]) ),
-		  1 - ((6/5)*(PRE_sum[1]-PRE_sum[2])/(PRE_sum[1])),
-		  (PRE_sum[1]-PRE_sum[2])/(PRE_sum[1]) * sqrt( (sqrt(PRE_sum[1]) + sqrt(PRE_sum[2]))/(PRE_sum[1] - PRE_sum[2]) + (sqrt(PRE_sum[1])/PRE_sum[1]) ));
+  myfile1.open (Form("../OUTPUT/scalers_Run%i.txt",option.Atoi()), fstream::app);
+  myfile1 << Form("Scaler information for Run%i  Computer LT \n",option.Atoi());
+  myfile1 << Form("HMS pretrig [rate]: %.0f %.0f\n", trig_sum[2], trig_sum[2]/time_sum[3]);
+  myfile1 << Form("SHMS pretrig [rate]: %.0f %.0f\n", trig_sum[0], trig_sum[0]/time_sum[3]);
+  myfile1 << Form("COIN pretrig [rate]: %.0f %.0f\n", trig_sum[4], trig_sum[4]/time_sum[3]);
+  myfile1 << Form("BCM4B Average Current (uA): %f\n", charge_sum[3]/time_sum[3]);
   myfile1.close();
 }
