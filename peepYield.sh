@@ -25,4 +25,4 @@ echo -e "\n\nStarting Replay Script\n\n"
 ./hcana -q "UTIL_KAONLT/scripts_Replay/replay_production_coin.C($RUNNUMBER,$MAXEVENTS)"
 cd UTIL_KAONLT/scripts_KaonYield/
 echo -e "\n\nYield Calculation\n\n"
-root -b "run_peepYield.C($RUNNUMBER,$MAXEVENTS,0,0)"
+root -l "run_peepYield.C($RUNNUMBER,$MAXEVENTS,0,0)"
