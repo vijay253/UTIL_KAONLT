@@ -81,19 +81,19 @@ void peepYield::SlaveBegin(TTree * /*tree*/)
   h1HMS_ph              = new TH1F("HMS_ph","HMS Theta Acceptance;#phi;Counts",100,-0.1,0.1);
   h1HMS_ph_cut          = new TH1F("HMS_ph_cut","HMS Theta Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
 
-  h1mmissp                = new TH1F("mmissp","Proton Missing mass;Mass (GeV/c^{2});Counts",200,-0.5,2.0);
-  h1mmissp_rand           = new TH1F("mmissp_rand","Proton Missing mass from Random Coincidence;Mass (GeV/c^{2});Counts",200,-0.5,2.0);
-  h1mmissp_cut            = new TH1F("mmissp_cut","Proton Missing mass with Cuts;Mass (GeV/c^{2});Counts",200,-0.5,2.0);
-  h1mmissp_remove         = new TH1F("mmissp_remove","Proton Missing mass with Cuts (inc. Rand);Mass (GeV/c^{2});Counts",200,-0.5,2.0);
+  h1mmissp                = new TH1F("mmissp","Proton Missing Mass Squared;Mass (GeV/c^{2})^{2};Counts",200,-0.3,0.7);
+  h1mmissp_rand           = new TH1F("mmissp_rand","Proton Missing Mass Squared from Random Coincidence;Mass (GeV/c^{2})^{2};Counts",200,-0.3,0.7);
+  h1mmissp_cut            = new TH1F("mmissp_cut","Proton Missing Mass Squared with Cuts;Mass (GeV/c^{2})^{2};Counts",200,-0.3,0.7);
+  h1mmissp_remove         = new TH1F("mmissp_remove","Proton Missing Mass Squared with Cuts (inc. Rand);Mass (GeV/c^{2})^{2};Counts",200,-0.3,0.7);
 
-  h2WvsQ2                 = new TH2F("WvsQ2","Q^{2} vs W;Q^{2};W",375,0.5,8.0,100,2.0,4.0);
+  h2WvsQ2                 = new TH2F("WvsQ2","Q^{2} vs W;Q^{2};W",400,0.0,10.0,100,0.5,2.0);
   h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",25,-1.0,1.0,10,-1.0,1.0);
   h1epsilon               = new TH1F("epsilon","Plot of Epsilon;#epsilon;Counts",100,0.0,1.0);
 
-  h1pmiss                 = new TH1F("pmiss","Plot of P_{miss};P_{miss} GeV/c;Counts",1000,0.0,20.0);
-  h1pxmiss                = new TH1F("pxmiss","Plot of P_{miss,x};P_{miss,x} GeV/c;Counts",1000,-10.0,10.0);
-  h1pymiss                = new TH1F("pymiss","Plot of P_{miss,y};P_{miss,y} GeV/c;Counts",1000,-10.0,10.0);
-  h1pzmiss                = new TH1F("pzmiss","Plot of P_{miss,z};P_{miss,z} GeV/c;Counts",1000,-10.0,10.0);
+  h1pmiss                 = new TH1F("pmiss","Plot of P_{miss};P_{miss} GeV/c;Counts",1000,-1.0,1.0);
+  h1pxmiss                = new TH1F("pxmiss","Plot of P_{miss,x};P_{miss,x} GeV/c;Counts",1000,-1.0,1.0);
+  h1pymiss                = new TH1F("pymiss","Plot of P_{miss,y};P_{miss,y} GeV/c;Counts",1000,-1.0,1.0);
+  h1pzmiss                = new TH1F("pzmiss","Plot of P_{miss,z};P_{miss,z} GeV/c;Counts",1000,-1.0,1.0);
 
   h1EDTM                  = new TH1F("EDTM","EDTM Time;EDTM TDC Time;Counts",10000,-5000,5000);
 
@@ -196,15 +196,15 @@ Bool_t peepYield::Process(Long64_t entry)
   h1HMS_ph_cut->Fill(H_gtr_ph[0]);
 
   if (P_aero_npeSum[0] < 1.5 && P_hgcer_npeSum[0] < 1.5) { //Event identified as Proton
-    h2ROC1_Coin_Beta_noID_proton->Fill((CTime_epCoinTime_ROC1[0] - 10.0),P_gtr_beta[0]);
+    h2ROC1_Coin_Beta_noID_proton->Fill((CTime_epCoinTime_ROC1[0] - 48.0),P_gtr_beta[0]);
     
     if (abs(P_gtr_beta[0]-1.00) > 0.1) return kTRUE;
   
-    if (abs((CTime_epCoinTime_ROC1[0] - 10.0)) < 2.0) {
-      h2ROC1_Coin_Beta_proton->Fill((CTime_epCoinTime_ROC1[0] - 10.0),P_gtr_beta[0]);
+    if (abs((CTime_epCoinTime_ROC1[0] - 48.0)) < 2.0) {
+      h2ROC1_Coin_Beta_proton->Fill((CTime_epCoinTime_ROC1[0] - 48.0),P_gtr_beta[0]);
       h2SHMSp_kaon_cut->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
       h2SHMSp_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
-      h1mmissp_cut->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
+      h1mmissp_cut->Fill(pow(emiss[0],2)-pow(pmiss[0],2));
 
       h2WvsQ2->Fill(Q2[0],W[0]);
       h2tvsph_q->Fill(ph_q[0],-MandelT[0]);
@@ -216,9 +216,9 @@ Bool_t peepYield::Process(Long64_t entry)
       h1pzmiss->Fill(pmiss_z[0]);
     }
 
-    if (abs((CTime_epCoinTime_ROC1[0] - 10.0)) > 3.0 && abs((CTime_epCoinTime_ROC1[0] - 10.0)) < 15.0) {
-      h1mmissp_rand->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
-      h1mmissp_remove->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
+    if (abs((CTime_epCoinTime_ROC1[0] - 48.0)) > 3.0 && abs((CTime_epCoinTime_ROC1[0] - 48.0)) < 15.0) {
+      h1mmissp_rand->Fill(pow(emiss[0],2)-pow(pmiss[0],2));
+      h1mmissp_remove->Fill(pow(emiss[0],2)-pow(pmiss[0],2));
     }
   }
 
@@ -356,6 +356,12 @@ void peepYield::Terminate()
   cKine->Update();
   h1mmissp_remove->SetTitleOffset(1.0,"Y"); h1mmissp_remove->SetAxisRange(0.0,gPad->GetUymax(),"Y");
   cKine->Update();
+  TLine *MissMass_Full = new TLine(0.0,gPad->GetUymin(),0.0,gPad->GetUymax()); 
+  MissMass_Full->SetLineColor(kBlack); MissMass_Full->SetLineWidth(3);
+  MissMass_Full->Draw();
+  TPaveText *ptProtonEvt = new TPaveText(0.527698,0.652567,0.738421,0.791456,"NDC");
+  ptProtonEvt->AddText(Form("# of proton Events: %.0f",h1mmissp_remove->Integral(h1mmissp_remove->GetXaxis()->FindBin(-0.02),h1mmissp_remove->GetXaxis()->FindBin(0.05))));
+  ptProtonEvt->Draw();
 
   TCanvas *cMomentum = new TCanvas("Momentum","Summary of Momentum Quantities");
   cMomentum->Divide(2,2);
@@ -367,7 +373,7 @@ void peepYield::Terminate()
 
   //Start output of .root file with all histograms
   TString option = GetOption();
-  TFile *Histogram_file = new TFile(Form("../HISTOGRAMS/KaonLT_Run%i.root",option.Atoi()),"RECREATE");
+  TFile *Histogram_file = new TFile(Form("../../HISTOGRAMS/KaonLT_Run%i.root",option.Atoi()),"RECREATE");
   TDirectory *DCuts = Histogram_file->mkdir("Spectrometer Delta and Calorimeter Cuts"); DCuts->cd();
   h1HMS_delta->Write("HMS Delta Before Cuts"); h1HMS_delta_cut->Write("HMS Delta After Cuts");
   h1SHMS_delta->Write("SHMS Delta Before Cuts"); h1SHMS_delta_cut->Write("SHMS Delta After Cuts");
