@@ -111,7 +111,7 @@ void KaonYield::SlaveBegin(TTree * /*tree*/)
   h1mmissp_remove         = new TH1F("mmissp_remove","Proton Missing mass squared with Cuts (Random Subtracted);Mass^{2} (GeV/c^{2})^{2};Counts",200,-0.5,2.0);
 
   h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",375,0.0,6.0,100,1.0,4.0);
-  h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",25,-3.14,3.14,8,0.0,0.8);
+  h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",25,-3.14,3.14,12,0.0,1.2);
   h1epsilon               = new TH1F("epsilon","Plot of Epsilon;#epsilon;Counts",100,0.0,1.0);
 
   h1EDTM                  = new TH1F("EDTM","EDTM Time;EDTM TDC Time;Counts",10000,-5000,5000);
@@ -525,7 +525,7 @@ void KaonYield::Terminate()
   h1epsilon->SetTitleOffset(1.0,"Y");
   cKine->cd(4); h1mmissK_remove->Draw("hist"); /*Lambda_Fit_Full->Draw("same");*/ Gauss_Fit->DrawClone("same");
   cKine->Update();
-  h1mmissK_remove->SetTitleOffset(1.0,"Y"); /*h1mmissK_remove->SetAxisRange(1.0,1.25,"X");*/ h1mmissK_remove->SetAxisRange(0.0,gPad->GetUymax(),"Y");
+  h1mmissK_remove->SetTitleOffset(1.0,"Y"); /*h1mmissK_remove->SetAxisRange(1.0,1.25,"X");*/// h1mmissK_remove->SetAxisRange(0.0,gPad->GetUymax(),"Y");
   cKine->Update();
   TLine *LambdaMass_Full = new TLine(1.1156,gPad->GetUymin(),1.1156,gPad->GetUymax()); 
   LambdaMass_Full->SetLineColor(kBlack); LambdaMass_Full->SetLineWidth(3);
