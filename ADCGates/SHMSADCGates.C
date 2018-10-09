@@ -632,37 +632,37 @@ void SHMSADCGates::Terminate()
   Int_t HODOPosMin[72]; Int_t HODOPosMax[72];
   Int_t HODONegMin[72]; Int_t HODONegMax[72];
   for (Int_t ipmt = 0; ipmt < 18; ipmt++) {  
-    (PHODO1xPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODOPosMin[4*ipmt]    = -200 : HODOPosMin[4*ipmt]    = HODO1xPos_Window[ipmt] - 10;
-    (PHODO1yPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODOPosMin[4*ipmt+1]  = -200 : HODOPosMin[4*ipmt+1]  = HODO1yPos_Window[ipmt] - 20;
-    (PHODO2xPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODOPosMin[4*ipmt+2]  = -200 : HODOPosMin[4*ipmt+2]  = HODO2xPos_Window[ipmt] - 10;
-    (PHODO2yPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODOPosMin[4*ipmt+3]  = -200 : HODOPosMin[4*ipmt+3]  = HODO2yPos_Window[ipmt] - 20;
-    (PHODO1xNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODONegMin[4*ipmt]    = -200 : HODONegMin[4*ipmt]    = HODO1xNeg_Window[ipmt] - 10;
-    (PHODO1yNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODONegMin[4*ipmt+1]  = -200 : HODONegMin[4*ipmt+1]  = HODO1yNeg_Window[ipmt] - 20;
-    (PHODO2xNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODONegMin[4*ipmt+2]  = -200 : HODONegMin[4*ipmt+2]  = HODO2xNeg_Window[ipmt] - 10;
-    (PHODO2yNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODONegMin[4*ipmt+3]  = -200 : HODONegMin[4*ipmt+3]  = HODO2yNeg_Window[ipmt] - 20;
-    (PHODO1xPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODOPosMax[4*ipmt]    = 200 : HODOPosMax[4*ipmt]    = HODO1xPos_Window[ipmt] + 10;
-    (PHODO1yPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODOPosMax[4*ipmt+1]  = 200 : HODOPosMax[4*ipmt+1]  = HODO1yPos_Window[ipmt] + 20;
-    (PHODO2xPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODOPosMax[4*ipmt+2]  = 200 : HODOPosMax[4*ipmt+2]  = HODO2xPos_Window[ipmt] + 10;
-    (PHODO2yPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODOPosMax[4*ipmt+3]  = 200 : HODOPosMax[4*ipmt+3]  = HODO2yPos_Window[ipmt] + 20;
-    (PHODO1xNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODONegMax[4*ipmt]    = 200 : HODONegMax[4*ipmt]    = HODO1xNeg_Window[ipmt] + 10;
-    (PHODO1yNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODONegMax[4*ipmt+1]  = 200 : HODONegMax[4*ipmt+1]  = HODO1yNeg_Window[ipmt] + 20;
-    (PHODO2xNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODONegMax[4*ipmt+2]  = 200 : HODONegMax[4*ipmt+2]  = HODO2xNeg_Window[ipmt] + 10;
-    (PHODO2yNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? HODONegMax[4*ipmt+3]  = 200 : HODONegMax[4*ipmt+3]  = HODO2yNeg_Window[ipmt] + 20;
+    (HODO1xPos_Window[ipmt] == 1e+38) ? HODOPosMin[4*ipmt]    = -200 : HODOPosMin[4*ipmt]    = HODO1xPos_Window[ipmt] - 10;
+    (HODO1yPos_Window[ipmt] == 1e+38) ? HODOPosMin[4*ipmt+1]  = -200 : HODOPosMin[4*ipmt+1]  = HODO1yPos_Window[ipmt] - 20;
+    (HODO2xPos_Window[ipmt] == 1e+38) ? HODOPosMin[4*ipmt+2]  = -200 : HODOPosMin[4*ipmt+2]  = HODO2xPos_Window[ipmt] - 10;
+    (HODO2yPos_Window[ipmt] == 1e+38) ? HODOPosMin[4*ipmt+3]  = -200 : HODOPosMin[4*ipmt+3]  = HODO2yPos_Window[ipmt] - 20;
+    (HODO1xNeg_Window[ipmt] == 1e+38) ? HODONegMin[4*ipmt]    = -200 : HODONegMin[4*ipmt]    = HODO1xNeg_Window[ipmt] - 10;
+    (HODO1yNeg_Window[ipmt] == 1e+38) ? HODONegMin[4*ipmt+1]  = -200 : HODONegMin[4*ipmt+1]  = HODO1yNeg_Window[ipmt] - 20;
+    (HODO2xNeg_Window[ipmt] == 1e+38) ? HODONegMin[4*ipmt+2]  = -200 : HODONegMin[4*ipmt+2]  = HODO2xNeg_Window[ipmt] - 10;
+    (HODO2yNeg_Window[ipmt] == 1e+38) ? HODONegMin[4*ipmt+3]  = -200 : HODONegMin[4*ipmt+3]  = HODO2yNeg_Window[ipmt] - 20;
+    (HODO1xPos_Window[ipmt] == 1e+38) ? HODOPosMax[4*ipmt]    = 200 : HODOPosMax[4*ipmt]    = HODO1xPos_Window[ipmt] + 10;
+    (HODO1yPos_Window[ipmt] == 1e+38) ? HODOPosMax[4*ipmt+1]  = 200 : HODOPosMax[4*ipmt+1]  = HODO1yPos_Window[ipmt] + 20;
+    (HODO2xPos_Window[ipmt] == 1e+38) ? HODOPosMax[4*ipmt+2]  = 200 : HODOPosMax[4*ipmt+2]  = HODO2xPos_Window[ipmt] + 10;
+    (HODO2yPos_Window[ipmt] == 1e+38) ? HODOPosMax[4*ipmt+3]  = 200 : HODOPosMax[4*ipmt+3]  = HODO2yPos_Window[ipmt] + 20;
+    (HODO1xNeg_Window[ipmt] == 1e+38) ? HODONegMax[4*ipmt]    = 200 : HODONegMax[4*ipmt]    = HODO1xNeg_Window[ipmt] + 10;
+    (HODO1yNeg_Window[ipmt] == 1e+38) ? HODONegMax[4*ipmt+1]  = 200 : HODONegMax[4*ipmt+1]  = HODO1yNeg_Window[ipmt] + 20;
+    (HODO2xNeg_Window[ipmt] == 1e+38) ? HODONegMax[4*ipmt+2]  = 200 : HODONegMax[4*ipmt+2]  = HODO2xNeg_Window[ipmt] + 10;
+    (HODO2yNeg_Window[ipmt] == 1e+38) ? HODONegMax[4*ipmt+3]  = 200 : HODONegMax[4*ipmt+3]  = HODO2yNeg_Window[ipmt] + 20;
   }
 
   Int_t PRECALPosMin[14]; Int_t PRECALPosMax[14];
   Int_t PRECALNegMin[14]; Int_t PRECALNegMax[14];
   for (Int_t ipmt = 0; ipmt < 14; ipmt++) {  
-    (PPRECALPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? PRECALPosMin[ipmt] = -200 : PRECALPosMin[ipmt] = PRECALPOS_Window[ipmt] - 10;
-    (PPRECALNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? PRECALNegMin[ipmt] = -200 : PRECALNegMin[ipmt] = PRECALNEG_Window[ipmt] - 10;
-    (PPRECALPOSPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? PRECALPosMax[ipmt] = 200 : PRECALPosMax[ipmt] = PRECALPOS_Window[ipmt] + 10;
-    (PPRECALNEGPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? PRECALNegMax[ipmt] = 200 : PRECALNegMax[ipmt] = PRECALNEG_Window[ipmt] + 10;
+    (PRECALPOS_Window[ipmt] == 1e+38) ? PRECALPosMin[ipmt] = -200 : PRECALPosMin[ipmt] = PRECALPOS_Window[ipmt] - 10;
+    (PRECALNEG_Window[ipmt] == 1e+38) ? PRECALNegMin[ipmt] = -200 : PRECALNegMin[ipmt] = PRECALNEG_Window[ipmt] - 10;
+    (PRECALPOS_Window[ipmt] == 1e+38) ? PRECALPosMax[ipmt] = 200 : PRECALPosMax[ipmt] = PRECALPOS_Window[ipmt] + 10;
+    (PRECALNEG_Window[ipmt] == 1e+38) ? PRECALNegMax[ipmt] = 200 : PRECALNegMax[ipmt] = PRECALNEG_Window[ipmt] + 10;
   }
 
   Int_t CALMin[224]; Int_t CALMax[224];
   for (Int_t ipmt = 0; ipmt < 224; ipmt++) {
-    (PCALPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? CALMin[ipmt] = -200 : CALMin[ipmt] = CAL_Window[ipmt] - 10;
-    (PCALPULSETIMEDIFF[ipmt]->GetEntries() == 0) ? CALMax[ipmt] = 200 : CALMax[ipmt] = CAL_Window[ipmt] + 10;
+    (CAL_Window[ipmt] == 1e+38) ? CALMin[ipmt] = -200 : CALMin[ipmt] = CAL_Window[ipmt] - 10;
+    (CAL_Window[ipmt] == 1e+38) ? CALMax[ipmt] = 200 : CALMax[ipmt] = CAL_Window[ipmt] + 10;
   }
 
   Int_t DCMin[12]; Int_t DCMax[12];
@@ -673,11 +673,10 @@ void SHMSADCGates::Terminate()
   
   //Begin Plotting Results 
   /*
-  TCanvas *HGCNGC = new TCanvas("HGCNGC","ADC Timing Window for SHMS HGC and NGC");
-  HGCNGC->Divide(2,4); 
+  TCanvas *HGC = new TCanvas("HGC","ADC Timing Window for SHMS HGC");
+  HGC->Divide(2,2); 
   for (Int_t ipmt = 0; ipmt < 4; ipmt++) {
-    HGCNGC->cd(2*ipmt+1); PHGCPULSETIMEDIFF[ipmt]->Draw(); PHGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetLabelSize(0.1); PHGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetTitleOffset(-1.0); PHGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetTitleSize(0.1);
-    HGCNGC->cd(2*ipmt+2); PNGCPULSETIMEDIFF[ipmt]->Draw(); PNGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetLabelSize(0.1); PNGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetTitleOffset(-1.0); PNGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetTitleSize(0.1);
+    HGC->cd(ipmt); PHGCPULSETIMEDIFF[ipmt]->Draw(); PHGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetLabelSize(0.1); PHGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetTitleOffset(-1.0); PHGCPULSETIMEDIFF[ipmt]->GetXaxis()->SetTitleSize(0.1);
   }
 
   TCanvas *AERO = new TCanvas("AERO","ADC Timing Window for SHMS AERO");
@@ -777,7 +776,7 @@ void SHMSADCGates::Terminate()
   SHMSWindows.close();
 
   //Start output of .root file with all histograms
-  TFile *Histogram_file = new TFile(Form("../../HISTOGRAMS/SHMSADCGates_Run%i.root",option.Atoi()),"RECREATE");
+  TFile *Histogram_file = new TFile(Form("../HISTOGRAMS/SHMSADCGates_Run%i.root",option.Atoi()),"RECREATE");
   TDirectory *DHGC = Histogram_file->mkdir("Heavy Gas Cherenkov ADC Timing Spectra"); DHGC->cd();
   for (Int_t ipmt=0; ipmt < 4; ipmt++) {
     PHGCPULSETIMEDIFF[ipmt]->Write(Form("HGC PMT %i",ipmt+1));
