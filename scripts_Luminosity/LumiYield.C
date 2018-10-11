@@ -348,31 +348,6 @@ void LumiYield::Terminate()
   cout << Form("Calculated kaon tracking efficiency: %f +/- %f\n",p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries(),(p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries())*sqrt((1/p_Ktrack_after->GetEntries()) + (1/p_Ktrack_before->GetEntries())));
   cout << Form("Calculated proton tracking efficiency: %f +/- %f\n",p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),(p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries())*sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())));
   //cout << Form("Calculated SHMS Cherenkov efficiency: %f +/- %f\n\n",p_ecut_eff->GetEntries()/p_ecut_after->GetEntries(),(p_ecut_eff->GetEntries()/p_ecut_after->GetEntries())*sqrt((1/p_ecut_eff->GetEntries()) + (1/p_ecut_after->GetEntries())));
-  /*
-  
-  printf("\n\n");
-
-  Double_t prescale_used = prescale_Ps1;
-  Double_t livetime_used = live_eff_Ps1;
-  Double_t electronic_used = electronic_eff_Ps1;
-  if (prescale_used == -1) {
-    prescale_used = prescale_Ps2;
-    livetime_used = live_eff;
-    electronic_used = electronic_eff;
-  }
-  
-  electronic_used = 1.0;
-
-  //prescale_used -= 1;
-
-  cout << Form("Corrected number of counts: %.0f +/- %.0f", h_ecut_eff->Integral(0,100)*(prescale_used), sqrt(h_ecut_eff->Integral(0,100)*(prescale_used))) <<  endl;
-
-  Double_t Normalized_Yield = (h_ecut_eff->Integral(0,100)*(prescale_used))/(sum_charge*electronic_used*livetime_used*tracking_eff*cer_eff);
-
-  Double_t Normalized_Yield_uncer = Normalized_Yield*sqrt(pow((counting_uncer/h_ecut_eff->GetEntries()),2) + pow((tracking_uncer/tracking_eff),2) + pow((cer_eff_uncer/cer_eff),2));
-
-  cout << "Normalized yield for this run: " << Normalized_Yield << "  +/- " << Normalized_Yield_uncer << endl;
-  */
     
   TCanvas *c_ID_cut;
   c_ID_cut = new TCanvas("c_ID_cut","Particle ID Information");
@@ -430,17 +405,15 @@ void LumiYield::Terminate()
   bcm_after->Draw();
 
   TCanvas *c_EventType = new TCanvas("Event Type","Event Type Information");
-  c_EventType->Divide(3,2);
+  c_EventType->Divide(2,2);
   c_EventType->cd(1);
   EventType->Draw();
   c_EventType->cd(2);
   EDTM->Draw();
-  c_EventType->cd(4);
+  c_EventType->cd(3);
   TRIG1->Draw();
-  c_EventType->cd(5);
+  c_EventType->cd(4);
   TRIG3->Draw();
-  c_EventType->cd(6);
-  TRIG5->Draw();
   
   ofstream myfile1;
   myfile1.open ("Yield_Data.dat", fstream::app);
