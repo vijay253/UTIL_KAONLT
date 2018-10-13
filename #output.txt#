@@ -1,0 +1,40 @@
+
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+Kaon-LT Report Summary
+
+=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:
+
+Run # :  5081
+SHMS Run Length    :  3288.427 sec
+SHMS BCM1 Beam Cut Current :  33.754 uA		  
+97SHMS BCM2 Beam Cut Current :  33.790 uA		 
+SHMS BCM4A Beam Cut Current :  34.138 uA		  
+SHMS BCM4B Beam Cut Current :  33.963 uA		 
+SHMS BCM4C Beam Cut Current :  33.925 uA		 
+SHMS Unser Beam Cut Current :  27.105 uA		  
+SHMS BCM4A Beam Cut Charge :  98.252 mC		  
+SHMS BCM4B Beam Cut Charge :  97.747 mC		 
+SHMS BCM4C Beam Cut Charge :  97.638 mC		 
+SHMS Unser Beam Cut Charge :  78.011 mC
+Coin ROC2 pTRIG1 Accepted Triggers  :  3261080
+Coin ROC2 pTRIG3 Accepted Triggers  :  3261315
+Coin ROC2 pTRIG5 Accepted Triggers  :  3261325
+SHMS_pTRIG1 Pre-triggers  :   1943664422   [ 591.062 kHz ]
+SHMS_pTRIG3 Pre-triggers  :   53827719   [ 16.369 kHz ]
+SHMS_pTRIG5 Pre-triggers  :   3263410   [ 0.992 kHz ]
+SHMS_pTRIG1 Pre-scaled Pre-triggers  :   237235   [ 0.072 kHz ]
+SHMS_pTRIG3 Pre-scaled Pre-triggers  :   209446   [ 0.064 kHz ]
+SHMS_pTRIG5 Pre-scaled Pre-triggers  :   3263410   [ 0.992 kHz ]
+Computer Live Time for COIN Trigger (%): 0.999361097747
+
+Missing Ref times :                 P.dc         0         0
+Missing Ref times :                P.hod         0         0
+Missing Ref times :              P.hgcer         0         0
+Missing Ref times :               P.aero         0         0
+Missing Ref times :                P.cal         0         0
+Missing Ref times :                 H.dc         1         0
+Missing Ref times :                H.hod         0         0
+Missing Ref times :                H.cer         0         0
+Missing Ref times :                H.cal         0         0
+Missing Ref times :               T.coin         0         0
