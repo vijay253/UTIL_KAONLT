@@ -349,13 +349,13 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS
 Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)       Raw-coin  Computer-LT      Comment
 5078    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  17.9		 646.3		 1.09		  37.54		   1260k     99.93	      !79 Lambdas first run @ right angle
 5079    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    30       14   9    0	  16.0		 571.3		 0.83		  11.19		   322k      99.94	      !25 Lambdas changed back to 35uA
-5080    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  17.2		 623.6		 1.05		  106.6		   3575k     99.93	      !150 Lambdas
-5081    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  16.4		 591.1		 0.99		   97.7		   3261k     99.94	      !145 Lambdas
-5082    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  16.3		 589.8		 1.00		   90.4		   3041k     99.93	      !73 Lambdas
-5083    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  10.9		 392.4	         0.67              5.6             188k      99.93            !0 Lambdas PSS fault stopped run early
-5084    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  12.45          450.85          0.76              39.7            1341k     99.99            !54 Lambda
-5085    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    40       13   10   0	  9.03           325.3           0.55              7.14           920k      99.96            !36 Lambdas
-5086    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    40       13   10   0	  17.7           637.3           1.08             52.26           1766k     99.93            !103 Lambdas
+5080    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  17.2		 623.6		 1.05		  106.6		   3575k     99.93	      !268 Lambdas (GoodANA)
+5081    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  16.4		 591.1		 0.99		   97.7		   3261k     99.94	      !257 Lambdas (GoodANA)
+5082    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  16.3		 589.8		 1.00		   90.4		   3041k     99.93	      !216 Lambdas (GoodANA)
+5083    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  10.9		 392.4	         0.67              5.6             188k      99.93            !13 Lambdas PSS fault stopped run early  (GoodANA)
+5084    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0	  12.45          450.85          0.76              39.7            1341k     99.99            !102 Lambda (GoodANA)
+5085    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    40       13   10   0	  9.03           325.3           0.55              7.14           920k      99.96            !77 Lambdas (GoodANA)
+5086    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    40       13   10   0	  17.7           637.3           1.08             52.26           1766k     99.93            !150 Lambdas (GoodANA)
 5089    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    40       14   9    0	  13.5           489.2           0.818            92.187          3068k     99.93            !137 Lambdas
 5090    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    40       14   9    0	  15.7           568.9           0.946            110.9           3662k     99.93            !185 Lambdas     
 5091    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    40       14   9    0	  17.12          624.2           1.05             114.6           3853k     99.93            !109 Lambdas     
@@ -375,10 +375,17 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS
 
 Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
 5104    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0    17.43           629.04             1.07          113.07        3825k       81.78            !115 Lambda events
-5105    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0                                       1.                                k     81.13           ! Lambda events
-5106    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0    1.41           6.6             1.                118.4           k         80.48           ! Lambda events
+5105    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0    16.96           611.6              1.04          103.35 ls       3515k       81.13           !272 Lambda events (GoodANA)
 
 
+//////////////////////////////////// WITH UPDATED STANDARD KINEMATICS  RUNS FROM /////////////////////////// 
 
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
+5106    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0    18.41           652.1              1.11          123.17        4177k       80.48           ! 279 Lambda events
+5107    K+3.0   6.053   6.495        -4.204  14.93       Dummy    10.6    35       14   9    0    6.57            152.7              0.115         41.135        150 k       90.13           ! DUMMY 
+5108    K+3.0   6.053   6.495        -4.204  14.93       Dummy    10.6    35       14   9    0    6.75            157.04             0.117         100.10        363k        91.7            ! DUMMY
+5109    K+3.0   6.053   6.495        -4.204  14.93       Dummy    10.6    35       14   9    0    6.93            161.0              0.119         122.1         440k        91.86           ! DUMMY
+5110    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0    --               --      --                --               ----            --            ! JUNK  events
+5111    K+3.0   6.053   6.495        -4.204  14.93       LH2      10.6    35       14   9    0                                                                               81.73            !   events
 
  
