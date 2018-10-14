@@ -40,8 +40,33 @@ fout.write('Computer Live Time for COIN Trigger (%): ')
 fout.write(str(COIN_LT))
 f.close()
 
-replay_file = './REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo)
+shms_file = '../REPORT_OUTPUT/SHMS/PRODUCTION/replay_shms_coin_production_%s_50000.report' % (runNo)
 #print('./REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo))
+f    = open(shms_file)
+fout.write('\n')
+shmsList = ['HADRON SING FID TRACK EFFIC']
+
+for line in f:
+    data = line.split(':')
+    for index, obj in enumerate(shmsList) :
+        if (shmsList[index] in data[0]) :
+            fout.write(data[0] + ' : ' + data[1])
+f.close()
+
+hms_file = '../REPORT_OUTPUT/HMS/PRODUCTION/replay_hms_coin_production_%s_50000.report' % (runNo)
+#print('./REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo))
+f    = open(hms_file)
+#fout.write('\n')
+hmsList = ['E SING FID TRACK EFFIC']
+
+for line in f:
+    data = line.split(':')
+    for index, obj in enumerate(hmsList) :
+        if (hmsList[index] in data[0]) :
+            fout.write(data[0] + ' : ' + data[1])
+f.close()
+
+replay_file = './REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo)
 f    = open(replay_file)
 fout.write('\n\n')
 replayList = ['Missing Ref times']
