@@ -1,5 +1,4 @@
 #! /bin/bash
-
 #Which spectrometer 
 spec=$1
 SPEC=$(echo "$spec" | tr '[:lower:]' '[:upper:]')
@@ -31,6 +30,8 @@ echo "Running ${script}"
 echo "Getting ${numEvts} number of events for run ${runNum} for ${SPEC}"
 eval ${runScript}
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "END OF RUN ${runNum}"
 
 }
 
