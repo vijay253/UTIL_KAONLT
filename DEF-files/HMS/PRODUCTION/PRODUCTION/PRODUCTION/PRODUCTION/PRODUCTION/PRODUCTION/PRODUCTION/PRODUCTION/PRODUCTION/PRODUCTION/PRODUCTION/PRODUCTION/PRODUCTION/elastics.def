@@ -1,0 +1,29 @@
+block H.extcor.xsieve
+block H.extcor.ysieve
+block H.rb.raster.fr_xbpm_tar
+block H.rb.raster.fr_ybpm_tar
+block H.gtr.*
+block H.kin.*
+block H.dc.x_fp
+block H.dc.xp_fp
+block H.dc.y_fp
+block H.dc.yp_fp
+block H.dc.ntrack
+block H.cer.npeSum
+block H.cal.etotnorm
+block H.cal.etracknorm
+block H.react.x
+block H.react.y
+block H.react.z
+block H.hod.goodscinhit
+block H.hod.beta*
+block H.hod.start*
+block H.cal.eprtrack
+block H.cal.eprtracknorm
+block H.cal.etot
+block H.cal.etottracknorm
+block H.cal.etrack
+
+begin epics
+
+end epics
