@@ -25,6 +25,8 @@ void PlotLumi()
     Float_t SHMS_ptrack;                                                                                    
     Float_t SHMS_ptrackun;
     Float_t ACC_EDTM;
+    Float_t TRIG1;
+    Float_t TRIG3;
     Float_t TIME;
     Float_t BCM4B;
     Float_t PS1;
@@ -69,6 +71,47 @@ void PlotLumi()
   TGraphErrors *SHMS_Rate_EDTM = new TGraphErrors();                                                            
   SHMS_Rate_EDTM->SetTitle("SHMS Normalized Yield Using EDTM"); 
 
+  TGraphErrors *HMS_Current_track = new TGraphErrors();
+  HMS_Current_track->SetTitle("HMS Tracking Efficiency");
+
+  TGraphErrors *HMS_Rate_track = new TGraphErrors();
+  HMS_Rate_track->SetTitle("HMS Tracking Efficiency");
+
+  TGraphErrors *HMS_Current_etrack = new TGraphErrors();
+  HMS_Current_etrack->SetTitle("HMS E Tracking Efficiency");
+
+  TGraphErrors *HMS_Rate_etrack = new TGraphErrors();
+  HMS_Rate_etrack->SetTitle("HMS E Tracking Efficiency");
+
+  TGraphErrors *SHMS_Current_track = new TGraphErrors();
+  SHMS_Current_track->SetTitle("SHMS Tracking Efficiency");
+
+  TGraphErrors *SHMS_Rate_track = new TGraphErrors();
+  SHMS_Rate_track->SetTitle("SHMS Tracking Efficiency");
+
+  TGraphErrors *SHMS_Current_hadtrack = new TGraphErrors();
+  SHMS_Current_hadtrack->SetTitle("SHMS HAD Tracking Efficiency");
+
+  TGraphErrors *SHMS_Rate_hadtrack = new TGraphErrors();
+  SHMS_Rate_hadtrack->SetTitle("SHMS HAD Tracking Efficiency");
+
+  TGraphErrors *SHMS_Current_pitrack = new TGraphErrors();
+  SHMS_Current_pitrack->SetTitle("SHMS PI Tracking Efficiency");
+
+  TGraphErrors *SHMS_Rate_pitrack = new TGraphErrors();
+  SHMS_Rate_pitrack->SetTitle("SHMS PI Tracking Efficiency");
+
+  TGraphErrors *SHMS_Current_Ktrack = new TGraphErrors();
+  SHMS_Current_Ktrack->SetTitle("SHMS K Tracking Efficiency");
+
+  TGraphErrors *SHMS_Rate_Ktrack = new TGraphErrors();
+  SHMS_Rate_Ktrack->SetTitle("SHMS K Tracking Efficiency");
+
+  TGraphErrors *SHMS_Current_ptrack = new TGraphErrors();
+  SHMS_Current_ptrack->SetTitle("SHMS p Tracking Efficiency");
+
+  TGraphErrors *SHMS_Rate_ptrack = new TGraphErrors();
+  SHMS_Rate_ptrack->SetTitle("SHMS p Tracking Efficiency");
 
   // Fill graph from .dat file                                                                        
  
@@ -79,7 +122,7 @@ void PlotLumi()
       }
     else
       {                                                                                             
-	sscanf(&line[0],"%d %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f",
+	sscanf(&line[0],"%d %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f",
 	       &input.run_num,
 	       &input.HMS_EVENTS,
 	       &input.HMS_EVENTSun,
@@ -100,6 +143,8 @@ void PlotLumi()
 	       &input.SHMS_ptrack,
 	       &input.SHMS_ptrackun,
 	       &input.ACC_EDTM,
+	       &input.TRIG1,
+	       &input.TRIG3,
 	       &input.TIME,
 	       &input.BCM4B,
 	       &input.PS1,
@@ -111,30 +156,72 @@ void PlotLumi()
 	       &input.SHMS_elec,
 	       &input.SHMS_elecun,
 	       &input.SENT_EDTM);   
-	//cout << (input.BCM4B / input.TIME) << "   " << input.HMS_EVENTS << "   " << (input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.HMS_etrack) << endl;
+	cout << input.HMS_track << "   " << input.SHMS_ptrackun << "   " << input.comp_uncer << endl;
 	HMS_Current_Old->SetPoint(HMS_Current_Old->GetN(),(input.BCM4B / input.TIME),input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack)); 
-	HMS_Current_Old->SetPointError(HMS_Current_Old->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack)) * sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.HMS_elecun/input.HMS_elec,2) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
+	HMS_Current_Old->SetPointError(HMS_Current_Old->GetN()-1,0.0,sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.HMS_elecun/input.HMS_elec,2) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
 
 	HMS_Current_EDTM->SetPoint(HMS_Current_EDTM->GetN(),(input.BCM4B / input.TIME),input.HMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.HMS_etrack)); 
-	HMS_Current_EDTM->SetPointError(HMS_Current_EDTM->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.HMS_etrack)) * sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
+	HMS_Current_EDTM->SetPointError(HMS_Current_EDTM->GetN()-1,0.0,sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
 
 	SHMS_Current_Old->SetPoint(SHMS_Current_Old->GetN(),(input.BCM4B / input.TIME),input.SHMS_EVENTS/(input.BCM4B*input.comp_time*input.SHMS_elec*input.SHMS_hadtrack)); 
-	SHMS_Current_Old->SetPointError(SHMS_Current_Old->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*input.comp_time*input.SHMS_elec*input.SHMS_hadtrack)) * sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.SHMS_elecun/input.SHMS_elec,2) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+	SHMS_Current_Old->SetPointError(SHMS_Current_Old->GetN()-1,0.0,sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.SHMS_elecun/input.SHMS_elec,2) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
 
 	SHMS_Current_EDTM->SetPoint(SHMS_Current_EDTM->GetN(),(input.BCM4B / input.TIME),input.SHMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.SHMS_hadtrack)); 
-	SHMS_Current_EDTM->SetPointError(SHMS_Current_EDTM->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.SHMS_hadtrack)) * sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+	SHMS_Current_EDTM->SetPointError(SHMS_Current_EDTM->GetN()-1,0.0,sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
 
 	HMS_Rate_Old->SetPoint(HMS_Rate_Old->GetN(),(input.PS3 / input.TIME) / 1000.0,input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack)); 
-	HMS_Rate_Old->SetPointError(HMS_Rate_Old->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack)) * sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.HMS_elecun/input.HMS_elec,2) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
+	HMS_Rate_Old->SetPointError(HMS_Rate_Old->GetN()-1,0.0,sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.HMS_elecun/input.HMS_elec,2) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
 
 	HMS_Rate_EDTM->SetPoint(HMS_Rate_EDTM->GetN(),(input.PS3 / input.TIME) / 1000.0,input.HMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.HMS_etrack)); 
-	HMS_Rate_EDTM->SetPointError(HMS_Rate_EDTM->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.HMS_etrack)) * sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
+	HMS_Rate_EDTM->SetPointError(HMS_Rate_EDTM->GetN()-1,0.0,sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
 
 	SHMS_Rate_Old->SetPoint(SHMS_Rate_Old->GetN(),(input.PS1 / input.TIME) / 1000.0,input.SHMS_EVENTS/(input.BCM4B*input.comp_time*input.SHMS_elec*input.SHMS_hadtrack)); 
-	SHMS_Rate_Old->SetPointError(SHMS_Rate_Old->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*input.comp_time*input.SHMS_elec*input.SHMS_hadtrack)) * sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.SHMS_elecun/input.SHMS_elec,2) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+	SHMS_Rate_Old->SetPointError(SHMS_Rate_Old->GetN()-1,0.0,sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.SHMS_elecun/input.SHMS_elec,2) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
 
 	SHMS_Rate_EDTM->SetPoint(SHMS_Rate_EDTM->GetN(),(input.PS1 / input.TIME) / 1000.0,input.SHMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.SHMS_hadtrack)); 
-	SHMS_Rate_EDTM->SetPointError(SHMS_Rate_EDTM->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.SHMS_hadtrack)) * sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+	SHMS_Rate_EDTM->SetPointError(SHMS_Rate_EDTM->GetN()-1,0.0,sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+
+	HMS_Current_track->SetPoint(HMS_Current_track->GetN(),(input.BCM4B / input.TIME) , input.HMS_track);
+	HMS_Current_track->SetPointError(HMS_Current_track->GetN()-1,0.0, input.HMS_trackun);
+
+	HMS_Rate_track->SetPoint(HMS_Rate_track->GetN(), (input.PS3 / input.TIME) / 1000.0, input.HMS_track);
+	HMS_Rate_track->SetPointError(HMS_Rate_track->GetN()-1,0.0, input.HMS_trackun);
+
+	HMS_Current_etrack->SetPoint(HMS_Current_etrack->GetN(),(input.BCM4B / input.TIME) , input.HMS_etrack);
+	HMS_Current_etrack->SetPointError(HMS_Current_etrack->GetN()-1,0.0, input.HMS_etrackun);
+
+	HMS_Rate_etrack->SetPoint(HMS_Rate_etrack->GetN(), (input.PS3 / input.TIME) / 1000.0, input.HMS_etrack);
+	HMS_Rate_etrack->SetPointError(HMS_Rate_etrack->GetN()-1,0.0, input.HMS_etrackun);
+
+	SHMS_Current_track->SetPoint(SHMS_Current_track->GetN(),(input.BCM4B / input.TIME) , input.SHMS_track);
+	SHMS_Current_track->SetPointError(SHMS_Current_track->GetN()-1,0.0, input.SHMS_trackun);
+
+	SHMS_Rate_track->SetPoint(SHMS_Rate_track->GetN(), (input.PS1 / input.TIME) / 1000.0, input.SHMS_track);
+	SHMS_Rate_track->SetPointError(SHMS_Rate_track->GetN()-1,0.0, input.SHMS_trackun);
+
+	SHMS_Current_hadtrack->SetPoint(SHMS_Current_hadtrack->GetN(),(input.BCM4B / input.TIME) , input.SHMS_hadtrack);
+	SHMS_Current_hadtrack->SetPointError(SHMS_Current_hadtrack->GetN()-1,0.0, input.SHMS_hadtrackun);
+
+	SHMS_Rate_hadtrack->SetPoint(SHMS_Rate_hadtrack->GetN(), (input.PS1 / input.TIME) / 1000.0, input.SHMS_hadtrack);
+	SHMS_Rate_hadtrack->SetPointError(SHMS_Rate_hadtrack->GetN()-1,0.0, input.SHMS_hadtrackun);
+
+	SHMS_Current_pitrack->SetPoint(SHMS_Current_pitrack->GetN(),(input.BCM4B / input.TIME) , input.SHMS_pitrack);
+	SHMS_Current_pitrack->SetPointError(SHMS_Current_pitrack->GetN()-1,0.0, input.SHMS_pitrackun);
+
+	SHMS_Rate_pitrack->SetPoint(SHMS_Rate_pitrack->GetN(), (input.PS1 / input.TIME) / 1000.0, input.SHMS_pitrack);
+	SHMS_Rate_pitrack->SetPointError(SHMS_Rate_pitrack->GetN()-1,0.0, input.SHMS_pitrackun);
+
+	SHMS_Current_Ktrack->SetPoint(SHMS_Current_Ktrack->GetN(),(input.BCM4B / input.TIME) , input.SHMS_Ktrack);
+	SHMS_Current_Ktrack->SetPointError(SHMS_Current_Ktrack->GetN()-1,0.0, input.SHMS_Ktrackun);
+
+	SHMS_Rate_Ktrack->SetPoint(SHMS_Rate_Ktrack->GetN(), (input.PS1 / input.TIME) / 1000.0, input.SHMS_Ktrack);
+	SHMS_Rate_Ktrack->SetPointError(SHMS_Rate_Ktrack->GetN()-1,0.0, input.SHMS_Ktrackun);
+
+	SHMS_Current_ptrack->SetPoint(SHMS_Current_ptrack->GetN(),(input.BCM4B / input.TIME) , input.SHMS_ptrack);
+	SHMS_Current_ptrack->SetPointError(SHMS_Current_ptrack->GetN()-1,0.0, input.SHMS_ptrackun);
+
+	SHMS_Rate_ptrack->SetPoint(SHMS_Rate_ptrack->GetN(), (input.PS1 / input.TIME) / 1000.0, input.SHMS_ptrack);
+	SHMS_Rate_ptrack->SetPointError(SHMS_Rate_ptrack->GetN()-1,0.0, input.SHMS_ptrackun);
       }
   }
   fclose(fp);
@@ -237,22 +324,111 @@ void PlotLumi()
   SHMS_Rate_EDTM->SetMarkerSize(1);
   SHMS_Rate_EDTM->GetXaxis()->SetTitle("Rate kHz");
   SHMS_Rate_EDTM->GetYaxis()->SetTitle("Normalized Yield");
+
+  HMS_Current_track->SetMarkerColor(1);
+  HMS_Current_track->SetMarkerStyle(20);
+  HMS_Current_track->SetMarkerSize(1);
+  HMS_Current_track->GetXaxis()->SetTitle("Current uA");
+  HMS_Current_track->GetYaxis()->SetTitle("Normalized Yield");
+
+  HMS_Current_etrack->SetMarkerColor(3);
+  HMS_Current_etrack->SetMarkerStyle(20);
+  HMS_Current_etrack->SetMarkerSize(1);
+  HMS_Current_etrack->GetXaxis()->SetTitle("Current uA");
+  HMS_Current_etrack->GetYaxis()->SetTitle("Normalized Yield");
+
+  HMS_Rate_track->SetMarkerColor(1);
+  HMS_Rate_track->SetMarkerStyle(20);
+  HMS_Rate_track->SetMarkerSize(1);
+  HMS_Rate_track->GetXaxis()->SetTitle("Rate kHz");
+  HMS_Rate_track->GetYaxis()->SetTitle("Efficiency (%)");
+
+  HMS_Rate_etrack->SetMarkerColor(3);
+  HMS_Rate_etrack->SetMarkerStyle(20);
+  HMS_Rate_etrack->SetMarkerSize(1);
+  HMS_Rate_etrack->GetXaxis()->SetTitle("Rate kHz");
+  HMS_Rate_etrack->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Current_track->SetMarkerColor(1);
+  SHMS_Current_track->SetMarkerStyle(20);
+  SHMS_Current_track->SetMarkerSize(1);
+  SHMS_Current_track->GetXaxis()->SetTitle("Current uA");
+  SHMS_Current_track->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Current_hadtrack->SetMarkerColor(2);
+  SHMS_Current_hadtrack->SetMarkerStyle(20);
+  SHMS_Current_hadtrack->SetMarkerSize(1);
+  SHMS_Current_hadtrack->GetXaxis()->SetTitle("Current uA");
+  SHMS_Current_hadtrack->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Current_pitrack->SetMarkerColor(3);
+  SHMS_Current_pitrack->SetMarkerStyle(20);
+  SHMS_Current_pitrack->SetMarkerSize(1);
+  SHMS_Current_pitrack->GetXaxis()->SetTitle("Current uA");
+  SHMS_Current_pitrack->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Current_Ktrack->SetMarkerColor(4);
+  SHMS_Current_Ktrack->SetMarkerStyle(20);
+  SHMS_Current_Ktrack->SetMarkerSize(1);
+  SHMS_Current_Ktrack->GetXaxis()->SetTitle("Current uA");
+  SHMS_Current_Ktrack->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Current_ptrack->SetMarkerColor(5);
+  SHMS_Current_ptrack->SetMarkerStyle(20);
+  SHMS_Current_ptrack->SetMarkerSize(1);
+  SHMS_Current_ptrack->GetXaxis()->SetTitle("Current uA");
+  SHMS_Current_ptrack->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Rate_track->SetMarkerColor(1);
+  SHMS_Rate_track->SetMarkerStyle(20);
+  SHMS_Rate_track->SetMarkerSize(1);
+  SHMS_Rate_track->GetXaxis()->SetTitle("Rate kHz");
+  SHMS_Rate_track->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Rate_hadtrack->SetMarkerColor(2);
+  SHMS_Rate_hadtrack->SetMarkerStyle(20);
+  SHMS_Rate_hadtrack->SetMarkerSize(1);
+  SHMS_Rate_hadtrack->GetXaxis()->SetTitle("Rate kHz");
+  SHMS_Rate_hadtrack->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Rate_pitrack->SetMarkerColor(3);
+  SHMS_Rate_pitrack->SetMarkerStyle(20);
+  SHMS_Rate_pitrack->SetMarkerSize(1);
+  SHMS_Rate_pitrack->GetXaxis()->SetTitle("Rate kHz");
+  SHMS_Rate_pitrack->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Rate_Ktrack->SetMarkerColor(4);
+  SHMS_Rate_Ktrack->SetMarkerStyle(20);
+  SHMS_Rate_Ktrack->SetMarkerSize(1);
+  SHMS_Rate_Ktrack->GetXaxis()->SetTitle("Rate kHz");
+  SHMS_Rate_Ktrack->GetYaxis()->SetTitle("Efficiency (%)");
+
+  SHMS_Rate_ptrack->SetMarkerColor(5);
+  SHMS_Rate_ptrack->SetMarkerStyle(20);
+  SHMS_Rate_ptrack->SetMarkerSize(1);
+  SHMS_Rate_ptrack->GetXaxis()->SetTitle("Rate kHz");
+  SHMS_Rate_ptrack->GetYaxis()->SetTitle("Efficiency (%)");
   
-  //Reference Line
-  TLine *reference = new TLine(0,1,50,1);
-  reference->SetLineColor(kRed);
   
   //Draw everything
   TCanvas *HMS_old = new TCanvas("HMS_old","Normalized Yield for HMS using pTRIG and L1ACC");
   HMS_old->Divide(2,1);
   HMS_old->cd(1);
   HMS_Current_Old->Draw("AEP");
+  //Reference Line
+  HMS_old->Update();
+  TLine *reference = new TLine(gPad->GetUxmin(),1,gPad->GetUxmax(),1);
+  reference->SetLineColor(kRed);
   HMS_Current_Old->GetYaxis()->SetTitleOffset(1.5);
   reference->Draw();  
   HMS_old->cd(2);
   HMS_Rate_Old->Draw("AEP");
+  //Reference Line
+  HMS_old->Update();
+  TLine *reference_rate = new TLine(gPad->GetUxmin(),1,gPad->GetUxmax(),1);
+  reference_rate->SetLineColor(kRed);
   HMS_Rate_Old->GetYaxis()->SetTitleOffset(1.5);
-  reference->Draw();
+  reference_rate->Draw();
 
   TCanvas *HMS_EDTM = new TCanvas("HMS_EDTM","Normalized Yield for HMS using EDTM");
   HMS_EDTM->Divide(2,1);
@@ -263,7 +439,7 @@ void PlotLumi()
   HMS_EDTM->cd(2);
   HMS_Rate_EDTM->Draw("AEP");
   HMS_Rate_EDTM->GetYaxis()->SetTitleOffset(1.5);
-  reference->Draw();
+  reference_rate->Draw();
 
   TCanvas *SHMS_old = new TCanvas("SHMS_old","Normalized Yield for SHMS using pTRIG and L1ACC");
   SHMS_old->Divide(2,1);
@@ -274,7 +450,7 @@ void PlotLumi()
   SHMS_old->cd(2);
   SHMS_Rate_Old->Draw("AEP");
   SHMS_Rate_Old->GetYaxis()->SetTitleOffset(1.5);
-  reference->Draw();
+  reference_rate->Draw();
 
   TCanvas *SHMS_EDTM = new TCanvas("SHMS_EDTM","Normalized Yield for SHMS using EDTM");
   SHMS_EDTM->Divide(2,1);
@@ -285,13 +461,48 @@ void PlotLumi()
   SHMS_EDTM->cd(2);
   SHMS_Rate_EDTM->Draw("AEP");
   SHMS_Rate_EDTM->GetYaxis()->SetTitleOffset(1.5);
-  reference->Draw();
+  reference_rate->Draw();
 
-  TF1 *linear = new TF1("linear","[0] + [1]*(x)",0,100);
+  /*TF1 *linear = new TF1("linear","[0] + [1]*(x)",0,100);
   linear->SetParName(0,"Intercept");
   linear->SetParName(1,"Slope");
   linear->FixParameter(0,1);
   HMS_Current_Old->Fit("linear","R");
   HMS_Current_Old->GetFunction("linear")->SetLineColor(kBlue);
-  gPad->Update();
+  gPad->Update();*/
+
+  //Efficiency Information
+
+  TCanvas *HMS_Track = new TCanvas("HMS Track", "HMS Tracking Efficiency Information");
+  HMS_Track->Divide(2,1);
+  HMS_Track->cd(1);
+  HMS_Current_track->SetMinimum(0.0);
+  HMS_Current_track->SetMaximum(1.0);
+  HMS_Current_track->Draw("AEP");
+  HMS_Current_etrack->Draw("LEP");
+  HMS_Track->cd(2);
+  HMS_Rate_track->SetMinimum(0.0);
+  HMS_Rate_track->SetMaximum(1.0);
+  HMS_Rate_track->Draw("AEP");
+  HMS_Rate_etrack->Draw("LEP");
+
+  TCanvas *SHMS_Track = new TCanvas("SHMS Track", "SHMS Tracking Efficiency Information");
+  SHMS_Track->Divide(2,1);
+  SHMS_Track->cd(1);
+  SHMS_Current_track->SetMinimum(0.0);
+  SHMS_Current_track->SetMaximum(1.0);
+  SHMS_Current_track->Draw("ALEP");
+  SHMS_Current_hadtrack->Draw("LEP");
+  SHMS_Current_pitrack->Draw("LEP");
+  SHMS_Current_Ktrack->Draw("LEP");
+  SHMS_Current_ptrack->Draw("LEP");
+  SHMS_Track->cd(2);
+  SHMS_Rate_track->SetMinimum(0.0);
+  SHMS_Rate_track->SetMaximum(1.0);
+  SHMS_Rate_track->Draw("AEP");
+  SHMS_Rate_hadtrack->Draw("LEP");
+  SHMS_Rate_pitrack->Draw("LEP");
+  SHMS_Rate_Ktrack->Draw("LEP");
+  SHMS_Rate_ptrack->Draw("LEP");
+  
 }

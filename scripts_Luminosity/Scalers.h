@@ -28,6 +28,9 @@ class Scalers : public TSelector {
   TTreeReader     fReader;  //!the tree reader
   TTree          *fChain = 0;   //!pointer to the analyzed TTree or TChain
 
+  Double_t        PS1;
+  Double_t        PS3;
+
   // Variables useful in Process
   //To find total charge
   string          bcm_name[NBCM];

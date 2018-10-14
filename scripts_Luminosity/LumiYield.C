@@ -52,6 +52,10 @@ void LumiYield::SlaveBegin(TTree * /*tree*/)
   // The tree argument is deprecated (on PROOF 0 is passed).
 
   TString option = GetOption();
+  TString PS1_temp = option(0,option.Index("."));
+  TString PS3_temp = option(option.Index(".")+1,option.Length());
+  PS1 = PS1_temp.Atof();
+  PS3 = PS3_temp.Atof();
    
   h_ecut_before = new TH1F("h_ecut_before","HMS CER counts before electron cut",100,0.0,20);
   h_ecut_after  = new TH1F("h_ecut_after" ,"HMS CER counts after electron cut", 100,0.0,20);
@@ -93,7 +97,8 @@ void LumiYield::SlaveBegin(TTree * /*tree*/)
   bcm_before  = new TH1F("bcm_before" ,"Counts before current cut", 100,0,100);
   bcm_after   = new TH1F("bcm_after"  ,"Counts after current cut", 100,0,100);
 
-  EDTM      = new TH1F("EDTM","EDTM counts",4000,-1000.0,1000.0);
+  HMS_EDTM  = new TH1F("HMS_EDTM","HMS EDTM counts",4000,-1000.0,1000.0);
+  SHMS_EDTM = new TH1F("SHMS_EDTM","SHMS EDTM counts",4000,-1000.0,1000.0);
   TRIG1     = new TH1F("TRIG1","pTRIG1 counts",4000,0.0,1000.0);
   TRIG3     = new TH1F("TRIG3","pTRIG3 counts",4000,0.0,1000.0);
   TRIG5     = new TH1F("TRIG5","pTRIG5 counts",4000,0.0,1000.0);
@@ -135,7 +140,8 @@ void LumiYield::SlaveBegin(TTree * /*tree*/)
   GetOutputList()->Add(EventType);
   GetOutputList()->Add(bcm_before);
   GetOutputList()->Add(bcm_after);
-  GetOutputList()->Add(EDTM);
+  GetOutputList()->Add(HMS_EDTM);
+  GetOutputList()->Add(SHMS_EDTM);
   GetOutputList()->Add(TRIG1);
   GetOutputList()->Add(TRIG3);
   GetOutputList()->Add(TRIG5);
@@ -179,7 +185,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 
   if (*T_coin_pTRIG3_ROC1_tdcTime>=250.0 && *T_coin_pTRIG3_ROC1_tdcTime<=380.0) // Event was an HMS Single
     {
-      if (*T_coin_pEDTM_tdcTime>141.0 && *T_coin_pEDTM_tdcTime<145.0) EDTM->Fill(*T_coin_pEDTM_tdcTime);
+      if (*T_coin_pEDTM_tdcTime>141.0 && *T_coin_pEDTM_tdcTime<145.0) HMS_EDTM->Fill(*T_coin_pEDTM_tdcTime);
       TRIG3_cut->Fill(*T_coin_pTRIG3_ROC1_tdcTime);
       //Tracking efficiency calculation, fiducial cut region based off
       //DEF-files/HMS/PRODUCTION/CUTS/hstackana_reconstruct_cuts.def file
@@ -232,7 +238,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 
   if (*T_coin_pTRIG1_ROC2_tdcTime>=389.0 && *T_coin_pTRIG1_ROC2_tdcTime<=394.0) // Event was an SHMS Single
     {
-      if (*T_coin_pEDTM_tdcTime>141.0 && *T_coin_pEDTM_tdcTime<143.0) EDTM->Fill(*T_coin_pEDTM_tdcTime);
+      if (*T_coin_pEDTM_tdcTime>141.0 && *T_coin_pEDTM_tdcTime<143.0) SHMS_EDTM->Fill(*T_coin_pEDTM_tdcTime);
       TRIG1_cut->Fill(*T_coin_pTRIG1_ROC2_tdcTime);
       //Tracking efficiency calculation, fiducial cut region based off
       //DEF-files/SHMS/PRODUCTION/CUTS/pstackana_reconstruct_cuts.def file
@@ -329,24 +335,30 @@ void LumiYield::Terminate()
   printf("\n\n");
   
   TString option = GetOption();
+  TString PS1_temp = option(0,option.Index("."));
+  TString PS3_temp = option(option.Index(".")+1,option.Length());
+  PS1 = PS1_temp.Atof();
+  PS3 = PS3_temp.Atof();
+
   Info("Terminate","Selection rules have been applied, plotting results");
+  cout << Form("Using prescale factors: PS1 %.0f, PS3 %.0f\n",PS1,PS3);
   cout << Form("Total number of events: %.0f\n",EventType->GetEntries());
-  cout << Form("Number of EDTM  Events: %.0f\n",EDTM->Integral());
-  cout << Form("Number of TRIG1 Events: %.0f\n",TRIG1_cut->Integral());
-  cout << Form("Number of TRIG3 Events: %.0f\n",TRIG3_cut->Integral());
+  cout << Form("Number of EDTM  Events: %.0f\n",(PS1*SHMS_EDTM->Integral() + PS3*HMS_EDTM->Integral()));
+  cout << Form("Number of TRIG1 Events: %.0f\n",(PS1*TRIG1_cut->Integral()));
+  cout << Form("Number of TRIG3 Events: %.0f\n",(PS3*TRIG3_cut->Integral()));
   //cout << Form("Number of TRIG5 Events: %.0f\n\n",TRIG5->Integral());
 
-  cout << Form("Number of HMS good events: %.0f",h_ecut_eff->GetEntries()) << "  +/- " << sqrt(h_ecut_eff->GetEntries()) << endl;
-  cout << Form("Calculated tracking efficiency: %f +/- %f\n",h_track_after->GetEntries()/h_track_before->GetEntries(),(h_track_after->GetEntries()/h_track_before->GetEntries())*sqrt((1/h_track_after->GetEntries()) + (1/h_track_before->GetEntries())));
-  cout << Form("Calculated electron tracking efficiency: %f +/- %f\n",h_etrack_after->GetEntries()/h_etrack_before->GetEntries(),(h_etrack_after->GetEntries()/h_etrack_before->GetEntries())*sqrt((1/h_etrack_after->GetEntries()) + (1/h_etrack_before->GetEntries())));
-  cout << Form("Calculated HMS Cherenkov efficiency: %f +/- %f\n\n",h_ecut_eff->GetEntries()/h_ecut_after->GetEntries(),(h_ecut_eff->GetEntries()/h_ecut_after->GetEntries())*sqrt((1/h_ecut_eff->GetEntries()) + (1/h_ecut_after->GetEntries())));
+  cout << Form("Number of HMS good events: %.0f",(PS3*h_ecut_eff->GetEntries())) << "  +/- " << sqrt(PS3*h_ecut_eff->GetEntries()) << endl;
+  cout << Form("Calculated tracking efficiency: %f +/- %f\n",h_track_after->GetEntries()/h_track_before->GetEntries(),sqrt((1/h_track_after->GetEntries()) + (1/h_track_before->GetEntries())));
+  cout << Form("Calculated electron tracking efficiency: %f +/- %f\n",h_etrack_after->GetEntries()/h_etrack_before->GetEntries(),sqrt((1/h_etrack_after->GetEntries()) + (1/h_etrack_before->GetEntries())));
+  cout << Form("Calculated HMS Cherenkov efficiency: %f +/- %f\n\n",h_ecut_eff->GetEntries()/h_ecut_after->GetEntries(),sqrt((1/h_ecut_eff->GetEntries()) + (1/h_ecut_after->GetEntries())));
 
-  cout << Form("Number of SHMS good events: %.0f",p_ecut_eff->GetEntries()) << "  +/- " << sqrt(p_ecut_eff->GetEntries()) << endl;
-  cout << Form("Calculated tracking efficiency: %f +/- %f\n",p_track_after->GetEntries()/p_track_before->GetEntries(),(p_track_after->GetEntries()/p_track_before->GetEntries())*sqrt((1/p_track_after->GetEntries()) + (1/p_track_before->GetEntries())));
-  cout << Form("Calculated hadron tracking efficiency: %f +/- %f\n",p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries(),(p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries())*sqrt((1/p_hadtrack_after->GetEntries()) + (1/p_hadtrack_before->GetEntries())));
-  cout << Form("Calculated pion tracking efficiency: %f +/- %f\n",p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries(),(p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries())*sqrt((1/p_pitrack_after->GetEntries()) + (1/p_pitrack_before->GetEntries())));
-  cout << Form("Calculated kaon tracking efficiency: %f +/- %f\n",p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries(),(p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries())*sqrt((1/p_Ktrack_after->GetEntries()) + (1/p_Ktrack_before->GetEntries())));
-  cout << Form("Calculated proton tracking efficiency: %f +/- %f\n",p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),(p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries())*sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())));
+  cout << Form("Number of SHMS good events: %.0f",(PS1*p_ecut_eff->GetEntries())) << "  +/- " << sqrt(PS1*p_ecut_eff->GetEntries()) << endl;
+  cout << Form("Calculated tracking efficiency: %f +/- %f\n",p_track_after->GetEntries()/p_track_before->GetEntries(),sqrt((1/p_track_after->GetEntries()) + (1/p_track_before->GetEntries())));
+  cout << Form("Calculated hadron tracking efficiency: %f +/- %f\n",p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries(),sqrt((1/p_hadtrack_after->GetEntries()) + (1/p_hadtrack_before->GetEntries())));
+  cout << Form("Calculated pion tracking efficiency: %f +/- %f\n",p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries(),sqrt((1/p_pitrack_after->GetEntries()) + (1/p_pitrack_before->GetEntries())));
+  cout << Form("Calculated kaon tracking efficiency: %f +/- %f\n",p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries(),sqrt((1/p_Ktrack_after->GetEntries()) + (1/p_Ktrack_before->GetEntries())));
+  cout << Form("Calculated proton tracking efficiency: %f +/- %f\n",p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())));
   //cout << Form("Calculated SHMS Cherenkov efficiency: %f +/- %f\n\n",p_ecut_eff->GetEntries()/p_ecut_after->GetEntries(),(p_ecut_eff->GetEntries()/p_ecut_after->GetEntries())*sqrt((1/p_ecut_eff->GetEntries()) + (1/p_ecut_after->GetEntries())));
     
   TCanvas *c_ID_cut;
@@ -409,7 +421,7 @@ void LumiYield::Terminate()
   c_EventType->cd(1);
   EventType->Draw();
   c_EventType->cd(2);
-  EDTM->Draw();
+  SHMS_EDTM->Draw();
   c_EventType->cd(3);
   TRIG1->Draw();
   c_EventType->cd(4);
@@ -417,6 +429,18 @@ void LumiYield::Terminate()
   
   ofstream myfile1;
   myfile1.open ("Yield_Data.dat", fstream::app);
-  myfile1 << Form("%.0f %.0f %.0f %.0f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f ",h_ecut_eff->GetEntries(),sqrt(h_ecut_eff->GetEntries()),p_ecut_eff->GetEntries(),sqrt(p_ecut_eff->GetEntries()),h_track_after->GetEntries()/h_track_before->GetEntries(),(h_track_after->GetEntries()/h_track_before->GetEntries())*sqrt((1/h_track_after->GetEntries()) + (1/h_track_before->GetEntries())),h_etrack_after->GetEntries()/h_etrack_before->GetEntries(),(h_etrack_after->GetEntries()/h_etrack_before->GetEntries())*sqrt((1/h_etrack_after->GetEntries()) + (1/h_etrack_before->GetEntries())),p_track_after->GetEntries()/p_track_before->GetEntries(),(p_track_after->GetEntries()/p_track_before->GetEntries())*sqrt((1/p_track_after->GetEntries()) + (1/p_track_before->GetEntries())),p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries(),(p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries())*sqrt((1/p_hadtrack_after->GetEntries()) + (1/p_hadtrack_before->GetEntries())),p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries(),(p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries())*sqrt((1/p_pitrack_after->GetEntries()) + (1/p_pitrack_before->GetEntries())),p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries(),(p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries())*sqrt((1/p_Ktrack_after->GetEntries()) + (1/p_Ktrack_before->GetEntries())),p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),(p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries())*sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())),EDTM->Integral());
+  myfile1 << Form("%.0f %.0f %.0f %.0f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.0f %.0f ",
+		  (PS3*h_ecut_eff->GetEntries()),sqrt(PS3*h_ecut_eff->GetEntries()),
+		  (PS1*p_ecut_eff->GetEntries()),sqrt(PS1*p_ecut_eff->GetEntries()),
+		  h_track_after->GetEntries()/h_track_before->GetEntries(),sqrt((1/h_track_after->GetEntries()) + (1/h_track_before->GetEntries())),
+		  h_etrack_after->GetEntries()/h_etrack_before->GetEntries(),sqrt((1/h_etrack_after->GetEntries()) + (1/h_etrack_before->GetEntries())),
+		  p_track_after->GetEntries()/p_track_before->GetEntries(),sqrt((1/p_track_after->GetEntries()) + (1/p_track_before->GetEntries())),
+		  p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries(),sqrt((1/p_hadtrack_after->GetEntries()) + (1/p_hadtrack_before->GetEntries())),
+		  p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries(),sqrt((1/p_pitrack_after->GetEntries()) + (1/p_pitrack_before->GetEntries())),
+		  p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries(),sqrt((1/p_Ktrack_after->GetEntries()) + (1/p_Ktrack_before->GetEntries())),
+		  p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())),
+		  (PS1*SHMS_EDTM->Integral() + PS3*HMS_EDTM->Integral()),
+		  (PS1*TRIG1->Integral()),
+		  (PS3*TRIG3->Integral()));
   myfile1.close();
 }

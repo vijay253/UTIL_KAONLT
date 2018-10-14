@@ -31,6 +31,34 @@ void run_LumiYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
     if( pscal<=0 ) return;
   }
 
+  fstream REPORT_file;
+  REPORT_file.open (Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%i_%i.report",RunNumber,MaxEvent));
+  Int_t line_num = 0;
+  string line;
+  TString line_PS1;
+  TString line_PS3;
+
+  if (REPORT_file.is_open()) {
+    while (getline(REPORT_file,line)) {
+      line_num++;
+      if (line_num == 90) {
+	line_PS1 = line;
+      }
+      if (line_num == 92) {
+	line_PS3 = line;
+      }
+    }
+  }
+  
+  REPORT_file.close();
+  line_PS1 = line_PS1(13,line_PS1.Length());
+  line_PS3 = line_PS3(13,line_PS3.Length());
+
+  Int_t PS1 = line_PS1.Atoi();
+  Int_t PS3 = line_PS3.Atoi();
+
+  cout << Form("Using prescale factors: PS1 %i, PS3 %i\n",PS1,PS3);
+
   ofstream myfile1;
   myfile1.open ("Yield_Data.dat", fstream::app);
   myfile1 << Form("%d ", RunNumber);
@@ -39,7 +67,7 @@ void run_LumiYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
   //Begin Counting Good Kaon Events
   TChain ch("T");
   ch.Add(Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_Luminosity_coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
-  TString option = Form("%i",RunNumber);
+  TString option = Form("%i.%i",PS1,PS3);
 
   TProof *proof = TProof::Open("workers=4");
   //proof->SetProgressDialog(0);  

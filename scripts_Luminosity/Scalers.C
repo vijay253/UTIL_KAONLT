@@ -50,13 +50,11 @@ void Scalers::SlaveBegin(TTree * /*tree*/)
 
   
 
-  /*TString option = GetOption();
-  TString Current_st = option(option.Length()-2,option.Length());
-  if (Current_st.BeginsWith(".")) {
-    Current_st = option(option.Length()-1,option.Length());
-  }
-  Current = Current_st.Atoi();
-  Current = option.Atoi();*/
+  TString option = GetOption();
+  TString PS1_temp = option(0,option.Index("."));
+  TString PS3_temp = option(option.Index(".")+1,option.Length());
+  PS1 = PS1_temp.Atof();
+  PS3 = PS3_temp.Atof();
 
   bcm_name[0] = "BCM1 ";
   bcm_name[1] = "BCM2 ";
@@ -223,6 +221,12 @@ void Scalers::Terminate()
   // a query. It always runs on the client, it can be used to present
   // the results graphically or save the results to file.
   
+  TString option = GetOption();
+  TString PS1_temp = option(0,option.Index("."));
+  TString PS3_temp = option(option.Index(".")+1,option.Length());
+  PS1 = PS1_temp.Atof();
+  PS3 = PS3_temp.Atof();
+  cout << Form("Using prescale factors: PS1 %.0f, PS3 %.0f\n",PS1,PS3);
   cout << "\n\nUsed current threshold value: 5 uA" << endl;
 
   for (Int_t ibcm = 0; ibcm < NBCM; ibcm++) {
@@ -232,7 +236,7 @@ void Scalers::Terminate()
   cout <<"\n\n";
 
   
-  cout << Form("L1ACC counts: %.0f, %s Pretrigger Counts: %.0f, %s Pretrigger Counts: %.0f\nComputer Livetime: %f +/- %f", acctrig_sum, trig_name[0].c_str(), trig_sum[0], trig_name[2].c_str(), trig_sum[2], acctrig_sum/((trig_sum[0]/1.0) + (trig_sum[2]/1.0)), (acctrig_sum/((trig_sum[0]/1.0) + (trig_sum[2]/1.0)))*sqrt((1/(trig_sum[0]/1.0))+(1/(trig_sum[2]/1.0))+(1/acctrig_sum))) << endl;
+  cout << Form("L1ACC counts: %.0f, %s Presacled Pretrigger Counts: %.0f, %s Prescaled Pretrigger Counts: %.0f\nComputer Livetime: %f +/- %f", acctrig_sum, trig_name[0].c_str(), trig_sum[0]/PS1, trig_name[2].c_str(), trig_sum[2]/PS3, acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)), (acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)))*sqrt((1/(trig_sum[0]/PS1))+(1/(trig_sum[2]/PS3))+(1/acctrig_sum))) << endl;
   
 
   //cout <<"\n\n";
@@ -270,8 +274,8 @@ void Scalers::Terminate()
 		  charge_sum[3],
 		  trig_sum[0],
 		  trig_sum[2],
-		  acctrig_sum/((trig_sum[0]/1.0) + (trig_sum[2]/1.0)),
-		  (acctrig_sum/((trig_sum[0]/1.0) + (trig_sum[2]/1.0)))*sqrt((1/(trig_sum[0]/1.0))+(1/(trig_sum[2]/1.0))+(1/acctrig_sum)),
+		  acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)),
+		  (acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)))*sqrt((1/(trig_sum[0]/PS1))+(1/(trig_sum[2]/PS3))+(1/acctrig_sum)),
 		  1 - ((6/5)*(PRE_sum[1]-PRE_sum[2])/(PRE_sum[1])),
 		  (PRE_sum[1]-PRE_sum[2])/(PRE_sum[1]) * sqrt( (sqrt(PRE_sum[1]) + sqrt(PRE_sum[2]))/(PRE_sum[1] - PRE_sum[2]) + (sqrt(PRE_sum[1])/PRE_sum[1]) ),
 		  1 - ((6/5)*(SHMS_PRE_sum[1]-SHMS_PRE_sum[2])/(SHMS_PRE_sum[1])),

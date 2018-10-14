@@ -29,6 +29,9 @@ class LumiYield : public TSelector {
 
   Bool_t          fFullShow = kFALSE;
 
+  Double_t        PS1;
+  Double_t        PS3;
+
   TH1F           *h_ecut_before;
   TH1F           *h_ecut_after;
   TH1F           *h_ecut_eff;
@@ -70,7 +73,8 @@ class LumiYield : public TSelector {
   TH1F           *EventType;
   TH1F           *bcm_before;
   TH1F           *bcm_after;
-  TH1F           *EDTM;
+  TH1F           *HMS_EDTM;
+  TH1F           *SHMS_EDTM;
   TH1F           *TRIG1;
   TH1F           *TRIG3;
   TH1F           *TRIG5;
@@ -143,7 +147,7 @@ class LumiYield : public TSelector {
   
   TTreeReaderValue<Int_t> EvtType                    = {fReader, "fEvtHdr.fEvtType"};
 
-  LumiYield(TTree * /*tree*/ =0) {h_ecut_before = 0, h_ecut_after = 0, h_ecut_eff = 0, h_dp_before = 0, h_dp_after = 0, h_th_before = 0, h_th_after = 0, h_ph_before = 0, h_ph_after =0, h_show_before=0, h_show_after=0, h_track_before=0, h_track_after=0, h_etrack_before=0, h_etrack_after=0, p_ecut_before = 0, p_ecut_after = 0, p_ecut_eff = 0, p_dp_before = 0, p_dp_after = 0, p_th_before = 0, p_th_after = 0, p_ph_before = 0, p_ph_after =0, p_show_before=0, p_show_after=0, p_track_before=0, p_track_after=0, p_hadtrack_before=0, p_hadtrack_after=0, p_pitrack_before=0, p_pitrack_after=0, p_Ktrack_before=0, p_Ktrack_after=0, p_ptrack_before=0, p_ptrack_after=0, bcm_before=0, bcm_after=0, EventType=0, EDTM=0, TRIG1=0,TRIG3=0,TRIG5=0, TRIG1_cut=0,TRIG3_cut=0,TRIG5_cut=0;}
+  LumiYield(TTree * /*tree*/ =0) {h_ecut_before = 0, h_ecut_after = 0, h_ecut_eff = 0, h_dp_before = 0, h_dp_after = 0, h_th_before = 0, h_th_after = 0, h_ph_before = 0, h_ph_after =0, h_show_before=0, h_show_after=0, h_track_before=0, h_track_after=0, h_etrack_before=0, h_etrack_after=0, p_ecut_before = 0, p_ecut_after = 0, p_ecut_eff = 0, p_dp_before = 0, p_dp_after = 0, p_th_before = 0, p_th_after = 0, p_ph_before = 0, p_ph_after =0, p_show_before=0, p_show_after=0, p_track_before=0, p_track_after=0, p_hadtrack_before=0, p_hadtrack_after=0, p_pitrack_before=0, p_pitrack_after=0, p_Ktrack_before=0, p_Ktrack_after=0, p_ptrack_before=0, p_ptrack_after=0, bcm_before=0, bcm_after=0, EventType=0, SHMS_EDTM=0, HMS_EDTM=0, TRIG1=0,TRIG3=0,TRIG5=0, TRIG1_cut=0,TRIG3_cut=0,TRIG5_cut=0;}
   virtual ~LumiYield() { }
   virtual Int_t   Version() const { return 2; }
   virtual void    Begin(TTree *tree);
