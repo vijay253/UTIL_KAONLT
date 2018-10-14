@@ -5,7 +5,7 @@ spec=$1
 SPEC=$(echo "$spec" | tr '[:lower:]' '[:upper:]')
 
 #Input run numbers
-inputFile="../../elastics/inputRuns"
+inputFile="../elastics/inputRuns"
 
 while IFS='' read -r line || [[ -n "$line" ]];
 do
@@ -21,7 +21,7 @@ numEvts=-1
 script="replay_elastics_hms.C"
 
 #which commands to run
-runScript="./hcana -l -q \"../SCRIPTS/${SPEC}/PRODUCTION/${script}(${runNum},${numEvts})\""
+runScript="./hcana -l -q \"SCRIPTS/${SPEC}/PRODUCTION/${script}(${runNum},${numEvts})\""
 rootFile="${spec}_coin_replay_elastics_${runNum}_${numEvts}.root"
 
 #Excecute 
