@@ -161,7 +161,7 @@ void replay_elastics_hms(Int_t RunNumber=0, Int_t MaxEvent=0) {
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template.
-  analyzer->PrintReport("TEMPLATES/HMS/PRODUCTION/hstackana_elastics.template",
+  analyzer->PrintReport("TEMPLATES/HMS/PRODUCTION/hstackana_production.template",
 			Form("REPORT_OUTPUT/HMS/PRODUCTION/replay_hms_coin_elastics_%d_%d.report", RunNumber, MaxEvent));
 
 }

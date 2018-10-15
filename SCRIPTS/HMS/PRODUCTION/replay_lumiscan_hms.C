@@ -161,7 +161,7 @@ void replay_lumiscan_hms(Int_t RunNumber=0, Int_t MaxEvent=0) {
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template.
-  analyzer->PrintReport("TEMPLATES/HMS/PRODUCTION/hstackana_lumiscan.template",
+  analyzer->PrintReport("TEMPLATES/HMS/PRODUCTION/hstackana_production.template",
 			Form("REPORT_OUTPUT/HMS/PRODUCTION/replay_hms_coin_lumiscan_%d_%d.report", RunNumber, MaxEvent));
 
 }
