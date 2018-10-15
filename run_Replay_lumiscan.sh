@@ -4,7 +4,7 @@ spec=$1
 SPEC=$(echo "$spec" | tr '[:lower:]' '[:upper:]')
 
 #Input run numbers
-inputFile="../lumScan/inputRuns"
+inputFile="../lumScan/runInputs"
 
 while IFS='' read -r line || [[ -n "$line" ]];
 do
