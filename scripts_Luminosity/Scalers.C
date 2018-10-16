@@ -160,11 +160,11 @@ Bool_t Scalers::Process(Long64_t entry)
     if (*H_1Mhz_scalerTime != previous_time) {
       current_I = (bcm_value[ibcm] - previous_charge[ibcm])/(*H_1Mhz_scalerTime - previous_time);
     }
-    if (current_I > 5) {
+    if (current_I > 10) {
       charge_sum[ibcm] += (bcm_value[ibcm] - previous_charge[ibcm]);
       time_sum[ibcm] += (*H_1Mhz_scalerTime - previous_time);
     }
-    if (ibcm == 3 && (current_I > 5)) {
+    if (ibcm == 3 && (current_I > 10)) {
       EDTM_current = (EDTM_value - previous_EDTM);
       EDTM_sum += EDTM_current;
       acctrig_sum += ((acctrig_value - EDTM_current) - previous_acctrig);
@@ -236,7 +236,7 @@ void Scalers::Terminate()
   cout <<"\n\n";
 
   
-  cout << Form("L1ACC counts: %.0f, %s Presacled Pretrigger Counts: %.0f, %s Prescaled Pretrigger Counts: %.0f\nComputer Livetime: %f +/- %f", acctrig_sum, trig_name[0].c_str(), trig_sum[0]/PS1, trig_name[2].c_str(), trig_sum[2]/PS3, acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)), (acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)))*sqrt((1/(trig_sum[0]/PS1))+(1/(trig_sum[2]/PS3))+(1/acctrig_sum))) << endl;
+  cout << Form("L1ACC counts: %.0f, %s Prescaled Pretrigger Counts: %.0f, %s Prescaled Pretrigger Counts: %.0f\nComputer Livetime: %f +/- %f", acctrig_sum, trig_name[0].c_str(), trig_sum[0]/PS1, trig_name[2].c_str(), trig_sum[2]/PS3, acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)), (acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)))*sqrt((1/(trig_sum[0]/PS1))+(1/(trig_sum[2]/PS3))+(1/acctrig_sum))) << endl;
   
 
   //cout <<"\n\n";

@@ -97,12 +97,13 @@ void LumiYield::SlaveBegin(TTree * /*tree*/)
   bcm_before  = new TH1F("bcm_before" ,"Counts before current cut", 100,0,100);
   bcm_after   = new TH1F("bcm_after"  ,"Counts after current cut", 100,0,100);
 
+  EDTM  = new TH1F("EDTM","EDTM counts",4000,-1000.0,2000.0);
   HMS_EDTM  = new TH1F("HMS_EDTM","HMS EDTM counts",4000,-1000.0,1000.0);
-  SHMS_EDTM = new TH1F("SHMS_EDTM","SHMS EDTM counts",4000,-1000.0,1000.0);
-  TRIG1     = new TH1F("TRIG1","pTRIG1 counts",4000,0.0,1000.0);
-  TRIG3     = new TH1F("TRIG3","pTRIG3 counts",4000,0.0,1000.0);
+  SHMS_EDTM = new TH1F("SHMS_EDTM","SHMS EDTM counts",4000,-1000.0,2000.0);
+  TRIG1     = new TH1F("TRIG1","pTRIG1 counts",4000,-1000.0,2000.0);
+  TRIG3     = new TH1F("TRIG3","pTRIG3 counts",4000,-1000.0,2000.0);
   TRIG5     = new TH1F("TRIG5","pTRIG5 counts",4000,0.0,1000.0);
-  TRIG1_cut = new TH1F("TRIG1_cut","pTRIG1 counts",4000,0.0,1000.0);
+  TRIG1_cut = new TH1F("TRIG1_cut","pTRIG1 counts",4000,-1000.0,1000.0);
   TRIG3_cut = new TH1F("TRIG3_cut","pTRIG3 counts",4000,0.0,1000.0);
   TRIG5_cut = new TH1F("TRIG5_cut","pTRIG5 counts",4000,0.0,1000.0);
   
@@ -140,6 +141,7 @@ void LumiYield::SlaveBegin(TTree * /*tree*/)
   GetOutputList()->Add(EventType);
   GetOutputList()->Add(bcm_before);
   GetOutputList()->Add(bcm_after);
+  GetOutputList()->Add(EDTM);
   GetOutputList()->Add(HMS_EDTM);
   GetOutputList()->Add(SHMS_EDTM);
   GetOutputList()->Add(TRIG1);
@@ -172,21 +174,119 @@ Bool_t LumiYield::Process(Long64_t entry)
 
   bcm_before->Fill(*H_bcm_bcm4b_AvgCurrent);
 
-  if (*H_bcm_bcm4b_AvgCurrent < 5.0) return kTRUE;
+  if (*H_bcm_bcm4b_AvgCurrent < 10.0) return kTRUE;
 
   bcm_after->Fill(*H_bcm_bcm4b_AvgCurrent);
 
-  
+  if (*T_coin_pEDTM_tdcTime!=0.0) EDTM->Fill(*T_coin_pEDTM_tdcTime);
   if (*T_coin_pTRIG1_ROC2_tdcTime!=0.0) TRIG1->Fill(*T_coin_pTRIG1_ROC2_tdcTime);
-  if (*T_coin_pTRIG3_ROC1_tdcTime!=0.0) TRIG3->Fill(*T_coin_pTRIG3_ROC1_tdcTime);
+  if (*T_coin_pTRIG3_ROC2_tdcTime!=0.0) TRIG3->Fill(*T_coin_pTRIG3_ROC2_tdcTime);
   if (*T_coin_pTRIG5_ROC2_tdcTime!=0.0) TRIG5->Fill(*T_coin_pTRIG5_ROC2_tdcTime);
   EventType->Fill(*EvtType);
-
-
-  if (*T_coin_pTRIG3_ROC1_tdcTime>=250.0 && *T_coin_pTRIG3_ROC1_tdcTime<=380.0) // Event was an HMS Single
+  
+  if (*T_coin_pTRIG1_ROC2_tdcTime>=388.0 && 
+      *T_coin_pTRIG1_ROC2_tdcTime<=395.0 && 
+      *T_coin_pEDTM_tdcTime>140.0 && *T_coin_pEDTM_tdcTime<144.0)
     {
-      if (*T_coin_pEDTM_tdcTime>141.0 && *T_coin_pEDTM_tdcTime<145.0) HMS_EDTM->Fill(*T_coin_pEDTM_tdcTime);
-      TRIG3_cut->Fill(*T_coin_pTRIG3_ROC1_tdcTime);
+      SHMS_EDTM->Fill(*T_coin_pEDTM_tdcTime);
+    }
+
+  if (*T_coin_pTRIG1_ROC2_tdcTime>=388.0 && 
+      *T_coin_pTRIG1_ROC2_tdcTime<=395.0 && 
+      (*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>144.0)/**EvtType==1*/) // Event was an SHMS Single
+    {
+      TRIG1_cut->Fill(*T_coin_pTRIG1_ROC2_tdcTime);
+       
+      //Tracking efficiency calculation, fiducial cut region based off
+      //DEF-files/SHMS/PRODUCTION/CUTS/pstackana_reconstruct_cuts.def file
+      if (P_hod_goodscinhit[0] == 1                                         &&
+	  P_hod_betanotrack[0] > 0.5 && P_hod_betanotrack[0] < 1.4          &&
+	  (P_dc_1x1_nhit[0] + P_dc_1u2_nhit[0] + P_dc_1u1_nhit[0] + 
+	   P_dc_1v1_nhit[0] + P_dc_1x2_nhit[0] + P_dc_1v2_nhit[0]) < 20     &&	 
+	  (P_dc_2x1_nhit[0] + P_dc_2u2_nhit[0] + P_dc_2u1_nhit[0] + 
+	   P_dc_2v1_nhit[0] + P_dc_2x2_nhit[0] + P_dc_2v2_nhit[0]) < 20)
+	{
+	  p_track_before->Fill(P_dc_ntrack[0]);
+	  if (P_cal_etotnorm[0] <= 0.6 && P_cal_etotnorm[0] > 0.05) 
+	    {
+	      p_hadtrack_before->Fill(P_dc_ntrack[0]);
+	      if (P_hgcer_npeSum[0] > 1.5) 
+		{
+		  p_pitrack_before->Fill(P_dc_ntrack[0]);
+		}
+	      if (P_hgcer_npeSum[0] < 1.5) 
+		{
+		  if (P_aero_npeSum[0] > 1.5) 
+		    {
+		      p_Ktrack_before->Fill(P_dc_ntrack[0]);
+		    }
+		  if (P_aero_npeSum[0] < 1.5) 
+		    {
+		      p_ptrack_before->Fill(P_dc_ntrack[0]);
+		    }
+		}
+	    }
+	  if (P_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found
+	    {
+	      p_track_after->Fill(P_dc_ntrack[0]);
+	      if (P_cal_etotnorm[0] <= 0.6 && P_cal_etotnorm[0] > 0.05) 
+		{
+		  p_hadtrack_after->Fill(P_dc_ntrack[0]);
+		  if (P_hgcer_npeSum[0] > 1.5) 
+		    {
+		      p_pitrack_after->Fill(P_dc_ntrack[0]);
+		    }
+		  if (P_hgcer_npeSum[0] < 1.5) 
+		    {
+		      if (P_aero_npeSum[0] > 1.5) 
+			{
+			  p_Ktrack_after->Fill(P_dc_ntrack[0]);
+			}
+		      if (P_aero_npeSum[0] < 1.5) 
+			{
+			  p_ptrack_after->Fill(P_dc_ntrack[0]);
+			}
+		    }
+		}
+	    }
+	}
+   
+      p_ecut_before->Fill(P_hgcer_npeSum[0]);/*
+      p_dp_before->Fill(P_gtr_dp[0]);
+      p_th_before->Fill(P_tr_tg_th[0]);
+      p_ph_before->Fill(P_tr_tg_ph[0]);*/
+      p_show_before->Fill(P_cal_etotnorm[0]);
+
+      if (P_cal_etotnorm[0] > 0.7) return kTRUE;
+      p_ecut_after->Fill(P_hgcer_npeSum[0]);
+      //if (P_hgcer_npeSum[0] > 1.5) return kTRUE;
+      //if (P_aero_npeSum[0] < 1.5) return kTRUE;
+      if (P_gtr_dp[0] < -10.0 || P_gtr_dp[0] > 20.0) return kTRUE;
+      if (TMath::Abs(P_tr_tg_th[0]) > 0.080) return kTRUE;
+      if (TMath::Abs(P_tr_tg_ph[0]) > 0.035) return kTRUE;
+
+
+      p_ecut_eff->Fill(P_hgcer_npeSum[0]);/*
+      p_dp_after->Fill(P_gtr_dp[0]);
+      p_th_after->Fill(P_tr_tg_th[0]);
+      p_ph_after->Fill(P_tr_tg_ph[0]);*/
+      p_show_after->Fill(P_cal_etotnorm[0]);
+    }
+
+  if ((*T_coin_pTRIG3_ROC2_tdcTime<=390.0 || 
+       *T_coin_pTRIG3_ROC2_tdcTime>=410.0) && 
+      *T_coin_pEDTM_tdcTime>140.0 && *T_coin_pEDTM_tdcTime<160.0)
+    {
+      HMS_EDTM->Fill(*T_coin_pEDTM_tdcTime);
+    }
+
+  if (*T_coin_pTRIG3_ROC2_tdcTime>=390.0 && 
+      *T_coin_pTRIG3_ROC2_tdcTime<=410.0 && 
+      (*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>160.0)/**EvtType==2*/) // Event was an HMS Single
+    {
+      
+      TRIG3_cut->Fill(*T_coin_pTRIG3_ROC2_tdcTime);
+
       //Tracking efficiency calculation, fiducial cut region based off
       //DEF-files/HMS/PRODUCTION/CUTS/hstackana_reconstruct_cuts.def file
       if (H_hod_goodscinhit[0] == 1                                         &&
@@ -218,7 +318,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 
       if (H_cal_etotnorm[0] < 0.9) return kTRUE;
       if (H_cal_etotnorm[0] > 1.5) return kTRUE;
-      if (H_cer_npeSum[0] < 1.5) return kTRUE;
+      //if (H_cer_npeSum[0] < 1.5) return kTRUE;
       if (TMath::Abs(H_gtr_dp[0]) > 8.0) return kTRUE;
       if (TMath::Abs(H_tr_tg_th[0]) > 0.080) return kTRUE;
       if (TMath::Abs(H_tr_tg_ph[0]) > 0.035) return kTRUE;
@@ -230,90 +330,9 @@ Bool_t LumiYield::Process(Long64_t entry)
       h_ph_after->Fill(H_tr_tg_ph[0]);
       h_show_after->Fill(H_cal_etotnorm[0]);
 
-      if (H_cer_npeSum[0] < 1.5) return kTRUE;
+      //if (H_cer_npeSum[0] < 1.5) return kTRUE;
 
       h_ecut_eff->Fill(H_cer_npeSum[0]);
-    }
-
-
-  if (*T_coin_pTRIG1_ROC2_tdcTime>=389.0 && *T_coin_pTRIG1_ROC2_tdcTime<=394.0) // Event was an SHMS Single
-    {
-      if (*T_coin_pEDTM_tdcTime>141.0 && *T_coin_pEDTM_tdcTime<143.0) SHMS_EDTM->Fill(*T_coin_pEDTM_tdcTime);
-      TRIG1_cut->Fill(*T_coin_pTRIG1_ROC2_tdcTime);
-      //Tracking efficiency calculation, fiducial cut region based off
-      //DEF-files/SHMS/PRODUCTION/CUTS/pstackana_reconstruct_cuts.def file
-      if (P_hod_goodscinhit[0] == 1                                         &&
-	  P_hod_betanotrack[0] > 0.5 && P_hod_betanotrack[0] < 1.4          &&
-	  (P_dc_1x1_nhit[0] + P_dc_1u2_nhit[0] + P_dc_1u1_nhit[0] + 
-	   P_dc_1v1_nhit[0] + P_dc_1x2_nhit[0] + P_dc_1v2_nhit[0]) < 20     &&	 
-	  (P_dc_2x1_nhit[0] + P_dc_2u2_nhit[0] + P_dc_2u1_nhit[0] + 
-	   P_dc_2v1_nhit[0] + P_dc_2x2_nhit[0] + P_dc_2v2_nhit[0]) < 20)
-	{
-	  p_track_before->Fill(P_dc_ntrack[0]);
-	  if (P_cal_etotnorm[0] <= 0.6 && P_cal_etotnorm[0] > 0.0) 
-	    {
-	      p_hadtrack_before->Fill(P_dc_ntrack[0]);
-	      if (P_hgcer_npeSum[0] > 1.5) 
-		{
-		  p_pitrack_before->Fill(P_dc_ntrack[0]);
-		}
-	      if (P_hgcer_npeSum[0] < 1.5) 
-		{
-		  if (P_aero_npeSum[0] > 1.5) 
-		    {
-		      p_Ktrack_before->Fill(P_dc_ntrack[0]);
-		    }
-		  if (P_aero_npeSum[0] < 1.5) 
-		    {
-		      p_ptrack_before->Fill(P_dc_ntrack[0]);
-		    }
-		}
-	    }
-	  if (P_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found
-	    {
-	      p_track_after->Fill(P_dc_ntrack[0]);
-	      if (P_cal_etotnorm[0] <= 0.6 && P_cal_etotnorm[0] > 0.0) 
-		{
-		  p_hadtrack_after->Fill(P_dc_ntrack[0]);
-		  if (P_hgcer_npeSum[0] > 1.5) 
-		    {
-		      p_pitrack_after->Fill(P_dc_ntrack[0]);
-		    }
-		  if (P_hgcer_npeSum[0] < 1.5) 
-		    {
-		      if (P_aero_npeSum[0] > 1.5) 
-			{
-			  p_Ktrack_after->Fill(P_dc_ntrack[0]);
-			}
-		      if (P_aero_npeSum[0] < 1.5) 
-			{
-			  p_ptrack_after->Fill(P_dc_ntrack[0]);
-			}
-		    }
-		}
-	    }
-	}
-   
-      p_ecut_before->Fill(P_hgcer_npeSum[0]);/*
-      p_dp_before->Fill(P_gtr_dp[0]);
-      p_th_before->Fill(P_tr_tg_th[0]);
-      p_ph_before->Fill(P_tr_tg_ph[0]);*/
-      p_show_before->Fill(P_cal_etotnorm[0]);
-
-      if (P_cal_etotnorm[0] > 0.7) return kTRUE;
-      p_ecut_after->Fill(P_hgcer_npeSum[0]);
-      if (P_hgcer_npeSum[0] > 1.5) return kTRUE;
-      if (P_aero_npeSum[0] < 1.5) return kTRUE;
-      if (P_gtr_dp[0] < -10.0 || P_gtr_dp[0] > 20.0) return kTRUE;
-      if (TMath::Abs(P_tr_tg_th[0]) > 0.080) return kTRUE;
-      if (TMath::Abs(P_tr_tg_ph[0]) > 0.035) return kTRUE;
-
-
-      p_ecut_eff->Fill(P_hgcer_npeSum[0]);/*
-      p_dp_after->Fill(P_gtr_dp[0]);
-      p_th_after->Fill(P_tr_tg_th[0]);
-      p_ph_after->Fill(P_tr_tg_ph[0]);*/
-      p_show_after->Fill(P_cal_etotnorm[0]);
     }
 
   return kTRUE;
@@ -360,7 +379,7 @@ void LumiYield::Terminate()
   cout << Form("Calculated kaon tracking efficiency: %f +/- %f\n",p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries(),sqrt((1/p_Ktrack_after->GetEntries()) + (1/p_Ktrack_before->GetEntries())));
   cout << Form("Calculated proton tracking efficiency: %f +/- %f\n",p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())));
   //cout << Form("Calculated SHMS Cherenkov efficiency: %f +/- %f\n\n",p_ecut_eff->GetEntries()/p_ecut_after->GetEntries(),(p_ecut_eff->GetEntries()/p_ecut_after->GetEntries())*sqrt((1/p_ecut_eff->GetEntries()) + (1/p_ecut_after->GetEntries())));
-    
+   
   TCanvas *c_ID_cut;
   c_ID_cut = new TCanvas("c_ID_cut","Particle ID Information");
   c_ID_cut->Divide(3,2);
@@ -421,26 +440,38 @@ void LumiYield::Terminate()
   c_EventType->cd(1);
   EventType->Draw();
   c_EventType->cd(2);
-  SHMS_EDTM->Draw();
+  HMS_EDTM->Draw();
   c_EventType->cd(3);
-  TRIG1->Draw();
+  TRIG1_cut->Draw();
   c_EventType->cd(4);
   TRIG3->Draw();
-  
+ 
   ofstream myfile1;
   myfile1.open ("Yield_Data.dat", fstream::app);
   myfile1 << Form("%.0f %.0f %.0f %.0f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.0f %.0f ",
+		  //HMS Evts
 		  (PS3*h_ecut_eff->GetEntries()),sqrt(PS3*h_ecut_eff->GetEntries()),
-		  (PS1*p_ecut_eff->GetEntries()),sqrt(PS1*p_ecut_eff->GetEntries()),
-		  h_track_after->GetEntries()/h_track_before->GetEntries(),sqrt((1/h_track_after->GetEntries()) + (1/h_track_before->GetEntries())),
-		  h_etrack_after->GetEntries()/h_etrack_before->GetEntries(),sqrt((1/h_etrack_after->GetEntries()) + (1/h_etrack_before->GetEntries())),
-		  p_track_after->GetEntries()/p_track_before->GetEntries(),sqrt((1/p_track_after->GetEntries()) + (1/p_track_before->GetEntries())),
-		  p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries(),sqrt((1/p_hadtrack_after->GetEntries()) + (1/p_hadtrack_before->GetEntries())),
-		  p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries(),sqrt((1/p_pitrack_after->GetEntries()) + (1/p_pitrack_before->GetEntries())),
-		  p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries(),sqrt((1/p_Ktrack_after->GetEntries()) + (1/p_Ktrack_before->GetEntries())),
-		  p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())),
+		  //SHMS Evts
+  		  (PS1*p_ecut_eff->GetEntries()),sqrt(PS1*p_ecut_eff->GetEntries()),
+		  //HMS Track
+		  h_track_after->GetEntries()/h_track_before->GetEntries(),(h_track_after->GetEntries()/h_track_before->GetEntries())*sqrt((1/h_track_after->GetEntries()) + (1/h_track_before->GetEntries())),
+		  //e Track
+		  h_etrack_after->GetEntries()/h_etrack_before->GetEntries(),(h_etrack_after->GetEntries()/h_etrack_before->GetEntries())*sqrt((1/h_etrack_after->GetEntries()) + (1/h_etrack_before->GetEntries())),
+		  //SHMS Track
+		  p_track_after->GetEntries()/p_track_before->GetEntries(),(p_track_after->GetEntries()/p_track_before->GetEntries())*sqrt((1/p_track_after->GetEntries()) + (1/p_track_before->GetEntries())),
+		  //h Track
+		  p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries(),(p_hadtrack_after->GetEntries()/p_hadtrack_before->GetEntries())*sqrt((1/p_hadtrack_after->GetEntries()) + (1/p_hadtrack_before->GetEntries())),
+		  //Pi Track
+		  p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries(),(p_pitrack_after->GetEntries()/p_pitrack_before->GetEntries())*sqrt((1/p_pitrack_after->GetEntries()) + (1/p_pitrack_before->GetEntries())),
+		  //K Track
+		  p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries(),(p_Ktrack_after->GetEntries()/p_Ktrack_before->GetEntries())*sqrt((1/p_Ktrack_after->GetEntries()) + (1/p_Ktrack_before->GetEntries())),
+		  //p Track
+		  p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),(p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries())*sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())),
+		  //Accept EDTM
 		  (PS1*SHMS_EDTM->Integral() + PS3*HMS_EDTM->Integral()),
-		  (PS1*TRIG1->Integral()),
-		  (PS3*TRIG3->Integral()));
+		  //PS1
+		  (PS1*TRIG1_cut->Integral()),
+		  //PS3
+		  (PS3*TRIG3_cut->Integral()));
   myfile1.close();
 }

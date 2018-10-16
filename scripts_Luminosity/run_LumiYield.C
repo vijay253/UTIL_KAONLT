@@ -32,7 +32,7 @@ void run_LumiYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
   }
 
   fstream REPORT_file;
-  REPORT_file.open (Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%i_%i.report",RunNumber,MaxEvent));
+  REPORT_file.open (Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/replay_luminosity_coin_production_%i_%i.report",RunNumber,MaxEvent));
   Int_t line_num = 0;
   string line;
   TString line_PS1;
