@@ -449,8 +449,25 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS
 5168    LUMI    6.053   6.495        -4.204  14.93       LH2      10.6    45       10   6    0    1.0              1.8                ----                                                   ! good lumi run
 5169    LUMI    6.053   6.495        -4.204  14.93       LH2      10.6    30       10   5    0    1.5              1.1                ----                                                   ! good lumi run
 5170    LUMI    6.053   6.495        -4.204  14.93       LH2      10.6    15        9   5    0    1.1              1.1                ----                                                   ! good lumi run
-5171    LUMI    6.053   6.495        -4.204  14.93       LH2      10.6    5         7   4    0    
-5172    LUMI    6.053   6.495        -4.204  14.93       dummy    10.6    30        7   4    0                                                                                               
-5173    LUMI    6.053   6.495        -4.204  14.93       dummy    10.6    30        7   4    0                                                                                               
-5174    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6    55        7   4    0
-5175    
+5171    LUMI    6.053   6.495        -4.204  14.93       LH2      10.6    5         7   4    0    1.1              1.1                                                                       ! good lumi run
+5172    LUMI    6.053   6.495        -4.204  14.93       dummy    10.6    30        7   4    0    1.4              1.6                                                                       ! JUNK, very choppy beam
+5173    LUMI    6.053   6.495        -4.204  14.93       dummy    10.6    30        7   4    0    1.4              1.6                                                                       ! good lumi run
+5174    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6    55        7   4    0    1.4              1.6                                                                       ! JUNK, very unstable beam
+5175    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6    55        7   4    0    1.4              1.6                                                                       ! good lumi run
+5176    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6    45        7   4    0    1.4              1.6                                                                       ! good lumi run
+5177    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6    30        7   4    0    1.4              1.6                                                                       ! JUNK, accidentally asked for 35 uA
+5178    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6    30        7   4    0    1.4              1.6                                                                       ! good lumi run
+5179    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6    15        7   4    0    1.4              1.6                                                                       ! good lumi run
+5180    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6     5        7   4    0    1.4              1.6                                                                       ! prescaler gui was frozen, repeated this run
+5181    LUMI    6.053   6.495        -4.204  14.93       1.5C     10.6     5        6   4    0 	  1.4		   1.6									     ! good lumi run
+
+5182    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    40       14   6    0                                                                                               ! JUNK, very unstable beam                                                                                                                                        
+5183    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    40       14   6    0    1.179            546.166            0.111        153.896         455k     78.03            !73 lambda events
+5184    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    40       14   6    0    1.958            601.808            0.122        148.905         438k     78.79            !77 lambda events
+5185    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    40       14   6    0    1.751            539.081            0.110        32.413          96k      79.21            !17 lambda events 
+
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
+5197    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    30       14   6    0    0.057            0.073              0.110          82.1           230      84              !22 lambda events 
+5198    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    50       14   6    0    0.075            0.1                0.17         155.258          498      78.9            !62 lambda events 
+5199    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    45       14   6    0    0.066            0.085              0.13         138.7            431      82.0            !45 lambda events 
+5200    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    45       14   6    0    0.065            0.081              0.13          90.3            293      79.0            !37 lambda events 
