@@ -155,7 +155,7 @@ void replay_elastics_hms(Int_t RunNumber=0, Int_t MaxEvent=0) {
   // Define output DEF-file 
   analyzer->SetOdefFile("DEF-files/HMS/PRODUCTION/elastics.def");
   // Define cuts file
-  analyzer->SetCutFile("DEF-files/HMS/PRODUCTION/CUTS/hstackana_production_cuts.def");    // optional
+  //analyzer->SetCutFile("DEF-files/HMS/PRODUCTION/CUTS/hstackana_production_cuts.def");    // optional
   // File to record cuts accounting information for cuts
   analyzer->SetSummaryFile(Form("REPORT_OUTPUT/HMS/PRODUCTION/summary_coin_elastics_%d_%d.report", RunNumber, MaxEvent));    // optional
   // Start the actual analysis.

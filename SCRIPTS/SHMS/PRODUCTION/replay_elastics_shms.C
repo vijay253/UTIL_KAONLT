@@ -157,7 +157,7 @@ void replay_elastics_shms(Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Define DEF-file
   analyzer->SetOdefFile("DEF-files/SHMS/PRODUCTION/elastics.def");
   // Define cuts file
-  analyzer->SetCutFile("DEF-files/SHMS/PRODUCTION/CUTS/elastics_cuts.def");  // optional
+  //analyzer->SetCutFile("DEF-files/SHMS/PRODUCTION/CUTS/elastics_cuts.def");  // optional
   // File to record accounting information for cuts
   analyzer->SetSummaryFile(Form("REPORT_OUTPUT/SHMS/PRODUCTION/summary_coin_elastics_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.
