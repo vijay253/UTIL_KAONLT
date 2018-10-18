@@ -157,29 +157,29 @@ void PlotLumi()
 	       &input.SHMS_elecun,
 	       &input.SENT_EDTM);   
 	//cout << input.HMS_track << "   " << input.SHMS_ptrackun << "   " << input.comp_uncer << endl;
-	HMS_Current_Old->SetPoint(HMS_Current_Old->GetN(),(input.BCM4B / input.TIME),input.HMS_EVENTS/(input.BCM4B*(input.TRIG3/input.PS3)*input.HMS_elec*input.HMS_etrack)); 
-	HMS_Current_Old->SetPointError(HMS_Current_Old->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack))*sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.HMS_elecun/input.HMS_elec,2) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
+	HMS_Current_Old->SetPoint(HMS_Current_Old->GetN(),(input.BCM4B / input.TIME),input.HMS_EVENTS/(input.BCM4B*((input.TRIG3/input.PS3)*input.HMS_elec)*input.HMS_etrack)); 
+	HMS_Current_Old->SetPointError(HMS_Current_Old->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*(input.comp_time*input.HMS_elec)*input.HMS_etrack))*sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.HMS_elecun/input.HMS_elec,2) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
 
 	HMS_Current_EDTM->SetPoint(HMS_Current_EDTM->GetN(),(input.BCM4B / input.TIME),input.HMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.HMS_etrack)); 
-	HMS_Current_EDTM->SetPointError(HMS_Current_EDTM->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack))*sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
+	HMS_Current_EDTM->SetPointError(HMS_Current_EDTM->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*(input.comp_time*input.HMS_elec)*input.HMS_etrack))*sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
  
-	SHMS_Current_Old->SetPoint(SHMS_Current_Old->GetN(),(input.BCM4B / input.TIME),input.SHMS_EVENTS/(input.BCM4B*(input.TRIG1/input.PS1)*input.SHMS_elec*input.SHMS_hadtrack)); 
-	SHMS_Current_Old->SetPointError(SHMS_Current_Old->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*input.comp_time*input.SHMS_elec*input.SHMS_hadtrack))*sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.SHMS_elecun/input.SHMS_elec,2) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+	SHMS_Current_Old->SetPoint(SHMS_Current_Old->GetN(),(input.BCM4B / input.TIME),input.SHMS_EVENTS/(input.BCM4B*((input.TRIG1/input.PS1)*input.SHMS_elec)*input.SHMS_hadtrack)); 
+	SHMS_Current_Old->SetPointError(SHMS_Current_Old->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*(input.comp_time*input.SHMS_elec)*input.SHMS_hadtrack))*sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.SHMS_elecun/input.SHMS_elec,2) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
 
 	SHMS_Current_EDTM->SetPoint(SHMS_Current_EDTM->GetN(),(input.BCM4B / input.TIME),input.SHMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.SHMS_hadtrack)); 
-	SHMS_Current_EDTM->SetPointError(SHMS_Current_EDTM->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.SHMS_hadtrack))*sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+	SHMS_Current_EDTM->SetPointError(SHMS_Current_EDTM->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*(input.comp_time*input.HMS_elec)*input.SHMS_hadtrack))*sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
 
-	HMS_Rate_Old->SetPoint(HMS_Rate_Old->GetN(),(input.PS3 / input.TIME) / 1000.0,input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack)); 
-	HMS_Rate_Old->SetPointError(HMS_Rate_Old->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack))*sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.HMS_elecun/input.HMS_elec,2) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
+	HMS_Rate_Old->SetPoint(HMS_Rate_Old->GetN(),(input.PS3 / input.TIME) / 1000.0,input.HMS_EVENTS/(input.BCM4B*((input.TRIG3/input.PS3)*input.HMS_elec)*input.HMS_etrack)); 
+	HMS_Rate_Old->SetPointError(HMS_Rate_Old->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*(input.comp_time*input.HMS_elec)*input.HMS_etrack))*sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.HMS_elecun/input.HMS_elec,2) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
 
 	HMS_Rate_EDTM->SetPoint(HMS_Rate_EDTM->GetN(),(input.PS3 / input.TIME) / 1000.0,input.HMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.HMS_etrack)); 
-	HMS_Rate_EDTM->SetPointError(HMS_Rate_EDTM->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*input.comp_time*input.HMS_elec*input.HMS_etrack))*sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
+	HMS_Rate_EDTM->SetPointError(HMS_Rate_EDTM->GetN()-1,0.0,(input.HMS_EVENTS/(input.BCM4B*(input.comp_time*input.HMS_elec)*input.HMS_etrack))*sqrt(pow(input.HMS_EVENTSun/input.HMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.HMS_etrackun/input.HMS_etrack,2))); 
 
-	SHMS_Rate_Old->SetPoint(SHMS_Rate_Old->GetN(),(input.PS1 / input.TIME) / 1000.0,input.SHMS_EVENTS/(input.BCM4B*input.comp_time*input.SHMS_elec*input.SHMS_hadtrack)); 
-	SHMS_Rate_Old->SetPointError(SHMS_Rate_Old->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*input.comp_time*input.SHMS_elec*input.SHMS_hadtrack))*sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.SHMS_elecun/input.SHMS_elec,2) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+	SHMS_Rate_Old->SetPoint(SHMS_Rate_Old->GetN(),(input.PS1 / input.TIME) / 1000.0,input.SHMS_EVENTS/(input.BCM4B*((input.TRIG1/input.PS1)*input.HMS_elec)*input.SHMS_hadtrack)); 
+	SHMS_Rate_Old->SetPointError(SHMS_Rate_Old->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*(input.comp_time*input.SHMS_elec)*input.SHMS_hadtrack))*sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+pow(input.comp_uncer/input.comp_time,2) + pow(input.SHMS_elecun/input.SHMS_elec,2) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
 
 	SHMS_Rate_EDTM->SetPoint(SHMS_Rate_EDTM->GetN(),(input.PS1 / input.TIME) / 1000.0,input.SHMS_EVENTS/(input.BCM4B*(input.ACC_EDTM/input.SENT_EDTM)*input.SHMS_hadtrack)); 
-	SHMS_Rate_EDTM->SetPointError(SHMS_Rate_EDTM->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*input.comp_time*input.SHMS_elec*input.SHMS_hadtrack))*sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
+	SHMS_Rate_EDTM->SetPointError(SHMS_Rate_EDTM->GetN()-1,0.0,(input.SHMS_EVENTS/(input.BCM4B*(input.comp_time*input.SHMS_elec)*input.SHMS_hadtrack))*sqrt(pow(input.SHMS_EVENTSun/input.SHMS_EVENTS,2)+(1.0/input.ACC_EDTM) + (1.0/input.SENT_EDTM) + pow(input.SHMS_hadtrackun/input.SHMS_hadtrack,2))); 
 
 	HMS_Current_track->SetPoint(HMS_Current_track->GetN(),(input.BCM4B / input.TIME) , input.HMS_track);
 	HMS_Current_track->SetPointError(HMS_Current_track->GetN()-1,0.0, input.HMS_trackun);
@@ -430,46 +430,54 @@ void PlotLumi()
   HMS_Rate_Old->GetYaxis()->SetTitleOffset(1.5);
   reference_rate->Draw();
 
-  HMS_old->Print("OUTPUT/Norm_yield_hms_ptrig_L1ACC.png");
+  HMS_old->Print(Form("OUTPUT/Norm_yield_hms_ptrig_L1ACC_%d.png",input.run_num));
 
   TCanvas *HMS_EDTM = new TCanvas("HMS_EDTM","Normalized Yield for HMS using EDTM");
   HMS_EDTM->Divide(2,1);
   HMS_EDTM->cd(1);
   HMS_Current_EDTM->Draw("AEP");
+  HMS_EDTM->Update();
   HMS_Current_EDTM->GetYaxis()->SetTitleOffset(1.5);
   reference->Draw();
   HMS_EDTM->cd(2);
   HMS_Rate_EDTM->Draw("AEP");
+  HMS_EDTM->Update();
   HMS_Rate_EDTM->GetYaxis()->SetTitleOffset(1.5);
   reference_rate->Draw();
 
-  HMS_EDTM->Print("OUTPUT/Norm_yield_hms_EDTM.png");
+  HMS_EDTM->Print(Form("OUTPUT/Norm_yield_hms_EDTM_%d.png",input.run_num));
 
   TCanvas *SHMS_old = new TCanvas("SHMS_old","Normalized Yield for SHMS using pTRIG and L1ACC");
   SHMS_old->Divide(2,1);
   SHMS_old->cd(1);
   SHMS_Current_Old->Draw("AEP");
+  SHMS_old->Update();
   SHMS_Current_Old->GetYaxis()->SetTitleOffset(1.5);
   reference->Draw(); 
   SHMS_old->cd(2);
   TLine *SHMS_reference_rate = new TLine(gPad->GetUxmin(),1,gPad->GetUxmax(),1);
   SHMS_reference_rate->SetLineColor(kRed);
   SHMS_Rate_Old->Draw("AEP");
+  SHMS_old->Update();
   SHMS_Rate_Old->GetYaxis()->SetTitleOffset(1.5);
   SHMS_reference_rate->Draw();
 
-  SHMS_old->Print("OUTPUT/Norm_yield_shms_ptrig_L1ACC.png");
+  SHMS_old->Print(Form("OUTPUT/Norm_yield_shms_ptrig_L1ACC_%d.png",input.run_num));
 
   TCanvas *SHMS_EDTM = new TCanvas("SHMS_EDTM","Normalized Yield for SHMS using EDTM");
   SHMS_EDTM->Divide(2,1);
   SHMS_EDTM->cd(1);
   SHMS_Current_EDTM->Draw("AEP");
+  SHMS_EDTM->Update();
   SHMS_Current_EDTM->GetYaxis()->SetTitleOffset(1.5);
   reference->Draw();
   SHMS_EDTM->cd(2);
   SHMS_Rate_EDTM->Draw("AEP");
+  SHMS_EDTM->Update();
   SHMS_Rate_EDTM->GetYaxis()->SetTitleOffset(1.5);
   SHMS_reference_rate->Draw();
+
+  SHMS_EDTM->Print(Form("OUTPUT/Norm_yield_shms_EDTM_%d.png",input.run_num));
 
   TF1 *linear = new TF1("linear","[0] + [1]*(x)",0,100);
   linear->SetParName(0,"Intercept");
@@ -478,8 +486,6 @@ void PlotLumi()
   HMS_Current_Old->Fit("linear","R");
   HMS_Current_Old->GetFunction("linear")->SetLineColor(kBlue);
   gPad->Update();
-
-  SHMS_EDTM->Print("OUTPUT/Norm_yield_shms_EDTM.png");
 
   //Efficiency Information
 
@@ -496,7 +502,7 @@ void PlotLumi()
   HMS_Rate_track->Draw("AEP");
   HMS_Rate_etrack->Draw("LEP");
 
-  HMS_Track->Print("OUTPUT/hms_track_eff.png");
+  HMS_Track->Print(Form("OUTPUT/hms_track_eff_%d.png",input.run_num));
 
   TCanvas *SHMS_Track = new TCanvas("SHMS Track", "SHMS Tracking Efficiency Information");
   SHMS_Track->Divide(2,1);
@@ -517,6 +523,6 @@ void PlotLumi()
   SHMS_Rate_Ktrack->Draw("LEP");
   SHMS_Rate_ptrack->Draw("LEP");
 
-  SHMS_Track->Print("OUTPUT/shms_track_eff.png");
+  SHMS_Track->Print(Form("OUTPUT/shms_track_eff_%d.png",input.run_num));
   
 }

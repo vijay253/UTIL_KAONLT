@@ -275,14 +275,14 @@ Bool_t LumiYield::Process(Long64_t entry)
 
   if ((*T_coin_pTRIG3_ROC2_tdcTime<=390.0 || 
        *T_coin_pTRIG3_ROC2_tdcTime>=410.0) && 
-      *T_coin_pEDTM_tdcTime>140.0 && *T_coin_pEDTM_tdcTime<160.0)
+      *T_coin_pEDTM_tdcTime>140.0 && *T_coin_pEDTM_tdcTime<144.0)
     {
       HMS_EDTM->Fill(*T_coin_pEDTM_tdcTime);
     }
 
   if (*T_coin_pTRIG3_ROC2_tdcTime>=390.0 && 
       *T_coin_pTRIG3_ROC2_tdcTime<=410.0 && 
-      (*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>160.0)/**EvtType==2*/) // Event was an HMS Single
+      (*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>144.0)/**EvtType==2*/) // Event was an HMS Single
     {
       
       TRIG3_cut->Fill(*T_coin_pTRIG3_ROC2_tdcTime);
