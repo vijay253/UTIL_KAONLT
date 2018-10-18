@@ -493,5 +493,11 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS
 5220    K+5.5   6.842   6.495        -3.266  23.00       LH2      10.6    45       14   6    0    2.113            658.299            0.136         64.276         193k     79.16            !21 lambda events
 
 Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
-5221    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    45       12   6    0    2.963            182.774            0.067         64.131          70k     90.58            !112 lambda events
-5222    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    45       12   6    0    2.992            185.215            0.068         175.751        190k     89.48            !193 lambda events 
+5221    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    60       14   6    0    2.963            182.774            0.067         64.131          70k     90.58            !112 lambda events, PS1 unsaved
+5222    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    60       14   6    0    2.992            185.215            0.068         175.751        190k     89.48            !193 lambda events, PS1 unsaved
+5223    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    60       14   6    0    2.985            185.005            0.067         63.716          69k     87.36            !86  lambda events, PS1 unsaved
+5224    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    60       12   6    0    2.652            157.228            0.058         173.546        189k     87.46            !201 lambda events, PS1 unsaved             
+5225    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    60       12   6    0    3.130            197.564            0.076         169.744        198k     85.10            !218 lambda events, PS1 unsaved             
+5226    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    60       12   6    0    3.130            193.46             0.073         150.738        176k     86.37            !176 lambda events                          
+5227    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    60       12   6    0    3.078            194.5              0.075         167.804        195k     86.05            !196 lambda events
+5228    K+5.5   6.842   9.552        -3.266  23.00       LH2      10.6    60       12   6    0    3.090            194.745            0.078                                                  !    lambda events
