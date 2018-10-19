@@ -270,16 +270,24 @@ void Scalers::Terminate()
   ofstream myfile1;
   myfile1.open ("Yield_Data.dat", fstream::app);
   myfile1 << Form("%.3f %.3f %.0f %.0f %.4f %.4f %.4f %.4f %.4f %.4f %.0f\n",
+		  //Time
 		  time_sum[3],
+		  //Charge
 		  charge_sum[3],
+		  //
 		  trig_sum[0],
+		  //
 		  trig_sum[2],
+		  //CPU LT
 		  acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)),
 		  (acctrig_sum/((trig_sum[0]/PS1) + (trig_sum[2]/PS3)))*sqrt((1/(trig_sum[0]/PS1))+(1/(trig_sum[2]/PS3))+(1/acctrig_sum)),
+		  //HMS elec LT
 		  1 - ((6/5)*(PRE_sum[1]-PRE_sum[2])/(PRE_sum[1])),
 		  (PRE_sum[1]-PRE_sum[2])/(PRE_sum[1]) * sqrt( (sqrt(PRE_sum[1]) + sqrt(PRE_sum[2]))/(PRE_sum[1] - PRE_sum[2]) + (sqrt(PRE_sum[1])/PRE_sum[1]) ),
+		  //SHMS elec LT
 		  1 - ((6/5)*(SHMS_PRE_sum[1]-SHMS_PRE_sum[2])/(SHMS_PRE_sum[1])),
 		  (SHMS_PRE_sum[1]-SHMS_PRE_sum[2])/(SHMS_PRE_sum[1]) * sqrt( (sqrt(SHMS_PRE_sum[1]) + sqrt(SHMS_PRE_sum[2]))/(SHMS_PRE_sum[1] - SHMS_PRE_sum[2]) + (sqrt(SHMS_PRE_sum[1])/SHMS_PRE_sum[1]) ),
+		  //Sent EDTM
 		  EDTM_sum);
   myfile1.close();
 }

@@ -54,8 +54,8 @@ void LumiYield::SlaveBegin(TTree * /*tree*/)
   TString option = GetOption();
   TString PS1_temp = option(0,option.Index("."));
   TString PS3_temp = option(option.Index(".")+1,option.Length());
-  PS1 = PS1_temp.Atof();
-  PS3 = PS3_temp.Atof();
+  //PS1 = PS1_temp.Atof();
+  //PS3 = PS3_temp.Atof();
    
   h_ecut_before = new TH1F("h_ecut_before","HMS CER counts before electron cut",100,0.0,20);
   h_ecut_after  = new TH1F("h_ecut_after" ,"HMS CER counts after electron cut", 100,0.0,20);
@@ -192,8 +192,8 @@ Bool_t LumiYield::Process(Long64_t entry)
     }
 
   if (*T_coin_pTRIG1_ROC2_tdcTime>=388.0 && 
-      *T_coin_pTRIG1_ROC2_tdcTime<=395.0 && 
-      (*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>144.0)/**EvtType==1*/) // Event was an SHMS Single
+      *T_coin_pTRIG1_ROC2_tdcTime<=395.0) //&& 
+      //(*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>144.0)/*EvtType==1*/) // Event was an SHMS Single
     {
       TRIG1_cut->Fill(*T_coin_pTRIG1_ROC2_tdcTime);
        
@@ -226,8 +226,8 @@ Bool_t LumiYield::Process(Long64_t entry)
 		    }
 		}
 	    }
-	  if (P_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found
-	    {
+	  //if (P_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found,, don't require tracking to calculate tracking
+	      //{
 	      p_track_after->Fill(P_dc_ntrack[0]);
 	      if (P_cal_etotnorm[0] <= 0.6 && P_cal_etotnorm[0] > 0.05) 
 		{
@@ -248,7 +248,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 			}
 		    }
 		}
-	    }
+	      //}
 	}
    
       p_ecut_before->Fill(P_hgcer_npeSum[0]);/*
@@ -262,8 +262,8 @@ Bool_t LumiYield::Process(Long64_t entry)
       //if (P_hgcer_npeSum[0] > 1.5) return kTRUE;
       //if (P_aero_npeSum[0] < 1.5) return kTRUE;
       if (P_gtr_dp[0] < -10.0 || P_gtr_dp[0] > 20.0) return kTRUE;
-      if (TMath::Abs(P_tr_tg_th[0]) > 0.080) return kTRUE;
-      if (TMath::Abs(P_tr_tg_ph[0]) > 0.035) return kTRUE;
+      //if (TMath::Abs(P_tr_tg_th[0]) > 0.080) return kTRUE;
+      //if (TMath::Abs(P_tr_tg_ph[0]) > 0.035) return kTRUE;
 
 
       p_ecut_eff->Fill(P_hgcer_npeSum[0]);/*
@@ -281,8 +281,8 @@ Bool_t LumiYield::Process(Long64_t entry)
     }
 
   if (*T_coin_pTRIG3_ROC2_tdcTime>=390.0 && 
-      *T_coin_pTRIG3_ROC2_tdcTime<=410.0 && 
-      (*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>144.0)/**EvtType==2*/) // Event was an HMS Single
+      *T_coin_pTRIG3_ROC2_tdcTime<=410.0) //&& 
+    //(*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>144.0)/*EvtType==2*/) // Event was an HMS Single
     {
       
       TRIG3_cut->Fill(*T_coin_pTRIG3_ROC2_tdcTime);
@@ -301,13 +301,13 @@ Bool_t LumiYield::Process(Long64_t entry)
 	    h_etrack_before->Fill(H_dc_ntrack[0]);
 	  }
        
-	  if (H_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found
-	    {
+	  //if (H_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found, don't require tracking to calculate tracking
+	      //{
 	      h_track_after->Fill(H_dc_ntrack[0]);
 	      if (H_cer_npeSum[0] > 0.5 && H_cal_etotnorm[0] > 0.6 && H_cal_etotnorm[0] < 2.0) {
 		h_etrack_after->Fill(H_dc_ntrack[0]);
 	      }
-	    }
+	      //}
 	}
    
       h_ecut_before->Fill(H_cer_npeSum[0]);
@@ -316,12 +316,12 @@ Bool_t LumiYield::Process(Long64_t entry)
       h_ph_before->Fill(H_tr_tg_ph[0]);
       h_show_before->Fill(H_cal_etotnorm[0]);
 
-      if (H_cal_etotnorm[0] < 0.9) return kTRUE;
-      if (H_cal_etotnorm[0] > 1.5) return kTRUE;
+      if (H_cal_etotnorm[0] < 0.6) return kTRUE; //.9
+      if (H_cal_etotnorm[0] > 2.0) return kTRUE; //1.5
       //if (H_cer_npeSum[0] < 1.5) return kTRUE;
       if (TMath::Abs(H_gtr_dp[0]) > 8.0) return kTRUE;
-      if (TMath::Abs(H_tr_tg_th[0]) > 0.080) return kTRUE;
-      if (TMath::Abs(H_tr_tg_ph[0]) > 0.035) return kTRUE;
+      //if (TMath::Abs(H_tr_tg_th[0]) > 0.080) return kTRUE;
+      //if (TMath::Abs(H_tr_tg_ph[0]) > 0.035) return kTRUE;
 
 
       h_ecut_after->Fill(H_cer_npeSum[0]);
@@ -470,8 +470,10 @@ void LumiYield::Terminate()
 		  //Accept EDTM
 		  (PS1*SHMS_EDTM->Integral() + PS3*HMS_EDTM->Integral()),
 		  //PS1
-		  (PS1*TRIG1_cut->Integral()),
+		  //(PS1*TRIG1_cut->Integral()),		 
+		  (PS1),
 		  //PS3
-		  (PS3*TRIG3_cut->Integral()));
+		  //(PS3*TRIG3_cut->Integral()));
+		  (PS3));
   myfile1.close();
 }
