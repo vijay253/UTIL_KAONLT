@@ -226,7 +226,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 		    }
 		}
 	    }
-	  //if (P_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found,, don't require tracking to calculate tracking
+	  if (P_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found,, don't require tracking to calculate tracking
 	      //{
 	      p_track_after->Fill(P_dc_ntrack[0]);
 	      if (P_cal_etotnorm[0] <= 0.6 && P_cal_etotnorm[0] > 0.05) 
@@ -248,7 +248,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 			}
 		    }
 		}
-	      //}
+	      }
 	}
    
       p_ecut_before->Fill(P_hgcer_npeSum[0]);/*
@@ -301,13 +301,13 @@ Bool_t LumiYield::Process(Long64_t entry)
 	    h_etrack_before->Fill(H_dc_ntrack[0]);
 	  }
        
-	  //if (H_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found, don't require tracking to calculate tracking
+	  if (H_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found, don't require tracking to calculate tracking
 	      //{
 	      h_track_after->Fill(H_dc_ntrack[0]);
 	      if (H_cer_npeSum[0] > 0.5 && H_cal_etotnorm[0] > 0.6 && H_cal_etotnorm[0] < 2.0) {
 		h_etrack_after->Fill(H_dc_ntrack[0]);
 	      }
-	      //}
+	      }
 	}
    
       h_ecut_before->Fill(H_cer_npeSum[0]);
