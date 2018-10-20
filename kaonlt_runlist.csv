@@ -547,7 +547,7 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS
 Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
 5264	K+5.5	6.842	6.509	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	  3.339             213.964           0.0881	     134.039	    389k    78.12            !45 lambda events
 
-Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target    beam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
 5265	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  -----              -------          ------                                                 !Junk
 5266	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  3.245              207.115          0.0079         191.000         220k    85.93           !230 lambda events
 5267	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  3.332              212.013          0.0082         221.517         257k    86.49           !276 lambda events
@@ -556,6 +556,15 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target    beam  Current   PS
 5270	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0    3.285              208.620          0.0081         118.292         137k    85.82           !108 lambda events
 
 Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
-5271	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   13	6    0	  3.285              208.620          0.0082         150.676         83k     87.69          !139 lambda events, PS1 set too large
-5272	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   13	6    0	  3.355               47.542          0.0030         215.954         103k    87.28          !216 lambda events, PS1 set too large
-5273	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	                                                                                            !    lambda events
+5271	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   13	6    0	  3.285              208.620          0.024          150.676         83k     87.69          !139 lambda events, PS1 set too large
+5272	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   13	6    0	  3.355               47.542          0.031          215.954         103k    87.28          !216 lambda events, PS1 set too large
+5273	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	  3.337               50.060          0.029          211.435         103k    82.88           !216 Lambda Events
+5274	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	  2.907		      43.046	      0.030	     237.699	     114k    81.98	     !229 LAMBDA Events
+
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
+5275	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   --	-    -	  -----		      ------	      ------	     -------	     ----    -----	     !JUNK
+5276	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   14	6    0	  1.951		      599.652	      0.123	     146.593	     432     79.32	     !68 Lambda Events
+5277	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   14	6    0	  2.006		      615.902	      0.126	     152.917	     450     80.85	     !71 Lambda Events
+5278	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   14	6    0	  1.968		      604.813	      0.123	     149.938	     441     79.52	     !63 Lambda Events
+5279	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   14	6    0	  1.496		      459.169	      0.096	     113.771	     341     78.31	     !43 Lambda Events
+5280	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   14	6    0
