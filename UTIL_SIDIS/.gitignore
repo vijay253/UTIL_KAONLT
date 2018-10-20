@@ -1,0 +1,8 @@
+*.d
+*.os
+*~
+.nfs*
+PLOTS
+REPORT
+Skimfiles
+*#*
