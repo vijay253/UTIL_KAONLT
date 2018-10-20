@@ -534,6 +534,28 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS
 5254	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  2.905		   187.024	      0.074	     222.92	   265k	    85.77	     !239 lambda events	
 5255	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  2.383		   153.770	      0.063	     176.37	   217k	    84.88	     !184 lambda events	
 5256	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  2.908		   187.309	      0.074	     214.41	   256k	    86.87	     !224 lambda events
-5257	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  2.901		   186.838	      0.074	     224.35	   226k	    86.30	     !229 lambda events
-5258	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0
-5259	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0
+5257	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  2.901		   186.838	      0.074	     224.35	   266k	    86.30	     !229 lambda events
+5258	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  2.723		   174.606	      0.070	     199.99	   240k	    85.27	     !208 lambda events
+5259	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0    2.723		   174.606	      0.070	     199.99	   181k	    85.27	     !176 lambda events    
+5260	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0    1.505		    95.075	      0.042	     113.95	   150k	    84.81    	     !138 lambda events    
+5261	K+5.5	6.842   9.555	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0    2.220		   139.909	      0.058	     148.761	   179k	    86.49	     !158 lambda events
+
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
+5262	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	  1.895		    27.555            0.054          139.957        78k     82.95            !162 lambda events
+5263	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	  		    		      		     		    	    		     !JUNK hardly any beam
+
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
+5264	K+5.5	6.842	6.509	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	  3.339             213.964           0.0881	     134.039	    389k    78.12            !45 lambda events
+
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target    beam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
+5265	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  -----              -------          ------                                                 !Junk
+5266	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  3.245              207.115          0.0079         191.000         220k    85.93           !230 lambda events
+5267	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  3.332              212.013          0.0082         221.517         257k    86.49           !276 lambda events
+5268	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  7.305              206.908          0.0082         177.837         212k    86.58           !209 lambda events
+5269	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0	  3.279              210.387          0.0078         116.481         142k    86.45           !169 lambda events, hcvme08 error message
+5270	K+5.5	6.842	9.560	     -3.266  23.00	 LH2	  10.6	  70	   13	7    0    3.285              208.620          0.0081         118.292         137k    85.82           !108 lambda events
+
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
+5271	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   13	6    0	  3.285              208.620          0.0082         150.676         83k     87.69          !139 lambda events, PS1 set too large
+5272	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   13	6    0	  3.355               47.542          0.0030         215.954         103k    87.28          !216 lambda events, PS1 set too large
+5273	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	                                                                                            !    lambda events
