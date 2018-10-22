@@ -114,8 +114,8 @@ class LumiYield : public TSelector {
   TTreeReaderArray<Double_t> P_hgcer_npeSum          = {fReader, "P.hgcer.npeSum"};
   TTreeReaderArray<Double_t> P_aero_npeSum           = {fReader, "P.aero.npeSum"};
   TTreeReaderArray<Double_t> P_gtr_dp                = {fReader, "P.gtr.dp"};
-  TTreeReaderArray<Double_t> P_tr_tg_th              = {fReader, "P.gtr.th"};
-  TTreeReaderArray<Double_t> P_tr_tg_ph              = {fReader, "P.gtr.ph"};
+  TTreeReaderArray<Double_t> P_gtr_th                = {fReader, "P.gtr.th"};
+  TTreeReaderArray<Double_t> P_gtr_ph                = {fReader, "P.gtr.ph"};
   TTreeReaderArray<Double_t> P_tr_beta               = {fReader, "P.tr.beta"};
   TTreeReaderArray<Double_t> P_tr_chi2               = {fReader, "P.tr.chi2"};
   TTreeReaderArray<Double_t> P_tr_ndof               = {fReader, "P.tr.ndof"};
