@@ -47,6 +47,7 @@ block T.coin.pTRIG1_ROC2_tdcTime
 block T.coin.pTRIG3_ROC2_tdcTime
 block T.coin.pTRIG5_ROC2_tdcTime
 block T.coin.pEDTM_tdcTime
+block *.D.*
 
 begin epics
 IBC3H00CRCUR4
