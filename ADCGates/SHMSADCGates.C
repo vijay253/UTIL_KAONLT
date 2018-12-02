@@ -93,9 +93,9 @@ void SHMSADCGates::SlaveBegin(TTree * /*tree*/)
    h1PPRECALPosPulseTimeStarttimeDiff = new TH1F*[14];
    for (Int_t ipmt=0; ipmt<14; ipmt++) {
      h1PPRECALNegPulseTime[ipmt] = new TH1F(Form("PPRECALNegPulseTime%d",ipmt+1),Form("Pulse Time Information for SHMS PRECAL Neg PMT%d;Time (ns);Counts",ipmt+1),700,-600,100);
-     h1PPRECALNegPulseTimeStarttimeDiff[ipmt] = new TH1F(Form("PPRECALNegPulseTimeStarttimeDiff%d",ipmt+1),Form("Pulse Time Information for SHMS PRECAL Neg PMT%d Start Time Subtracted;Time (ns);Counts",ipmt+1),1000,-100,0);
+     h1PPRECALNegPulseTimeStarttimeDiff[ipmt] = new TH1F(Form("PPRECALNegPulseTimeStarttimeDiff%d",ipmt+1),Form("Pulse Time Information for SHMS PRECAL Neg PMT%d Start Time Subtracted;Time (ns);Counts",ipmt+1),2000,-100,100);
      h1PPRECALPosPulseTime[ipmt] = new TH1F(Form("PPRECALPosPulseTime%d",ipmt+1),Form("Pulse Time Information for SHMS PRECAL Pos PMT%d;Time (ns);Counts",ipmt+1),700,-600,100);
-     h1PPRECALPosPulseTimeStarttimeDiff[ipmt] = new TH1F(Form("PPRECALPosPulseTimeStarttimeDiff%d",ipmt+1),Form("Pulse Time Information for SHMS PRECAL Pos PMT%d Start Time Subtracted;Time (ns);Counts",ipmt+1),1000,-100,0);
+     h1PPRECALPosPulseTimeStarttimeDiff[ipmt] = new TH1F(Form("PPRECALPosPulseTimeStarttimeDiff%d",ipmt+1),Form("Pulse Time Information for SHMS PRECAL Pos PMT%d Start Time Subtracted;Time (ns);Counts",ipmt+1),2000,-100,100);
 
      GetOutputList()->Add(h1PPRECALNegPulseTime[ipmt]);
      GetOutputList()->Add(h1PPRECALNegPulseTimeStarttimeDiff[ipmt]);
@@ -105,7 +105,7 @@ void SHMSADCGates::SlaveBegin(TTree * /*tree*/)
    
    h1PCALPulseTimeStarttimeDiff = new TH1F*[224];
    for (Int_t ipmt=0; ipmt<224; ipmt++) {
-     h1PCALPulseTimeStarttimeDiff[ipmt] = new TH1F(Form("PCALPulseTimeStarttimeDiff%d",ipmt+1),Form("Pulse Time Information for SHMS CAL Neg PMT%d Start Time Subtracted;Time (ns);Counts",ipmt+1),1000,-100,0);
+     h1PCALPulseTimeStarttimeDiff[ipmt] = new TH1F(Form("PCALPulseTimeStarttimeDiff%d",ipmt+1),Form("Pulse Time Information for SHMS CAL Neg PMT%d Start Time Subtracted;Time (ns);Counts",ipmt+1),2000,-100,100);
 
      GetOutputList()->Add(h1PCALPulseTimeStarttimeDiff[ipmt]);
    }

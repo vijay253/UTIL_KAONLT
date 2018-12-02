@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Starting ADC Timing Window Calculation"
-echo "I take as arguments the Run Number and amx number of events!"
+echo "I take as arguments the Run Number and max number of events!"
 RUNNUMBER=$1
 MAXEVENTS=$2
 if [[ $1 -eq "" ]]; then
