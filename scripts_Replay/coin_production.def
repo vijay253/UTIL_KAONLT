@@ -12,6 +12,8 @@ block H.cer.npeSum
 block P.cal.etotnorm
 block P.aero.npeSum
 block P.hgcer.npeSum
+block P.hgcer.xAtCer
+block P.hgcer.yAtCer
 block P.hod.starttime
 block H.gtr.dp
 block P.gtr.dp
@@ -22,6 +24,7 @@ block T.coin.pTRIG5_ROC2_tdcTime
 block T.coin.pEDTM_tdcTime
 block T.coin.pRF*
 block T.coin.hRF*
+block T.hel
 
 begin epics
 
