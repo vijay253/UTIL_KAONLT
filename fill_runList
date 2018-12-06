@@ -8,6 +8,7 @@ RUNNUMBER=$1
 RUNTYPE=$2
 TARGET=$3
 RUNLIST="kaonlt_runlist_3p8.csv"
+#RUNLIST="test_kaonlt_runlist.csv"
 KINFILE="../DBASE/COIN/standard.kinematics"
 SCALERFILE="OUTPUT/scalers_Run$RUNNUMBER.txt"
 REPORTFILE="../REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_${RUNNUMBER}_-1.report"
