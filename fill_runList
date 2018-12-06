@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#if [[ $1 -eq "" ]] || [[ $2 -eq "" ]]; then
+   # echo "I need a Run Number and run type! (Prod, commissioning, etc.)"
+    #exit 2
+#fi
+RUNNUMBER=$1
+RUNTYPE=$2
+TARGET=$3
+RUNLIST="kaonlt_runlist_3p8.csv"
+KINFILE="../DBASE/COIN/standard.kinematics"
+SCALERFILE="OUTPUT/scalers_Run$RUNNUMBER.txt"
+REPORTFILE="../REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_${RUNNUMBER}_-1.report"
+MONITORFILE="../MON_OUTPUT/REPORT/reportMonitor_shms_${RUNNUMBER}_50000.txt"
+SHMSANGLE=$(sed -n -e 's/^.*ptheta_lab = //p' $KINFILE | tail -1)
+SHMSMOMENT=$(sed -n -e 's/^.*ppcentral = //p' $KINFILE | tail -1)
+HMSANGLE=$(sed -n -e 's/^.*htheta_lab = //p' $KINFILE | tail -1)
+HMSMOMENT=$(sed -n -e 's/^.*hpcentral = //p' $KINFILE | tail -1)
+EBEAM=$(sed -n -e 's/^.*gpbeam = //p' $KINFILE | tail -1)
+python runlistGatherer.py $RUNNUMBER $RUNTYPE $TARGET
+inputFile="tmp"
+#cat >> $RUNLIST
+tmp=()
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    tmp+=("$line")
+done < "$inputFile"
+echo "========================================================================="
+echo "Run number: $RUNNUMBER"
+echo "Run type: $RUNTYPE"
+echo "SHMS momentum: $SHMSMOMENT"
+echo "SHMS angle : $SHMSANGLE"
+echo "HMS momentum: $HMSMOMENT"
+echo "HMS angle: $HMSANGLE"
+echo "Target: $TARGET"
+echo "Beam energy: $EBEAM"
+echo "Current: ${tmp[0]}"
+echo "PS1 : ${tmp[1]}"
+echo "PS3 : ${tmp[2]}"
+echo "PS5 : ${tmp[3]}"
+echo "HMS rate [Hz]: ${tmp[4]}"
+echo "SHMS rate [Hz]: ${tmp[5]}"
+echo "COIN rate [Hz]: ${tmp[6]}"
+echo "Charge [mC]: ${tmp[7]}"
+echo "Raw coin: ${tmp[8]}"
+echo "SHMS hadron tracking: ${tmp[9]}"
+echo "========================================================================="
+while true; do
+    read -p "Do these values all look correct? (Please answer yes or no) " yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+read -p "Enter lambda events and any other comments: " comment
+#echo -e "Run\tType\tP_SHMS\tTheta_SHMS\tP_HMS\tTheta_HMS\tTarget\tEbeam\tCurrent\tPS1\tPS3\tPS5\tHMS-Rate(kHz)\tSHMS-Rate(kHz)\tCOIN-Rate(kHz)\tCharge(mC)\tRaw-coin\tSHMS_h_tracking\t\tComment" >> $RUNLIST
+echo -e "$RUNNUMBER\t$RUNTYPE\t$SHMSMOMENT\t$SHMSANGLE\t\t$HMSMOMENT\t$HMSANGLE\t\t$TARGET\t$EBEAM\t${tmp[0]}\t${tmp[1]}\t${tmp[2]}\t${tmp[3]}\t${tmp[4]}\t\t${tmp[5]}\t\t${tmp[6]}\t\t${tmp[7]}\t\t${tmp[8]}\t${tmp[9]}\t\t\t!$comment" >> $RUNLIST
+
