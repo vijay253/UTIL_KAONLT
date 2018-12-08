@@ -5,10 +5,28 @@ import sys
 runNo  = sys.argv[1]
 evenNo = sys.argv[2]
 
+summaryfile='../REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%s_%s.report' % (runNo, evenNo)
+
+f    = open(summaryfile)
+fout = open('output.txt','w')
+
+sumList = ['Cut Summary for run %s' % (runNo)]
+
+for line in f:
+    data = line.split('completed')
+    for index, obj in enumerate(sumList) :
+        if (sumList[index] in data[0]) :
+            if (index == 0) :
+                fout.write('\n=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:\n\n')
+                fout.write('Kaon-LT Report Summary')
+                fout.write('\n\n=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:\n\n')
+                fout.write("Most recent analysis for run %s was completed on" % (runNo) + data[1] + '\n')
+f.close()
+
 filename = './REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%s_%s.report' % (runNo, evenNo)
 
 f    = open(filename)
-fout = open('output.txt','w')
+#fout = open('output.txt','w')
 
 objList = ['Run #', 
            'SHMS Run Length',
@@ -26,10 +44,10 @@ for line in f:
     data = line.split(':')
     for index, obj in enumerate(objList) :
         if (objList[index] in data[0]) :
-            if (index == 0) :
-                fout.write('\n=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:\n\n')
-                fout.write('Kaon-LT Report Summary')
-                fout.write('\n\n=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:\n\n')
+            #if (index == 0) :
+             #   fout.write('\n=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:\n\n')
+              #  fout.write('Kaon-LT Report Summary')
+              #  fout.write('\n\n=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:\n\n')
             if (index == 19) :
                 COIN_RAW = data[1].split("[")
             if (index == 22) :

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#if [[ $1 -eq "" ]] || [[ $2 -eq "" ]]; then
-   # echo "I need a Run Number and run type! (Prod, commissioning, etc.)"
-    #exit 2
-#fi
 RUNNUMBER=$1
 RUNTYPE=$2
 TARGET=$3
@@ -21,11 +17,21 @@ EBEAM=$(sed -n -e 's/^.*gpbeam = //p' $KINFILE | tail -1)
 python runlistGatherer.py $RUNNUMBER $RUNTYPE $TARGET
 inputFile="tmp"
 #cat >> $RUNLIST
+
+if [[ $# -lt 3 ]]; then
+    echo "Not enough arguments, need run number, run type, and target"
+    exit 2
+elif [[ $# -gt 3 ]]; then
+    echo "Too many arguments, need only run number, run type, and target"
+    exit 2
+fi
 tmp=()
 while IFS='' read -r line || [[ -n "$line" ]]; do
     tmp+=("$line")
 done < "$inputFile"
 echo "========================================================================="
+echo "These values autofill into the run list (i.e. emacs window)..."
+echo
 echo "Run number: $RUNNUMBER"
 echo "Run type: $RUNTYPE"
 echo "SHMS momentum: $SHMSMOMENT"
@@ -36,14 +42,23 @@ echo "Target: $TARGET"
 echo "Beam energy: $EBEAM"
 echo "Current: ${tmp[0]}"
 echo "PS1 : ${tmp[1]}"
-echo "PS3 : ${tmp[2]}"
-echo "PS5 : ${tmp[3]}"
-echo "HMS rate [Hz]: ${tmp[4]}"
-echo "SHMS rate [Hz]: ${tmp[5]}"
-echo "COIN rate [Hz]: ${tmp[6]}"
-echo "Charge [mC]: ${tmp[7]}"
-echo "Raw coin: ${tmp[8]}"
-echo "SHMS hadron tracking: ${tmp[9]}"
+#echo "PS1 True Value : ${tmp[2]}"
+echo "PS3 : ${tmp[3]}"
+#echo "PS3 True Value : ${tmp[4]}"
+echo "PS5 : ${tmp[5]}"
+#echo "PS5 True Value : ${tmp[6]}"
+echo "HMS rate [Hz]: ${tmp[7]}"
+echo "SHMS rate [Hz]: ${tmp[8]}"
+echo "COIN rate [Hz]: ${tmp[9]}"
+echo "Charge [mC]: ${tmp[10]}"
+echo "Raw coin: ${tmp[11]}"
+echo "SHMS hadron tracking: ${tmp[12]}"
+echo "-------------------------------------------------------------------------"
+echo "You put these into the run sheet by hand (eek)..."
+echo
+echo "SHMS prescale pretrig: ${tmp[13]}"
+echo "HMS prescale pretrig: ${tmp[14]}"
+echo "Coin pretrig: ${tmp[15]}"
 echo "========================================================================="
 while true; do
     read -p "Do these values all look correct? (Please answer yes or no) " yn
@@ -55,5 +70,6 @@ while true; do
 done
 read -p "Enter lambda events and any other comments: " comment
 #echo -e "Run\tType\tP_SHMS\tTheta_SHMS\tP_HMS\tTheta_HMS\tTarget\tEbeam\tCurrent\tPS1\tPS3\tPS5\tHMS-Rate(kHz)\tSHMS-Rate(kHz)\tCOIN-Rate(kHz)\tCharge(mC)\tRaw-coin\tSHMS_h_tracking\t\tComment" >> $RUNLIST
-echo -e "$RUNNUMBER\t$RUNTYPE\t$SHMSMOMENT\t$SHMSANGLE\t\t$HMSMOMENT\t$HMSANGLE\t\t$TARGET\t$EBEAM\t${tmp[0]}\t${tmp[1]}\t${tmp[2]}\t${tmp[3]}\t${tmp[4]}\t\t${tmp[5]}\t\t${tmp[6]}\t\t${tmp[7]}\t\t${tmp[8]}\t${tmp[9]}\t\t\t!$comment" >> $RUNLIST
+echo -e "$RUNNUMBER\t$RUNTYPE\t$SHMSMOMENT\t$SHMSANGLE\t\t$HMSMOMENT\t$HMSANGLE\t\t$TARGET\t$EBEAM\t${tmp[0]}\t${tmp[1]}\t${tmp[3]}\t${tmp[5]}\t${tmp[7]}\t\t${tmp[8]}\t\t${tmp[9]}\t\t${tmp[10]}\t\t${tmp[11]}\t${tmp[12]}\t\t\t!$comment" >> $RUNLIST
+
 

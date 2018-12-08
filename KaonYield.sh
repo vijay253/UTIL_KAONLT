@@ -31,3 +31,19 @@ cd ../
 python reportSummary.py $RUNNUMBER $MAXEVENTS
 emacs output.txt
 mv output.txt OUTPUT/scalers_Run$RUNNUMBER.txt
+
+while true; do
+    read -p "Would you like to update the run list as well? (Please answer yes or no) " yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+read -p "What type of production was this run? (e.g. Prod, Heep, ect.)" runType
+read -p "What was the target? (Dummy, LH2, LD2?)" target
+
+fillrunList="./fill_runList $RUNNUMBER $runType $target"
+
+eval ${fillrunList}
