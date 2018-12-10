@@ -45,7 +45,6 @@ ps1=float(ps1_tmp[1])
 ps3=float(ps3_tmp[1])
 ps5=float(ps5_tmp[1])
 i=0
-delta=1e-10
 for index in psActual:
     if (float(index) == ps1) :
         PS1 = str(psValue[i])

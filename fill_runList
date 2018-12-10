@@ -4,7 +4,8 @@ RUNNUMBER=$1
 RUNTYPE=$2
 TARGET=$3
 RUNLIST="kaonlt_runlist_3p8.csv"
-#RUNLIST="test_kaonlt_runlist.csv"
+#RUNLIST="stats_runlist.csv"
+RUNFILE="runFile.txt"
 KINFILE="../DBASE/COIN/standard.kinematics"
 SCALERFILE="OUTPUT/scalers_Run$RUNNUMBER.txt"
 REPORTFILE="../REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_${RUNNUMBER}_-1.report"
@@ -17,7 +18,10 @@ EBEAM=$(sed -n -e 's/^.*gpbeam = //p' $KINFILE | tail -1)
 python runlistGatherer.py $RUNNUMBER $RUNTYPE $TARGET
 inputFile="tmp"
 #cat >> $RUNLIST
-
+if [[ -e "output.txt" ]]; then
+    echo "Please close report file for replay and try again!"
+    exit 2
+fi
 if [[ $# -lt 3 ]]; then
     echo "Not enough arguments, need run number, run type, and target"
     exit 2
@@ -33,6 +37,7 @@ echo "========================================================================="
 echo "These values autofill into the run list (i.e. emacs window)..."
 echo
 echo "Run number: $RUNNUMBER"
+echo "$RUNNUMBER" >> ${RUNFILE}
 echo "Run type: $RUNTYPE"
 echo "SHMS momentum: $SHMSMOMENT"
 echo "SHMS angle : $SHMSANGLE"
@@ -47,14 +52,14 @@ echo "PS3 : ${tmp[3]}"
 #echo "PS3 True Value : ${tmp[4]}"
 echo "PS5 : ${tmp[5]}"
 #echo "PS5 True Value : ${tmp[6]}"
-echo "HMS rate [Hz]: ${tmp[7]}"
-echo "SHMS rate [Hz]: ${tmp[8]}"
-echo "COIN rate [Hz]: ${tmp[9]}"
+echo "HMS rate [kHz]: ${tmp[7]}"
+echo "SHMS rate [kHz]: ${tmp[8]}"
+echo "COIN rate [kHz]: ${tmp[9]}"
 echo "Charge [mC]: ${tmp[10]}"
 echo "Raw coin: ${tmp[11]}"
 echo "SHMS hadron tracking: ${tmp[12]}"
 echo "-------------------------------------------------------------------------"
-echo "You put these into the run sheet by hand (eek)..."
+echo "You put these into the run sheet by hand (eek!)..."
 echo
 echo "SHMS prescale pretrig: ${tmp[13]}"
 echo "HMS prescale pretrig: ${tmp[14]}"
@@ -71,5 +76,4 @@ done
 read -p "Enter lambda events and any other comments: " comment
 #echo -e "Run\tType\tP_SHMS\tTheta_SHMS\tP_HMS\tTheta_HMS\tTarget\tEbeam\tCurrent\tPS1\tPS3\tPS5\tHMS-Rate(kHz)\tSHMS-Rate(kHz)\tCOIN-Rate(kHz)\tCharge(mC)\tRaw-coin\tSHMS_h_tracking\t\tComment" >> $RUNLIST
 echo -e "$RUNNUMBER\t$RUNTYPE\t$SHMSMOMENT\t$SHMSANGLE\t\t$HMSMOMENT\t$HMSANGLE\t\t$TARGET\t$EBEAM\t${tmp[0]}\t${tmp[1]}\t${tmp[3]}\t${tmp[5]}\t${tmp[7]}\t\t${tmp[8]}\t\t${tmp[9]}\t\t${tmp[10]}\t\t${tmp[11]}\t${tmp[12]}\t\t\t!$comment" >> $RUNLIST
-
-
+    
