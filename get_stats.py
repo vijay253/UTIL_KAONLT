@@ -16,44 +16,29 @@ def getRunInfo():
     Run = []
     Type = [] 
     Target = [] 
-    Comment=[]
-    lambda_tmp1 = []
-    lambda_tmp2 = []
     lamb = []
-    KAONLTLIST="test_runlist_2.csv"
+    KAONLTLIST="kaonlt_runlist_3p8.csv"
 
     f = open(KAONLTLIST)
-
+    
     for line in f:
         linespace = line.strip()
-        data = linespace.split("\t")
-        if "#" in linespace or "Run" in linespace or not linespace.strip() or "JUNK" in linespace or "Dummy" in linespace :
-            #or "Heep" in linespace or "HEEP" in linespace or "Carbon" in linespace or "C-1.5%" in linespace:
-            print("----->" + str(data))
-        else :
-            pass
+        if "Prod" in linespace or "PROD" in linespace :
+            data = linespace.split("!")
             #print(str(data))
-            Run.append(data[0])
-            Type.append(data[1])
-            Target.append(data[2])
-            #if data[1] == "Prod" or data[1] == "PROD":
-            #pass
-            #lambda_tmp1 = data[26].split()
-            #lambda_tmp2 = lambda_tmp1[0].split("!")
-            #print("Lambda " + str(lambda_tmp2))
-            #if lambda_tmp2[1].isdigit() :
-            #   pass
-            #  print("Lambda " + lambda_tmp2[1])
-            #  Comment.append(data[26])
-            # lamb.append(lambda_tmp2[1])
-            #else : 
-            #   print("----->" + str(data))
-            #print("Lambdas for run %s is %s" % (Run,lamb))
-            #else : continue
-
+            runtmp = [int(s) for s in data[0].split() if s.isdigit()]
+            lamtmp = [int(s) for s in data[1].split() if s.isdigit()]
+            if len(lamtmp) != 0:
+                run_tmp = runtmp[0]
+                lambda_tmp = lamtmp[0]
+                #print("Run %s, lambda %s" % (run_tmp,lambda_tmp))
+                Run.append(run_tmp)
+                lamb.append(lambda_tmp)
+                
     f.close()
+    
 
-    return[Run, Type,Target,Comment, lamb]
+    return[Run, Type, Target, lamb]
 
 
 def getValues():
@@ -73,12 +58,8 @@ def getValues():
     COIN_Rate=[]
     Charge=[] 
     Raw_coin=[] 
-    SHMS_h_tracking=[] 
-    pTRIG1 = []
-    pTRIG3 = []
-    pTRIG5 = []
 
-    [Run, Type,Target,Comment, lamb] = getRunInfo()
+    [Run, Type, Target, lamb] = getRunInfo()
     #print("Run list %s" % (Run))
     i=0
     while True :        
@@ -87,6 +68,7 @@ def getValues():
         report_2="../REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%s_-1.report" % (Run[i])
         report_4="../MON_OUTPUT/REPORT/reportMonitor_shms_%s_50000.txt" % (Run[i])
         report_5="OUTPUT/scalers_Run%s.txt" % (Run[i])
+
         f    = open(report_1)
         curList = ['SHMS P Central', 'SHMS Angle', 'HMS P Central', 'HMS Angle','Beam energy',
                    'SHMS BCM4B Beam Cut Current','SHMS_pTRIG3 Pre-triggers', 'SHMS_pTRIG1 Pre-triggers', 
@@ -151,11 +133,14 @@ def getValues():
         COIN_Rate.append(COINRATE)
         Charge.append(charge)
         Raw_coin.append(RAWCOIN)
-        f.close()                    
-        f    = open(report_2)        
+        f.close()
+                    
+        f    = open(report_2)   
+     
         psList = ['Ps1_factor','Ps3_factor','Ps5_factor']        
         psActual = ['1','2','3','5','9','17','33','65','129','257','513','1025','2049','4097','8193','16385','32769']        
-        psValue = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']        
+        psValue = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16']    
+    
         for line in f:
             data = line.split('=')
             for index, obj in enumerate(psList) :
@@ -188,57 +173,25 @@ def getValues():
         PS3.append(psv3)
         PS5.append(psv5)
         f.close()
-        f    = open(report_4)        
-        monList = ['HADRON SING FID TRACK EFFIC']
-        for line in f:
-            data = line.split(':')
-            for index, obj in enumerate(monList) :
-                if (monList[index] in data[0]) :
-                    if(index == 0) :  
-                        hadtrack_tmp = data[1].split(" ")
-        hadtrack=float(hadtrack_tmp[4])
-        #print(str(hadtrack) + "-hadtrack\n")
-        SHMS_h_tracking.append(hadtrack)
-        f.close()
-        f    = open(report_5)        
-        scalList = ['SHMS_pTRIG1 Pre-scaled Pre-triggers','SHMS_pTRIG3 Pre-scaled Pre-triggers', 'SHMS_pTRIG5 Pre-triggers']        
-        for line in f:
-            data = line.split(':')
-            for index, obj in enumerate(scalList) :
-                if (scalList[index] in data[0]) :
-                    if(index == 0) :  
-                        ptrig1_tmp = data[1].split(" ")
-                    if(index == 1) :  
-                        ptrig3_tmp = data[1].split(" ")
-                    if(index == 2) :  
-                        ptrig5_tmp = data[1].split(" ")
-        ptrig1=float(ptrig1_tmp[3])
-        ptrig3=float(ptrig3_tmp[3])
-        ptrig5=float(ptrig5_tmp[3])
-        #print(str(ptrig1) + "-ptrig1\n")
-        #print(str(ptrig3) + "-ptrig3\n")
-        #print(str(ptrig5) + "-ptrig5\n")
-        pTRIG1.append(ptrig1)
-        pTRIG3.append(ptrig3)
-        pTRIG5.append(ptrig5)
-        f.close()        
+     
         i=i+1
+
         if i == len(Run) :
             break
 
-    return[P_SHMS, Theta_SHMS, P_HMS, Theta_HMS, Ebeam, Current, PS1, PS3, PS5, HMS_Rate, SHMS_Rate, COIN_Rate, Charge, Raw_coin, SHMS_h_tracking, pTRIG1, pTRIG3, pTRIG5]
+    return[P_SHMS, Theta_SHMS, P_HMS, Theta_HMS, Ebeam, Current, PS1, PS3, PS5, HMS_Rate, SHMS_Rate, COIN_Rate, Charge, Raw_coin]
 
 
 def main() :
 
-    [Run, Type,Target,Comment, lamb] = getRunInfo()
+    [Run, Type, Target, lamb] = getRunInfo()
     
-    [P_SHMS, Theta_SHMS, P_HMS, Theta_HMS, Ebeam, Current, PS1, PS3, PS5, HMS_Rate, SHMS_Rate, COIN_Rate, Charge, Raw_coin, SHMS_h_tracking, pTRIG1, pTRIG3, pTRIG5] = getValues()
+    [P_SHMS, Theta_SHMS, P_HMS, Theta_HMS, Ebeam, Current, PS1, PS3, PS5, HMS_Rate, SHMS_Rate, COIN_Rate, Charge, Raw_coin] = getValues()
     
     tot_charge = []
     tot_lambda = []
-    comment = []
     charge_goal = 7188
+    lambda_goal = 8215
     i=0
     
     print("\nAngle must be between %0.3f and %0.3f" % (ANGLE_low,ANGLE_high))
@@ -250,9 +203,8 @@ def main() :
                     #print("Theta_SHMS for run %s is %s" % (Run,Theta_SHMS))
                     #print("Current for run %s is %s" % (Run,Current))
                     tot_charge.append(float(Charge[i]))
-                    #tot_lambda.append(float(lamb[i]))
-                    #comment.append(Comment[i])
-                    print("Run %s meets requirements [SHMS Angle is %s, Current is %s, Charge is %s]" % (Run[i],Theta_SHMS[i],Current[i],Charge[i]))
+                    tot_lambda.append(float(lamb[i]))
+                    print("Run %s meets requirements [SHMS Angle is %s, Current is %s, Charge is %s, Lambda events are %s]" % (Run[i],Theta_SHMS[i],Current[i],Charge[i],lamb[i]))
         i=i+1
         if i == len(Run) :
             break
@@ -261,5 +213,7 @@ def main() :
     print("\nTotal Charge is  %0.2f, %0.1f%% of stat goal\n" % (sum(tot_charge),(sum(tot_charge)/charge_goal)*100))
     print("%0.1f hours to complete setting at this current (100%% efficiency)" % (charge_goal/(float(CURRENT)*(10e-3)*60*60)))
     print("%0.1f hours to complete setting at this current (75%% efficiency)\n" % ((charge_goal)/(float(CURRENT)*.75*(10e-3)*60*60)))
+    print("Lambda events were hand written in runlist, may be subject to change...")
+    print("Total Lambda Events are  %0.2f, %0.1f%% of stat goal\n" % (sum(tot_lambda),(sum(tot_lambda)/lambda_goal)*100))
 
 if __name__=='__main__': main()

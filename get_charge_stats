@@ -1,80 +1,10 @@
 #!/bin/bash
 
 RUNLIST="stats_runlist.csv"
-runFile="runFile.txt"
-#cat >> $RUNLIST
-    while true; do
-	read -p "Have you recently updated the run file? (Please answer yes or no) " yn
-	case $yn in
-            [Yy]* ) 
-		read -p "Run Type: " RUNTYPE
-		read -p "Target: " TARGET
-		cp /dev/null ${RUNLIST}
-		while IFS='' read -r line || [[ -n "$line" ]]; do
-		    RUNNUMBER=$line
-		    SCALERFILE="OUTPUT/scalers_Run$RUNNUMBER.txt"
-		    REPORTFILE="../REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_${RUNNUMBER}_-1.report"
-		    MONITORFILE="../MON_OUTPUT/REPORT/reportMonitor_shms_${RUNNUMBER}_50000.txt"
-		    if [[ ! -e $SCALERFILE ]]; then
-			echo "$SCALERFILE not found!"
-			exit 2
-		    fi
-		    if [[ ! -e $REPORTFILE ]]; then
-			echo "$REPORTFILE not found!"
-			exit 2
-		    fi
-		    if [[ ! -e $MONITORFILE ]]; then
-			echo "$MONITORFILE not found!"
-			exit 2
-		    fi
-		    python runlistGatherer.py $RUNNUMBER $RUNTYPE $TARGET
-		    inputFile="tmp"
-		    #cat >> $RUNLIST
-		    tmp=()
-		    while IFS='' read -r line || [[ -n "$line" ]]; do
-			tmp+=("$line")
-		    done < "$inputFile"
-		    echo "========================================================================="
-		    echo "These values autofill into the run list (i.e. emacs window)..."
-		    echo
-		    echo "Run number: $RUNNUMBER"
-		    echo "Run type: $RUNTYPE"
-		    echo "Target: $TARGET"
-		    echo "Current: ${tmp[0]}"
-		    echo "PS1 : ${tmp[1]}"
-		    #echo "PS1 True Value : ${tmp[2]}"
-		    echo "PS3 : ${tmp[3]}"
-		    #echo "PS3 True Value : ${tmp[4]}"
-		    echo "PS5 : ${tmp[5]}"
-		    #echo "PS5 True Value : ${tmp[6]}"
-		    echo "HMS rate [kHz]: ${tmp[7]}"
-		    echo "SHMS rate [kHz]: ${tmp[8]}"
-		    echo "COIN rate [kHz]: ${tmp[9]}"
-		    echo "Charge [mC]: ${tmp[10]}"
-		    echo "Raw coin: ${tmp[11]}"
-		    echo "SHMS hadron tracking: ${tmp[12]}"
-		    echo "-------------------------------------------------------------------------"
-		    echo "You put these into the run sheet by hand (eek!)..."
-		    echo
-		    echo "SHMS prescale pretrig: ${tmp[13]}"
-		    echo "HMS prescale pretrig: ${tmp[14]}"
-		    echo "Coin pretrig: ${tmp[15]}"
-		    echo "========================================================================="
-		    #echo -e "Run\tType\tP_SHMS\tTheta_SHMS\tP_HMS\tTheta_HMS\tTarget\tEbeam\tCurrent\tPS1\tPS3\tPS5\tHMS-Rate(kHz)\tSHMS-Rate(kHz)\tCOIN-Rate(kHz)\tCharge(mC)\tRaw-coin\tSHMS_h_tracking\t\tComment" >> $RUNLIST
-		    echo -e "$RUNNUMBER\t$RUNTYPE\t$TARGET\t${tmp[0]}\t${tmp[1]}\t${tmp[3]}\t${tmp[5]}\t${tmp[7]}\t\t${tmp[8]}\t\t${tmp[9]}\t\t${tmp[10]}\t\t${tmp[11]}\t${tmp[12]}\t\t\t!" >> $RUNLIST
-		done < "$runFile"
-		read -p "Which angle would you like to analyze?: " ANGLE
-		read -p "And which current?: " CURRENT
-		python get_stats.py $ANGLE $CURRENT
-		break;;
-	    [Nn]* ) 
-		read -p "Which angle would you like to analyze?: " ANGLE
-		read -p "And which current?: " CURRENT
-		python get_stats.py $ANGLE $CURRENT
-		break;;
-            * ) echo "Please answer yes or no.";;
-	esac
-    done
     
+read -p "Which angle would you like to analyze?: " ANGLE
+read -p "And which current?: " CURRENT
+python get_stats.py $ANGLE $CURRENT
+	
 
 

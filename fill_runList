@@ -5,7 +5,6 @@ RUNTYPE=$2
 TARGET=$3
 RUNLIST="kaonlt_runlist_3p8.csv"
 #RUNLIST="stats_runlist.csv"
-RUNFILE="runFile.txt"
 KINFILE="../DBASE/COIN/standard.kinematics"
 SCALERFILE="OUTPUT/scalers_Run$RUNNUMBER.txt"
 REPORTFILE="../REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_${RUNNUMBER}_-1.report"
@@ -37,7 +36,6 @@ echo "========================================================================="
 echo "These values autofill into the run list (i.e. emacs window)..."
 echo
 echo "Run number: $RUNNUMBER"
-echo "$RUNNUMBER" >> ${RUNFILE}
 echo "Run type: $RUNTYPE"
 echo "SHMS momentum: $SHMSMOMENT"
 echo "SHMS angle : $SHMSANGLE"
