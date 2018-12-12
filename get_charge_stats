@@ -1,6 +1,4 @@
 #!/bin/bash
-
-RUNLIST="stats_runlist.csv"
     
 read -p "Which angle would you like to analyze?: " ANGLE
 read -p "And which current?: " CURRENT

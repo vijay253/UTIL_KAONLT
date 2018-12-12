@@ -4,6 +4,7 @@ import time,sys,os,argparse,atexit,subprocess,math
 
 ANGLE = sys.argv[1]
 CURRENT = sys.argv[2]
+BEAM = 4.900
 
 ANGLE_low = float(ANGLE)-0.3
 ANGLE_high = float(ANGLE)+0.3
@@ -11,13 +12,18 @@ ANGLE_high = float(ANGLE)+0.3
 CURRENT_low = float(CURRENT)-1.5
 CURRENT_high = float(CURRENT)+1.5
 
+BEAM_low = float(BEAM)-0.1
+BEAM_high = float(BEAM)+0.1
+
+
+
 def getRunInfo():
 
     Run = []
     Type = [] 
     Target = [] 
     lamb = []
-    KAONLTLIST="kaonlt_runlist_3p8.csv"
+    KAONLTLIST="kaonlt_runlist_3p8-4p9.csv"
 
     f = open(KAONLTLIST)
     
@@ -193,12 +199,14 @@ def main() :
     charge_goal = 7188
     lambda_goal = 8215
     i=0
-    
-    print("\nAngle must be between %0.3f and %0.3f" % (ANGLE_low,ANGLE_high))
+
+    print("\nBeam must be between %0.3f GeV and %0.3f GeV" % (BEAM_low,BEAM_high))    
+    print("Angle must be between %0.3f and %0.3f" % (ANGLE_low,ANGLE_high))
     print("Current must be between %0.1f and %0.1f\n" % (CURRENT_low,CURRENT_high))
     
     while True :
-        if ANGLE_low < float(Theta_SHMS[i]) < ANGLE_high :
+        if BEAM_low < float(Ebeam[i]) < BEAM_high :
+            if ANGLE_low < float(Theta_SHMS[i]) < ANGLE_high :
                 if CURRENT_low < float(Current[i]) < CURRENT_high : 
                     #print("Theta_SHMS for run %s is %s" % (Run,Theta_SHMS))
                     #print("Current for run %s is %s" % (Run,Current))

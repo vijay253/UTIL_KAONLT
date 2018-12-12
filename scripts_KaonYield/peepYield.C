@@ -73,13 +73,13 @@ void peepYield::SlaveBegin(TTree * /*tree*/)
 
   h1SHMS_th              = new TH1F("SHMS_th","SHMS Theta Acceptance;#theta;Counts",100,-0.1,0.1);
   h1SHMS_th_cut          = new TH1F("SHMS_th_cut","SHMS Theta Acceptance with Cut;#theta;Counts",100,-0.1,0.1);
-  h1SHMS_ph              = new TH1F("SHMS_ph","SHMS Theta Acceptance;#phi;Counts",100,-0.1,0.1);
-  h1SHMS_ph_cut          = new TH1F("SHMS_ph_cut","SHMS Theta Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
+  h1SHMS_ph              = new TH1F("SHMS_ph","SHMS Phi Acceptance;#phi;Counts",100,-0.1,0.1);
+  h1SHMS_ph_cut          = new TH1F("SHMS_ph_cut","SHMS Phi Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
 
   h1HMS_th              = new TH1F("HMS_th","HMS Theta Acceptance;#theta;Counts",100,-0.1,0.1);
   h1HMS_th_cut          = new TH1F("HMS_th_cut","HMS Theta Acceptance with Cut;#theta;Counts",100,-0.1,0.1);
-  h1HMS_ph              = new TH1F("HMS_ph","HMS Theta Acceptance;#phi;Counts",100,-0.1,0.1);
-  h1HMS_ph_cut          = new TH1F("HMS_ph_cut","HMS Theta Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
+  h1HMS_ph              = new TH1F("HMS_ph","HMS Phi Acceptance;#phi;Counts",100,-0.1,0.1);
+  h1HMS_ph_cut          = new TH1F("HMS_ph_cut","HMS Phi Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
 
   h1mmissp                = new TH1F("mmissp","Proton Missing Mass Squared;Mass (GeV/c^{2})^{2};Counts",200,-0.3,0.7);
   h1mmissp_rand           = new TH1F("mmissp_rand","Proton Missing Mass Squared from Random Coincidence;Mass (GeV/c^{2})^{2};Counts",200,-0.3,0.7);

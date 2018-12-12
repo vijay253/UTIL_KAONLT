@@ -52,7 +52,7 @@ void KaonYield_all::SlaveBegin(TTree * /*tree*/)
 
   TString option = GetOption();
 
-  h1missKcut_CT   = new TH2F("h1missKcut_CT","Kaon Missing mass vs Coincidence Time",800,-10,10,200,0.8,1.4);
+  h1missKcut_CT   = new TH2F("h1missKcut_CT","Kaon Missing mass vs Coincidence Time;Time (ns);Mass (GeV/c^{2})",800,-10,10,200,0.8,1.4);
 
   h2ROC1_Coin_Beta_noID_kaon = new TH2F("ROC1_Coin_Beta_noCut_kaon","Kaon Coincident Time vs #beta for ROC1 (w/ particle ID);Time (ns);#beta",800,-40,40,200,0.0,2.0);
   h2ROC1_Coin_Beta_kaon = new TH2F("ROC1_Coin_Beta_kaon","Kaon Coincident Time vs #beta for ROC1;Time (ns);#beta",800,-40,40,200,0.0,2.0);
@@ -234,7 +234,8 @@ Bool_t KaonYield_all::Process(Long64_t entry)
   if (P_cal_etotnorm[0] > 0.6) return kTRUE;
 
   if (TMath::Abs(H_gtr_dp[0]) > 10.0) return kTRUE;
-  if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < -10.0) return kTRUE;
+  //if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < -10.0) return kTRUE;
+  if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < 0.0) return kTRUE;
 
   if (TMath::Abs(P_gtr_th[0]) > 0.040) return kTRUE;
   if (TMath::Abs(P_gtr_ph[0]) > 0.024) return kTRUE;
@@ -278,9 +279,9 @@ Bool_t KaonYield_all::Process(Long64_t entry)
       h1epsilon->Fill(epsilon[0]);
     }
 
-    if(  (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 15.0) ||
-	 (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < -8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > -15.0) ) {
-      //    if (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 22.0) {
+    if(  (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 22.0) ||
+	 (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < -8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > -22.0) ) {
+	 //    if (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 22.0) {
       h1mmissK_rand->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
       //h1mmissK_remove->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
     }
@@ -362,8 +363,8 @@ void KaonYield_all::Terminate()
   TH2F* HMS_electron_cut = dynamic_cast<TH2F*> (GetOutputList()->FindObject("HMS_electron_cut"));
 
   //Perform Random Subtraction
-  h1mmissK_rand->Scale(0.725/7.0);
-  //  h1mmissK_rand->Scale(1.25/7.0);
+  //h1mmissK_rand->Scale(0.725/7.0);
+  h1mmissK_rand->Scale(1.00/14.0);
   h1mmisspi_rand->Scale(1.25/7.0);
   h1mmissp_rand->Scale(1.25/7.0);
   h1mmissK_remove->Add(h1mmissK_cut,h1mmissK_rand,1,-1);
@@ -459,8 +460,8 @@ void KaonYield_all::Terminate()
   cCuts->cd(2); h1HMS_delta_cut->Draw();
   cCuts->cd(3); h1SHMS_delta->Draw();
   cCuts->cd(4); h1SHMS_delta_cut->Draw();
-  cCuts->cd(5); HMS_electron->Draw();
-  cCuts->cd(6); HMS_electron_cut->Draw();
+  cCuts->cd(5); HMS_electron->Draw("Colz");
+  cCuts->cd(6); HMS_electron_cut->Draw("Colz");
   cCuts->cd(7); h1SHMS_electron->Draw();
   cCuts->cd(8); h1SHMS_electron_cut->Draw();
   cCuts->Print(outputpdf + '(');
@@ -512,13 +513,13 @@ void KaonYield_all::Terminate()
   // LowerRand->SetLineColor(kRed); LowerRand->SetLineWidth(1); LowerRand->Draw();
   // TLine *UpperRand = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
   // UpperRand->SetLineColor(kRed); UpperRand->SetLineWidth(1); UpperRand->Draw();
-  TLine *LowerRand = new TLine(-15.0,gPad->GetUymin(),-15.0,gPad->GetUymax()); 
+  TLine *LowerRand = new TLine(-22.0,gPad->GetUymin(),-22.0,gPad->GetUymax()); 
   LowerRand->SetLineColor(kRed); LowerRand->SetLineWidth(1); LowerRand->Draw();
   TLine *UpperRand = new TLine(-8.0,gPad->GetUymin(),-8.0,gPad->GetUymax()); 
   UpperRand->SetLineColor(kRed); UpperRand->SetLineWidth(1); UpperRand->Draw();
   TLine *LowerRand1 = new TLine(8.0,gPad->GetUymin(),8.0,gPad->GetUymax()); 
   LowerRand1->SetLineColor(kRed); LowerRand1->SetLineWidth(1); LowerRand1->Draw();
-  TLine *UpperRand1 = new TLine(15.0,gPad->GetUymin(),15.0,gPad->GetUymax()); 
+  TLine *UpperRand1 = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
   UpperRand1->SetLineColor(kRed); UpperRand1->SetLineWidth(1); UpperRand1->Draw();
   cID->cd(6); h2ROC1_Coin_Beta_kaon->Draw("Colz");
   cID->cd(7); h1mmissK->Draw();
@@ -675,6 +676,7 @@ void KaonYield_all::Terminate()
   h2SHMSK_pion_cut->Write("SHMS HGC vs CAL, with cuts");
   h2ROC1_Coin_Beta_noID_kaon->Write("Kaon-Electron Coincidence Time, no cuts");
   h2ROC1_Coin_Beta_kaon->Write("Kaon-Electron Coincidence Time, with cuts");
+  h1missKcut_CT->Write("Kaon-Electron Coincidence Time vs Missing Mass");
   h1mmissK->Write("Kaon Missing Mass, no cuts");
   h1mmissK_remove->Write("Kaon Missing Mass, with cuts");
 

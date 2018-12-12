@@ -52,7 +52,7 @@ void KaonYield::SlaveBegin(TTree * /*tree*/)
 
   TString option = GetOption();
 
-  h1missKcut_CT   = new TH2F("h1missKcut_CT","Kaon Missing mass vs Coincidence Time",800,-10,10,200,0.8,1.4);
+  h1missKcut_CT   = new TH2F("h1missKcut_CT","Kaon Missing mass vs Coincidence Time",400,-10,10,100,0.8,1.4);
 
   h2ROC1_Coin_Beta_noID_kaon = new TH2F("ROC1_Coin_Beta_noCut_kaon","Kaon Coincident Time vs #beta for ROC1 (w/ particle ID);Time (ns);#beta",800,-40,40,200,0.0,2.0);
   h2ROC1_Coin_Beta_kaon = new TH2F("ROC1_Coin_Beta_kaon","Kaon Coincident Time vs #beta for ROC1;Time (ns);#beta",800,-40,40,200,0.0,2.0);
@@ -234,7 +234,8 @@ Bool_t KaonYield::Process(Long64_t entry)
   if (P_cal_etotnorm[0] > 0.6) return kTRUE;
 
   if (TMath::Abs(H_gtr_dp[0]) > 10.0) return kTRUE;
-  if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < -10.0) return kTRUE;
+  //if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < -10.0) return kTRUE;
+  if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < 0.0) return kTRUE;
 
   if (TMath::Abs(P_gtr_th[0]) > 0.040) return kTRUE;
   if (TMath::Abs(P_gtr_ph[0]) > 0.024) return kTRUE;
@@ -603,7 +604,7 @@ void KaonYield::Terminate()
   ptLambdaEvt->AddText(Form("Run: %i",option.Atoi()));
   ptLambdaEvt->AddText(Form("#Lambda Events: %.0f",Gauss_Fit->Integral(1.0,1.25) / 0.005));
   ptLambdaEvt->Draw();
-  //cout << Back_Fit->Integral(1.06,1.16) / 0.005 << endl;
+  cout << Form("Number of #Lambda Events : %.0f", Gauss_Fit->Integral(1.0,1.25) / 0.005) << endl;
 
   //Start output of .root file with all histograms
   
@@ -642,6 +643,7 @@ void KaonYield::Terminate()
   h2SHMSK_pion_cut->Write("SHMS HGC vs CAL, with cuts");
   h2ROC1_Coin_Beta_noID_kaon->Write("Kaon-Electron Coincidence Time, no cuts");
   h2ROC1_Coin_Beta_kaon->Write("Kaon-Electron Coincidence Time, with cuts");
+  h1missKcut_CT->Write("Kaon-Electron Coincidence Time, with Missing Mass");
   h1mmissK->Write("Kaon Missing Mass, no cuts");
   h1mmissK_remove->Write("Kaon Missing Mass, with cuts");
 
@@ -687,7 +689,6 @@ void KaonYield::Terminate()
   const string sep = "	" ;
   const int total_width = 154;
   const string line = sep + string( total_width-1, '-' ) + '|' ;
-
 
   ofstream myfile1;
   myfile1.open ("kaonyieldVar", fstream::app);
