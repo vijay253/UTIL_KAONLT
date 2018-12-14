@@ -151,72 +151,54 @@ Bool_t HMSADCGates::Process(Long64_t entry)
 
    for (Int_t i = 0; i < *Ndata_H_cer_adcPulseTime; i++) {
      if (H_cer_adcErrorFlag[i] == 1) continue;
-     //if (H_cer_adcCounter[i] < 1 || H_cer_adcCounter[i] > 4) continue;
-     //if (H_cer_adcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_cer_adcCounter[i] - 1;
      h1HCERPulseTimeStarttimeDiff[current_pmt]->Fill(-H_cer_adcPulseTime[i] + *H_hod_starttime);   
    }
 
    for (Int_t i = 0; i < *Ndata_H_1prcal_negAdcPulseTime; i++) {
      if (H_1prcal_negAdcErrorFlag[i] == 1) continue;
-     //if (H_1prcal_negAdcCounter[i] < 1 || H_1prcal_negAdcCounter[i] > 14) continue;
-     //if (H_1prcal_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_1prcal_negAdcCounter[i] - 1;
      h1H1prCALNegPulseTimeStarttimeDiff[current_pmt]->Fill(-H_1prcal_negAdcPulseTime[i] + *H_hod_starttime); 
    }
 
    for (Int_t i = 0; i < *Ndata_H_1prcal_posAdcPulseTime; i++) {
      if (H_1prcal_posAdcErrorFlag[i] == 1) continue;
-     //if (H_1prcal_posAdcCounter[i] < 1 || H_1prcal_posAdcCounter[i] > 14) continue;
-     //if (H_1prcal_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_1prcal_posAdcCounter[i] - 1;
      h1H1prCALPosPulseTimeStarttimeDiff[current_pmt]->Fill(-H_1prcal_posAdcPulseTime[i] + *H_hod_starttime); 
    }
 
    for (Int_t i = 0; i < *Ndata_H_2tacal_negAdcPulseTime; i++) {
      if (H_2tacal_negAdcErrorFlag[i] == 1) continue;
-     //if (H_2tacal_negAdcCounter[i] < 1 || H_2tacal_negAdcCounter[i] > 14) continue;
-     //if (H_2tacal_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_2tacal_negAdcCounter[i] - 1;
      h1H2taCALNegPulseTimeStarttimeDiff[current_pmt]->Fill(-H_2tacal_negAdcPulseTime[i] + *H_hod_starttime); 
    }
 
    for (Int_t i = 0; i < *Ndata_H_2tacal_posAdcPulseTime; i++) {
      if (H_2tacal_posAdcErrorFlag[i] == 1) continue;
-     //if (H_2tacal_posAdcCounter[i] < 1 || H_2tacal_posAdcCounter[i] > 14) continue;
-     //if (H_2tacal_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_2tacal_posAdcCounter[i] - 1;
      h1H2taCALPosPulseTimeStarttimeDiff[current_pmt]->Fill(-H_2tacal_posAdcPulseTime[i] + *H_hod_starttime); 
    }
 
    for (Int_t i = 0; i < *Ndata_H_3tacal_negAdcPulseTime; i++) {
      if (H_3tacal_negAdcErrorFlag[i] == 1) continue;
-     //if (H_3tacal_negAdcCounter[i] < 1 || H_3tacal_negAdcCounter[i] > 14) continue;
-     //if (H_3tacal_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_3tacal_negAdcCounter[i] - 1;
      h1H3taCALNegPulseTimeStarttimeDiff[current_pmt]->Fill(-H_3tacal_negAdcPulseTime[i] + *H_hod_starttime); 
    }
 
    for (Int_t i = 0; i < *Ndata_H_3tacal_posAdcPulseTime; i++) {
      if (H_3tacal_posAdcErrorFlag[i] == 1) continue;
-     //if (H_3tacal_posAdcCounter[i] < 1 || H_3tacal_posAdcCounter[i] > 14) continue;
-     //if (H_3tacal_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_3tacal_posAdcCounter[i] - 1;
      h1H3taCALPosPulseTimeStarttimeDiff[current_pmt]->Fill(-H_3tacal_posAdcPulseTime[i] + *H_hod_starttime); 
    }
 
    for (Int_t i = 0; i < *Ndata_H_4tacal_negAdcPulseTime; i++) {
      if (H_4tacal_negAdcErrorFlag[i] == 1) continue;
-     //if (H_4tacal_negAdcCounter[i] < 1 || H_4tacal_negAdcCounter[i] > 14) continue;
-     //if (H_4tacal_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_4tacal_negAdcCounter[i] - 1;
      h1H4taCALNegPulseTimeStarttimeDiff[current_pmt]->Fill(-H_4tacal_negAdcPulseTime[i] + *H_hod_starttime); 
    }
 
    for (Int_t i = 0; i < *Ndata_H_4tacal_posAdcPulseTime; i++) {
      if (H_4tacal_posAdcErrorFlag[i] == 1) continue;
-     //if (H_4tacal_posAdcCounter[i] < 1 || H_4tacal_posAdcCounter[i] > 14) continue;
-     //if (H_4tacal_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_4tacal_posAdcCounter[i] - 1;
      h1H4taCALPosPulseTimeStarttimeDiff[current_pmt]->Fill(-H_4tacal_posAdcPulseTime[i] + *H_hod_starttime); 
    }
@@ -238,66 +220,74 @@ Bool_t HMSADCGates::Process(Long64_t entry)
 
    for (Int_t i = 0; i < *Ndata_H_hod_1x_negAdcPulseTime; i++) {
      if (H_hod_1x_negAdcErrorFlag[i] == 1) continue;
-     //if (H_hod_1x_negAdcCounter[i] < 1 || H_hod_1x_negAdcCounter[i] > 13) continue;
-     //if (H_hod_1x_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_hod_1x_negAdcCounter[i] - 1;
-     h1HHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill(-H_hod_1x_negAdcPulseTime[i] + *H_hod_starttime); 
+     h1HHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_1x_negTdcTimeCorr[current_pmt] - H_hod_1x_negAdcPulseTime[i]);
+     /*for (Int_t j = 0; j < *Ndata_H_hod_1x_negTdcTime; j++) {
+       h1HHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_1x_negTdcTime[j] - H_hod_1x_negAdcPulseTime[i]); 
+       }*/
    }
-
+   
    for (Int_t i = 0; i < *Ndata_H_hod_1x_posAdcPulseTime; i++) {
      if (H_hod_1x_posAdcErrorFlag[i] == 1) continue;
-     //if (H_hod_1x_posAdcCounter[i] < 1 || H_hod_1x_posAdcCounter[i] > 13) continue;
-     //if (H_hod_1x_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_hod_1x_posAdcCounter[i] - 1;
-     h1HHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(-H_hod_1x_posAdcPulseTime[i] + *H_hod_starttime); 
+     h1HHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_1x_posTdcTimeCorr[current_pmt]  - H_hod_1x_posAdcPulseTime[i]);
+     /*for (Int_t j = 0; j < *Ndata_H_hod_1x_posTdcTime; j++) {
+       h1HHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_1x_posTdcTime[j] - H_hod_1x_posAdcPulseTime[i]); 
+       }*/
    }
 
    for (Int_t i = 0; i < *Ndata_H_hod_1y_negAdcPulseTime; i++) {
      if (H_hod_1y_negAdcErrorFlag[i] == 1) continue;
-     //if (H_hod_1y_negAdcCounter[i] < 1 || H_hod_1y_negAdcCounter[i] > 13) continue;
-     //if (H_hod_1y_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_hod_1y_negAdcCounter[i] - 1;
-     h1HHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(-H_hod_1y_negAdcPulseTime[i] + *H_hod_starttime); 
+     h1HHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_1y_negTdcTimeCorr[current_pmt] - H_hod_1y_negAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_H_hod_1y_negTdcTime; j++) {
+       h1HHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_1y_negTdcTime[j] - H_hod_1y_negAdcPulseTime[i]); 
+       }*/
    }
 
    for (Int_t i = 0; i < *Ndata_H_hod_1y_posAdcPulseTime; i++) {
      if (H_hod_1y_posAdcErrorFlag[i] == 1) continue;
-     //if (H_hod_1y_posAdcCounter[i] < 1 || H_hod_1y_posAdcCounter[i] > 13) continue;
-     //if (H_hod_1y_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_hod_1y_posAdcCounter[i] - 1;
-     h1HHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(-H_hod_1y_posAdcPulseTime[i] + *H_hod_starttime); 
+     h1HHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_1y_posTdcTimeCorr[current_pmt] - H_hod_1y_posAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_H_hod_1y_posTdcTime; j++) {
+       h1HHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_1y_posTdcTime[j] - H_hod_1y_posAdcPulseTime[i]); 
+       }*/
    }
 
    for (Int_t i = 0; i < *Ndata_H_hod_2x_negAdcPulseTime; i++) {
      if (H_hod_2x_negAdcErrorFlag[i] == 1) continue;
-     //if (H_hod_2x_negAdcCounter[i] < 1 || H_hod_2x_negAdcCounter[i] > 14) continue;
-     //if (H_hod_2x_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_hod_2x_negAdcCounter[i] - 1;
-     h1HHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(-H_hod_2x_negAdcPulseTime[i] + *H_hod_starttime); 
+     h1HHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_2x_negTdcTimeCorr[current_pmt] - H_hod_2x_negAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_H_hod_2x_negTdcTime; j++) {
+       h1HHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_2x_negTdcTime[j] - H_hod_2x_negAdcPulseTime[i]); 
+       }*/
    }
 
    for (Int_t i = 0; i < *Ndata_H_hod_2x_posAdcPulseTime; i++) {
      if (H_hod_2x_posAdcErrorFlag[i] == 1) continue;
-     //if (H_hod_2x_posAdcCounter[i] < 1 || H_hod_2x_posAdcCounter[i] > 14) continue;
-     //if (H_hod_2x_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_hod_2x_posAdcCounter[i] - 1;
-     h1HHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(-H_hod_2x_posAdcPulseTime[i] + *H_hod_starttime); 
+     h1HHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_2x_posTdcTimeCorr[current_pmt] - H_hod_2x_posAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_H_hod_2x_posTdcTime; j++) {
+       h1HHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_2x_posTdcTime[j] - H_hod_2x_posAdcPulseTime[i]); 
+       }*/
    }
 
    for (Int_t i = 0; i < *Ndata_H_hod_2y_negAdcPulseTime; i++) {
      if (H_hod_2y_negAdcErrorFlag[i] == 1) continue;
-     //if (H_hod_2y_negAdcCounter[i] < 1 || H_hod_2y_negAdcCounter[i] > 18) continue;
-     //if (H_hod_2y_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_hod_2y_negAdcCounter[i] - 1;
-     h1HHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(-H_hod_2y_negAdcPulseTime[i] + *H_hod_starttime); 
+     h1HHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_2y_negTdcTimeCorr[current_pmt] - H_hod_2y_negAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_H_hod_2y_negTdcTime; j++) {
+       h1HHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_2y_negTdcTime[j] - H_hod_2y_negAdcPulseTime[i]); 
+       }*/
    }
 
    for (Int_t i = 0; i < *Ndata_H_hod_2y_posAdcPulseTime; i++) {
      if (H_hod_2y_posAdcErrorFlag[i] == 1) continue;
-     //if (H_hod_2y_posAdcCounter[i] < 1 || H_hod_2y_posAdcCounter[i] > 18) continue;
-     //if (H_hod_2y_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = H_hod_2y_posAdcCounter[i] - 1;
-     h1HHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(-H_hod_2y_posAdcPulseTime[i] + *H_hod_starttime); 
+     h1HHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_2y_posTdcTimeCorr[current_pmt] - H_hod_2y_posAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_H_hod_2y_posTdcTime; j++) {
+       h1HHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(H_hod_2y_posTdcTime[j] - H_hod_2y_posAdcPulseTime[i]); 
+       }*/
    }
 
    return kTRUE;
@@ -305,9 +295,9 @@ Bool_t HMSADCGates::Process(Long64_t entry)
 
 void HMSADCGates::SlaveTerminate()
 {
-   // The SlaveTerminate() function is called after all entries or objects
-   // have been processed. When running with PROOF SlaveTerminate() is called
-   // on each slave server.
+  // The SlaveTerminate() function is called after all entries or objects
+  // have been processed. When running with PROOF SlaveTerminate() is called
+  // on each slave server.
 
 }
 

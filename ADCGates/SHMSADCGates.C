@@ -168,9 +168,7 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    
    for (Int_t i = 0; i < *Ndata_P_hgcer_adcPulseTime; i++) {
      if (P_hgcer_adcErrorFlag[i] == 1) continue;
-     //if (P_hgcer_adcCounter[i] < 1 || P_hgcer_adcCounter[i] > 4) continue;
      Int_t current_pmt = P_hgcer_adcCounter[i] - 1;
-     if (entry < 100) cout << entry << "   "  << *Ndata_P_hgcer_adcPulseTime << "   " << P_hgcer_adcCounter[i] << endl;
      h1PHGCERPulseTime[current_pmt]->Fill(-P_hgcer_adcPulseTime[i]);
      h1PHGCERPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hgcer_adcPulseTime[i] + *P_hod_starttime);   
    }
@@ -185,8 +183,6 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    
    for (Int_t i = 0; i < *Ndata_P_aero_negAdcPulseTime; i++) {
      if (P_aero_negAdcErrorFlag[i] == 1) continue;
-     //if (P_aero_negAdcCounter[i] < 1 || P_aero_negAdcCounter[i] > 7) continue;
-     //if (P_aero_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_aero_negAdcCounter[i] - 1;
      h1PAERONegPulseTime[current_pmt]->Fill(-P_aero_negAdcPulseTime[i]);
      h1PAERONegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_aero_negAdcPulseTime[i] + *P_hod_starttime); 
@@ -194,8 +190,6 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    
    for (Int_t i = 0; i < *Ndata_P_aero_posAdcPulseTime; i++) {
      if (P_aero_posAdcErrorFlag[i] == 1) continue;
-     //if (P_aero_posAdcCounter[i] < 1 || P_aero_posAdcCounter[i] > 7) continue;
-     //if (P_aero_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_aero_posAdcCounter[i] - 1;
      h1PAEROPosPulseTime[current_pmt]->Fill(-P_aero_posAdcPulseTime[i]);
      h1PAEROPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_aero_posAdcPulseTime[i] + *P_hod_starttime); 
@@ -203,8 +197,6 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    
    for (Int_t i = 0; i < *Ndata_P_precal_negAdcPulseTime; i++) {
      if (P_precal_negAdcErrorFlag[i] == 1) continue;
-     //if (P_precal_negAdcCounter[i] < 1 || P_precal_negAdcCounter[i] > 14) continue;
-     //if (P_precal_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_precal_negAdcCounter[i] - 1;
      h1PPRECALNegPulseTime[current_pmt]->Fill(-P_precal_negAdcPulseTime[i]);
      h1PPRECALNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_precal_negAdcPulseTime[i] + *P_hod_starttime); 
@@ -212,8 +204,6 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    
    for (Int_t i = 0; i < *Ndata_P_precal_posAdcPulseTime; i++) {
      if (P_precal_posAdcErrorFlag[i] == 1) continue;
-     //if (P_precal_posAdcCounter[i] < 1 || P_precal_posAdcCounter[i] > 14) continue;
-     //if (P_precal_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_precal_posAdcCounter[i] - 1;
      h1PPRECALPosPulseTime[current_pmt]->Fill(-P_precal_posAdcPulseTime[i]);
      h1PPRECALPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_precal_posAdcPulseTime[i] + *P_hod_starttime); 
@@ -221,8 +211,6 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    
    for (Int_t i = 0; i < *Ndata_P_cal_adcPulseTime; i++) {
      if (P_cal_adcErrorFlag[i] == 1) continue;
-     //if (P_cal_adcCounter[i] < 1 || P_cal_adcCounter[i] > 255) continue;
-     //if (P_cal_adcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_cal_adcCounter[i] - 1;
      h1PCALPulseTimeStarttimeDiff[current_pmt]->Fill(-P_cal_adcPulseTime[i] + *P_hod_starttime); 
    }
@@ -244,66 +232,74 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    
    for (Int_t i = 0; i < *Ndata_P_hod_1x_negAdcPulseTime; i++) {
      if (P_hod_1x_negAdcErrorFlag[i] == 1) continue;
-     //if (P_hod_1x_negAdcCounter[i] < 1 || P_hod_1x_negAdcCounter[i] > 13) continue;
-     //if (P_hod_1x_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1x_negAdcCounter[i] - 1;
-     h1PHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1x_negAdcPulseTime[i] + *P_hod_starttime); 
+     h1PHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_negTdcTimeCorr[current_pmt] - P_hod_1x_negAdcPulseTime[i]);
+     /*for (Int_t j = 0; j < *Ndata_P_hod_1x_negTdcTime; j++) {
+       h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_negTdcTime[j] - P_hod_1x_negAdcPulseTime[i]); 
+     }*/
    }
    
    for (Int_t i = 0; i < *Ndata_P_hod_1x_posAdcPulseTime; i++) {
      if (P_hod_1x_posAdcErrorFlag[i] == 1) continue;
-     //if (P_hod_1x_posAdcCounter[i] < 1 || P_hod_1x_posAdcCounter[i] > 13) continue;
-     //if (P_hod_1x_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1x_posAdcCounter[i] - 1;
-     h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1x_posAdcPulseTime[i] + *P_hod_starttime); 
+     h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_posTdcTimeCorr[current_pmt]  - P_hod_1x_posAdcPulseTime[i]);
+     /*for (Int_t j = 0; j < *Ndata_P_hod_1x_posTdcTime; j++) {
+       h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_posTdcTime[j] - P_hod_1x_posAdcPulseTime[i]); 
+     }*/
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_1y_negAdcPulseTime; i++) {
      if (P_hod_1y_negAdcErrorFlag[i] == 1) continue;
-     //if (P_hod_1y_negAdcCounter[i] < 1 || P_hod_1y_negAdcCounter[i] > 13) continue;
-     //if (P_hod_1y_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1y_negAdcCounter[i] - 1;
-     h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1y_negAdcPulseTime[i] + *P_hod_starttime); 
+     h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_negTdcTimeCorr[current_pmt] - P_hod_1y_negAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_P_hod_1y_negTdcTime; j++) {
+       h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_negTdcTime[j] - P_hod_1y_negAdcPulseTime[i]); 
+     }*/
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_1y_posAdcPulseTime; i++) {
      if (P_hod_1y_posAdcErrorFlag[i] == 1) continue;
-     //if (P_hod_1y_posAdcCounter[i] < 1 || P_hod_1y_posAdcCounter[i] > 13) continue;
-     //if (P_hod_1y_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_1y_posAdcCounter[i] - 1;
-     h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_1y_posAdcPulseTime[i] + *P_hod_starttime); 
+     h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_posTdcTimeCorr[current_pmt] - P_hod_1y_posAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_P_hod_1y_posTdcTime; j++) {
+       h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_posTdcTime[j] - P_hod_1y_posAdcPulseTime[i]); 
+     }*/
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_2x_negAdcPulseTime; i++) {
      if (P_hod_2x_negAdcErrorFlag[i] == 1) continue;
-     //if (P_hod_2x_negAdcCounter[i] < 1 || P_hod_2x_negAdcCounter[i] > 14) continue;
-     //if (P_hod_2x_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2x_negAdcCounter[i] - 1;
-     h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2x_negAdcPulseTime[i] + *P_hod_starttime); 
+     h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_negTdcTimeCorr[current_pmt] - P_hod_2x_negAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_P_hod_2x_negTdcTime; j++) {
+       h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_negTdcTime[j] - P_hod_2x_negAdcPulseTime[i]); 
+     }*/
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_2x_posAdcPulseTime; i++) {
      if (P_hod_2x_posAdcErrorFlag[i] == 1) continue;
-     //if (P_hod_2x_posAdcCounter[i] < 1 || P_hod_2x_posAdcCounter[i] > 14) continue;
-     //if (P_hod_2x_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2x_posAdcCounter[i] - 1;
-     h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2x_posAdcPulseTime[i] + *P_hod_starttime); 
+     h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_posTdcTimeCorr[current_pmt] - P_hod_2x_posAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_P_hod_2x_posTdcTime; j++) {
+       h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_posTdcTime[j] - P_hod_2x_posAdcPulseTime[i]); 
+     }*/
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_2y_negAdcPulseTime; i++) {
      if (P_hod_2y_negAdcErrorFlag[i] == 1) continue;
-     //if (P_hod_2y_negAdcCounter[i] < 1 || P_hod_2y_negAdcCounter[i] > 18) continue;
-     //if (P_hod_2y_negAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2y_negAdcCounter[i] - 1;
-     h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2y_negAdcPulseTime[i] + *P_hod_starttime); 
+     h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_negTdcTimeCorr[current_pmt] - P_hod_2y_negAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_P_hod_2y_negTdcTime; j++) {
+       h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_negTdcTime[j] - P_hod_2y_negAdcPulseTime[i]); 
+     }*/
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_2y_posAdcPulseTime; i++) {
      if (P_hod_2y_posAdcErrorFlag[i] == 1) continue;
-     //if (P_hod_2y_posAdcCounter[i] < 1 || P_hod_2y_posAdcCounter[i] > 18) continue;
-     //if (P_hod_2y_posAdcPulseTime[i] == 0) continue;
      Int_t current_pmt = P_hod_2y_posAdcCounter[i] - 1;
-     h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(-P_hod_2y_posAdcPulseTime[i] + *P_hod_starttime); 
+     h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_posTdcTimeCorr[current_pmt] - P_hod_2y_posAdcPulseTime[i]); 
+     /*for (Int_t j = 0; j < *Ndata_P_hod_2y_posTdcTime; j++) {
+       h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_posTdcTime[j] - P_hod_2y_posAdcPulseTime[i]); 
+     }*/
    }
    
    return kTRUE;
@@ -324,7 +320,7 @@ void SHMSADCGates::Terminate()
   // the results graphically or save the results to file.
 
   Info("Terminate", "Branches Sorted, Now Calculating Windows");
-  
+  //return;
   TH1F* PHGCPULSETIME[4];
   TH1F* PHGCPULSETIMEDIFF[4];
   for (Int_t ipmt = 0; ipmt < 4; ipmt++) {
@@ -475,7 +471,6 @@ void SHMSADCGates::Terminate()
   Double_t CAL_Window[224];
   for (Int_t ipmt = 0; ipmt < 224; ipmt++) {
     if (PCALPULSETIMEDIFF[ipmt]->GetEntries() < 50) {
-      cout << PCALPULSETIMEDIFF[ipmt]->GetEntries() << endl;
       TSpectrum *s = new TSpectrum(1);
       s->Search(PCALPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
       TList *functions = PCALPULSETIMEDIFF[ipmt]->GetListOfFunctions();
@@ -503,10 +498,11 @@ void SHMSADCGates::Terminate()
       DC_Window[ipmt] = 1e+38;
     }
   }
-  
+  cout << "I AM HERE" << endl;
   Double_t HODO1xNeg_Window[18];
   for (Int_t ipmt = 0; ipmt < 18; ipmt++) {
     if (ipmt < 13 || PHODO1xNEGPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
+      cout << ipmt << "   ";
       TSpectrum *s = new TSpectrum(1);
       s->Search(PHODO1xNEGPULSETIMEDIFF[ipmt], 1.0, "nobackground&&nodraw", 0.001);
       TList *functions = PHODO1xNEGPULSETIMEDIFF[ipmt]->GetListOfFunctions();
@@ -516,7 +512,7 @@ void SHMSADCGates::Terminate()
       HODO1xNeg_Window[ipmt] = 1e+38;
     }
   }
-
+  cout << "I AM HERE TOO" << endl;
   Double_t HODO1xPos_Window[18];
   for (Int_t ipmt = 0; ipmt < 18; ipmt++) {
     if (ipmt < 13 || PHODO1xPOSPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
@@ -529,7 +525,7 @@ void SHMSADCGates::Terminate()
       HODO1xPos_Window[ipmt] = 1e+38;
     }
   }
-
+  
   Double_t HODO1yNeg_Window[18];
   for (Int_t ipmt = 0; ipmt < 18; ipmt++) {
     if (ipmt < 13 || PHODO1yNEGPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
@@ -542,7 +538,7 @@ void SHMSADCGates::Terminate()
       HODO1yNeg_Window[ipmt] = 1e+38;
     }
   }
-
+  
   Double_t HODO1yPos_Window[18];
   for (Int_t ipmt = 0; ipmt < 18; ipmt++) {
     if (ipmt < 13 || PHODO1yPOSPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
@@ -555,7 +551,7 @@ void SHMSADCGates::Terminate()
       HODO1yPos_Window[ipmt] = 1e+38;
     }
   }
-
+  
   Double_t HODO2xNeg_Window[18];
   for (Int_t ipmt = 0; ipmt < 18; ipmt++) {
     if (ipmt < 14 || PHODO2xNEGPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
@@ -569,7 +565,7 @@ void SHMSADCGates::Terminate()
       HODO2xNeg_Window[ipmt] = 1e+38;
     }
   }
-
+  
   Double_t HODO2xPos_Window[18];
   for (Int_t ipmt = 0; ipmt < 18; ipmt++) {
     if (ipmt < 14 || PHODO2xPOSPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
@@ -612,6 +608,8 @@ void SHMSADCGates::Terminate()
     }
   }
   gSystem->RedirectOutput(0);
+
+  
 
   //Begin Calculation of Window Values
   Int_t AeroPosMin = TMath::Mean(7,AEROPOS_Window) - 35;
