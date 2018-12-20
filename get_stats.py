@@ -5,6 +5,7 @@ import time,sys,os,argparse,atexit,subprocess,math
 ANGLE = sys.argv[1]
 CURRENT = sys.argv[2]
 BEAM = 4.900
+target = "LH2"
 
 ANGLE_low = float(ANGLE)-0.3
 ANGLE_high = float(ANGLE)+0.3
@@ -30,16 +31,17 @@ def getRunInfo():
     for line in f:
         linespace = line.strip()
         if "Prod" in linespace or "PROD" in linespace :
-            data = linespace.split("!")
-            #print(str(data))
-            runtmp = [int(s) for s in data[0].split() if s.isdigit()]
-            lamtmp = [int(s) for s in data[1].split() if s.isdigit()]
-            if len(lamtmp) != 0:
-                run_tmp = runtmp[0]
-                lambda_tmp = lamtmp[0]
-                #print("Run %s, lambda %s" % (run_tmp,lambda_tmp))
-                Run.append(run_tmp)
-                lamb.append(lambda_tmp)
+            if target in linespace :
+                data = linespace.split("!")
+                #print(str(data))
+                runtmp = [int(s) for s in data[0].split() if s.isdigit()]
+                lamtmp = [int(s) for s in data[1].split() if s.isdigit()]
+                if len(lamtmp) != 0:
+                    run_tmp = runtmp[0]
+                    lambda_tmp = lamtmp[0]
+                    #print("Run %s, lambda %s" % (run_tmp,lambda_tmp))
+                    Run.append(run_tmp)
+                    lamb.append(lambda_tmp)
                 
     f.close()
     
@@ -194,10 +196,17 @@ def main() :
     
     [P_SHMS, Theta_SHMS, P_HMS, Theta_HMS, Ebeam, Current, PS1, PS3, PS5, HMS_Rate, SHMS_Rate, COIN_Rate, Charge, Raw_coin] = getValues()
     
+    acc_charge = []
     tot_charge = []
     tot_lambda = []
-    charge_goal = 7188
-    lambda_goal = 8215
+    #charge_goal = 976
+    charge_goal = 1190
+    #lambda_goal = 21000
+    lambda_goal = 20900
+    charge_goalPAC = 3162
+    #lambda_goalPAC = 68250
+    lambda_goalPAC = 60800
+
     i=0
 
     print("\nBeam must be between %0.3f GeV and %0.3f GeV" % (BEAM_low,BEAM_high))    
@@ -207,6 +216,7 @@ def main() :
     while True :
         if BEAM_low < float(Ebeam[i]) < BEAM_high :
             if ANGLE_low < float(Theta_SHMS[i]) < ANGLE_high :
+                acc_charge.append(float(Charge[i]))
                 if CURRENT_low < float(Current[i]) < CURRENT_high : 
                     #print("Theta_SHMS for run %s is %s" % (Run,Theta_SHMS))
                     #print("Current for run %s is %s" % (Run,Current))
@@ -218,10 +228,17 @@ def main() :
             break
         
     #print("Total Charge is  %s, Total lambdas are %s" % (sum(tot_charge),sum(tot_lambda)))
-    print("\nTotal Charge is  %0.2f, %0.1f%% of stat goal\n" % (sum(tot_charge),(sum(tot_charge)/charge_goal)*100))
-    print("%0.1f hours to complete setting at this current (100%% efficiency)" % (charge_goal/(float(CURRENT)*(10e-3)*60*60)))
-    print("%0.1f hours to complete setting at this current (75%% efficiency)\n" % ((charge_goal)/(float(CURRENT)*.75*(10e-3)*60*60)))
+    print("\nCharge for this setting is  %0.2f, %0.1f%% of charge stat goal" % (sum(tot_charge),(sum(tot_charge)/charge_goal)*100))
+    print("Charge for this setting is  %0.2f, %0.1f%% of PAC charge stat goal\n" % (sum(tot_charge),(sum(tot_charge)/charge_goalPAC)*100))
+
+    print("Total Charge for %s degrees is %0.2f, %0.1f%% of charge stat goal" % (ANGLE, sum(acc_charge), (sum(acc_charge)/charge_goal)*100))
+    print("Total Charge for %s degrees is %0.2f, %0.1f%% of PAC charge stat goal\n" % (ANGLE, sum(acc_charge), (sum(acc_charge)/charge_goalPAC)*100))
+
+    #print("%0.1f hours to complete setting at this current (100%% efficiency)" % (charge_goal/(float(CURRENT)*(10e-3)*60*60)))
+    #print("%0.1f hours to complete setting at this current (75%% efficiency)\n" % ((charge_goal)/(float(CURRENT)*.75*(10e-3)*60*60)))
+
     print("Lambda events were hand written in runlist, may be subject to change...")
-    print("Total Lambda Events are  %0.2f, %0.1f%% of stat goal\n" % (sum(tot_lambda),(sum(tot_lambda)/lambda_goal)*100))
+    print("Total Lambda Events are  %0.2f, %0.1f%% of stat goal" % (sum(tot_lambda),(sum(tot_lambda)/lambda_goal)*100))
+    print("Total Lambda Events are  %0.2f, %0.1f%% of PAC stat goal\n" % (sum(tot_lambda),(sum(tot_lambda)/lambda_goalPAC)*100))
 
 if __name__=='__main__': main()

@@ -97,7 +97,7 @@ void KaonYield::SlaveBegin(TTree * /*tree*/)
   h1HMS_ph              = new TH1F("HMS_ph","HMS Theta Acceptance;#phi;Counts",100,-0.1,0.1);
   h1HMS_ph_cut          = new TH1F("HMS_ph_cut","HMS Theta Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
 
-  h1mmissK                = new TH1F("mmissK","Kaon Missing mass;Mass (GeV/c^{2});Counts",200,0.8,1.4);
+  h1mmissK                = new TH1F("mmissK","Kaon Missing mass;Mass (GeV/c^{2});Counts",200,0.0,2.0);
   h1mmissK->Sumw2();
   h1mmissK_rand           = new TH1F("mmissK_rand","Kaon Missing mass from Random Coincidence;Mass (GeV/c^{2});Counts",200,0.8,1.4);
   h1mmissK_rand->Sumw2();
@@ -234,8 +234,8 @@ Bool_t KaonYield::Process(Long64_t entry)
   if (P_cal_etotnorm[0] > 0.6) return kTRUE;
 
   if (TMath::Abs(H_gtr_dp[0]) > 10.0) return kTRUE;
-  //if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < -10.0) return kTRUE;
-  if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < 0.0) return kTRUE;
+  if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < -10.0) return kTRUE;
+  //if (P_gtr_dp[0] > 20.0 || P_gtr_dp[0] < 0.0) return kTRUE;
 
   if (TMath::Abs(P_gtr_th[0]) > 0.040) return kTRUE;
   if (TMath::Abs(P_gtr_ph[0]) > 0.024) return kTRUE;
@@ -255,7 +255,8 @@ Bool_t KaonYield::Process(Long64_t entry)
 
   /*if (P_hgcer_xAtCer[0] < 10.0) return kTRUE;*/
 
-  if (P_aero_npeSum[0] > 1.5 && P_hgcer_npeSum[0] < 0.5) { //Event identified as Kaon
+  //if (P_aero_npeSum[0] > 1.5 && P_hgcer_npeSum[0] < 0.5) { //Event identified as Kaon
+  if (P_aero_npeSum[0] > 1.5 && P_hgcer_npeSum[0] < 1.5) { //Event identified as Kaon
     h2ROC1_Coin_Beta_noID_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 48.0),P_gtr_beta[0]); 
 
     if (abs(P_gtr_beta[0]-1.00) > 0.1) return kTRUE;
@@ -263,7 +264,8 @@ Bool_t KaonYield::Process(Long64_t entry)
     h1missKcut_CT->Fill( CTime_eKCoinTime_ROC1[0] - 48.0, sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
 
     //if (abs((CTime_eKCoinTime_ROC1[0] - 51.0)) < 1.0) {
-    if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.5 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 0.95) {
+    //if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.5 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 0.95) {
+    if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.4 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 1.05) {
       h2ROC1_Coin_Beta_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 48.0),P_gtr_beta[0]);
       h2SHMSK_kaon_cut->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
       h2SHMSK_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
@@ -274,8 +276,8 @@ Bool_t KaonYield::Process(Long64_t entry)
       h1epsilon->Fill(epsilon[0]);
     }
 
-    if ((abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > -24.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < -10.0) ||
-	(abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 22.0) ) {
+    if ((abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > -32.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < -18.0) ||
+	(abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 14.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 28.0) ) {
       h1mmissK_rand->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
       //h1mmissK_remove->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
     }
@@ -389,7 +391,7 @@ void KaonYield::Terminate()
   GausBack->SetParameter(4,1.12);
   GausBack->SetParameter(5,0.004);
   GausBack->SetParLimits(3,0,5000);
-  GausBack->SetParLimits(4,1.11,1.13);
+  GausBack->SetParLimits(4,1.10,1.13);
   GausBack->SetParLimits(5,0.001,0.01);
 
   h1mmissK_remove->Fit("GausBack","RMQN");
@@ -484,13 +486,13 @@ void KaonYield::Terminate()
   cID->cd(4); h2SHMSK_pion_cut->Draw("Colz");
   cID->cd(5); h2ROC1_Coin_Beta_noID_kaon->Draw("Colz");
   cID->Update();
-  TLine *LowerRandLeft = new TLine(-24.0,gPad->GetUymin(),-24.0,gPad->GetUymax()); 
+  TLine *LowerRandLeft = new TLine(-32.0,gPad->GetUymin(),-32.0,gPad->GetUymax()); 
   LowerRandLeft->SetLineColor(kRed); LowerRandLeft->SetLineWidth(1); LowerRandLeft->Draw();
-  TLine *UpperRandLeft = new TLine(-10.0,gPad->GetUymin(),-10.0,gPad->GetUymax()); 
+  TLine *UpperRandLeft = new TLine(-18.0,gPad->GetUymin(),-18.0,gPad->GetUymax()); 
   UpperRandLeft->SetLineColor(kRed); UpperRandLeft->SetLineWidth(1); UpperRandLeft->Draw();
-  TLine *LowerRandRight = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
+  TLine *LowerRandRight = new TLine(28.0,gPad->GetUymin(),28.0,gPad->GetUymax()); 
   LowerRandRight->SetLineColor(kRed); LowerRandRight->SetLineWidth(1); LowerRandRight->Draw();
-  TLine *UpperRandRight = new TLine(8.0,gPad->GetUymin(),8.0,gPad->GetUymax()); 
+  TLine *UpperRandRight = new TLine(14.0,gPad->GetUymin(),14.0,gPad->GetUymax()); 
   UpperRandRight->SetLineColor(kRed); UpperRandRight->SetLineWidth(1); UpperRandRight->Draw();
   cID->cd(6); h2ROC1_Coin_Beta_kaon->Draw("Colz");
   cID->cd(7); h1mmissK->Draw();

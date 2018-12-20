@@ -233,73 +233,74 @@ Bool_t SHMSADCGates::Process(Long64_t entry)
    for (Int_t i = 0; i < *Ndata_P_hod_1x_negAdcPulseTime; i++) {
      if (P_hod_1x_negAdcErrorFlag[i] == 1) continue;
      Int_t current_pmt = P_hod_1x_negAdcCounter[i] - 1;
-     h1PHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_negTdcTimeCorr[current_pmt] - P_hod_1x_negAdcPulseTime[i]);
-     /*for (Int_t j = 0; j < *Ndata_P_hod_1x_negTdcTime; j++) {
-       h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_negTdcTime[j] - P_hod_1x_negAdcPulseTime[i]); 
-     }*/
+     //h1PHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_negTdcTimeCorr[current_pmt] - P_hod_1x_negAdcPulseTime[i]);
+     for (Int_t j = 0; j < *Ndata_P_hod_1x_negTdcTime; j++) {
+       cout << (P_hod_1x_negTdcTime[j])*0.1 + 200.0 - P_hod_1x_negAdcPulseTime[i] << endl;
+       h1PHODO1xNegPulseTimeStarttimeDiff[current_pmt]->Fill((P_hod_1x_negTdcTime[j])*0.1 + 200.0 - P_hod_1x_negAdcPulseTime[i]); 
+     }
    }
    
    for (Int_t i = 0; i < *Ndata_P_hod_1x_posAdcPulseTime; i++) {
      if (P_hod_1x_posAdcErrorFlag[i] == 1) continue;
      Int_t current_pmt = P_hod_1x_posAdcCounter[i] - 1;
-     h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_posTdcTimeCorr[current_pmt]  - P_hod_1x_posAdcPulseTime[i]);
-     /*for (Int_t j = 0; j < *Ndata_P_hod_1x_posTdcTime; j++) {
-       h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_posTdcTime[j] - P_hod_1x_posAdcPulseTime[i]); 
-     }*/
+     //h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_posTdcTimeCorr[current_pmt]  - P_hod_1x_posAdcPulseTime[i]);
+     for (Int_t j = 0; j < *Ndata_P_hod_1x_posTdcTime; j++) {
+       h1PHODO1xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1x_posTdcTime[j])*0.1 + 200.0 - P_hod_1x_posAdcPulseTime[i]); 
+     }
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_1y_negAdcPulseTime; i++) {
      if (P_hod_1y_negAdcErrorFlag[i] == 1) continue;
      Int_t current_pmt = P_hod_1y_negAdcCounter[i] - 1;
-     h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_negTdcTimeCorr[current_pmt] - P_hod_1y_negAdcPulseTime[i]); 
-     /*for (Int_t j = 0; j < *Ndata_P_hod_1y_negTdcTime; j++) {
-       h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_negTdcTime[j] - P_hod_1y_negAdcPulseTime[i]); 
-     }*/
+     //h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_negTdcTimeCorr[current_pmt] - P_hod_1y_negAdcPulseTime[i]); 
+     for (Int_t j = 0; j < *Ndata_P_hod_1y_negTdcTime; j++) {
+       h1PHODO1yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_negTdcTime[j])*0.1 + 200.0 - P_hod_1y_negAdcPulseTime[i]); 
+     }
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_1y_posAdcPulseTime; i++) {
      if (P_hod_1y_posAdcErrorFlag[i] == 1) continue;
      Int_t current_pmt = P_hod_1y_posAdcCounter[i] - 1;
-     h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_posTdcTimeCorr[current_pmt] - P_hod_1y_posAdcPulseTime[i]); 
-     /*for (Int_t j = 0; j < *Ndata_P_hod_1y_posTdcTime; j++) {
-       h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_posTdcTime[j] - P_hod_1y_posAdcPulseTime[i]); 
-     }*/
+     //h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_posTdcTimeCorr[current_pmt] - P_hod_1y_posAdcPulseTime[i]); 
+     for (Int_t j = 0; j < *Ndata_P_hod_1y_posTdcTime; j++) {
+       h1PHODO1yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_1y_posTdcTime[j])*0.1 + 200.0 - P_hod_1y_posAdcPulseTime[i]); 
+     }
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_2x_negAdcPulseTime; i++) {
      if (P_hod_2x_negAdcErrorFlag[i] == 1) continue;
      Int_t current_pmt = P_hod_2x_negAdcCounter[i] - 1;
-     h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_negTdcTimeCorr[current_pmt] - P_hod_2x_negAdcPulseTime[i]); 
-     /*for (Int_t j = 0; j < *Ndata_P_hod_2x_negTdcTime; j++) {
-       h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_negTdcTime[j] - P_hod_2x_negAdcPulseTime[i]); 
-     }*/
+     //h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_negTdcTimeCorr[current_pmt] - P_hod_2x_negAdcPulseTime[i]); 
+     for (Int_t j = 0; j < *Ndata_P_hod_2x_negTdcTime; j++) {
+       h1PHODO2xNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_negTdcTime[j])*0.1 + 200.0 - P_hod_2x_negAdcPulseTime[i]); 
+     }
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_2x_posAdcPulseTime; i++) {
      if (P_hod_2x_posAdcErrorFlag[i] == 1) continue;
      Int_t current_pmt = P_hod_2x_posAdcCounter[i] - 1;
-     h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_posTdcTimeCorr[current_pmt] - P_hod_2x_posAdcPulseTime[i]); 
-     /*for (Int_t j = 0; j < *Ndata_P_hod_2x_posTdcTime; j++) {
-       h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_posTdcTime[j] - P_hod_2x_posAdcPulseTime[i]); 
-     }*/
+     //h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_posTdcTimeCorr[current_pmt] - P_hod_2x_posAdcPulseTime[i]); 
+     for (Int_t j = 0; j < *Ndata_P_hod_2x_posTdcTime; j++) {
+       h1PHODO2xPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2x_posTdcTime[j])*0.1 + 200.0 - P_hod_2x_posAdcPulseTime[i]); 
+     }
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_2y_negAdcPulseTime; i++) {
      if (P_hod_2y_negAdcErrorFlag[i] == 1) continue;
      Int_t current_pmt = P_hod_2y_negAdcCounter[i] - 1;
-     h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_negTdcTimeCorr[current_pmt] - P_hod_2y_negAdcPulseTime[i]); 
-     /*for (Int_t j = 0; j < *Ndata_P_hod_2y_negTdcTime; j++) {
-       h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_negTdcTime[j] - P_hod_2y_negAdcPulseTime[i]); 
-     }*/
+     //h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_negTdcTimeCorr[current_pmt] - P_hod_2y_negAdcPulseTime[i]); 
+     for (Int_t j = 0; j < *Ndata_P_hod_2y_negTdcTime; j++) {
+       h1PHODO2yNegPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_negTdcTime[j])*0.1 + 200.0 - P_hod_2y_negAdcPulseTime[i]); 
+     }
    }
 
    for (Int_t i = 0; i < *Ndata_P_hod_2y_posAdcPulseTime; i++) {
      if (P_hod_2y_posAdcErrorFlag[i] == 1) continue;
      Int_t current_pmt = P_hod_2y_posAdcCounter[i] - 1;
-     h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_posTdcTimeCorr[current_pmt] - P_hod_2y_posAdcPulseTime[i]); 
-     /*for (Int_t j = 0; j < *Ndata_P_hod_2y_posTdcTime; j++) {
-       h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_posTdcTime[j] - P_hod_2y_posAdcPulseTime[i]); 
-     }*/
+     //h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_posTdcTimeCorr[current_pmt] - P_hod_2y_posAdcPulseTime[i]); 
+     for (Int_t j = 0; j < *Ndata_P_hod_2y_posTdcTime; j++) {
+       h1PHODO2yPosPulseTimeStarttimeDiff[current_pmt]->Fill(P_hod_2y_posTdcTime[j])*0.1 + 200.0 - P_hod_2y_posAdcPulseTime[i]); 
+     }
    }
    
    return kTRUE;
@@ -388,7 +389,7 @@ void SHMSADCGates::Terminate()
   
 
   //Begin peak Finding
-  gSystem->RedirectOutput("/dev/null","a");
+  //gSystem->RedirectOutput("/dev/null","a");
   Double_t HGC_Window[4];
   for (Int_t ipmt = 0; ipmt < 4; ipmt++) {
     if (PHGCPULSETIMEDIFF[ipmt]->GetEntries() != 0) {
@@ -607,7 +608,7 @@ void SHMSADCGates::Terminate()
       HODO2yPos_Window[ipmt] = 1e+38;
     }
   }
-  gSystem->RedirectOutput(0);
+  //gSystem->RedirectOutput(0);
 
   
 

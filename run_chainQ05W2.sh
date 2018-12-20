@@ -40,3 +40,15 @@ if [[ ${angle} = "center" ]]; then
     echo "CHAIN AT ${CURRENT} UA CENTER ANGLE COMPLETE"
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 fi
+if [[ ${angle} = "right" ]]; then
+    ## Chain runs script ##
+    script_Q05W2="scripts_Summaries/Q05W2Right.C"
+    run_script_Q05W2="root -l -b -q \"${script_Q05W2}(${current})\""
+    echo "Running ${script_Q05W2} for runs with ${current} uA"
+    eval ${run_script_Q05W2}
+    mv OUTPUT/Kinematics_${current}uA_allPlots.pdf OUTPUT/Kinematics_${current}uA_right.pdf
+    echo "Kinematics_${current}uA_allPlots.pdf changed to Kinematics_${current}uA_right.pdf"
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    echo "CHAIN AT ${CURRENT} UA RIGHT ANGLE COMPLETE"
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+fi
