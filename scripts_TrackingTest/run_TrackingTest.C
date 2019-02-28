@@ -4,7 +4,7 @@
 #include <string>
 #include <stdio.h>
 
-void run_LumiYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_cut = 5, Int_t pscal = 1)
+void run_TrackingTest(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_cut = 5, Int_t pscal = 1)
 {
   // Get RunNumber, MaxEvent, and current threshold if not provided.
   if(RunNumber == 0) {
@@ -32,7 +32,7 @@ void run_LumiYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
   }
 
   fstream REPORT_file;
-  REPORT_file.open (Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/replay_luminosity_coin_production_%i_%i.report",RunNumber,MaxEvent));
+  REPORT_file.open (Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_TT_%i_%i.report",RunNumber,MaxEvent));
   Int_t line_num = 0;
   string line;
   TString line_PS1;
@@ -49,7 +49,7 @@ void run_LumiYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
       }
     }
   }
-  
+
   REPORT_file.close();
   line_PS1 = line_PS1(13,line_PS1.Length());
   line_PS3 = line_PS3(13,line_PS3.Length());
@@ -59,23 +59,18 @@ void run_LumiYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
 
   cout << Form("Using prescale factors: PS1 %i, PS3 %i\n",PS1,PS3);
 
-  ofstream myfile1;
-  myfile1.open ("Yield_Data.dat", fstream::app);
-  myfile1 << Form("%d ", RunNumber);
-  myfile1.close();
-
-  //Begin Counting Good Kaon Events
   TChain ch("T");
-  ch.Add(Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_Luminosity_coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
-  TString option = Form("%i.%i",PS1,PS3);
+  ch.Add(Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/coin_replay_production_TT_%i_%i.root",RunNumber,MaxEvent));
+  TString option = Form("%i", RunNumber);
 
   TProof *proof = TProof::Open("workers=4");
-  //proof->SetProgressDialog(0);  
+  //proof->SetProgressDialog(0);
   ch.SetProof();
-  ch.Process("LumiYield.C+",option);
+  ch.Process("TrackingTest.C+",option);
   proof->Close();
-  
-  TChain sc("TSH");
-  sc.Add(Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_Luminosity_coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
-  sc.Process("Scalers.C+",option);
+
+  //TChain sc("TSH");
+  //sc.Add(Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/coin_replay_production_TT_%i_%i.root",RunNumber,MaxEvent));
+  //sc.Process("Scalers.C+",option);
+
 }
