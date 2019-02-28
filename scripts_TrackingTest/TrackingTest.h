@@ -12,6 +12,8 @@
 #include <TH2.h>
 #include <TCanvas.h>
 #include <TLegend.h>
+#include <TGraphErrors.h>
+#include <TMultiGraph.h>
 
 // Headers needed by this particular selector
 
@@ -63,6 +65,9 @@ class TrackingTest : public TSelector {
     TH2F           *SHMS_Ch1_nHits_Fail;
     TH2F           *SHMS_Ch2_nHits_Pass;
     TH2F           *SHMS_Ch2_nHits_Fail;
+
+    TGraphErrors   *RatioPlots[2][2][2][6];
+    TMultiGraph    *RatioPlotsPCh[2][2][2];
 
     // Readers to access the data (delete the ones you do not need).
 

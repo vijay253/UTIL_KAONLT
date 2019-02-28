@@ -360,6 +360,62 @@ void TrackingTest::Terminate()
         HMS4->Write();
     }
 
+    double RatioPoints[10] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+
+    for(Int_t i = 0; i < 2; i++){ //Loop over each detector
+        for(Int_t j = 0; j < 2; j++){// Loop over each chamber
+            for(Int_t k = 0; k < 2; k++){ // Loop over pass/fail conditions
+                RatioPlotsPCh[i][j][k] = new TMultiGraph();
+                for(Int_t m = 0; m < 6; m++){ //Loop over each chamber
+                    if (i==0){
+                        if(j==0){
+                            if(k==0){
+                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, SHMSCh1_Pass_PeakRatio[m]);
+                            }
+                            if(k==1){
+                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, SHMSCh1_Pass_PeakRatio[m]);
+                            }
+                        }
+                        if(j==1){
+                            if(k==0){
+                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, SHMSCh2_Pass_PeakRatio[m]);
+                            }
+                            if(k==1){
+                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, SHMSCh2_Fail_PeakRatio[m]);
+                            }
+                        }
+                    }
+                    if (i==1){
+                        if(j==0){
+                            if(k==0){
+                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, HMSCh1_Pass_PeakRatio[m]);
+                            }
+                            if(k==1){
+                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, HMSCh1_Pass_PeakRatio[m]);
+                            }
+                        }
+                        if(j==1){
+                            if(k==0){
+                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, HMSCh2_Pass_PeakRatio[m]);
+                            }
+                            if(k==1){
+                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, HMSCh2_Fail_PeakRatio[m]);
+                            }
+                        }
+                    }
+                    RatioPlots[i][j][k][m]->SetMarkerColor(m+1);
+                    RatioPlots[i][j][k][m]->SetMarkerStyle(4);
+                    RatioPlots[i][j][k][m]->SetMarkerSize(2);
+                    RatioPlotsPCh[i][j][k]->Add(RatioPlots[i][j][k][m]);
+                }
+                RatioPlotsPCh[i][j][k]->SetTitle("Test");
+                //RatioPlotsPCh[i][j][k]->SetName("Test");
+                RatioPlotsPCh[i][j][k]->Write();
+                RatioPlotsPCh[i][j][k]->Draw("AP");
+            }
+        }
+    }
+
     HMS_Ch1_nHits_Pass->Write();
     HMS_Ch2_nHits_Pass->Write();
     HMS_Ch1_nHits_Fail->Write();
