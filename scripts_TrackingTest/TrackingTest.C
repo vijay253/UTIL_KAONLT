@@ -64,6 +64,36 @@ void TrackingTest::SlaveBegin(TTree * /*tree*/)
     TRIG1_cut = new TH1F("TRIG1_cut","pTRIG1 counts",4000,-1000.0,1000.0); // SHMS TDC time after cut
     TRIG3_cut = new TH1F("TRIG3_cut","pTRIG3 counts",4000,0.0,1000.0); // HMS TDC time after cut
 
+    HMS_DCnHits = new TH1F("HMS_DCnHits", "nHits in HMS DCs", 200, 0, 200);
+    HMS_DCnHitsCut = new TH1F("HMS_DCnHitsCut", "nHits in HMS DCs post ECal cut", 200, 0, 200);
+    HMS_DCnTracks = new TH1F("HMS_DCnTracks", "nTracks in HMS DCs",20, 0, 20);
+    HMS_DCnTracksCut = new TH1F("HMS_DCnTracksCut", "nTracks in HMS DCs post ECal cut",20, 0, 20);
+    SHMS_DCnHits = new TH1F("SHMS_DCnHits", "nHits in SHMS DCs", 200, 0, 200);
+    SHMS_DCnHitsCut = new TH1F("SHMS_DCnHitsCut", "nHits in SHMS DCs post ECal cut", 200, 0, 200);
+    SHMS_DCnTracks = new TH1F("SHMS_DCnTracks", "nTracks in SHMS DCs",20, 0, 20);
+    SHMS_DCnTracksCut = new TH1F("SHMS_DCnTracksCut", "nTracks in SHMS DCs post ECal cut",20, 0, 20);
+
+    HMS_nHits_nTr = new TH2F("HMS_nHits_nTr", "HMS n_{Hits}(n_{Tr})", 20, 0, 20, 200, 0, 200);
+    SHMS_nHits_nTr = new TH2F("SHMS_nHits_nTr", "SHMS n_{Hits}(n_{Tr})", 20, 0, 20, 200, 0, 200);
+
+    //TH2F* nHits_nPlane[2][2][5];
+    TString detector;
+    TString histname;
+    TString histtitle;
+
+    for(Int_t i = 0; i < 2; i++){
+        if(i == 0) detector = "HMS";
+        if(i == 1) detector = "SHMS";
+        for(Int_t j = 0; j < 2; j++){
+            for(Int_t k = 0; k < 5; k++){
+                histname = detector + Form("_Ch%i_nTracks_%i", j+1, k);
+                histtitle = detector + Form(" Ch%i n_{Hits}(n_{Plane}) for n_{tr} = %i", j+1, k);
+                nHits_nPlane[i][j][k] = new TH2F(histname, histtitle, 6, 0, 6, 50, 0, 50);
+                fOutput->Add(nHits_nPlane[i][j][k]);
+            }
+        }
+    }
+
     SHMS_nHits_Ch1_Pass = new TH1F*[6];
     SHMS_nHits_Ch2_Pass = new TH1F*[6];
     SHMS_nHits_Ch1_Fail = new TH1F*[6];
@@ -116,6 +146,17 @@ void TrackingTest::SlaveBegin(TTree * /*tree*/)
     fOutput->Add(TRIG1_cut);
     fOutput->Add(TRIG3_cut);
 
+    fOutput->Add(HMS_DCnHits);
+    fOutput->Add(HMS_DCnHitsCut);
+    fOutput->Add(SHMS_DCnHits);
+    fOutput->Add(SHMS_DCnHitsCut);
+    fOutput->Add(HMS_DCnTracks);
+    fOutput->Add(HMS_DCnTracksCut);
+    fOutput->Add(SHMS_DCnTracks);
+    fOutput->Add(SHMS_DCnTracksCut);
+    fOutput->Add(HMS_nHits_nTr);
+    fOutput->Add(SHMS_nHits_nTr);
+
     fOutput->Add(HMS_Ch1_nHits_Pass);
     fOutput->Add(HMS_Ch2_nHits_Pass);
     fOutput->Add(HMS_Ch1_nHits_Fail);
@@ -158,6 +199,27 @@ Bool_t TrackingTest::Process(Long64_t entry)
       (*T_coin_pEDTM_tdcTime<140.0 || *T_coin_pEDTM_tdcTime>144.0)*/) // Event was an SHMS Single
     {
         TRIG1_cut->Fill(*T_coin_pTRIG1_ROC2_tdcTime);
+        SHMS_DCnHits->Fill(P_dc_nhit[0]);
+        SHMS_DCnTracks->Fill(P_dc_ntrack[0]);
+        if(P_cal_etotnorm[0] < 0.8) return kTRUE;
+        SHMS_DCnHitsCut->Fill(P_dc_nhit[0]);
+        SHMS_DCnTracksCut->Fill(P_dc_ntrack[0]);
+        SHMS_nHits_nTr->Fill(P_dc_ntrack[0], P_dc_nhit[0]);
+        Int_t nTrack = P_dc_ntrack[0];
+        if(nTrack < 5){
+            nHits_nPlane[1][0][nTrack]->Fill(0., P_dc_1u1_nhit[0]);
+            nHits_nPlane[1][0][nTrack]->Fill(1., P_dc_1u2_nhit[0]);
+            nHits_nPlane[1][0][nTrack]->Fill(2., P_dc_1v1_nhit[0]);
+            nHits_nPlane[1][0][nTrack]->Fill(3., P_dc_1v2_nhit[0]);
+            nHits_nPlane[1][0][nTrack]->Fill(4., P_dc_1x1_nhit[0]);
+            nHits_nPlane[1][0][nTrack]->Fill(5., P_dc_1x2_nhit[0]);
+            nHits_nPlane[1][1][nTrack]->Fill(0., P_dc_2u1_nhit[0]);
+            nHits_nPlane[1][1][nTrack]->Fill(1., P_dc_2u2_nhit[0]);
+            nHits_nPlane[1][1][nTrack]->Fill(2., P_dc_2v1_nhit[0]);
+            nHits_nPlane[1][1][nTrack]->Fill(3., P_dc_2v2_nhit[0]);
+            nHits_nPlane[1][1][nTrack]->Fill(4., P_dc_2x1_nhit[0]);
+            nHits_nPlane[1][1][nTrack]->Fill(5., P_dc_2x2_nhit[0]);
+        }
         // Require a hit in each chamber plane for now! Look at each chamber seperately
         if(P_dc_1u1_nhit[0] != 0 && P_dc_1u2_nhit[0] != 0 && P_dc_1v1_nhit[0] != 0 &&  P_dc_1v2_nhit[0] != 0 && P_dc_1x1_nhit[0] != 0 && P_dc_1x2_nhit[0] != 0){
             // Fill histograms for events with acceptable # hits or too many hits separately (per plane)
@@ -228,6 +290,28 @@ Bool_t TrackingTest::Process(Long64_t entry)
     *T_coin_pTRIG3_ROC2_tdcTime<=870.0 &&*/ *EvtType==2) // Event was an HMS Single
     {
         TRIG3_cut->Fill(*T_coin_pTRIG3_ROC2_tdcTime);
+        HMS_DCnHits->Fill(H_dc_nhit[0]);
+        HMS_DCnTracks->Fill(H_dc_ntrack[0]);
+        if(H_cal_etotnorm[0] < 0.8) return kTRUE;
+        HMS_DCnHitsCut->Fill(H_dc_nhit[0]);
+        HMS_DCnTracksCut->Fill(H_dc_ntrack[0]);
+        HMS_nHits_nTr->Fill(H_dc_ntrack[0], H_dc_nhit[0]);
+        Int_t nTrack = H_dc_ntrack[0];
+        if(nTrack < 5){
+                nHits_nPlane[0][0][nTrack]->Fill(0., H_dc_1u1_nhit[0]);
+                nHits_nPlane[0][0][nTrack]->Fill(1., H_dc_1u2_nhit[0]);
+                nHits_nPlane[0][0][nTrack]->Fill(2., H_dc_1v1_nhit[0]);
+                nHits_nPlane[0][0][nTrack]->Fill(3., H_dc_1v2_nhit[0]);
+                nHits_nPlane[0][0][nTrack]->Fill(4., H_dc_1x1_nhit[0]);
+                nHits_nPlane[0][0][nTrack]->Fill(5., H_dc_1x2_nhit[0]);
+                nHits_nPlane[0][1][nTrack]->Fill(0., H_dc_2u1_nhit[0]);
+                nHits_nPlane[0][1][nTrack]->Fill(1., H_dc_2u2_nhit[0]);
+                nHits_nPlane[0][1][nTrack]->Fill(2., H_dc_2v1_nhit[0]);
+                nHits_nPlane[0][1][nTrack]->Fill(3., H_dc_2v2_nhit[0]);
+                nHits_nPlane[0][1][nTrack]->Fill(4., H_dc_2x1_nhit[0]);
+                nHits_nPlane[0][1][nTrack]->Fill(5., H_dc_2x2_nhit[0]);
+        }
+
         if(H_dc_1u1_nhit[0] != 0 && H_dc_1u2_nhit[0] != 0 && H_dc_1v1_nhit[0] != 0 &&  H_dc_1v2_nhit[0] != 0 && H_dc_1x1_nhit[0] != 0 && H_dc_1x2_nhit[0] != 0){
             if(H_dc_Ch1_maxhits[0]>H_dc_Ch1_nhit[0]){
                 HMS_nHits_Ch1_Pass[0]->Fill(H_dc_1u1_nhit[0]);
@@ -318,6 +402,8 @@ void TrackingTest::Terminate()
 //    }
 
     TFile *Histogram_file = new TFile(Form("../HISTOGRAMS/TrackingTest_Run%i.root",option.Atoi()),"RECREATE");
+
+    TDirectory *DEvent = Histogram_file->mkdir("Event Information"); DEvent->cd();
     EventType->Write();
     EDTM->Write();
     HMS_EDTM->Write();
@@ -326,6 +412,20 @@ void TrackingTest::Terminate()
     TRIG3->Write();
     TRIG5->Write();
 
+    TDirectory *DDCInfo = Histogram_file->mkdir("DC Hit and Track Information"); DDCInfo->cd();
+    HMS_DCnHits->Write();
+    HMS_DCnHitsCut->Write();
+    SHMS_DCnHits->Write();
+    SHMS_DCnHitsCut->Write();
+    HMS_DCnTracks->Write();
+    HMS_DCnTracksCut->Write();
+    SHMS_DCnTracks->Write();
+    SHMS_DCnTracksCut->Write();
+
+    HMS_nHits_nTr->Write();
+    SHMS_nHits_nTr->Write();
+
+    TDirectory *DDCChPl = Histogram_file->mkdir("DC Chamber Information by Plane"); DDCChPl->cd();
     // To access histogram arrays have to do this slightly stupid process
     for(Int_t i = 0; i < 6; i++){ //6 planes per chamber, could actually be one array of histograms tbh
         // Sets some temp TH1F to be equal to the object grabbed from the output list
@@ -337,19 +437,6 @@ void TrackingTest::Terminate()
         TH1F *HMS2 = dynamic_cast<TH1F *>(TProof::GetOutput(Form("HMS_nHits_Ch2P%i_Pass", i+1), fOutput));
         TH1F *HMS3 = dynamic_cast<TH1F *>(TProof::GetOutput(Form("HMS_nHits_Ch1P%i_Fail", i+1), fOutput));
         TH1F *HMS4 = dynamic_cast<TH1F *>(TProof::GetOutput(Form("HMS_nHits_Ch2P%i_Fail", i+1), fOutput));
-        // Calculate ratio of frequency of single hits in each chamber to other numbers of hits for nHits between 1 and 11
-        // Do this for each chamber and on pass/fail condition
-        // Plot this later as a graph
-        for(Int_t j = 0; j < 10; j++){ //Bin 2 is nTracks = 1, 1 is 0 and bin 0 is undeflow
-            SHMSCh1_Pass_PeakRatio[i][j] = SHMS1->GetBinContent(2)/SHMS1->GetBinContent(j+3);
-            SHMSCh1_Fail_PeakRatio[i][j] = SHMS3->GetBinContent(2)/SHMS3->GetBinContent(j+3);
-            SHMSCh2_Pass_PeakRatio[i][j] = SHMS2->GetBinContent(2)/SHMS2->GetBinContent(j+3);
-            SHMSCh2_Fail_PeakRatio[i][j] = SHMS4->GetBinContent(2)/SHMS4->GetBinContent(j+3);
-            HMSCh1_Pass_PeakRatio[i][j] = HMS1->GetBinContent(2)/HMS1->GetBinContent(j+3);
-            HMSCh1_Fail_PeakRatio[i][j] = HMS3->GetBinContent(2)/HMS3->GetBinContent(j+3);
-            HMSCh2_Pass_PeakRatio[i][j] = HMS2->GetBinContent(2)/HMS2->GetBinContent(j+3);
-            HMSCh2_Fail_PeakRatio[i][j] = HMS4->GetBinContent(2)/HMS4->GetBinContent(j+3);
-        }
         SHMS1->Write();
         SHMS2->Write();
         SHMS3->Write();
@@ -360,61 +447,7 @@ void TrackingTest::Terminate()
         HMS4->Write();
     }
 
-    double RatioPoints[10] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-
-    for(Int_t i = 0; i < 2; i++){ //Loop over each detector
-        for(Int_t j = 0; j < 2; j++){// Loop over each chamber
-            for(Int_t k = 0; k < 2; k++){ // Loop over pass/fail conditions
-                RatioPlotsPCh[i][j][k] = new TMultiGraph();
-                for(Int_t m = 0; m < 6; m++){ //Loop over each chamber
-                    if (i==0){
-                        if(j==0){
-                            if(k==0){
-                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, SHMSCh1_Pass_PeakRatio[m]);
-                            }
-                            if(k==1){
-                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, SHMSCh1_Pass_PeakRatio[m]);
-                            }
-                        }
-                        if(j==1){
-                            if(k==0){
-                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, SHMSCh2_Pass_PeakRatio[m]);
-                            }
-                            if(k==1){
-                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, SHMSCh2_Fail_PeakRatio[m]);
-                            }
-                        }
-                    }
-                    if (i==1){
-                        if(j==0){
-                            if(k==0){
-                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, HMSCh1_Pass_PeakRatio[m]);
-                            }
-                            if(k==1){
-                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, HMSCh1_Pass_PeakRatio[m]);
-                            }
-                        }
-                        if(j==1){
-                            if(k==0){
-                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, HMSCh2_Pass_PeakRatio[m]);
-                            }
-                            if(k==1){
-                            RatioPlots[i][j][k][m] = new TGraphErrors(10, RatioPoints, HMSCh2_Fail_PeakRatio[m]);
-                            }
-                        }
-                    }
-                    RatioPlots[i][j][k][m]->SetMarkerColor(m+1);
-                    RatioPlots[i][j][k][m]->SetMarkerStyle(4);
-                    RatioPlots[i][j][k][m]->SetMarkerSize(2);
-                    RatioPlotsPCh[i][j][k]->Add(RatioPlots[i][j][k][m]);
-                }
-                RatioPlotsPCh[i][j][k]->SetTitle("Test");
-                //RatioPlotsPCh[i][j][k]->SetName("Test");
-                RatioPlotsPCh[i][j][k]->Write();
-                RatioPlotsPCh[i][j][k]->Draw("AP");
-            }
-        }
-    }
+    TDirectory *DDCCh = Histogram_file->mkdir("DC Chamber Information"); DDCCh->cd();
 
     HMS_Ch1_nHits_Pass->Write();
     HMS_Ch2_nHits_Pass->Write();
@@ -425,6 +458,22 @@ void TrackingTest::Terminate()
     SHMS_Ch2_nHits_Pass->Write();
     SHMS_Ch1_nHits_Fail->Write();
     SHMS_Ch2_nHits_Fail->Write();
+
+    TString detector;
+    TString histname;
+
+    TDirectory *DDCChTr = Histogram_file->mkdir("DC Chamber Information by nTracks"); DDCCh->cd();
+    for(Int_t i = 0; i < 2; i++){
+        if(i == 0) detector = "HMS";
+        if(i == 1) detector = "SHMS";
+        for(Int_t j = 0; j < 2; j++){
+            for(Int_t k = 0; k < 5; k++){
+                histname = detector + Form("_Ch%i_nTracks_%i", j+1, k);
+                TH2F* nHnP = dynamic_cast<TH2F *>(TProof::GetOutput(histname, fOutput));
+                nHnP->Write();
+            }
+        }
+    }
 
     Histogram_file->Close();
 

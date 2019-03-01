@@ -27,15 +27,6 @@ class TrackingTest : public TSelector {
     Double_t        PS1;
     Double_t        PS3;
 
-    Double_t        SHMSCh1_Pass_PeakRatio[6][10];
-    Double_t        SHMSCh1_Fail_PeakRatio[6][10];
-    Double_t        SHMSCh2_Pass_PeakRatio[6][10];
-    Double_t        SHMSCh2_Fail_PeakRatio[6][10];
-    Double_t        HMSCh1_Pass_PeakRatio[6][10];
-    Double_t        HMSCh1_Fail_PeakRatio[6][10];
-    Double_t        HMSCh2_Pass_PeakRatio[6][10];
-    Double_t        HMSCh2_Fail_PeakRatio[6][10];
-
     TH1F           *EventType;
     TH1F           *EDTM;
     TH1F           *HMS_EDTM;
@@ -45,6 +36,18 @@ class TrackingTest : public TSelector {
     TH1F           *TRIG5;
     TH1F           *TRIG1_cut;
     TH1F           *TRIG3_cut;
+    TH1F           *HMS_DCnHits;
+    TH1F           *HMS_DCnHitsCut;
+    TH1F           *SHMS_DCnHits;
+    TH1F           *SHMS_DCnHitsCut;
+    TH1F           *HMS_DCnTracks;
+    TH1F           *HMS_DCnTracksCut;
+    TH1F           *SHMS_DCnTracks;
+    TH1F           *SHMS_DCnTracksCut;
+
+    TH2F           *HMS_nHits_nTr;
+    TH2F           *SHMS_nHits_nTr;
+    TH2F           *nHits_nPlane[2][2][5];
 
     TH1F           **SHMS_nHits_Ch1_Pass;
     TH1F           **SHMS_nHits_Ch2_Pass;
@@ -66,9 +69,6 @@ class TrackingTest : public TSelector {
     TH2F           *SHMS_Ch2_nHits_Pass;
     TH2F           *SHMS_Ch2_nHits_Fail;
 
-    TGraphErrors   *RatioPlots[2][2][2][6];
-    TMultiGraph    *RatioPlotsPCh[2][2][2];
-
     // Readers to access the data (delete the ones you do not need).
 
     // Could this be done in a nicer way for our dc planes?
@@ -76,6 +76,7 @@ class TrackingTest : public TSelector {
     TTreeReaderArray<Double_t> H_cer_npeSum            = {fReader, "H.cer.npeSum"};
     TTreeReaderArray<Double_t> H_gtr_dp                = {fReader, "H.gtr.dp"};
     TTreeReaderArray<Double_t> H_dc_ntrack             = {fReader, "H.dc.ntrack"};
+    TTreeReaderArray<Double_t> H_dc_nhit               = {fReader, "H.dc.nhit"};
     TTreeReaderArray<Double_t> H_dc_1u1_nhit           = {fReader, "H.dc.1u1.nhit"};
     TTreeReaderArray<Double_t> H_dc_1u2_nhit           = {fReader, "H.dc.1u2.nhit"};
     TTreeReaderArray<Double_t> H_dc_1v1_nhit           = {fReader, "H.dc.1v1.nhit"};
@@ -98,6 +99,7 @@ class TrackingTest : public TSelector {
     TTreeReaderArray<Double_t> P_aero_npeSum           = {fReader, "P.aero.npeSum"};
     TTreeReaderArray<Double_t> P_gtr_dp                = {fReader, "P.gtr.dp"};
     TTreeReaderArray<Double_t> P_dc_ntrack             = {fReader, "P.dc.ntrack"};
+    TTreeReaderArray<Double_t> P_dc_nhit               = {fReader, "P.dc.nhit"};
     TTreeReaderArray<Double_t> P_dc_1u1_nhit           = {fReader, "P.dc.1u1.nhit"};
     TTreeReaderArray<Double_t> P_dc_1u2_nhit           = {fReader, "P.dc.1u2.nhit"};
     TTreeReaderArray<Double_t> P_dc_1v1_nhit           = {fReader, "P.dc.1v1.nhit"};
