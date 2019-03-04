@@ -174,7 +174,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 
   bcm_before->Fill(*H_bcm_bcm4b_AvgCurrent);
 
-  if (*H_bcm_bcm4b_AvgCurrent < 10.0) return kTRUE;
+  if (*H_bcm_bcm4b_AvgCurrent < 2.5) return kTRUE;
 
   bcm_after->Fill(*H_bcm_bcm4b_AvgCurrent);
 
@@ -207,7 +207,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 	   P_dc_2v1_nhit[0] + P_dc_2x2_nhit[0] + P_dc_2v2_nhit[0]) < 20)
 	{
 	  p_track_before->Fill(P_dc_ntrack[0]);
-	  if (P_cal_etotnorm[0] <= 0.6 && P_cal_etotnorm[0] > 0.05) 
+	  if (/*P_cal_etotnorm[0] <= 0.6 &&*/ P_cal_etotnorm[0] > 0.05) 
 	    {
 	      p_hadtrack_before->Fill(P_dc_ntrack[0]);
 	      if (P_hgcer_npeSum[0] > 1.5) 
@@ -227,9 +227,9 @@ Bool_t LumiYield::Process(Long64_t entry)
 		}
 	    }
 	  if (P_dc_ntrack[0] > 0.0) //Requirement that a good track was actually found,, don't require tracking to calculate tracking
-	    {
+	       {
 	      p_track_after->Fill(P_dc_ntrack[0]);
-	      if (P_cal_etotnorm[0] <= 0.6 && P_cal_etotnorm[0] > 0.05) 
+	      if (/*P_cal_etotnorm[0] <= 0.6 &&*/ P_cal_etotnorm[0] > 0.05) 
 		{
 		  p_hadtrack_after->Fill(P_dc_ntrack[0]);
 		  if (P_hgcer_npeSum[0] > 1.5) 
@@ -248,7 +248,7 @@ Bool_t LumiYield::Process(Long64_t entry)
 			}
 		    }
 		}
-	    }
+	      }
 	}
 	
       if (P_hod_goodscinhit[0] == 1 && P_hod_betanotrack[0] > 0.5 && P_hod_betanotrack[0] < 1.4)
@@ -261,8 +261,8 @@ Bool_t LumiYield::Process(Long64_t entry)
 
 	  if (P_cal_etotnorm[0] > 0.7) return kTRUE;
 	  p_ecut_after->Fill(P_hgcer_npeSum[0]);
-	  //if (P_hgcer_npeSum[0] > 1.5) return kTRUE;
-	  //if (P_aero_npeSum[0] < 1.5) return kTRUE;
+	  if (P_hgcer_npeSum[0] > 1.5) return kTRUE;
+	  if (P_aero_npeSum[0] < 1.5) return kTRUE;
 	  if (P_gtr_dp[0] < -10.0 || P_gtr_dp[0] > 20.0) return kTRUE;
 	  if (TMath::Abs(P_gtr_th[0]) > 0.080) return kTRUE;
 	  if (TMath::Abs(P_gtr_ph[0]) > 0.035) return kTRUE;
@@ -321,10 +321,10 @@ Bool_t LumiYield::Process(Long64_t entry)
 
       if (H_cal_etotnorm[0] < 0.6) return kTRUE; //.9
       if (H_cal_etotnorm[0] > 2.0) return kTRUE; //1.5
-      //if (H_cer_npeSum[0] < 1.5) return kTRUE;
+      if (H_cer_npeSum[0] < 1.5) return kTRUE;
       if (TMath::Abs(H_gtr_dp[0]) > 8.0) return kTRUE;
-      //if (TMath::Abs(H_tr_tg_th[0]) > 0.080) return kTRUE;
-      //if (TMath::Abs(H_tr_tg_ph[0]) > 0.035) return kTRUE;
+      if (TMath::Abs(H_tr_tg_th[0]) > 0.080) return kTRUE;
+      if (TMath::Abs(H_tr_tg_ph[0]) > 0.035) return kTRUE;
 
 
       h_ecut_after->Fill(H_cer_npeSum[0]);
@@ -333,7 +333,7 @@ Bool_t LumiYield::Process(Long64_t entry)
       h_ph_after->Fill(H_tr_tg_ph[0]);
       h_show_after->Fill(H_cal_etotnorm[0]);
 
-      //if (H_cer_npeSum[0] < 1.5) return kTRUE;
+      if (H_cer_npeSum[0] < 1.5) return kTRUE;
 
       h_ecut_eff->Fill(H_cer_npeSum[0]);
     }
@@ -453,9 +453,9 @@ void LumiYield::Terminate()
   myfile1.open ("Yield_Data.dat", fstream::app);
   myfile1 << Form("%.0f %.0f %.0f %.0f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.0f %.0f ",
 		  //HMS Evts
-		  (PS3*h_ecut_eff->GetEntries()),sqrt(PS3*h_ecut_eff->GetEntries()),
+		  (h_ecut_eff->GetEntries()),sqrt(h_ecut_eff->GetEntries()),
 		  //SHMS Evts
-  		  (PS1*p_ecut_eff->GetEntries()),sqrt(PS1*p_ecut_eff->GetEntries()),
+  		  (p_ecut_eff->GetEntries()),sqrt(p_ecut_eff->GetEntries()),
 		  //HMS Track
 		  h_track_after->GetEntries()/h_track_before->GetEntries(),(h_track_after->GetEntries()/h_track_before->GetEntries())*sqrt((1/h_track_after->GetEntries()) + (1/h_track_before->GetEntries())),
 		  //e Track
@@ -471,10 +471,10 @@ void LumiYield::Terminate()
 		  //p Track
 		  p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries(),(p_ptrack_after->GetEntries()/p_ptrack_before->GetEntries())*sqrt((1/p_ptrack_after->GetEntries()) + (1/p_ptrack_before->GetEntries())),
 		  //Accept EDTM
-		  (PS1*SHMS_EDTM->Integral() + PS3*HMS_EDTM->Integral()),
+		  (SHMS_EDTM->Integral() + HMS_EDTM->Integral()),
 		  //PS1
-		  (PS1*TRIG1_cut->Integral()),
+		  PS1,
 		  //PS3
-		  (PS3*TRIG3_cut->Integral()));;
+		  PS3);;
   myfile1.close();
 }

@@ -160,11 +160,11 @@ Bool_t Scalers::Process(Long64_t entry)
     if (*H_1Mhz_scalerTime != previous_time) {
       current_I = (bcm_value[ibcm] - previous_charge[ibcm])/(*H_1Mhz_scalerTime - previous_time);
     }
-    if (current_I > 10) {
+    if (current_I > 2.5) {
       charge_sum[ibcm] += (bcm_value[ibcm] - previous_charge[ibcm]);
       time_sum[ibcm] += (*H_1Mhz_scalerTime - previous_time);
     }
-    if (ibcm == 3 && (current_I > 10)) {
+    if (ibcm == 3 && (current_I > 2.5)) {
       EDTM_current = (EDTM_value - previous_EDTM);
       EDTM_sum += EDTM_current;
       acctrig_sum += ((acctrig_value - EDTM_current) - previous_acctrig);
