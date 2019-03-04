@@ -125,7 +125,7 @@ class KaonYield : public TSelector {
   TTreeReaderArray<Double_t> Q2                 = {fReader, "H.kin.primary.Q2"};
   TTreeReaderArray<Double_t> W                  = {fReader, "H.kin.primary.W"};
   TTreeReaderArray<Double_t> epsilon            = {fReader, "H.kin.primary.epsilon"};
-  TTreeReaderArray<Double_t> ph_q               = {fReader, "P.kin.secondary.ph_xq"};
+  TTreeReaderArray<Double_t> ph_q               = {fReader, "P.kin.secondary.ph_bq"};
   TTreeReaderArray<Double_t> emiss              = {fReader, "P.kin.secondary.emiss"};
   TTreeReaderArray<Double_t> pmiss              = {fReader, "P.kin.secondary.pmiss"};
   TTreeReaderArray<Double_t> MandelT            = {fReader, "P.kin.secondary.MandelT"};

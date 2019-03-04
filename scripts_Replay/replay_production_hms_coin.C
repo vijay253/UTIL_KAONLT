@@ -1,4 +1,4 @@
-void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
+void replay_production_hms_coin(Int_t RunNumber=0, Int_t MaxEvent=0) {
 
   // Get RunNumber and MaxEvent if not provided.
   if(RunNumber == 0) {
@@ -23,24 +23,25 @@ void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
   pathList.push_back("./raw/../raw.copiedtotape");
   pathList.push_back("./cache");
 
-  const char* ROOTFileNamePattern = "UTIL_KAONLT/ROOTfiles/ADCGates_HMS_coin_replay_production_all_%d_%d.root";
+  //const char* ROOTFileNamePattern = "UTIL_KAONLT/ROOTfiles/KaonLT_hms_coin_replay_production_%d_%d.root";
+  const char* ROOTFileNamePattern = "/lustre/expphy/volatile/hallc/spring17/trottar/ROOTfiles/KaonLT_hms_coin_replay_production_%d_%d.root";
 
   // Load Global parameters
   // Add variables to global list.
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
-  gHcParms->AddString("g_ctp_database_filename", "DBASE/HMS/standard.database");
+  gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard.database");
   gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
   gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
   // Load params for HMS trigger configuration
   gHcParms->Load("PARAM/TRIG/thms.param");
   // Load fadc debug parameters
-  gHcParms->Load("UTIL_KAONLT/scripts_Replay/h_fadc_debug.param");
+  gHcParms->Load("PARAM/HMS/GEN/h_fadc_debug.param");
 
   // Load the Hall C detector map
   gHcDetectorMap = new THcDetectorMap();
   gHcDetectorMap->Load("MAPS/HMS/DETEC/STACK/hms_stack.map");
-
+  
   // Set up the equipment to be analyzed.
   THcHallCSpectrometer* HMS = new THcHallCSpectrometer("H", "HMS");
   HMS->SetEvtType(2);
@@ -78,7 +79,7 @@ void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
   gHaApps->Add(beam);  
   // Add physics modules
   // Calculate reaction point
-  THaReactionPoint* hrp = new THaReactionPoint("H.react", "HMS reaction point", "H", "H.rb");
+  THcReactionPoint* hrp = new THcReactionPoint("H.react", "HMS reaction point", "H", "H.rb");
   gHaPhysics->Add(hrp);
   // Calculate extended target corrections
   THcExtTarCor* hext = new THcExtTarCor("H.extcor", "HMS extended target corrections", "H", "H.react");
@@ -144,6 +145,7 @@ void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
                               // 2 = counter is event number
+  
   analyzer->SetEvent(event);
   // Set EPICS event type
   analyzer->SetEpicsEvtType(182);
@@ -152,23 +154,15 @@ void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define output DEF-file 
-<<<<<<< HEAD
-  analyzer->SetOdefFile("UTIL_KAONLT/scripts_Replay/ADCGates_HMS.def");
-  //analyzer->SetOdefFile("DEF-files/HMS/PRODUCTION/hstackana_production_all.def");
+  analyzer->SetOdefFile("UTIL_KAONLT/DEF-files/hms_kin.def");
   // Define cuts file
-  analyzer->SetCutFile("UTIL_KAONLT/scripts_Replay/ADCGates_HMS_cuts.def");
-  //analyzer->SetCutFile("DEF-files/HMS/PRODUCTION/CUTS/hstackana_production_cuts.def");// optional
-=======
-  analyzer->SetOdefFile("UTIL_KAONLT/DEF-files/ADCGates_HMS.def");
-  // Define cuts file
-  analyzer->SetCutFile("UTIL_KAONLT/DEF-files/ADCGates_HMS_cuts.def");    // optional
->>>>>>> 06aaa1768209fb8899d7a50cbaae63632100ad54
+  analyzer->SetCutFile("DEF-files/HMS/PRODUCTION/CUTS/hstackana_production_cuts.def");    // optional
   // File to record cuts accounting information for cuts
-  //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/HMS/PRODUCTION/summary_coin_all_production_%d_%d.report", RunNumber, MaxEvent));    // optional
+  analyzer->SetSummaryFile(Form("/home/trottar/ResearchNP/ROOTAnalysis/REPORT_OUTPUT/HMS/PRODUCTION/summary_coin_production_%d_%d.report", RunNumber, MaxEvent));    // optional
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template.
-  //analyzer->PrintReport("TEMPLATES/HMS/PRODUCTION/hstackana_production.template",
-  //		Form("REPORT_OUTPUT/HMS/PRODUCTION/replay_hms_coin_all_production_%d_%d.report", RunNumber, MaxEvent));
+  analyzer->PrintReport("UTIL_KAONLT/TEMPLATES/HMS/hstackana_production.template",
+			Form("/home/trottar/ResearchNP/ROOTAnalysis/REPORT_OUTPUT/HMS/PRODUCTION/KaonLT_replay_hms_coin_production_%d_%d.report", RunNumber, MaxEvent));
 
 }

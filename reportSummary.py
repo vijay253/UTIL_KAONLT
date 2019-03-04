@@ -64,6 +64,7 @@ fout.write('\nComputer Live Time for COIN Trigger (%): ')
 fout.write(str(COIN_LT))
 f.close()
 
+<<<<<<< HEAD
 shms_file = '../REPORT_OUTPUT/SHMS/PRODUCTION/replay_shms_coin_production_%s_50000.report' % (runNo)
 #print('./REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo))
 f    = open(shms_file)
@@ -98,7 +99,10 @@ for line in f:
             else : fout.write(data[0] + ' : ' + data[1])
 f.close()
 
+=======
+>>>>>>> 06aaa1768209fb8899d7a50cbaae63632100ad54
 replay_file = './REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo)
+#print('./REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo))
 f    = open(replay_file)
 fout.write('\n\n')
 replayList = ['Missing Ref times']

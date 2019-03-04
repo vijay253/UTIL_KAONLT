@@ -1,4 +1,4 @@
-void replay_ADC_SHMS (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
+void replay_production_shms_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
 
   // Get RunNumber and MaxEvent if not provided.
   if(RunNumber == 0) {
@@ -23,7 +23,8 @@ void replay_ADC_SHMS (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   pathList.push_back("./raw/../raw.copiedtotape");
   pathList.push_back("./cache");
 
-  const char* ROOTFileNamePattern = "UTIL_KAONLT/ROOTfiles/ADCGates_SHMS_coin_replay_production_all_%d_%d.root";
+  //const char* ROOTFileNamePattern = "UTIL_KAONLT/ROOTfiles/KaonLT_shms_coin_replay_production_%d_%d.root";
+  const char* ROOTFileNamePattern = "/lustre/expphy/volatile/hallc/spring17/trottar/ROOTfiles/KaonLT_shms_coin_replay_production_%d_%d.root";
   
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
@@ -34,7 +35,7 @@ void replay_ADC_SHMS (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Load parameters for SHMS trigger configuration
   gHcParms->Load("PARAM/TRIG/tshms.param");
   // Load fadc debug parameters
-  gHcParms->Load("UTIL_KAONLT/scripts_Replay/p_fadc_debug.param");
+  gHcParms->Load("PARAM/SHMS/GEN/p_fadc_debug.param");
 
   // Load the Hall C detector map
   gHcDetectorMap = new THcDetectorMap();
@@ -80,7 +81,7 @@ void replay_ADC_SHMS (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   gHaApps->Add(beam);
   // Add physics modules
   // Calculate reaction point
-  THaReactionPoint* prp = new THaReactionPoint("P.react", "SHMS reaction point", "P", "P.rb");
+  THcReactionPoint* prp = new THcReactionPoint("P.react", "SHMS reaction point", "P", "P.rb");
   gHaPhysics->Add(prp);
   // Calculate extended target corrections
   THcExtTarCor* pext = new THcExtTarCor("P.extcor", "HMS extended target corrections", "P", "P.react");
@@ -155,15 +156,15 @@ void replay_ADC_SHMS (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define DEF-file
-  analyzer->SetOdefFile("UTIL_KAONLT/DEF-files/ADCGates_SHMS.def");
+  analyzer->SetOdefFile("UITL_KAONLT/DEF-files/shms_kin.def");
   // Define cuts file
-  analyzer->SetCutFile("UTIL_KAONLT/DEF-files/ADCGates_SHMS_cuts.def");  // optional
+  analyzer->SetCutFile("DEF-files/SHMS/PRODUCTION/CUTS/pstackana_production_cuts.def");  // optional
   // File to record accounting information for cuts
-  //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/SHMS/PRODUCTION/summary_coin_all_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+  analyzer->SetSummaryFile(Form("/home/trottar/ResearchNP/ROOTAnalysis/REPORT_OUTPUT/SHMS/PRODUCTION/summary_coin_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template
-  //  analyzer->PrintReport("TEMPLATES/SHMS/PRODUCTION/pstackana_production.template",
-			//  			Form("REPORT_OUTPUT/SHMS/PRODUCTION/replay_shms_coin_all_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+  analyzer->PrintReport("UTIL_KAONLT/TEMPLATES/SHMS/pstackana_production.template",
+  			Form("/home/trottar/ResearchNP/ROOTAnalysis/REPORT_OUTPUT/SHMS/PRODUCTION/KaonLT_replay_shms_coin_production_%d_%d.report", RunNumber, MaxEvent));  // optional
 
 }
