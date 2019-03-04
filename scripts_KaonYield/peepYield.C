@@ -73,13 +73,13 @@ void peepYield::SlaveBegin(TTree * /*tree*/)
 
   h1SHMS_th              = new TH1F("SHMS_th","SHMS Theta Acceptance;#theta;Counts",100,-0.1,0.1);
   h1SHMS_th_cut          = new TH1F("SHMS_th_cut","SHMS Theta Acceptance with Cut;#theta;Counts",100,-0.1,0.1);
-  h1SHMS_ph              = new TH1F("SHMS_ph","SHMS Theta Acceptance;#phi;Counts",100,-0.1,0.1);
-  h1SHMS_ph_cut          = new TH1F("SHMS_ph_cut","SHMS Theta Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
+  h1SHMS_ph              = new TH1F("SHMS_ph","SHMS Phi Acceptance;#phi;Counts",100,-0.1,0.1);
+  h1SHMS_ph_cut          = new TH1F("SHMS_ph_cut","SHMS Phi Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
 
   h1HMS_th              = new TH1F("HMS_th","HMS Theta Acceptance;#theta;Counts",100,-0.1,0.1);
   h1HMS_th_cut          = new TH1F("HMS_th_cut","HMS Theta Acceptance with Cut;#theta;Counts",100,-0.1,0.1);
-  h1HMS_ph              = new TH1F("HMS_ph","HMS Theta Acceptance;#phi;Counts",100,-0.1,0.1);
-  h1HMS_ph_cut          = new TH1F("HMS_ph_cut","HMS Theta Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
+  h1HMS_ph              = new TH1F("HMS_ph","HMS Phi Acceptance;#phi;Counts",100,-0.1,0.1);
+  h1HMS_ph_cut          = new TH1F("HMS_ph_cut","HMS Phi Acceptance with Cut;#phi;Counts",100,-0.1,0.1);
 
   h1mmissp                = new TH1F("mmissp","Proton Missing Mass Squared;Mass (GeV/c^{2})^{2};Counts",200,-0.3,0.7);
   h1mmissp_rand           = new TH1F("mmissp_rand","Proton Missing Mass Squared from Random Coincidence;Mass (GeV/c^{2})^{2};Counts",200,-0.3,0.7);
@@ -241,6 +241,8 @@ void peepYield::Terminate()
 
   Info("Terminate", "Outputting Good Kaon Selection");
 
+  TString option = GetOption();
+
   TH1F* EDTM = dynamic_cast<TH1F*> (GetOutputList()->FindObject("EDTM"));
   TH2F* HMS_electron = dynamic_cast<TH2F*> (GetOutputList()->FindObject("HMS_electron"));
   TH2F* HMS_electron_cut = dynamic_cast<TH2F*> (GetOutputList()->FindObject("HMS_electron_cut"));
@@ -326,6 +328,9 @@ void peepYield::Terminate()
   cpID->cd(8); h1mmissp_remove->Draw("hist");
   */
 
+  TString foutname = Form("../OUTPUT/Kinematics_Run%i",option.Atoi());
+  TString outputpdf = foutname + ".pdf";
+
   TCanvas *cKine = new TCanvas("Kine","Summary of Higher Order Kinemaics");
   cKine->Divide(2,2);
   cKine->cd(1); h2WvsQ2->Draw("Colz"); 
@@ -363,6 +368,8 @@ void peepYield::Terminate()
   ptProtonEvt->AddText(Form("# of proton Events: %.0f",h1mmissp_remove->Integral(h1mmissp_remove->GetXaxis()->FindBin(-0.02),h1mmissp_remove->GetXaxis()->FindBin(0.05))));
   ptProtonEvt->Draw();
 
+  cKine->Print(outputpdf + '(');
+
   TCanvas *cMomentum = new TCanvas("Momentum","Summary of Momentum Quantities");
   cMomentum->Divide(2,2);
   cMomentum->cd(1); h1pmiss->Draw();
@@ -370,9 +377,9 @@ void peepYield::Terminate()
   cMomentum->cd(3); h1pymiss->Draw();
   cMomentum->cd(4); h1pzmiss->Draw();
   
-
+  cMomentum->Print(outputpdf + ')');
   //Start output of .root file with all histograms
-  TString option = GetOption();
+
   TFile *Histogram_file = new TFile(Form("../../HISTOGRAMS/KaonLT_Run%i.root",option.Atoi()),"RECREATE");
   TDirectory *DCuts = Histogram_file->mkdir("Spectrometer Delta and Calorimeter Cuts"); DCuts->cd();
   h1HMS_delta->Write("HMS Delta Before Cuts"); h1HMS_delta_cut->Write("HMS Delta After Cuts");

@@ -41,13 +41,6 @@ void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
   gHcDetectorMap = new THcDetectorMap();
   gHcDetectorMap->Load("MAPS/HMS/DETEC/STACK/hms_stack.map");
 
-  // Add trigger apparatus
-  THaApparatus* TRG = new THcTrigApp("T", "TRG");
-  gHaApps->Add(TRG);
-  // Add trigger detector to trigger apparatus
-  THcTrigDet* hms = new THcTrigDet("hms", "HMS Trigger Information");
-  TRG->AddDetector(hms);
-
   // Set up the equipment to be analyzed.
   THcHallCSpectrometer* HMS = new THcHallCSpectrometer("H", "HMS");
   HMS->SetEvtType(2);
@@ -71,6 +64,14 @@ void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
   // Add calorimeter to HMS apparatus
   THcShower* cal = new THcShower("cal", "Calorimeter");
   HMS->AddDetector(cal);
+
+  // Add trigger apparatus
+  THaApparatus* TRG = new THcTrigApp("T", "TRG");
+  gHaApps->Add(TRG);
+  // Add trigger detector to trigger apparatus
+  THcTrigDet* hms = new THcTrigDet("hms", "HMS Trigger Information");
+  hms->SetSpectName("H");
+  TRG->AddDetector(hms);
 
   // Add rastered beam apparatus
   THaApparatus* beam = new THcRasteredBeam("H.rb", "Rastered Beamline");
@@ -151,9 +152,17 @@ void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define output DEF-file 
+<<<<<<< HEAD
   analyzer->SetOdefFile("UTIL_KAONLT/DEF-files/ADCGates_HMS.def");
   // Define cuts file
   analyzer->SetCutFile("UTIL_KAONLT/DEF-files/ADCGates_HMS_cuts.def");    // optional
+=======
+  analyzer->SetOdefFile("UTIL_KAONLT/scripts_Replay/ADCGates_HMS.def");
+  //analyzer->SetOdefFile("DEF-files/HMS/PRODUCTION/hstackana_production_all.def");
+  // Define cuts file
+  analyzer->SetCutFile("UTIL_KAONLT/scripts_Replay/ADCGates_HMS_cuts.def");
+  //analyzer->SetCutFile("DEF-files/HMS/PRODUCTION/CUTS/hstackana_production_cuts.def");// optional
+>>>>>>> b2346ca6ddfd2e399448fea95a518320e7d96b71
   // File to record cuts accounting information for cuts
   //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/HMS/PRODUCTION/summary_coin_all_production_%d_%d.report", RunNumber, MaxEvent));    // optional
   // Start the actual analysis.

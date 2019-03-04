@@ -1,0 +1,8 @@
+#!/bin/bash
+    
+read -p "Which angle would you like to analyze?: " ANGLE
+read -p "And which current?: " CURRENT
+python get_stats.py $ANGLE $CURRENT
+	
+
+

@@ -109,44 +109,68 @@ public :
    TTreeReaderArray<Double_t> H_dc_2x2_rawtdc = {fReader, "H.dc.2x2.rawtdc"};
 
    TTreeReaderValue<Int_t> Ndata_H_hod_1x_negAdcPulseTime = {fReader, "Ndata.H.hod.1x.negAdcPulseTime"};
-   TTreeReaderArray<Double_t> H_hod_1x_negAdcCounter = {fReader, "H.hod.1x.negAdcCounter"};
+   TTreeReaderValue<Int_t> Ndata_H_hod_1x_negTdcTime      = {fReader, "Ndata.H.hod.1x.negTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_1x_negAdcCounter   = {fReader, "H.hod.1x.negAdcCounter"};
    TTreeReaderArray<Double_t> H_hod_1x_negAdcErrorFlag = {fReader, "H.hod.1x.negAdcErrorFlag"};
    TTreeReaderArray<Double_t> H_hod_1x_negAdcPulseTime = {fReader, "H.hod.1x.negAdcPulseTime"};
+   TTreeReaderArray<Double_t> H_hod_1x_negTdcTime      = {fReader, "H.hod.1x.negTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_1x_negTdcTimeCorr  = {fReader, "H.hod.1x.GoodNegTdcTimeCorr"};
 
    TTreeReaderValue<Int_t> Ndata_H_hod_1y_negAdcPulseTime = {fReader, "Ndata.H.hod.1y.negAdcPulseTime"};
-   TTreeReaderArray<Double_t> H_hod_1y_negAdcCounter = {fReader, "H.hod.1y.negAdcCounter"};
+   TTreeReaderValue<Int_t> Ndata_H_hod_1y_negTdcTime      = {fReader, "Ndata.H.hod.1y.negTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_1y_negAdcCounter   = {fReader, "H.hod.1y.negAdcCounter"};
    TTreeReaderArray<Double_t> H_hod_1y_negAdcErrorFlag = {fReader, "H.hod.1y.negAdcErrorFlag"};
    TTreeReaderArray<Double_t> H_hod_1y_negAdcPulseTime = {fReader, "H.hod.1y.negAdcPulseTime"};
+   TTreeReaderArray<Double_t> H_hod_1y_negTdcTime      = {fReader, "H.hod.1y.negTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_1y_negTdcTimeCorr  = {fReader, "H.hod.1y.GoodNegTdcTimeCorr"};
 
    TTreeReaderValue<Int_t> Ndata_H_hod_2x_negAdcPulseTime = {fReader, "Ndata.H.hod.2x.negAdcPulseTime"};
-   TTreeReaderArray<Double_t> H_hod_2x_negAdcCounter = {fReader, "H.hod.2x.negAdcCounter"};
+   TTreeReaderValue<Int_t> Ndata_H_hod_2x_negTdcTime      = {fReader, "Ndata.H.hod.2x.negTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_2x_negAdcCounter   = {fReader, "H.hod.2x.negAdcCounter"};
    TTreeReaderArray<Double_t> H_hod_2x_negAdcErrorFlag = {fReader, "H.hod.2x.negAdcErrorFlag"};
    TTreeReaderArray<Double_t> H_hod_2x_negAdcPulseTime = {fReader, "H.hod.2x.negAdcPulseTime"};
+   TTreeReaderArray<Double_t> H_hod_2x_negTdcTime      = {fReader, "H.hod.2x.negTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_2x_negTdcTimeCorr  = {fReader, "H.hod.2x.GoodNegTdcTimeCorr"};
 
    TTreeReaderValue<Int_t> Ndata_H_hod_2y_negAdcPulseTime = {fReader, "Ndata.H.hod.2y.negAdcPulseTime"};
-   TTreeReaderArray<Double_t> H_hod_2y_negAdcCounter = {fReader, "H.hod.2y.negAdcCounter"};
+   TTreeReaderValue<Int_t> Ndata_H_hod_2y_negTdcTime      = {fReader, "Ndata.H.hod.2y.negTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_2y_negAdcCounter   = {fReader, "H.hod.2y.negAdcCounter"};
    TTreeReaderArray<Double_t> H_hod_2y_negAdcErrorFlag = {fReader, "H.hod.2y.negAdcErrorFlag"};
    TTreeReaderArray<Double_t> H_hod_2y_negAdcPulseTime = {fReader, "H.hod.2y.negAdcPulseTime"};
+   TTreeReaderArray<Double_t> H_hod_2y_negTdcTime      = {fReader, "H.hod.2y.negTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_2y_negTdcTimeCorr  = {fReader, "H.hod.2y.GoodNegTdcTimeCorr"};
 
    TTreeReaderValue<Int_t> Ndata_H_hod_1x_posAdcPulseTime = {fReader, "Ndata.H.hod.1x.posAdcPulseTime"};
-   TTreeReaderArray<Double_t> H_hod_1x_posAdcCounter = {fReader, "H.hod.1x.posAdcCounter"};
+   TTreeReaderValue<Int_t> Ndata_H_hod_1x_posTdcTime      = {fReader, "Ndata.H.hod.1x.posTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_1x_posAdcCounter   = {fReader, "H.hod.1x.posAdcCounter"};
    TTreeReaderArray<Double_t> H_hod_1x_posAdcErrorFlag = {fReader, "H.hod.1x.posAdcErrorFlag"};
    TTreeReaderArray<Double_t> H_hod_1x_posAdcPulseTime = {fReader, "H.hod.1x.posAdcPulseTime"};
+   TTreeReaderArray<Double_t> H_hod_1x_posTdcTime      = {fReader, "H.hod.1x.posTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_1x_posTdcTimeCorr  = {fReader, "H.hod.1x.GoodPosTdcTimeCorr"};
 
    TTreeReaderValue<Int_t> Ndata_H_hod_1y_posAdcPulseTime = {fReader, "Ndata.H.hod.1y.posAdcPulseTime"};
-   TTreeReaderArray<Double_t> H_hod_1y_posAdcCounter = {fReader, "H.hod.1y.posAdcCounter"};
+   TTreeReaderValue<Int_t> Ndata_H_hod_1y_posTdcTime      = {fReader, "Ndata.H.hod.1y.posTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_1y_posAdcCounter   = {fReader, "H.hod.1y.posAdcCounter"};
    TTreeReaderArray<Double_t> H_hod_1y_posAdcErrorFlag = {fReader, "H.hod.1y.posAdcErrorFlag"};
    TTreeReaderArray<Double_t> H_hod_1y_posAdcPulseTime = {fReader, "H.hod.1y.posAdcPulseTime"};
+   TTreeReaderArray<Double_t> H_hod_1y_posTdcTime      = {fReader, "H.hod.1y.posTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_1y_posTdcTimeCorr  = {fReader, "H.hod.1y.GoodPosTdcTimeCorr"};
 
    TTreeReaderValue<Int_t> Ndata_H_hod_2x_posAdcPulseTime = {fReader, "Ndata.H.hod.2x.posAdcPulseTime"};
-   TTreeReaderArray<Double_t> H_hod_2x_posAdcCounter = {fReader, "H.hod.2x.posAdcCounter"};
+   TTreeReaderValue<Int_t> Ndata_H_hod_2x_posTdcTime      = {fReader, "Ndata.H.hod.2x.posTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_2x_posAdcCounter   = {fReader, "H.hod.2x.posAdcCounter"};
    TTreeReaderArray<Double_t> H_hod_2x_posAdcErrorFlag = {fReader, "H.hod.2x.posAdcErrorFlag"};
    TTreeReaderArray<Double_t> H_hod_2x_posAdcPulseTime = {fReader, "H.hod.2x.posAdcPulseTime"};
+   TTreeReaderArray<Double_t> H_hod_2x_posTdcTime      = {fReader, "H.hod.2x.posTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_2x_posTdcTimeCorr  = {fReader, "H.hod.2x.GoodPosTdcTimeCorr"};
 
    TTreeReaderValue<Int_t> Ndata_H_hod_2y_posAdcPulseTime = {fReader, "Ndata.H.hod.2y.posAdcPulseTime"};
-   TTreeReaderArray<Double_t> H_hod_2y_posAdcCounter = {fReader, "H.hod.2y.posAdcCounter"};
+   TTreeReaderValue<Int_t> Ndata_H_hod_2y_posTdcTime      = {fReader, "Ndata.H.hod.2y.posTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_2y_posAdcCounter   = {fReader, "H.hod.2y.posAdcCounter"};
    TTreeReaderArray<Double_t> H_hod_2y_posAdcErrorFlag = {fReader, "H.hod.2y.posAdcErrorFlag"};
    TTreeReaderArray<Double_t> H_hod_2y_posAdcPulseTime = {fReader, "H.hod.2y.posAdcPulseTime"};
+   TTreeReaderArray<Double_t> H_hod_2y_posTdcTime      = {fReader, "H.hod.2y.posTdcTime"};
+   TTreeReaderArray<Double_t> H_hod_2y_posTdcTimeCorr  = {fReader, "H.hod.2y.GoodPosTdcTimeCorr"};
    
    TTreeReaderValue<Double_t> H_hod_starttime = {fReader, "H.hod.starttime"};
 
