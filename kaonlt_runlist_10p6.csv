@@ -297,11 +297,16 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS
 5030    K+3.0   6.053   12.46       -4.204  14.93       Dummy    10.6    60       8     8   0     7.142          10.67           0.028             101.05           81k      99.92            !Dummy 
 
 Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)       Raw-coin  Computer-LT      Comment
-<<<<<<< HEAD
-5031    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    60       11   10   0     21.24          44.77           0.176             140.7           647k       99.96           !747 Lamda Events
-5032    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    60       11   10   0     17.73          35.84           0.129             100.42          404k       99.97           !556 Lamda Events
-5033    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    50       11   10   0     10.83          22.1            0.082             120.01          507        99.65           !693 Lamda Events
-=======
+5031    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    60       11   10   0     21.24          44.77           0.176             140.7           647k       99.96           ! 747 Lamda Events
+5032    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    60       11   10   0     17.73          35.84           0.129             100.42          404k       99.97           ! 556 Lamda Events
+5033    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    50       11   10   0     10.83          22.1            0.082             120.01          507        99.65           ! 693 Lamda Events
+5034    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    50       11   10   0      ---            ---             ----             ---             --        ---              ! Junk
+5035    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    40       11   9    0     20.83          40.6            0.082             47.53           182k       99.65           ! Junk Lamda Events
+5036    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    50       11   10   0     10.83          22.1            0.082             26.78           121k       99.99           ! Junk  Lamda Events
+5038    K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    50       11   10   0     27.7           54.8            0.22              100.12          398k       99.99           ! 601  Lamda Events
+5039 	K+3.0   6.053   12.46       -4.204  14.93       LH2      10.6    50       11   10   0     10.83          22.1            0.26              126.45          497k       99.9            ! 710 Lamda Events
+
+Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)       Raw-coin  Computer-LT      Comment
 5040    K+3.0   6.053   9.41        -4.204  14.93       LH2      10.6    50       13   10   0     8.879          78.8            0.21              17.6            226k       99.96           ! 139 Lambda events
 5041    K+3.0   6.053   9.41        -4.204  14.93       LH2      10.6    50       13   10   0     10.52          96.4            0.25              39.4            525k       99.95           ! 316 Lambda events
 5042    K+3.0   6.053   9.41        -4.204  14.93       LH2      10.6    50       13   10   0     23.46          210.0           0.57              139.2           1859k      99.96           ! 914 Lambda events
@@ -556,10 +561,6 @@ Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS
 5273	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	  3.337               50.060          0.029          211.435         103k    82.88           !216 Lambda Events
 5274	K+5.5	6.842	12.565	     -3.266  23.00	 LH2	  10.6	  70	   10	6    0	  2.907		      43.046	      0.030	     237.699	     114k    81.98	     !229 LAMBDA Events
 
-<<<<<<< HEAD
-5275	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   --	-    -	  -----		      ------	      ------	     -------	     ----    -----	     !JUNK
-5276	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   14	6    0	  		    
-=======
 Run	Type    P_SHMS  Theta_SHMS   P_HMS  Theta_HMS   Target   Ebeam  Current   PS1  PS3  PS5   HMS-Rate(kHz)  SHMS-Rate(kHz)  COIN-Rate(kHz)   Charge(mC)     Raw-coin  SHMS_h_tracking      Comment
 5275	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   --	-    -	  -----		      ------	      ------	     -------	     ----    -----	     !JUNK
 5276	K+5.5	6.842	6.500	     -3.266  23.00	 LH2	  10.6	  45	   14	6    0	  1.951		      599.652	      0.123	     146.593	     432k    79.32	     !68 Lambda Events

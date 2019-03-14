@@ -1,15 +1,12 @@
 *~
-<<<<<<< HEAD
-*#*#
-=======
-<<<<<<< HEAD
 #*#
-=======
-#*#
->>>>>>> 06aaa1768209fb8899d7a50cbaae63632100ad54
 *.pcm
 *.so
 *.d
 *.png
 *.pdf
->>>>>>> 6734e86af97e777e6f8028560acdbb41c9b2b2a6
+
+# Directories
+REPORT_OUTPUT
+HISTOGRAMS
+ROOTfiles

@@ -152,17 +152,11 @@ void replay_ADC_HMS(Int_t RunNumber=0, Int_t MaxEvent=0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define output DEF-file 
-<<<<<<< HEAD
   analyzer->SetOdefFile("UTIL_KAONLT/scripts_Replay/ADCGates_HMS.def");
   //analyzer->SetOdefFile("DEF-files/HMS/PRODUCTION/hstackana_production_all.def");
   // Define cuts file
   analyzer->SetCutFile("UTIL_KAONLT/scripts_Replay/ADCGates_HMS_cuts.def");
   //analyzer->SetCutFile("DEF-files/HMS/PRODUCTION/CUTS/hstackana_production_cuts.def");// optional
-=======
-  analyzer->SetOdefFile("UTIL_KAONLT/DEF-files/ADCGates_HMS.def");
-  // Define cuts file
-  analyzer->SetCutFile("UTIL_KAONLT/DEF-files/ADCGates_HMS_cuts.def");    // optional
->>>>>>> 06aaa1768209fb8899d7a50cbaae63632100ad54
   // File to record cuts accounting information for cuts
   //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/HMS/PRODUCTION/summary_coin_all_production_%d_%d.report", RunNumber, MaxEvent));    // optional
   // Start the actual analysis.
