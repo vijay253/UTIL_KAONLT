@@ -3,7 +3,7 @@
 RUNNUMBER=$1
 RUNTYPE=$2
 TARGET=$3
-RUNLIST="kaonlt_runlist_3p8-4p9.csv"
+RUNLIST="kaonlt_runlist_8p2-6p2.csv"
 #RUNLIST="stats_runlist.csv"
 KINFILE="../DBASE/COIN/standard.kinematics"
 SCALERFILE="OUTPUT/scalers_Run$RUNNUMBER.txt"

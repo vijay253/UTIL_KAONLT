@@ -1,0 +1,3 @@
+###### Update this every run, make sure other PS values are set to -1! #########
+###### 
+Run	Type	P_SHMS	Theta_SHMS      P_HMS	Theta_HMS	Target	Ebeam	Current	PS1	PS3	PS5	HMS-Rate(kHz)	SHMS-Rate(kHz)	COIN-Rate(kHz)	Charge(mC)	Raw-coin	SHMS_h_tracking	        Comment

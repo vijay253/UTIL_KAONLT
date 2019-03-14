@@ -4,7 +4,7 @@ import time,sys,os,argparse,atexit,subprocess,math
 
 ANGLE = sys.argv[1]
 CURRENT = sys.argv[2]
-BEAM = 4.900
+BEAM = 8.200
 target = "LH2"
 
 ANGLE_low = float(ANGLE)-0.3
@@ -24,7 +24,7 @@ def getRunInfo():
     Type = [] 
     Target = [] 
     lamb = []
-    KAONLTLIST="kaonlt_runlist_3p8-4p9.csv"
+    KAONLTLIST="kaonlt_runlist_8p2-6p2.csv"
 
     f = open(KAONLTLIST)
     
@@ -199,12 +199,11 @@ def main() :
     acc_charge = []
     tot_charge = []
     tot_lambda = []
-    #charge_goal = 976
+
+    # Need to change for new kinematics
     charge_goal = 1190
-    #lambda_goal = 21000
     lambda_goal = 20900
     charge_goalPAC = 3162
-    #lambda_goalPAC = 68250
     lambda_goalPAC = 60800
 
     i=0
