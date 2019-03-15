@@ -73,8 +73,12 @@ void TrackingTest::SlaveBegin(TTree * /*tree*/)
     SHMS_DCnTracks = new TH1F("SHMS_DCnTracks", "nTracks in SHMS DCs",20, 0, 20);
     SHMS_DCnTracksCut = new TH1F("SHMS_DCnTracksCut", "nTracks in SHMS DCs post ECal cut",20, 0, 20);
 
-    HMS_nHits_nTr = new TH2F("HMS_nHits_nTr", "HMS n_{Hits}(n_{Tr})", 20, 0, 20, 200, 0, 200);
-    SHMS_nHits_nTr = new TH2F("SHMS_nHits_nTr", "SHMS n_{Hits}(n_{Tr})", 20, 0, 20, 200, 0, 200);
+    HMS_nHits_nTr = new TH2F("HMS_nHits_nTr", "HMS n_{Hits}(n_{Tr})", 15, 0, 15, 200, 0, 200);
+    HMS_nHitsCh1_nTr = new TH2F("HMS_nHitsCh1_nTr", "HMS n_{HitsCh1}(n_{Tr})", 15, 0, 15, 100, 0, 100);
+    HMS_nHitsCh2_nTr = new TH2F("HMS_nHitsCh2_nTr", "HMS n_{HitsCh2}(n_{Tr})", 15, 0, 15, 100, 0, 100);
+    SHMS_nHits_nTr = new TH2F("SHMS_nHits_nTr", "SHMS n_{Hits}(n_{Tr})", 15, 0, 15, 200, 0, 200);
+    SHMS_nHitsCh1_nTr = new TH2F("SHMS_nHitsCh1_nTr", "SHMS n_{HitsCh1}(n_{Tr})", 15, 0, 15, 100, 0, 100);
+    SHMS_nHitsCh2_nTr = new TH2F("SHMS_nHitsCh2_nTr", "SHMS n_{HitsCh2}(n_{Tr})", 15, 0, 15, 100, 0, 100);
 
     //TH2F* nHits_nPlane[2][2][5];
     TString detector;
@@ -155,7 +159,11 @@ void TrackingTest::SlaveBegin(TTree * /*tree*/)
     fOutput->Add(SHMS_DCnTracks);
     fOutput->Add(SHMS_DCnTracksCut);
     fOutput->Add(HMS_nHits_nTr);
+    fOutput->Add(HMS_nHitsCh1_nTr);
+    fOutput->Add(HMS_nHitsCh2_nTr);
     fOutput->Add(SHMS_nHits_nTr);
+    fOutput->Add(SHMS_nHitsCh1_nTr);
+    fOutput->Add(SHMS_nHitsCh2_nTr);
 
     fOutput->Add(HMS_Ch1_nHits_Pass);
     fOutput->Add(HMS_Ch2_nHits_Pass);
@@ -205,6 +213,8 @@ Bool_t TrackingTest::Process(Long64_t entry)
         SHMS_DCnHitsCut->Fill(P_dc_nhit[0]);
         SHMS_DCnTracksCut->Fill(P_dc_ntrack[0]);
         SHMS_nHits_nTr->Fill(P_dc_ntrack[0], P_dc_nhit[0]);
+        SHMS_nHitsCh1_nTr->Fill(P_dc_ntrack[0],P_dc_Ch1_nhit[0]);
+        SHMS_nHitsCh2_nTr->Fill(P_dc_ntrack[0],P_dc_Ch2_nhit[0]);
         Int_t nTrack = P_dc_ntrack[0];
         if(nTrack < 5){
             nHits_nPlane[1][0][nTrack]->Fill(0., P_dc_1u1_nhit[0]);
@@ -296,6 +306,8 @@ Bool_t TrackingTest::Process(Long64_t entry)
         HMS_DCnHitsCut->Fill(H_dc_nhit[0]);
         HMS_DCnTracksCut->Fill(H_dc_ntrack[0]);
         HMS_nHits_nTr->Fill(H_dc_ntrack[0], H_dc_nhit[0]);
+        HMS_nHitsCh1_nTr->Fill(H_dc_ntrack[0],H_dc_Ch1_nhit[0]);
+        HMS_nHitsCh2_nTr->Fill(H_dc_ntrack[0],H_dc_Ch2_nhit[0]);
         Int_t nTrack = H_dc_ntrack[0];
         if(nTrack < 5){
                 nHits_nPlane[0][0][nTrack]->Fill(0., H_dc_1u1_nhit[0]);
@@ -423,7 +435,11 @@ void TrackingTest::Terminate()
     SHMS_DCnTracksCut->Write();
 
     HMS_nHits_nTr->Write();
+    HMS_nHitsCh1_nTr->Write();
+    HMS_nHitsCh2_nTr->Write();
     SHMS_nHits_nTr->Write();
+    SHMS_nHitsCh1_nTr->Write();
+    SHMS_nHitsCh2_nTr->Write();
 
     TDirectory *DDCChPl = Histogram_file->mkdir("DC Chamber Information by Plane"); DDCChPl->cd();
     // To access histogram arrays have to do this slightly stupid process
@@ -449,20 +465,66 @@ void TrackingTest::Terminate()
 
     TDirectory *DDCCh = Histogram_file->mkdir("DC Chamber Information"); DDCCh->cd();
 
+    HMS_Ch1_nHits_Pass->GetXaxis()->SetTitle("DC Plane");
+    HMS_Ch1_nHits_Pass->GetXaxis()->CenterTitle();
+    HMS_Ch1_nHits_Pass->GetYaxis()->SetTitle("nHits/Plane");
+    HMS_Ch1_nHits_Pass->GetYaxis()->SetTitleOffset(0.7);
+    HMS_Ch1_nHits_Pass->GetYaxis()->CenterTitle();
     HMS_Ch1_nHits_Pass->Write();
+
+    HMS_Ch2_nHits_Pass->GetXaxis()->SetTitle("DC Plane");
+    HMS_Ch2_nHits_Pass->GetXaxis()->CenterTitle();
+    HMS_Ch2_nHits_Pass->GetYaxis()->SetTitle("nHits/Plane");
+    HMS_Ch2_nHits_Pass->GetYaxis()->SetTitleOffset(0.7);
+    HMS_Ch2_nHits_Pass->GetYaxis()->CenterTitle();
     HMS_Ch2_nHits_Pass->Write();
+
+    HMS_Ch1_nHits_Fail->GetXaxis()->SetTitle("DC Plane");
+    HMS_Ch1_nHits_Fail->GetXaxis()->CenterTitle();
+    HMS_Ch1_nHits_Fail->GetYaxis()->SetTitle("nHits/Plane");
+    HMS_Ch1_nHits_Fail->GetYaxis()->SetTitleOffset(0.7);
+    HMS_Ch1_nHits_Fail->GetYaxis()->CenterTitle();
     HMS_Ch1_nHits_Fail->Write();
+
+    HMS_Ch2_nHits_Fail->GetXaxis()->SetTitle("DC Plane");
+    HMS_Ch2_nHits_Fail->GetXaxis()->CenterTitle();
+    HMS_Ch2_nHits_Fail->GetYaxis()->SetTitle("nHits/Plane");
+    HMS_Ch2_nHits_Fail->GetYaxis()->SetTitleOffset(0.7);
+    HMS_Ch2_nHits_Fail->GetYaxis()->CenterTitle();
     HMS_Ch2_nHits_Fail->Write();
 
+    SHMS_Ch1_nHits_Pass->GetXaxis()->SetTitle("DC Plane");
+    SHMS_Ch1_nHits_Pass->GetXaxis()->CenterTitle();
+    SHMS_Ch1_nHits_Pass->GetYaxis()->SetTitle("nHits/Plane");
+    SHMS_Ch1_nHits_Pass->GetYaxis()->SetTitleOffset(0.7);
+    SHMS_Ch1_nHits_Pass->GetYaxis()->CenterTitle();
     SHMS_Ch1_nHits_Pass->Write();
+
+    SHMS_Ch2_nHits_Pass->GetXaxis()->SetTitle("DC Plane");
+    SHMS_Ch2_nHits_Pass->GetXaxis()->CenterTitle();
+    SHMS_Ch2_nHits_Pass->GetYaxis()->SetTitle("nHits/Plane");
+    SHMS_Ch2_nHits_Pass->GetYaxis()->SetTitleOffset(0.7);
+    SHMS_Ch2_nHits_Pass->GetYaxis()->CenterTitle();
     SHMS_Ch2_nHits_Pass->Write();
+
+    SHMS_Ch1_nHits_Fail->GetXaxis()->SetTitle("DC Plane");
+    SHMS_Ch1_nHits_Fail->GetXaxis()->CenterTitle();
+    SHMS_Ch1_nHits_Fail->GetYaxis()->SetTitle("nHits/Plane");
+    SHMS_Ch1_nHits_Fail->GetYaxis()->SetTitleOffset(0.7);
+    SHMS_Ch1_nHits_Fail->GetYaxis()->CenterTitle();
     SHMS_Ch1_nHits_Fail->Write();
+
+    SHMS_Ch2_nHits_Fail->GetXaxis()->SetTitle("DC Plane");
+    SHMS_Ch2_nHits_Fail->GetXaxis()->CenterTitle();
+    SHMS_Ch2_nHits_Fail->GetYaxis()->SetTitle("nHits/Plane");
+    SHMS_Ch2_nHits_Fail->GetYaxis()->SetTitleOffset(0.7);
+    SHMS_Ch2_nHits_Fail->GetYaxis()->CenterTitle();
     SHMS_Ch2_nHits_Fail->Write();
 
     TString detector;
     TString histname;
 
-    TDirectory *DDCChTr = Histogram_file->mkdir("DC Chamber Information by nTracks"); DDCCh->cd();
+    TDirectory *DDCChTr = Histogram_file->mkdir("DC Chamber Information by nTracks"); DDCChTr->cd();
     for(Int_t i = 0; i < 2; i++){
         if(i == 0) detector = "HMS";
         if(i == 1) detector = "SHMS";
@@ -470,6 +532,11 @@ void TrackingTest::Terminate()
             for(Int_t k = 0; k < 5; k++){
                 histname = detector + Form("_Ch%i_nTracks_%i", j+1, k);
                 TH2F* nHnP = dynamic_cast<TH2F *>(TProof::GetOutput(histname, fOutput));
+                nHnP->GetXaxis()->SetTitle("DC Plane");
+                nHnP->GetXaxis()->CenterTitle();
+                nHnP->GetYaxis()->SetTitle("nHits/Plane");
+                nHnP->GetYaxis()->SetTitleOffset(0.7);
+                nHnP->GetYaxis()->CenterTitle();
                 nHnP->Write();
             }
         }

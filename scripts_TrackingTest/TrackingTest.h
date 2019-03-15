@@ -46,7 +46,11 @@ class TrackingTest : public TSelector {
     TH1F           *SHMS_DCnTracksCut;
 
     TH2F           *HMS_nHits_nTr;
+    TH2F           *HMS_nHitsCh1_nTr;
+    TH2F           *HMS_nHitsCh2_nTr;
     TH2F           *SHMS_nHits_nTr;
+    TH2F           *SHMS_nHitsCh1_nTr;
+    TH2F           *SHMS_nHitsCh2_nTr;
     TH2F           *nHits_nPlane[2][2][5];
 
     TH1F           **SHMS_nHits_Ch1_Pass;
