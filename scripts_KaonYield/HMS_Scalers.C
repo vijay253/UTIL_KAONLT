@@ -270,6 +270,6 @@ void HMS_Scalers::Terminate()
   myfile1 << Form("HMS pretrig [rate]: %.0f %.0f\n", trig_sum[2], trig_sum[2]/time_sum[3]);
   myfile1 << Form("SHMS pretrig [rate]: %.0f %.0f\n", trig_sum[0], trig_sum[0]/time_sum[3]);
   myfile1 << Form("COIN pretrig [rate]: %.0f %.0f\n", trig_sum[4], trig_sum[4]/time_sum[3]);
-  myfile1 << Form("BCM4B Average Current (uA): %f\n", charge_sum[3]/time_sum[3]);
+  myfile1 << Form("BCM4A Average Current (uA): %f\n", charge_sum[2]/time_sum[3]);
   myfile1.close();
 }

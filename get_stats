@@ -33,7 +33,7 @@ echo "COIN Rate...                                      vvvvvv"
 grep 'SHMS_pTRIG5 Pre-scaled Pre-triggers :' $REPORTFILE
 echo
 echo "Charge                      vvvvvvv"
-grep 'SHMS BCM4B Beam Cut Charge:' $REPORTFILE
+grep 'SHMS BCM4A Beam Cut Charge:' $REPORTFILE
 echo
 echo "Number of raw-coin                   vvvvvvv"
 grep 'Coin ROC2 pTRIG5 Accepted Triggers :' $REPORTFILE

@@ -10,7 +10,7 @@ report_1="../REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%s_-1.report" 
 f    = open(report_1)
 fout = open('tmp','wb')
 
-curList = ['SHMS BCM4B Beam Cut Current']
+curList = ['SHMS BCM4A Beam Cut Current']
 
 for line in f:
     data = line.split(':')
@@ -65,7 +65,7 @@ report_3="../REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%s_-1.report" 
 f    = open(report_3)
 
 repList = ['SHMS_pTRIG3 Pre-triggers', 'SHMS_pTRIG1 Pre-triggers', 
-           'SHMS_pTRIG5 Pre-scaled Pre-triggers', 'SHMS BCM4B Beam Cut Charge',
+           'SHMS_pTRIG5 Pre-scaled Pre-triggers', 'SHMS BCM4A Beam Cut Charge',
            'Coin ROC2 pTRIG5 Accepted Triggers']
 
 for line in f:

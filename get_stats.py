@@ -79,8 +79,8 @@ def getValues():
 
         f    = open(report_1)
         curList = ['SHMS P Central', 'SHMS Angle', 'HMS P Central', 'HMS Angle','Beam energy',
-                   'SHMS BCM4B Beam Cut Current','SHMS_pTRIG3 Pre-triggers', 'SHMS_pTRIG1 Pre-triggers', 
-                   'SHMS_pTRIG5 Pre-scaled Pre-triggers', 'SHMS BCM4B Beam Cut Charge',
+                   'SHMS BCM4A Beam Cut Current','SHMS_pTRIG3 Pre-triggers', 'SHMS_pTRIG1 Pre-triggers', 
+                   'SHMS_pTRIG5 Pre-scaled Pre-triggers', 'SHMS BCM4A Beam Cut Charge',
                    'Coin ROC2 pTRIG5 Accepted Triggers']        
         for line in f:
             data = line.split(':')
