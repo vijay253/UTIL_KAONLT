@@ -24,8 +24,7 @@ void replay_production_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   pathList.push_back("./cache");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
-  //const char* ROOTFileNamePattern = "UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_%d_%d.root";
-  const char* ROOTFileNamePattern = "/lustre/expphy/volatile/hallc/spring17/trottar/ROOTfiles/KaonLT_coin_replay_production_%d_%d.root";
+  const char* ROOTFileNamePattern = "UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_%d_%d.root";
   
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
@@ -251,7 +250,7 @@ void replay_production_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   analyzer->SetCutFile("DEF-files/COIN/PRODUCTION/CUTS/coin_production_cuts.def");  // optional
   //analyzer->SetCutFile("UTIL_KAONLT/DEF-files/coin_production_cuts.def");  // optional
   // File to record accounting information for cuts
-  analyzer->SetSummaryFile(Form("/home/trottar/ResearchNP/ROOTAnalysis/REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent)); // optional
+  analyzer->SetSummaryFile(Form("UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent)); // optional
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template

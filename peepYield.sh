@@ -17,6 +17,7 @@ cd ../
 #hcana -q "SCRIPTS/COIN/SCALERS/replay_coin_scalers.C($RUNNUMBER,100000)"
 #cd CALIBRATION/bcm_current_map/
 #root -b<<EOF
+#.L ScalerCalib.C+
 #.x run.C("../../ROOTfiles/coin_replay_scalers_${RUNNUMBER}_100000.root")
 #EOF
 #mv bcmcurrent_$RUNNUMBER.param ../../PARAM/HMS/BCM/CALIB/bcmcurrent_$RUNNUMBER.param
@@ -26,6 +27,10 @@ echo -e "\n\nStarting Replay Script\n\n"
 cd UTIL_KAONLT/scripts_KaonYield/
 echo -e "\n\nYield Calculation\n\n"
 root -l "run_peepYield.C($RUNNUMBER,$MAXEVENTS,0,0)"
+cd ../
+python reportSummary.py $RUNNUMBER $MAXEVENTS
+emacs output.txt
+mv output.txt OUTPUT/scalers_Run$RUNNUMBER.txt
 if [[ -e "OUTPUT/scalers_Run$RUNNUMBER.txt" ]]; then
     while true; do
 	read -p "Would you like to update the run list as well? (Please answer yes or no) " yn
