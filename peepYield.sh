@@ -26,3 +26,21 @@ echo -e "\n\nStarting Replay Script\n\n"
 cd UTIL_KAONLT/scripts_KaonYield/
 echo -e "\n\nYield Calculation\n\n"
 root -l "run_peepYield.C($RUNNUMBER,$MAXEVENTS,0,0)"
+if [[ -e "OUTPUT/scalers_Run$RUNNUMBER.txt" ]]; then
+    while true; do
+	read -p "Would you like to update the run list as well? (Please answer yes or no) " yn
+	case $yn in
+            [Yy]* ) break;;
+            [Nn]* ) exit;;
+            * ) echo "Please answer yes or no.";;
+	esac
+    done
+
+    read -p "What type of production was this run? (e.g. Prod, Heep, ect.)" runType
+    read -p "What was the target? (Dummy, LH2 ..?)" target
+    
+    fillrunList="./fill_runList $RUNNUMBER $runType $target"
+    
+    eval ${fillrunList}
+    
+fi
