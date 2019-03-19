@@ -13,6 +13,10 @@ if [[ $2 -eq "" ]]; then
     MAXEVENTS=-1 
 fi
 cd ../
+#   Load params for BCM
+#   const char* CurrentFileNamePattern = "PARAM/HMS/BCM/CALIB/bcmcurrent_%d.param";
+#   gHcParms->Load(Form(CurrentFileNamePattern, RunNumber));
+# When we comment out the below bit ONLY when the bit above is commented out in replay_production_coin.C
 #echo -e "\n\nStarting Scaler Replay Script\n\n"
 #./hcana -q "SCRIPTS/COIN/SCALERS/replay_coin_scalers.C($RUNNUMBER,150000)"
 #cd CALIBRATION/bcm_current_map/

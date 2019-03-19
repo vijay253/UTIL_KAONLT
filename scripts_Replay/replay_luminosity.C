@@ -247,7 +247,7 @@ void replay_luminosity (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   analyzer->SetCutFile("DEF-files/COIN/PRODUCTION/CUTS/coin_production_cuts.def");  // optional
   //analyzer->SetCutFile("UTIL_KAONLT/DEF-files/luminosity_coin_production_cuts.def");  // optional
   // File to record accounting information for cuts
-  analyzer->SetSummaryFile(Form("UTIL_KAONLT//REPORT_OUTPUT/COIN/PRODUCTION/summary_luminosity_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+  analyzer->SetSummaryFile(Form("UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/summary_luminosity_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template

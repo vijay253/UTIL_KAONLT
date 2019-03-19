@@ -5,7 +5,7 @@ import sys
 runNo  = sys.argv[1]
 evenNo = sys.argv[2]
 
-summaryfile='../REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%s_%s.report' % (runNo, evenNo)
+summaryfile='./REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%s_%s.report' % (runNo, evenNo)
 
 f    = open(summaryfile)
 fout = open('output.txt','w')
