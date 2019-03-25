@@ -5,6 +5,7 @@
 *.d
 *.png
 *.pdf
+*.nfs*
 
 # Directories
 REPORT_OUTPUT

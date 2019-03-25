@@ -5,8 +5,8 @@
 // found on file: /home/rambrose/hallc_replay/ROOTfiles/coin_replay_production_4270_-1.root
 //////////////////////////////////////////////////////////
 
-#ifndef peepYield_h
-#define peepYield_h
+#ifndef KaonYield_adhoc_h
+#define KaonYield_adhoc_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -16,6 +16,8 @@
 #include <TTreeReaderValue.h>
 #include <TTreeReaderArray.h>
 #include <TMath.h>
+#include <TH3.h>
+#include <TProfile2D.h>
 #include <TH2.h>
 #include <TF1.h>
 
@@ -23,13 +25,20 @@
 // Headers needed by this particular selector
 
 
-class peepYield : public TSelector {
+class KaonYield_adhoc : public TSelector {
  public :
   TTreeReader     fReader;  //!the tree reader
   TTree          *fChain = 0;   //!pointer to the analyzed TTree or TChain
 
   //Declare Histograms
-  TH2F           *h1misspcut_CT;
+  TH2F           *h1missKcut_CT;
+
+  TH1F           *hmmE;  
+
+  TH2F           *h2ROC1_Coin_Beta_noID_kaon;
+  TH2F           *h2ROC1_Coin_Beta_kaon;
+  TH2F           *h2ROC1_Coin_Beta_noID_pion;
+  TH2F           *h2ROC1_Coin_Beta_pion;
   TH2F           *h2ROC1_Coin_Beta_noID_proton;
   TH2F           *h2ROC1_Coin_Beta_proton;
 
@@ -38,10 +47,23 @@ class peepYield : public TSelector {
   TH1F           *h1SHMS_electron;
   TH1F           *h1SHMS_electron_cut;
 
+  TH2F           *h2SHMSK_kaon;
+  TH2F           *h2SHMSK_kaon_cut;
+  TH2F           *h2SHMSK_pion;
+  TH2F           *h2SHMSK_pion_cut;
+
+  TH2F           *h2SHMSpi_kaon;
+  TH2F           *h2SHMSpi_kaon_cut;
+  TH2F           *h2SHMSpi_pion;
+  TH2F           *h2SHMSpi_pion_cut;
+
   TH2F           *h2SHMSp_kaon;
   TH2F           *h2SHMSp_kaon_cut;
   TH2F           *h2SHMSp_pion;
   TH2F           *h2SHMSp_pion_cut;
+
+  TH2F           *h2SHMS_pion;
+  TH2F           *h2SHMS_pion_cut;
 
   TH1F           *h1SHMS_delta;
   TH1F           *h1SHMS_delta_cut;
@@ -58,6 +80,25 @@ class peepYield : public TSelector {
   TH1F           *h1HMS_ph;
   TH1F           *h1HMS_ph_cut;
 
+  TH1F           *h1mmissK;
+  TH1F           *h1mmissK_rand;
+  TH1F           *h1mmissK_cut;
+  TH1F           *h1mmissK_remove;
+
+  ///////////////////////////////////////////////
+  TH2F           *h2ROC1_Coin_pion_kaon_noID;
+  TH2F           *h2ROC1_Coin_pion_kaon;
+  TH1F           *h1mmisspiK;
+  TH1F           *h1mmisspiK_rand;
+  TH1F           *h1mmisspiK_cut;
+  TH1F           *h1mmisspiK_remove;
+  ///////////////////////////////////////////////
+
+  TH1F           *h1mmisspi;
+  TH1F           *h1mmisspi_rand;
+  TH1F           *h1mmisspi_cut;
+  TH1F           *h1mmisspi_remove;
+
   TH1F           *h1mmissp;
   TH1F           *h1mmissp_rand;
   TH1F           *h1mmissp_cut;
@@ -67,19 +108,14 @@ class peepYield : public TSelector {
   TH1F           *h1epsilon;
   TH2F           *h2tvsph_q;
 
-  TH1F           *h1pmiss;
-  TH1F           *h1pxmiss;
-  TH1F           *h1pymiss;
-  TH1F           *h1pzmiss;
-
-  /////
-  TH1F           *h1emiss;
-  /////
-
   TH1F           *h1EDTM;
-  
+  TH1F           *h1TRIG5;
+
+  TH3F           *h3SHMS_HGC;  
 
   // Readers to access the data (delete the ones you do not need).
+  TTreeReaderArray<Double_t> CTime_eKCoinTime_ROC1  = {fReader, "CTime.eKCoinTime_ROC1"};
+  TTreeReaderArray<Double_t> CTime_ePiCoinTime_ROC1 = {fReader, "CTime.ePiCoinTime_ROC1"};
   TTreeReaderArray<Double_t> CTime_epCoinTime_ROC1  = {fReader, "CTime.epCoinTime_ROC1"};
   TTreeReaderArray<Double_t> P_gtr_beta         = {fReader, "P.gtr.beta"};
   TTreeReaderArray<Double_t> P_gtr_th           = {fReader, "P.gtr.th"};
@@ -92,27 +128,28 @@ class peepYield : public TSelector {
   TTreeReaderArray<Double_t> P_cal_etotnorm     = {fReader, "P.cal.etotnorm"};
   TTreeReaderArray<Double_t> P_aero_npeSum      = {fReader, "P.aero.npeSum"};
   TTreeReaderArray<Double_t> P_hgcer_npeSum     = {fReader, "P.hgcer.npeSum"};
+  /*TTreeReaderArray<Double_t> P_hgcer_xAtCer     = {fReader, "P.hgcer.xAtCer"};
+    TTreeReaderArray<Double_t> P_hgcer_yAtCer     = {fReader, "P.hgcer.yAtCer"};*/
   //TTreeReaderArray<Double_t> P_ngcer_npeSum     = {fReader, "P.ngcer.npeSum"};
   TTreeReaderArray<Double_t> H_gtr_dp           = {fReader, "H.gtr.dp"};
   TTreeReaderArray<Double_t> P_gtr_dp           = {fReader, "P.gtr.dp"};
+  TTreeReaderArray<Double_t> H_gtr_p            = {fReader, "H.gtr.p"};
   TTreeReaderArray<Double_t> P_gtr_p            = {fReader, "P.gtr.p"};
   TTreeReaderArray<Double_t> Q2                 = {fReader, "H.kin.primary.Q2"};
   TTreeReaderArray<Double_t> W                  = {fReader, "H.kin.primary.W"};
   TTreeReaderArray<Double_t> epsilon            = {fReader, "H.kin.primary.epsilon"};
-  TTreeReaderArray<Double_t> ph_q               = {fReader, "H.kin.primary.ph_q"};
+  TTreeReaderArray<Double_t> ph_q               = {fReader, "P.kin.secondary.ph_bq"};
   TTreeReaderArray<Double_t> emiss              = {fReader, "P.kin.secondary.emiss"};
   TTreeReaderArray<Double_t> pmiss              = {fReader, "P.kin.secondary.pmiss"};
-  TTreeReaderArray<Double_t> pmiss_x            = {fReader, "P.kin.secondary.pmiss_x"};
-  TTreeReaderArray<Double_t> pmiss_y            = {fReader, "P.kin.secondary.pmiss_y"};
-  TTreeReaderArray<Double_t> pmiss_z            = {fReader, "P.kin.secondary.pmiss_z"};
   TTreeReaderArray<Double_t> MandelT            = {fReader, "P.kin.secondary.MandelT"};
   TTreeReaderValue<Int_t>    fEvtType           = {fReader, "fEvtHdr.fEvtType"};
 
   TTreeReaderValue<Double_t> pEDTM              = {fReader, "T.coin.pEDTM_tdcTime"};
+  /* TTreeReaderValue<Double_t> pTRIG5             = {fReader, "T.coin.pTRIG5_ROC1_tdcTime"}; */
 
 
-  peepYield(TTree * /*tree*/ =0) {h2ROC1_Coin_Beta_noID_proton=0,h1misspcut_CT=0, h2ROC1_Coin_Beta_proton=0,h2HMS_electron=0, h2HMS_electron_cut=0, h1SHMS_electron=0, h1SHMS_electron_cut=0, h2SHMSp_kaon=0, h2SHMSp_kaon_cut=0, h2SHMSp_pion=0, h2SHMSp_pion_cut=0,h1SHMS_delta=0, h1SHMS_delta_cut=0, h1HMS_delta=0, h1HMS_delta_cut=0, h1SHMS_th=0, h1SHMS_th_cut=0, h1SHMS_ph=0, h1SHMS_ph_cut=0, h1HMS_th=0, h1HMS_th_cut=0, h1HMS_ph=0, h1HMS_ph_cut=0, h1mmissp=0, h1mmissp_rand=0, h1mmissp_cut=0, h1mmissp_remove=0, h2WvsQ2=0, h2tvsph_q=0, h1epsilon=0, h1pmiss=0, h1pxmiss=0, h1pymiss=0, h1pzmiss=0, h1EDTM=0, h1emiss =0;}
-  virtual ~peepYield() { }
+  KaonYield_adhoc(TTree * /*tree*/ =0) {h1missKcut_CT=0,hmmE=0, h2ROC1_Coin_Beta_noID_kaon=0, h2ROC1_Coin_Beta_kaon=0, h2ROC1_Coin_Beta_noID_pion=0, h2ROC1_Coin_Beta_pion=0, h2ROC1_Coin_Beta_noID_proton=0, h2ROC1_Coin_Beta_proton=0,h2HMS_electron=0, h2HMS_electron_cut=0, h1SHMS_electron=0, h1SHMS_electron_cut=0, h2SHMSK_kaon=0, h2SHMSK_kaon_cut=0, h2SHMSK_pion=0, h2SHMSK_pion_cut=0, h2SHMSpi_kaon=0, h2SHMSpi_kaon_cut=0, h2SHMSpi_pion=0, h2SHMSpi_pion_cut=0, h2SHMSp_kaon=0, h2SHMSp_kaon_cut=0, h2SHMSp_pion=0, h2SHMSp_pion_cut=0,h1SHMS_delta=0, h1SHMS_delta_cut=0, h1HMS_delta=0, h1HMS_delta_cut=0, h1SHMS_th=0, h1SHMS_th_cut=0, h1SHMS_ph=0, h1SHMS_ph_cut=0, h1HMS_th=0, h1HMS_th_cut=0, h1HMS_ph=0, h1HMS_ph_cut=0, h1mmissK=0,h1mmissK_rand=0, h1mmissK_cut=0, h1mmissK_remove=0, h2ROC1_Coin_pion_kaon=0, h2ROC1_Coin_pion_kaon_noID=0, h1mmisspiK=0, h1mmisspiK_rand=0, h1mmisspiK_cut=0, h1mmisspiK_remove=0, h1mmisspi=0, h1mmisspi_rand=0, h1mmisspi_cut=0, h1mmisspi_remove=0, h1mmissp=0, h1mmissp_rand=0, h1mmissp_cut=0, h1mmissp_remove=0, h2WvsQ2=0, h2tvsph_q=0, h1epsilon=0, h1EDTM=0,h1TRIG5=0, h3SHMS_HGC=0;}
+  virtual ~KaonYield_adhoc() { }
   virtual Int_t   Version() const { return 2; }
   virtual void    Begin(TTree *tree);
   virtual void    SlaveBegin(TTree *tree);
@@ -127,14 +164,14 @@ class peepYield : public TSelector {
   virtual void    SlaveTerminate();
   virtual void    Terminate();
 
-  ClassDef(peepYield,0);
+  ClassDef(KaonYield_adhoc,0);
 
 };
 
 #endif
 
-#ifdef peepYield_cxx
-void peepYield::Init(TTree *tree)
+#ifdef KaonYield_adhoc_cxx
+void KaonYield_adhoc::Init(TTree *tree)
 {
   // The Init() function is called when the selector needs to initialize
   // a new tree or chain. Typically here the reader is initialized.
@@ -146,7 +183,7 @@ void peepYield::Init(TTree *tree)
   fReader.SetTree(tree);
 }
 
-Bool_t peepYield::Notify()
+Bool_t KaonYield_adhoc::Notify()
 {
   // The Notify() function is called when a new file is opened. This
   // can be either for a new TTree in a TChain or when when a new TTree
@@ -157,4 +194,4 @@ Bool_t peepYield::Notify()
   return kTRUE;
 }
 
-#endif // #ifdef peepYield_cxx
+#endif // #ifdef KaonYield_adhoc_cxx

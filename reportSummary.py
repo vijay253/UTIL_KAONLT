@@ -23,6 +23,7 @@ for line in f:
                 fout.write("Most recent analysis for run %s was completed on" % (runNo) + data[1] + '\n')
 f.close()
 
+#filename = './REPORT_OUTPUT/COIN/PRODUCTION/KaonLT_replay_coin_production_%s_%s.report' % (runNo, evenNo)
 filename = './REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%s_%s.report' % (runNo, evenNo)
 
 f    = open(filename)
@@ -64,7 +65,8 @@ fout.write('\nComputer Live Time for COIN Trigger (%): ')
 fout.write(str(COIN_LT))
 f.close()
 
-shms_file = '../REPORT_OUTPUT/SHMS/PRODUCTION/replay_shms_coin_production_%s_50000.report' % (runNo)
+#shms_file = '../REPORT_OUTPUT/SHMS/PRODUCTION/replay_shms_coin_production_%s_50000.report' % (runNo)
+shms_file = '../MON_OUTPUT/REPORT/reportMonitor_shms_%s_50000.txt' % (runNo)
 #print('./REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo))
 f    = open(shms_file)
 fout.write('\n\n')
@@ -81,10 +83,11 @@ for line in f:
                         else : fout.write(data[0] + ' : ' + data[1])
 f.close()
 
-hms_file = '../REPORT_OUTPUT/HMS/PRODUCTION/replay_hms_coin_production_%s_50000.report' % (runNo)
+#hms_file = '../REPORT_OUTPUT/HMS/PRODUCTION/replay_hms_coin_production_%s_50000.report' % (runNo)
+hms_file = '../MON_OUTPUT/REPORT/reportMonitor_hms_%s_50000.txt' % (runNo)
 #print('./REPORT_OUTPUT/COIN/PRODUCTION/output_coin_production_%s_%s.report' % (runNo, evenNo))
 f    = open(hms_file)
-#fout.write('\n')
+fout.write('\n')
 hmsList = ['E SING FID TRACK EFFIC','Overall HGC Efficiency']
 
 for line in f:

@@ -4,7 +4,7 @@
 #include <string>
 #include <stdio.h>
 
-void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_cut = 5, Int_t pscal = 1)
+void run_KaonYield_adhoc(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_cut = 5, Int_t pscal = 1)
 {
   // Get RunNumber, MaxEvent, and current threshold if not provided.
   if(RunNumber == 0) {
@@ -23,7 +23,7 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
   if(threshold_cut == 0) {
     cout << "Enter a current threshold: ";
     cin >> threshold_cut;
-    if( threshold_cut<=0 ) return;
+    //if( threshold_cut<=0 ) return;
   }
   if(pscal == 0) {
     cout << "Enter a prescale factor: ";
@@ -33,7 +33,7 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
 
   ofstream myfile1;
   myfile1.open ("kaonyieldVar", fstream::app);
-  myfile1 << left << "HeeP" << RunNumber << "   " << pscal << "   ";
+  myfile1 << left << RunNumber << "   " << pscal << "   ";
   myfile1.close();
 
   //Begin Scaler Efficiency Calculation
@@ -57,9 +57,9 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
   TProof *proof = TProof::Open("workers=4");
   //proof->SetProgressDialog(0);  
   ch.SetProof();
-  ch.Process("peepYield.C+",option);
+  ch.Process("KaonYield_adhoc.C+",option);
   proof->Close();
-
+  
   TChain sc("TSH");
   sc.Add(Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
   sc.Process("HMS_Scalers.C+",option);
