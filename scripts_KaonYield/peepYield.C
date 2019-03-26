@@ -298,12 +298,12 @@ void peepYield::Terminate()
   
   //Start of Canvas Painting
   
-  // TCanvas *cCuts = new TCanvas("Cuts","Summary of Common Cuts");
-  // cCuts->Divide(2,4);
-  // cCuts->cd(1); HMS_delta->Draw();
-  // cCuts->cd(2); HMS_delta_cut->Draw();
-  // cCuts->cd(3); h1SHMS_delta->Draw();
-  // cCuts->cd(4); h1SHMS_delta_cut->Draw();
+  TCanvas *cCuts = new TCanvas("Cuts","Summary of Common Cuts");
+  cCuts->Divide(2,4);
+  cCuts->cd(1); h1HMS_delta->Draw();
+  cCuts->cd(2); h1HMS_delta_cut->Draw();
+  cCuts->cd(3); h1SHMS_delta->Draw();
+  cCuts->cd(4); h1SHMS_delta_cut->Draw();
   // cCuts->cd(5); h1HMS_electron->Draw();
   // cCuts->cd(6); h1HMS_electron_cut->Draw();
   // cCuts->cd(7); h1SHMS_electron->Draw();
@@ -322,16 +322,16 @@ void peepYield::Terminate()
   cCoinTime->cd(4);
   h1misspcut_CT->Draw("COLZ");
 
-  // TCanvas *cAngles = new TCanvas("Angles","Summary of Angular Cuts");
-  // cAngles->Divide(2,4);
-  // cAngles->cd(1); h1HMS_th->Draw();
-  // cAngles->cd(2); h1HMS_th_cut->Draw();
-  // cAngles->cd(3); h1HMS_ph->Draw();
-  // cAngles->cd(4); h1HMS_ph_cut->Draw();
-  // cAngles->cd(5); h1SHMS_th->Draw();
-  // cAngles->cd(6); h1SHMS_th_cut->Draw();
-  // cAngles->cd(7); h1SHMS_ph->Draw();
-  // cAngles->cd(8); h1SHMS_ph_cut->Draw();
+  TCanvas *cAngles = new TCanvas("Angles","Summary of Angular Cuts");
+  cAngles->Divide(2,4);
+  cAngles->cd(1); h1HMS_th->Draw();
+  cAngles->cd(2); h1HMS_th_cut->Draw();
+  cAngles->cd(3); h1HMS_ph->Draw();
+  cAngles->cd(4); h1HMS_ph_cut->Draw();
+  cAngles->cd(5); h1SHMS_th->Draw();
+  cAngles->cd(6); h1SHMS_th_cut->Draw();
+  cAngles->cd(7); h1SHMS_ph->Draw();
+  cAngles->cd(8); h1SHMS_ph_cut->Draw();
   
   TCanvas *cRand = new TCanvas("Rand","Summary of Random Correction");
   cRand->Divide(1,3);

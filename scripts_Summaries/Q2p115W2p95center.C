@@ -1,0 +1,29 @@
+#include <TProof.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdio.h>
+
+void Q2p115W2p95center()
+{
+  TChain ch("T");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7909_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7910_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7911_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7912_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7913_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7914_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7915_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7916_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7917_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7918_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7919_-1.root");
+ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7920_-1.root");
+
+  TProof *proof = TProof::Open("workers=8");
+  //proof->SetProgressDialog(0);  
+  ch.SetProof();
+  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_all.C+","1");
+  proof->Close();
+  
+}

@@ -134,7 +134,7 @@ void KaonYield::SlaveBegin(TTree * /*tree*/)
   h1mmissp_cut            = new TH1F("mmissp_cut","Proton Missing mass squared with Cuts;Mass^{2} (GeV/c^{2})^{2};Counts",200,-0.5,2.0);
   h1mmissp_remove         = new TH1F("mmissp_remove","Proton Missing mass squared with Cuts (Random Subtracted);Mass^{2} (GeV/c^{2})^{2};Counts",200,-0.5,2.0);
 
-  h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,1.0,7.0,90,1.0,4.0);
+  h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,0.0,7.0,90,0.0,4.0);
   // h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",12,-3.14,3.14,16,0.0,0.3);
   h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",12,-3.14,3.14,16,0.0,1.0);
   h1epsilon               = new TH1F("epsilon","Plot of Epsilon;#epsilon;Counts",100,0.0,1.0);
@@ -494,22 +494,22 @@ void KaonYield::Terminate()
   SHMS_HGC_proton->Draw("same");
   */
   //Int_t current = 35;
-  //TString foutname = Form("../OUTPUT/Kinematics_%iuA_pi",current);
+  TString foutname = Form("../OUTPUT/Kinematics_Run%i",option.Atoi());
+  // TString foutname = "../OUTPUT/Kinematics_1uA_allPlots";
 
-  TString foutname = Form("../OUTPUT/Kinematics_%iuA_allPlots",option.Atoi());
   TString outputpdf = foutname + ".pdf";
   
-  // TCanvas *cCuts = new TCanvas("Cuts","Summary of Common Cuts");
-  // cCuts->Divide(2,4);
-  // cCuts->cd(1); h1HMS_delta->Draw();
-  // cCuts->cd(2); h1HMS_delta_cut->Draw();
-  // cCuts->cd(3); h1SHMS_delta->Draw();
-  // cCuts->cd(4); h1SHMS_delta_cut->Draw();
-  // cCuts->cd(5); HMS_electron->Draw("Colz");
-  // cCuts->cd(6); HMS_electron_cut->Draw("Colz");
-  // cCuts->cd(7); h1SHMS_electron->Draw();
-  // cCuts->cd(8); h1SHMS_electron_cut->Draw();
-  // cCuts->Print(outputpdf + '(');
+  TCanvas *cCuts = new TCanvas("Cuts","Summary of Common Cuts");
+  cCuts->Divide(2,4);
+  cCuts->cd(1); h1HMS_delta->Draw();
+  cCuts->cd(2); h1HMS_delta_cut->Draw();
+  cCuts->cd(3); h1SHMS_delta->Draw();
+  cCuts->cd(4); h1SHMS_delta_cut->Draw();
+  cCuts->cd(5); HMS_electron->Draw("Colz");
+  cCuts->cd(6); HMS_electron_cut->Draw("Colz");
+  cCuts->cd(7); h1SHMS_electron->Draw();
+  cCuts->cd(8); h1SHMS_electron_cut->Draw();
+  cCuts->Print(outputpdf + '(');
 
   // TCanvas *cAngles = new TCanvas("Angles","Summary of Angular Cuts");
   // cAngles->Divide(2,4);
@@ -548,44 +548,44 @@ void KaonYield::Terminate()
   */
   //
 
-  // TCanvas *cID = new TCanvas("ID","Summary of Kaon Particle ID Cuts");
-  // cID->Divide(2,4);
-  // cID->cd(1); h2SHMSK_kaon->Draw("Colz");
-  // cID->cd(2); h2SHMSK_kaon_cut->Draw("Colz");
-  // cID->cd(3); h2SHMSK_pion->Draw("Colz");
-  // cID->cd(4); h2SHMSK_pion_cut->Draw("Colz");
-  // cID->cd(5); h2ROC1_Coin_Beta_noID_kaon->Draw("Colz");
-  // cID->Update();
-  // // TLine *LowerRand = new TLine(6.0,gPad->GetUymin(),6.0,gPad->GetUymax()); 
-  // // LowerRand->SetLineColor(kRed); LowerRand->SetLineWidth(1); LowerRand->Draw();
-  // // TLine *UpperRand = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
-  // // UpperRand->SetLineColor(kRed); UpperRand->SetLineWidth(1); UpperRand->Draw();
-  // TLine *LowerRand = new TLine(-21.0,gPad->GetUymin(),-21.0,gPad->GetUymax()); 
+  TCanvas *cID = new TCanvas("ID","Summary of Kaon Particle ID Cuts");
+  cID->Divide(2,4);
+  cID->cd(1); h2SHMSK_kaon->Draw("Colz");
+  cID->cd(2); h2SHMSK_kaon_cut->Draw("Colz");
+  cID->cd(3); h2SHMSK_pion->Draw("Colz");
+  cID->cd(4); h2SHMSK_pion_cut->Draw("Colz");
+  cID->cd(5); h2ROC1_Coin_Beta_noID_kaon->Draw("Colz");
+  cID->Update();
+  // TLine *LowerRand = new TLine(6.0,gPad->GetUymin(),6.0,gPad->GetUymax()); 
   // LowerRand->SetLineColor(kRed); LowerRand->SetLineWidth(1); LowerRand->Draw();
-  // TLine *UpperRand = new TLine(-9.0,gPad->GetUymin(),-9.0,gPad->GetUymax()); 
+  // TLine *UpperRand = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
   // UpperRand->SetLineColor(kRed); UpperRand->SetLineWidth(1); UpperRand->Draw();
-  // // TLine *LowerRand1 = new TLine(8.0,gPad->GetUymin(),8.0,gPad->GetUymax()); 
-  // // LowerRand1->SetLineColor(kRed); LowerRand1->SetLineWidth(1); LowerRand1->Draw();
-  // // TLine *UpperRand1 = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
-  // // UpperRand1->SetLineColor(kRed); UpperRand1->SetLineWidth(1); UpperRand1->Draw();
-  // cID->cd(6); h2ROC1_Coin_Beta_kaon->Draw("Colz");
-  // cID->cd(7); h1mmissK->Draw();
-  // cID->cd(8); h1mmissK_remove->Draw("hist");
-  // cID->Update();
-  // TLine *LambdaMass = new TLine(1.1156,0,1.1156,gPad->GetUymax()); 
-  // LambdaMass->SetLineColor(kBlack); LambdaMass->SetLineWidth(1);
-  // LambdaMass->Draw();
-  // Lambda_Fit->SetLineColor(kBlack); Lambda_Fit->SetLineWidth(3);
-  // Lambda_Fit->Draw("same");
-  // Lambda_Fit_Full->SetLineColor(kGreen); Lambda_Fit_Full->SetLineWidth(1);
-  // Lambda_Fit_Full->Draw("same");
-  // //Lambda_Fit_Full->Draw("same");
-  // Back_Fit->SetLineColor(kRed); Back_Fit->SetLineWidth(1);
-  // Back_Fit->DrawClone("same");
-  // GausBack->SetLineColor(kBlue); GausBack->SetLineWidth(3);
-  // GausBack->DrawClone("same");  
-  // //cID->Print(outputpdf + '(');
-  // cID->Print(outputpdf);
+  TLine *LowerRand = new TLine(-21.0,gPad->GetUymin(),-21.0,gPad->GetUymax()); 
+  LowerRand->SetLineColor(kRed); LowerRand->SetLineWidth(1); LowerRand->Draw();
+  TLine *UpperRand = new TLine(-9.0,gPad->GetUymin(),-9.0,gPad->GetUymax()); 
+  UpperRand->SetLineColor(kRed); UpperRand->SetLineWidth(1); UpperRand->Draw();
+  // TLine *LowerRand1 = new TLine(8.0,gPad->GetUymin(),8.0,gPad->GetUymax()); 
+  // LowerRand1->SetLineColor(kRed); LowerRand1->SetLineWidth(1); LowerRand1->Draw();
+  // TLine *UpperRand1 = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
+  // UpperRand1->SetLineColor(kRed); UpperRand1->SetLineWidth(1); UpperRand1->Draw();
+  cID->cd(6); h2ROC1_Coin_Beta_kaon->Draw("Colz");
+  cID->cd(7); h1mmissK->Draw();
+  cID->cd(8); h1mmissK_remove->Draw("hist");
+  cID->Update();
+  TLine *LambdaMass = new TLine(1.1156,0,1.1156,gPad->GetUymax()); 
+  LambdaMass->SetLineColor(kBlack); LambdaMass->SetLineWidth(1);
+  LambdaMass->Draw();
+  Lambda_Fit->SetLineColor(kBlack); Lambda_Fit->SetLineWidth(3);
+  Lambda_Fit->Draw("same");
+  Lambda_Fit_Full->SetLineColor(kGreen); Lambda_Fit_Full->SetLineWidth(1);
+  Lambda_Fit_Full->Draw("same");
+  //Lambda_Fit_Full->Draw("same");
+  Back_Fit->SetLineColor(kRed); Back_Fit->SetLineWidth(1);
+  Back_Fit->DrawClone("same");
+  GausBack->SetLineColor(kBlue); GausBack->SetLineWidth(3);
+  GausBack->DrawClone("same");  
+  //cID->Print(outputpdf + '(');
+  cID->Print(outputpdf);
  
   
   // TCanvas *cpiID = new TCanvas("piID","Summary of Pion Particle ID Cuts");
@@ -629,19 +629,19 @@ void KaonYield::Terminate()
   // cpID->cd(8); h1mmissp_remove->Draw("hist");
   
 
-  // TCanvas *cCoinTime = new TCanvas("cCoinTime","Summary of coincidence time and random");
-  // cCoinTime->Divide(2,2);
-  // cCoinTime->cd(1);
-  // h1mmissK_cut->Draw();
-  // h1mmissK_rand->Draw("same");
-  // h1mmissK_rand->SetLineColor(2);
-  // cCoinTime->cd(2);
-  // h1mmissK_rand->Draw();
-  // cCoinTime->cd(3);
-  // h1mmissK_remove->Draw();
-  // cCoinTime->cd(4);
-  // h1missKcut_CT->Draw("COLZ");
-  // cCoinTime->Print(outputpdf);
+  TCanvas *cCoinTime = new TCanvas("cCoinTime","Summary of coincidence time and random");
+  cCoinTime->Divide(2,2);
+  cCoinTime->cd(1);
+  h1mmissK_cut->Draw();
+  h1mmissK_rand->Draw("same");
+  h1mmissK_rand->SetLineColor(2);
+  cCoinTime->cd(2);
+  h1mmissK_rand->Draw();
+  cCoinTime->cd(3);
+  h1mmissK_remove->Draw();
+  cCoinTime->cd(4);
+  h1missKcut_CT->Draw("COLZ");
+  cCoinTime->Print(outputpdf);
 
   ///////////////////////////////////////////////
   // TCanvas *cpiK = new TCanvas("cpiK","Summary of pi-K");
@@ -723,7 +723,7 @@ void KaonYield::Terminate()
   //Start output of .root file with all histograms
   
   // Save TCanvas
-  //cKine->Print(Form("../OUTPUT/Kinematics_Run%i.pdf",option.Atoi()));
+  // cKine->Print(Form("../OUTPUT/Kinematics_Run%i.pdf",option.Atoi()));
   cKine->Print(outputpdf + ')');
 
   TFile *Histogram_file = new TFile(Form("../HISTOGRAMS/KaonLT_Run%i.root",option.Atoi()),"RECREATE");
