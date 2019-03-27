@@ -24,8 +24,8 @@ class coin_cut{
   Int_t           fCurrent; //!current Tree number in a TChain
   Int_t           fCurrentScal; //!current Tree number in a TChain
 
-  Double_t        Scal_BCM4A_current;
-  Double_t        Scal_BCM4A_charge;
+  Double_t        Scal_BCM4B_current;
+  Double_t        Scal_BCM4B_charge;
   Double_t        Scal_evNumber;
   Double_t        Scal_TRIG1;
   Double_t        Scal_EDTM;
@@ -39,8 +39,8 @@ class coin_cut{
   TBranch        *b_Scal_cut_EDTM;
   TBranch        *b_Scal_TRIG1;
   TBranch        *b_Scal_EDTM;
-  TBranch        *b_Scal_BCM4A_current;
-  TBranch        *b_Scal_BCM4A_charge;
+  TBranch        *b_Scal_BCM4B_current;
+  TBranch        *b_Scal_BCM4B_charge;
   TBranch        *b_Scal_evNumber;
   TBranch        *b_T_coin_pTRIG1_ROC2_tdcTime;   //!
   TBranch        *b_T_coin_pEDTM_tdcTime;   //!
@@ -141,8 +141,8 @@ void coin_cut::InitScal(TTree *tree)
    fCurrentScal=-1;
    fScalTree=tree;
    fScalTree->SetMakeClass(1);
-   fScalTree->SetBranchAddress("H.BCM4A.scalerCurrent",&Scal_BCM4A_current,&b_Scal_BCM4A_current);
-   fScalTree->SetBranchAddress("H.BCM4A.scalerCharge",&Scal_BCM4A_charge,&b_Scal_BCM4A_charge);
+   fScalTree->SetBranchAddress("H.BCM4B.scalerCurrent",&Scal_BCM4B_current,&b_Scal_BCM4B_current);
+   fScalTree->SetBranchAddress("H.BCM4B.scalerCharge",&Scal_BCM4B_charge,&b_Scal_BCM4B_charge);
    fScalTree->SetBranchAddress("evNumber",&Scal_evNumber,&b_Scal_evNumber);
    fScalTree->SetBranchAddress("H.1Mhz.scalerTime",&Scal_time,&b_Scal_time);
    fScalTree->SetBranchAddress("H.hTRIG1.scaler",&Scal_TRIG1,&b_Scal_TRIG1);

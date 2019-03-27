@@ -108,23 +108,23 @@ void coin_cut::Loop(TString basename,Double_t threshold_cut, Int_t pscal)
       // if (Cut(ientry) < 0) continue;
           event_flag[nscal_reads] = 0;
              scal_event_number[nscal_reads] = Scal_evNumber;
-          ave_current+=Scal_BCM4A_current;
-	  if (Scal_BCM4A_current > threshold_cut) {
+          ave_current+=Scal_BCM4B_current;
+	  if (Scal_BCM4B_current > threshold_cut) {
              event_flag[nscal_reads] = 1;
-             ave_current_cut+=Scal_BCM4A_current;
+             ave_current_cut+=Scal_BCM4B_current;
  	     tot_scal_cut_time+=(Scal_time-prev_time);
  	     tot_scal_cut_TRIG1+=(Scal_TRIG1-prev_TRIG1);
 	     tot_scal_cut_EDTM+=(Scal_EDTM-prev_EDTM);
-             charge_sum_cut+=(Scal_BCM4A_charge-prev_charge);
+             charge_sum_cut+=(Scal_BCM4B_charge-prev_charge);
              nscal_reads_cut++;
 	  }
-	  prev_charge = Scal_BCM4A_charge;
+	  prev_charge = Scal_BCM4B_charge;
 	  prev_time = Scal_time;
 	  prev_TRIG1 = Scal_TRIG1;
 	  prev_EDTM = Scal_EDTM;
-	  //	  cout <<  nscal_reads <<  " " << Scal_BCM4A_current << " " << event_flag[nscal_reads] << " " << scal_event_number[nscal_reads] << endl;
+	  //	  cout <<  nscal_reads <<  " " << Scal_BCM4B_current << " " << event_flag[nscal_reads] << " " << scal_event_number[nscal_reads] << endl;
           nscal_reads++;
-          charge_sum=Scal_BCM4A_charge;
+          charge_sum=Scal_BCM4B_charge;
 	  tot_scal_TRIG1=Scal_TRIG1;
 	  tot_scal_EDTM=Scal_EDTM;
           tot_scal_time=Scal_time;
