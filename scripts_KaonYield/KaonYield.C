@@ -134,8 +134,9 @@ void KaonYield::SlaveBegin(TTree * /*tree*/)
   h1mmissp_cut            = new TH1F("mmissp_cut","Proton Missing mass squared with Cuts;Mass^{2} (GeV/c^{2})^{2};Counts",200,-0.5,2.0);
   h1mmissp_remove         = new TH1F("mmissp_remove","Proton Missing mass squared with Cuts (Random Subtracted);Mass^{2} (GeV/c^{2})^{2};Counts",200,-0.5,2.0);
 
-  h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,0.0,7.0,90,0.0,4.0);
-  // h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",12,-3.14,3.14,16,0.0,0.3);
+  //h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,0.0,7.0,90,0.0,4.0);
+  // h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,1.5,3,90,2.5,3.5);
+  h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",12,-3.14,3.14,16,0.0,0.3);
   h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",12,-3.14,3.14,16,0.0,1.0);
   h1epsilon               = new TH1F("epsilon","Plot of Epsilon;#epsilon;Counts",100,0.0,1.0);
 
@@ -573,7 +574,7 @@ void KaonYield::Terminate()
   cID->cd(8); h1mmissK_remove->Draw("hist");
   cID->Update();
   TLine *LambdaMass = new TLine(1.1156,0,1.1156,gPad->GetUymax()); 
-  LambdaMass->SetLineColor(kBlack); LambdaMass->SetLineWidth(1);
+  LambdaMass->SetLineColor(kBlack); LambdaMass->SetLineWidth(1); LambdaMass->SetLineStyle(2);
   LambdaMass->Draw();
   Lambda_Fit->SetLineColor(kBlack); Lambda_Fit->SetLineWidth(3);
   Lambda_Fit->Draw("same");
@@ -702,7 +703,7 @@ void KaonYield::Terminate()
   h1mmissK_remove->SetTitleOffset(1.0,"Y"); /*h1mmissK_remove->SetAxisRange(1.0,1.25,"X");*/// h1mmissK_remove->SetAxisRange(0.0,gPad->GetUymax(),"Y");
   cKine->Update();
   TLine *LambdaMass_Full = new TLine(1.1156,gPad->GetUymin(),1.1156,gPad->GetUymax()); 
-  LambdaMass_Full->SetLineColor(kBlack); LambdaMass_Full->SetLineWidth(3);
+  LambdaMass_Full->SetLineColor(kBlack); LambdaMass_Full->SetLineWidth(3); LambdaMass_Full->SetLineStyle(2);
   LambdaMass_Full->Draw();
   TPaveText *ptLambdaEvt = new TPaveText(0.196407,0.715354,0.40713,0.85576,"NDC");
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",200*Lambda_Fit_Full->Integral(1.0,1.25))); ptLambdaEvt->Draw();
