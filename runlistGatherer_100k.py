@@ -5,7 +5,7 @@ import sys
 runNum = sys.argv[1]
 runType = sys.argv[2]
 target = sys.argv[3]
-
+/
 #report_1="./REPORT_OUTPUT/COIN/PRODUCTION/KaonLT_replay_coin_production_%s_-1.report" % (runNum)
 report_1="./REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%s_-1.report" % (runNum)
 f    = open(report_1)
@@ -27,7 +27,7 @@ f.close()
 report_2="./REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%s_-1.report" % (runNum)
 f    = open(report_2)
 
-psList = ['Ps1_factor','Ps3_factor','Ps5_factor']
+psList = ['Ps2_factor','Ps3_factor','Ps5_factor']
 
 psActual = ['-1','1','2','3','5','9','17','33','65','129','257','513','1025','2049','4097','8193','16385','32769']
 
@@ -67,8 +67,8 @@ f.close()
 report_3="./REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%s_-1.report" % (runNum)
 f    = open(report_3)
 
-repList = ['SHMS_pTRIG3 Pre-triggers', 'SHMS_pTRIG1 Pre-triggers', 
-           'SHMS_pTRIG5 Pre-scaled Pre-triggers', 'SHMS BCM4B Beam Cut Charge',
+repList = ['SHMS_pTRIG3 Pre-triggers', 'SHMS_pTRIG2 Pre-triggers', 
+           'SHMS_pTRIG5 Pre-scaled Pre-triggers', 'SHMS BCM4A Beam Cut Charge',
            'Coin ROC2 pTRIG5 Accepted Triggers']
 
 for line in f:
