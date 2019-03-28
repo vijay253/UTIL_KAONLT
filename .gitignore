@@ -1,5 +1,5 @@
 *~
-#*#
+*#*#
 *.pcm
 *.so
 *.d
@@ -12,3 +12,4 @@ REPORT_OUTPUT
 HISTOGRAMS
 ROOTfiles
 OUTPUT
+
