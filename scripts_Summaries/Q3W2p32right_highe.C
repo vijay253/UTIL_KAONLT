@@ -4,7 +4,7 @@
 #include <string>
 #include <stdio.h>
 
-void Q3W2Right()
+void Q3W2p32right_highe()
 {
   TChain ch("T");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4865_-1.root");
@@ -15,7 +15,7 @@ void Q3W2Right()
   TProof *proof = TProof::Open("workers=4");
   //proof->SetProgressDialog(0);  
   ch.SetProof();
-  ch.Process("/home/cdaq/rambrose/hallc_replay/UTIL_KAONLT/scripts_KaonYield/KaonYield_Q3W2.C+","1");
+  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_allfall.C+","1");
   proof->Close();
   
 }

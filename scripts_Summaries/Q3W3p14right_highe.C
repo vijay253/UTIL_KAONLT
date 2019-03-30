@@ -4,7 +4,7 @@
 #include <string>
 #include <stdio.h>
 
-void Q3W3Right()
+void Q3W3p14right_highe()
 {
   TChain ch("T");
   ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5078_-1.root");
@@ -35,7 +35,7 @@ void Q3W3Right()
   ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5105_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5106_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5111_-1.root");
-  ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5112_-1.root");
+  // ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5112_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5113_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5114_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5115_-1.root");
@@ -71,7 +71,7 @@ void Q3W3Right()
   TProof *proof = TProof::Open("workers=8");
   //proof->SetProgressDialog(0);  
   ch.SetProof();
-  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_Q3W2Center.C+","1");
+  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_allfall.C+","1");
   proof->Close();
   
 }
