@@ -4,7 +4,7 @@
 #include <string>
 #include <stdio.h>
 
-void Q3W3Center()
+void Q3W3p14center_highe()
 {
   TChain ch("T");
   ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5040_-1.root");
@@ -51,7 +51,7 @@ void Q3W3Center()
   TProof *proof = TProof::Open("workers=8");
   //proof->SetProgressDialog(0);  
   ch.SetProof();
-  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_Q3W2Center.C+","1");
+  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_allfall.C+","1");
   proof->Close();
   
 }

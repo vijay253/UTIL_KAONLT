@@ -4,7 +4,7 @@
 #include <string>
 #include <stdio.h>
 
-void Q5W3Center()
+void Q5p5W3p02center_highe()
 {
   TChain ch("T");
   
@@ -20,6 +20,7 @@ void Q5W3Center()
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5230_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5231_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5232_-1.root");
+  ////////////////////////////////////////
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5251_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5253_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5254_-1.root");
@@ -30,6 +31,7 @@ void Q5W3Center()
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5259_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5260_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5261_-1.root");
+  ////////////////////////////////////////
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5266_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5267_-1.root");
   ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_5268_-1.root");
@@ -39,7 +41,7 @@ void Q5W3Center()
   TProof *proof = TProof::Open("workers=8");
   //proof->SetProgressDialog(0);  
   ch.SetProof();
-  ch.Process("/home/cdaq/rambrose/hallc_replay/UTIL_KAONLT/scripts_KaonYield/KaonYield_Q3W2Center.C+","1");
+  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_allfall.C+","1");
   proof->Close();
   
 }

@@ -4,7 +4,7 @@
 #include <string>
 #include <stdio.h>
 
-void Q3W2p32center()
+void Q3W2p32center_lowe()
 {
   TChain ch("T");
 ch.Add("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_7871_-1.root");

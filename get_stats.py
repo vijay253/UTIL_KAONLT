@@ -4,9 +4,9 @@ import time,sys,os,argparse,atexit,subprocess,math
 
 ANGLE = sys.argv[1]
 # CURRENT = sys.argv[2]
-Q2 = sys.argv[2]
+# Q2 = sys.argv[2]
 CURRENT = 70
-BEAM = 6.200
+BEAM = 8.200
 target = "LH2"
 
 ANGLE_low = float(ANGLE)-0.3
@@ -201,17 +201,20 @@ def main() :
     acc_charge = []
     tot_charge = []
     tot_lambda = []
+    charge_goal = 4108
+    lambda_goal = 2550
 
-    if Q2 == "3":        
-        charge_goal = 1512
-        lambda_goal = 1550
-        # charge_goalPAC = 3162
-        # lambda_goalPAC = 60800
-    elif Q2 == "2.115":        
-        charge_goal = 3780
-        lambda_goal = 1165
-        # charge_goalPAC = 3162
-        # lambda_goalPAC = 60800
+
+    # if Q2 == "3":        
+    #     charge_goal = 1512
+    #     lambda_goal = 1550
+    #     # charge_goalPAC = 3162
+    #     # lambda_goalPAC = 60800
+    # elif Q2 == "2.115":        
+    #     charge_goal = 3780
+    #     lambda_goal = 1165
+    #     # charge_goalPAC = 3162
+    #     # lambda_goalPAC = 60800
 
     i=0
 
