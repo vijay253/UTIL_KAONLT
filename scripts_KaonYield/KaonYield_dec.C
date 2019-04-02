@@ -1,5 +1,5 @@
-#define KaonYield_all_cxx
-// The class definition in KaonYield_all.h has been generated automatically
+#define KaonYield_dec_cxx
+// The class definition in KaonYield_dec.h has been generated automatically
 // by the ROOT utility TTree::MakeSelector(). This class is derived
 // from the ROOT class TSelector. For more information on the TSelector
 // framework see $ROOTSYS/README/README.SELECTOR or the ROOT User Manual.
@@ -19,13 +19,13 @@
 //
 // To use this file, try the following session on your Tree T:
 //
-// root> T->Process("KaonYield_all.C")
-// root> T->Process("KaonYield_all.C","some options")
-// root> T->Process("KaonYield_all.C+")
+// root> T->Process("KaonYield_dec.C")
+// root> T->Process("KaonYield_dec.C","some options")
+// root> T->Process("KaonYield_dec.C+")
 //
 
 
-#include "KaonYield_all.h"
+#include "KaonYield_dec.h"
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <TLine.h>
@@ -34,7 +34,7 @@
 #include <TGaxis.h>
 #include <TArc.h>
 
-void KaonYield_all::Begin(TTree * /*tree*/)
+void KaonYield_dec::Begin(TTree * /*tree*/)
 {
   // The Begin() function is called at the start of the query.
   // When running with PROOF Begin() is only called on the client.
@@ -47,7 +47,7 @@ void KaonYield_all::Begin(TTree * /*tree*/)
   
 }
 
-void KaonYield_all::SlaveBegin(TTree * /*tree*/)
+void KaonYield_dec::SlaveBegin(TTree * /*tree*/)
 {
   // The SlaveBegin() function is called after the Begin() function.
   // When running with PROOF SlaveBegin() is called on each slave server.
@@ -137,7 +137,7 @@ void KaonYield_all::SlaveBegin(TTree * /*tree*/)
   h1mmissp_cut            = new TH1F("mmissp_cut","Proton Missing mass squared with Cuts;Mass^{2} (GeV/c^{2})^{2};Counts",200,-0.5,2.0);
   h1mmissp_remove         = new TH1F("mmissp_remove","Proton Missing mass squared with Cuts (Random Subtracted);Mass^{2} (GeV/c^{2})^{2};Counts",200,-0.5,2.0);
 
-  h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,1.0,7.0,90,1.0,4.0);
+  h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,0.0,7.0,90,0.0,4.0);
   // h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,2.0,4.0,200,2.0,3.0);//Q3,w2.32
   // h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,1.5,3.0,200,2.5,3.5);//Q2.1,w2.95
   // h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",12,-3.14,3.14,16,0.0,0.3);
@@ -213,7 +213,7 @@ void KaonYield_all::SlaveBegin(TTree * /*tree*/)
   GetOutputList()->Add(h3SHMS_HGC);
 }
 
-Bool_t KaonYield_all::Process(Long64_t entry)
+Bool_t KaonYield_dec::Process(Long64_t entry)
 {
   // The Process() function is called for each entry in the tree (or possibly
   // keyed object in the case of PROOF) to be processed. The entry argument
@@ -290,36 +290,45 @@ Bool_t KaonYield_all::Process(Long64_t entry)
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  /*if (P_hgcer_xAtCer[0] < 10.0) return kTRUE;*/
+  //if (P_aero_npeSum[0] > 1.5 && P_hgcer_npeSum[0] < 0.5) { //Event identified as Kaon
   if (P_aero_npeSum[0] > 1.5 && P_hgcer_npeSum[0] < 1.5) { //Event identified as Kaon
-    h2ROC1_Coin_Beta_noID_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 43),P_gtr_beta[0]); 
-    // h2ROC1_Coin_pion_kaon_noID->Fill((CTime_eKCoinTime_ROC1[0] - 43),P_gtr_beta[0]); 
-
-    // h1missKcut_CT->Fill(P_gtr_dp[0] , sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
-
+    //if (sqrt(pow(emiss[0],2)-pow(pmiss[0],2)) > 1.05 && sqrt(pow(emiss[0],2)-pow(pmiss[0],2)) < 1.15) { //Event identified as Kaon
+    
+    h2ROC1_Coin_Beta_noID_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 48.0),P_gtr_beta[0]); 
+    //    h2ROC1_Coin_Beta_noID_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 44.5),P_gtr_beta[0]); 
+    
     if (abs(P_gtr_beta[0]-1.00) > 0.1) return kTRUE;
+    
+    h1missKcut_CT->Fill( CTime_eKCoinTime_ROC1[0] - 48.0, sqrt(pow(emiss[0],2)-pow(pmiss[0],2))); 
+    // h2XY->Fill(CTime_eKCoinTime_ROC1[0]-48.0,P_hgcer_xAtCer[0]);
+    //    if (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 1.25) {
+    //if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.5 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 0.95) {
+    //if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.4 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 1.05) {
+    if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.5 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 1.05) {//6 degrees
+      // h2missdelta->Fill(P_gtr_dp[0],sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
+      // h2missbeta->Fill(P_gtr_beta[0],sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
 
-    h1missKcut_CT->Fill( CTime_eKCoinTime_ROC1[0] - 43, sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
-
-    // if ( abs((CTime_eKCoinTime_ROC1[0] - 43)) < 1.) {
-    if ( (CTime_eKCoinTime_ROC1[0] - 43) > -1. && (CTime_eKCoinTime_ROC1[0] - 43) < 1.5) {
-      h2ROC1_Coin_Beta_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 43),P_gtr_beta[0]);
+      h2ROC1_Coin_Beta_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 48.0),P_gtr_beta[0]);
       h2SHMSK_kaon_cut->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
       h2SHMSK_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
+      // SHMS_HGC_kaon->Fill(P_hgcer_npeSum[0]);
+
       h1mmissK_cut->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
 
       h2WvsQ2->Fill(Q2[0],W[0]);
       h2tvsph_q->Fill(ph_q[0],-MandelT[0]);
       h1epsilon->Fill(epsilon[0]);
+      
     }
-
-
-    // if ((((CTime_eKCoinTime_ROC1[0] - 43) > -6.0 && (CTime_eKCoinTime_ROC1[0] - 43) < -3.0)) ||
-    // 	(((CTime_eKCoinTime_ROC1[0] - 43) > 1.5 && (CTime_eKCoinTime_ROC1[0] - 43) < 4.5))) {
-    if ((((CTime_eKCoinTime_ROC1[0] - 43) > -21.0 && (CTime_eKCoinTime_ROC1[0] - 43) < -9.0))) {
+ 
+    //if(  (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 22.0) ||
+    //(abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < -8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > -22.0) ) {
+    if ((abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > -32.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < -18.0) ||
+	(abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 14.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 28.0) ) {
       h1mmissK_rand->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
-      h1mmissK_remove->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
+      //h1mmissK_remove->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
     }
-
   }
 
   ///////////////////////////////////////////////////////////////////////////HERE
@@ -427,7 +436,7 @@ Bool_t KaonYield_all::Process(Long64_t entry)
   return kTRUE;
 }
 
-void KaonYield_all::SlaveTerminate()
+void KaonYield_dec::SlaveTerminate()
 {
   // The SlaveTerminate() function is called after all entries or objects
   // have been processed. When running with PROOF SlaveTerminate() is called
@@ -435,7 +444,7 @@ void KaonYield_all::SlaveTerminate()
 
 }
 
-void KaonYield_all::Terminate()
+void KaonYield_dec::Terminate()
 {
 
   Info("Terminate", "Outputting Good Kaon Selection");
@@ -451,7 +460,7 @@ void KaonYield_all::Terminate()
 
 
   //Perform Random Subtraction
-  h1mmissK_rand->Scale(1.0/3.0);
+  h1mmissK_rand->Scale(1.0/14.0);
   // h1mmissK_rand->Scale(1./10);
   // h1mmisspiK_rand->Scale(1./3.);//
   h1mmisspi_rand->Scale(1.25/7.0);
@@ -473,7 +482,7 @@ void KaonYield_all::Terminate()
   Back_Fit->SetParameter(1,1.44);
   Back_Fit->SetParameter(2,0.16);*/
   
-  //TF1 *Back_Fit = new TF1("Back_Fit","[A] + [B]*x + [C]*pow(x,2)",1.07,1.15);
+   //TF1 *Back_Fit = new TF1("Back_Fit","[A] + [B]*x + [C]*pow(x,2)",1.07,1.15);
   TF1 *Back_Fit = new TF1("Back_Fit","[A] + [B]*x",1.05,1.18);
   //Back_Fit->FixParameter(1,0);
   h1mmissK_remove->Fit("Back_Fit","RMQN");
@@ -818,7 +827,7 @@ void KaonYield_all::Terminate()
   h1mmissK_remove->SetTitleOffset(1.0,"Y"); /*h1mmissK_remove->SetAxisRange(1.0,1.25,"X");*/// h1mmissK_remove->SetAxisRange(0.0,gPad->GetUymax(),"Y");
   cKine->Update();
   TLine *LambdaMass_Full = new TLine(1.1156,gPad->GetUymin(),1.1156,gPad->GetUymax()); 
-  LambdaMass_Full->SetLineColor(kBlack); LambdaMass_Full->SetLineWidth(3);
+  LambdaMass_Full->SetLineColor(kRed); // LambdaMass_Full->SetLineWidth(3);
   LambdaMass_Full->Draw();
   TPaveText *ptLambdaEvt = new TPaveText(0.58934,0.715354,0.80000,0.81576,"NDC");
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",200*Lambda_Fit_Full->Integral(1.0,1.25))); ptLambdaEvt->Draw();

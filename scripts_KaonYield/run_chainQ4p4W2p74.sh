@@ -22,7 +22,9 @@ if [[ ${epsilon} = "low" ]]; then
 	run_script_Q4p4W2p74="root -l -b -q \"${script_Q4p4W2p74}\""
 	echo "Running ${script_Q4p4W2p74}"
 	eval ${run_script_Q4p4W2p74}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_lowe/Kinematics_leftQ4p4W2p74.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_lowe/Kinematics_leftQ4p4W2p74-lowe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q4.4_W2.74_x0.40_lowe/Kinematics_leftQ4p4W2p74-lowe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q4.4_W2.74_x0.40_lowe/Kinematics_leftQ4p4W2p74-lowe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_leftQ4p4W2p74_lowe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT LEFT ANGLE COMPLETE AT LOW EPSILON"
@@ -34,7 +36,9 @@ if [[ ${epsilon} = "low" ]]; then
 	run_script_Q4p4W2p74="root -l -b -q \"${script_Q4p4W2p74}\""
 	echo "Running ${script_Q4p4W2p74}"
 	eval ${run_script_Q4p4W2p74}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_lowe/Kinematics_centerQ4p4W2p74.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_lowe/Kinematics_centerQ4p4W2p74-lowe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q4.4_W2.74_x0.40_lowe/Kinematics_centerQ4p4W2p74-lowe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q4.4_W2.74_x0.40_lowe/Kinematics_centerQ4p4W2p74-lowe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_centerQ4p4W2p74_lowe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT CENTER ANGLE COMPLETE AT LOW EPSILON"
@@ -49,7 +53,9 @@ if [[ ${epsilon} = "high" ]]; then
 	run_script_Q4p4W2p74="root -l -b -q \"${script_Q4p4W2p74}\""
 	echo "Running ${script_Q4p4W2p74}"
 	eval ${run_script_Q4p4W2p74}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_leftQ4p4W2p74.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_leftQ4p4W2p74-highe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_leftQ4p4W2p74-highe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_leftQ4p4W2p74-highe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_leftQ4p4W2p74_highe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT LEFT ANGLE COMPLETE AT HIGH EPSILON"
@@ -61,7 +67,9 @@ if [[ ${epsilon} = "high" ]]; then
 	run_script_Q4p4W2p74="root -l -b -q \"${script_Q4p4W2p74}\""
 	echo "Running ${script_Q4p4W2p74}"
 	eval ${run_script_Q4p4W2p74}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_centerQ4p4W2p74.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_centerQ4p4W2p74-highe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_centerQ4p4W2p74-highe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_centerQ4p4W2p74-highe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_centerQ4p4W2p74_highe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT CENTER ANGLE COMPLETE AT HIGH EPSILON"
@@ -73,7 +81,9 @@ if [[ ${epsilon} = "high" ]]; then
 	run_script_Q4p4W2p74="root -l -b -q \"${script_Q4p4W2p74}\""
 	echo "Running ${script_Q4p4W2p74}"
 	eval ${run_script_Q4p4W2p74}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_rightQ4p4W2p74.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_rightQ4p4W2p74-highe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_rightQ4p4W2p74-highe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q4.4_W2.74_x0.40_highe/Kinematics_rightQ4p4W2p74-highe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_rightQ4p4W2p74_highe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT RIGHT ANGLE COMPLETE AT HIGH EPSILON"

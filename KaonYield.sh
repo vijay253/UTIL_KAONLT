@@ -53,3 +53,15 @@ if [[ -e "OUTPUT/scalers_Run$RUNNUMBER.txt" ]]; then
     eval ${fillrunList}
     
 fi
+
+while true; do
+    read -p "Would you like to check the statistic goals? (Please answer yes or no) " yn
+    case $yn in
+        [Yy]* ) 
+	    getStats="./get_charge_stats"
+	    eval ${getStats}
+	    break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
