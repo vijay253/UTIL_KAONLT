@@ -581,6 +581,10 @@ void KaonYield_allfall::Terminate()
   // TString foutname = Form("../OUTPUT/Kinematics_Run%i",option.Atoi());
   TString foutname = "../OUTPUT/Kinematics_1uA_allPlots";
 
+  TString outputpng = foutname + ".png";
+
+  TString outputpng_coin = foutname + "_coin.png";
+
   TString outputpdf = foutname + ".pdf";
   
   TCanvas *cCuts = new TCanvas("Cuts","Summary of Common Cuts");
@@ -725,6 +729,7 @@ void KaonYield_allfall::Terminate()
   h1mmissK_remove->Draw();
   cCoinTime->cd(4);
   h1missKcut_CT->Draw("COLZ");
+  cCoinTime->Print(outputpng_coin);
   cCoinTime->Print(outputpdf);
 
   ///////////////////////////////////////////////
@@ -760,6 +765,20 @@ void KaonYield_allfall::Terminate()
   gPad->SetTheta(90); gPad->SetPhi(180);
   TPaveText *tvsphi_title = new TPaveText(0.0277092,0.89779,0.096428,0.991854,"NDC");
   tvsphi_title->AddText("t vs #phi"); tvsphi_title->Draw();
+  TPaveText *ptphizero = new TPaveText(0.923951,0.513932,0.993778,0.574551,"NDC");
+  ptphizero->AddText("#phi = 0"); ptphizero->Draw();
+  TLine *phihalfpi = new TLine(0,0,0,1); 
+  phihalfpi->SetLineColor(kBlack); phihalfpi->SetLineWidth(2); phihalfpi->Draw();  
+  TPaveText *ptphihalfpi = new TPaveText(0.417855,0.901876,0.486574,0.996358,"NDC");
+  ptphihalfpi->AddText("#phi = #frac{#pi}{2}"); ptphihalfpi->Draw();
+  TLine *phipi = new TLine(0,0,-1,0); 
+  phipi->SetLineColor(kBlack); phipi->SetLineWidth(2); phipi->Draw();  
+  TPaveText *ptphipi = new TPaveText(0.0277092,0.514217,0.096428,0.572746,"NDC");
+  ptphipi->AddText("#phi = #pi"); ptphipi->Draw();
+  TLine *phithreepi = new TLine(0,0,0,-1); 
+  phithreepi->SetLineColor(kBlack); phithreepi->SetLineWidth(2); phithreepi->Draw();  
+  TPaveText *ptphithreepi = new TPaveText(0.419517,0.00514928,0.487128,0.0996315,"NDC");
+  ptphithreepi->AddText("#phi = #frac{3#pi}{2}"); ptphithreepi->Draw();
   TArc *arc1 = new TArc();
   arc1->SetFillStyle(0); arc1->SetLineWidth(2);arc1->DrawArc(0,0,0.575/(10),0.,360.,"same");
   TArc *arc2 = new TArc();
@@ -784,20 +803,6 @@ void KaonYield_allfall::Terminate()
   tradius->SetLineColor(2);tradius->SetLabelColor(2);tradius->Draw();
   TLine *phizero = new TLine(0,0,1,0); 
   phizero->SetLineColor(kBlack); phizero->SetLineWidth(2); phizero->Draw();  
-  TPaveText *ptphizero = new TPaveText(0.923951,0.513932,0.993778,0.574551,"NDC");
-  ptphizero->AddText("#phi = 0"); ptphizero->Draw();
-  TLine *phihalfpi = new TLine(0,0,0,1); 
-  phihalfpi->SetLineColor(kBlack); phihalfpi->SetLineWidth(2); phihalfpi->Draw();  
-  TPaveText *ptphihalfpi = new TPaveText(0.417855,0.901876,0.486574,0.996358,"NDC");
-  ptphihalfpi->AddText("#phi = #frac{#pi}{2}"); ptphihalfpi->Draw();
-  TLine *phipi = new TLine(0,0,-1,0); 
-  phipi->SetLineColor(kBlack); phipi->SetLineWidth(2); phipi->Draw();  
-  TPaveText *ptphipi = new TPaveText(0.0277092,0.514217,0.096428,0.572746,"NDC");
-  ptphipi->AddText("#phi = #pi"); ptphipi->Draw();
-  TLine *phithreepi = new TLine(0,0,0,-1); 
-  phithreepi->SetLineColor(kBlack); phithreepi->SetLineWidth(2); phithreepi->Draw();  
-  TPaveText *ptphithreepi = new TPaveText(0.419517,0.00514928,0.487128,0.0996315,"NDC");
-  ptphithreepi->AddText("#phi = #frac{3#pi}{2}"); ptphithreepi->Draw();
   cKine->cd(2); h1epsilon->Draw();
   h1epsilon->SetTitleOffset(1.0,"Y");
   cKine->cd(4); h1mmissK_remove->Draw("hist"); 
@@ -809,9 +814,9 @@ void KaonYield_allfall::Terminate()
   h1mmissK_remove->SetTitleOffset(1.0,"Y"); /*h1mmissK_remove->SetAxisRange(1.0,1.25,"X");*/// h1mmissK_remove->SetAxisRange(0.0,gPad->GetUymax(),"Y");
   cKine->Update();
   TLine *LambdaMass_Full = new TLine(1.1156,gPad->GetUymin(),1.1156,gPad->GetUymax()); 
-  LambdaMass_Full->SetLineColor(kBlack); LambdaMass_Full->SetLineWidth(3);
+  LambdaMass_Full->SetLineColor(kRed); LambdaMass_Full->SetLineWidth(2);
   LambdaMass_Full->Draw();
-  TPaveText *ptLambdaEvt = new TPaveText(0.196407,0.715354,0.40713,0.85576,"NDC");
+  TPaveText *ptLambdaEvt = new TPaveText(0.58934,0.715354,0.80000,0.81576,"NDC");
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",200*Lambda_Fit_Full->Integral(1.0,1.25))); ptLambdaEvt->Draw();
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",h1mmissK_remove->Integral(h1mmissK_remove->GetXaxis()->FindBin(1.06),h1mmissK_remove->GetXaxis()->FindBin(1.16)) - (Back_Fit->Integral(1.06,1.16) / 0.005))); ptLambdaEvt->Draw();
   //ptLambdaEvt->AddText(Form("Run: %i",option.Atoi()));
@@ -830,7 +835,7 @@ void KaonYield_allfall::Terminate()
   //Start output of .root file with all histograms
   
   // Save TCanvas
-  cKine->Print(Form("../OUTPUT/Kinematics_Run%i.pdf",option.Atoi()));
+  cKine->Print(outputpng);
   cKine->Print(outputpdf + ')');
 
   TFile *Histogram_file = new TFile(Form("../HISTOGRAMS/KaonLT_Run%i.root",option.Atoi()),"RECREATE");

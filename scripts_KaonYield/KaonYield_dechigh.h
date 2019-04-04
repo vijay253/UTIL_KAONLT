@@ -5,8 +5,8 @@
 // found on file: /home/rambrose/hallc_replay/ROOTfiles/coin_replay_production_4270_-1.root
 //////////////////////////////////////////////////////////
 
-#ifndef KaonYield_h
-#define KaonYield_h
+#ifndef KaonYield_dechigh_h
+#define KaonYield_dechigh_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -25,7 +25,7 @@
 // Headers needed by this particular selector
 
 
-class KaonYield : public TSelector {
+class KaonYield_dechigh : public TSelector {
  public :
   TTreeReader     fReader;  //!the tree reader
   TTree          *fChain = 0;   //!pointer to the analyzed TTree or TChain
@@ -134,8 +134,8 @@ class KaonYield : public TSelector {
   TTreeReaderArray<Double_t> Q2                 = {fReader, "H.kin.primary.Q2"};
   TTreeReaderArray<Double_t> W                  = {fReader, "H.kin.primary.W"};
   TTreeReaderArray<Double_t> epsilon            = {fReader, "H.kin.primary.epsilon"};
-  /* TTreeReaderArray<Double_t> ph_q               = {fReader, "P.kin.secondary.ph_bq"}; */
   TTreeReaderArray<Double_t> ph_q               = {fReader, "P.kin.secondary.ph_xq"};
+  /* TTreeReaderArray<Double_t> ph_q               = {fReader, "P.kin.secondary.ph_bq"}; */
   TTreeReaderArray<Double_t> emiss              = {fReader, "P.kin.secondary.emiss"};
   TTreeReaderArray<Double_t> pmiss              = {fReader, "P.kin.secondary.pmiss"};
   TTreeReaderArray<Double_t> MandelT            = {fReader, "P.kin.secondary.MandelT"};
@@ -145,8 +145,8 @@ class KaonYield : public TSelector {
   /* TTreeReaderValue<Double_t> pTRIG5             = {fReader, "T.coin.pTRIG5_ROC1_tdcTime"}; */
 
 
-  KaonYield(TTree * /*tree*/ =0) {h1missKcut_CT=0, h2ROC1_Coin_Beta_noID_kaon=0, h2ROC1_Coin_Beta_kaon=0, h2ROC1_Coin_Beta_noID_pion=0, h2ROC1_Coin_Beta_pion=0, h2ROC1_Coin_Beta_noID_proton=0, h2ROC1_Coin_Beta_proton=0,h2HMS_electron=0, h2HMS_electron_cut=0, h1SHMS_electron=0, h1SHMS_electron_cut=0, h2SHMSK_kaon=0, h2SHMSK_kaon_cut=0, h2SHMSK_pion=0, h2SHMSK_pion_cut=0, h2SHMSpi_kaon=0, h2SHMSpi_kaon_cut=0, h2SHMSpi_pion=0, h2SHMSpi_pion_cut=0, h2SHMSp_kaon=0, h2SHMSp_kaon_cut=0, h2SHMSp_pion=0, h2SHMSp_pion_cut=0,h1SHMS_delta=0, h1SHMS_delta_cut=0, h1HMS_delta=0, h1HMS_delta_cut=0, h1SHMS_th=0, h1SHMS_th_cut=0, h1SHMS_ph=0, h1SHMS_ph_cut=0, h1HMS_th=0, h1HMS_th_cut=0, h1HMS_ph=0, h1HMS_ph_cut=0, h1mmissK=0,h1mmissK_rand=0, h1mmissK_cut=0, h1mmissK_remove=0, h2ROC1_Coin_pion_kaon=0, h2ROC1_Coin_pion_kaon_noID=0, h1mmisspiK=0, h1mmisspiK_rand=0, h1mmisspiK_cut=0, h1mmisspiK_remove=0, h1mmisspi=0, h1mmisspi_rand=0, h1mmisspi_cut=0, h1mmisspi_remove=0, h1mmissp=0, h1mmissp_rand=0, h1mmissp_cut=0, h1mmissp_remove=0, h2WvsQ2=0, h2tvsph_q=0, h1epsilon=0, h1EDTM=0, h3SHMS_HGC=0;}
-  virtual ~KaonYield() { }
+  KaonYield_dechigh(TTree * /*tree*/ =0) {h1missKcut_CT=0, h2ROC1_Coin_Beta_noID_kaon=0, h2ROC1_Coin_Beta_kaon=0, h2ROC1_Coin_Beta_noID_pion=0, h2ROC1_Coin_Beta_pion=0, h2ROC1_Coin_Beta_noID_proton=0, h2ROC1_Coin_Beta_proton=0,h2HMS_electron=0, h2HMS_electron_cut=0, h1SHMS_electron=0, h1SHMS_electron_cut=0, h2SHMSK_kaon=0, h2SHMSK_kaon_cut=0, h2SHMSK_pion=0, h2SHMSK_pion_cut=0, h2SHMSpi_kaon=0, h2SHMSpi_kaon_cut=0, h2SHMSpi_pion=0, h2SHMSpi_pion_cut=0, h2SHMSp_kaon=0, h2SHMSp_kaon_cut=0, h2SHMSp_pion=0, h2SHMSp_pion_cut=0,h1SHMS_delta=0, h1SHMS_delta_cut=0, h1HMS_delta=0, h1HMS_delta_cut=0, h1SHMS_th=0, h1SHMS_th_cut=0, h1SHMS_ph=0, h1SHMS_ph_cut=0, h1HMS_th=0, h1HMS_th_cut=0, h1HMS_ph=0, h1HMS_ph_cut=0, h1mmissK=0,h1mmissK_rand=0, h1mmissK_cut=0, h1mmissK_remove=0, h2ROC1_Coin_pion_kaon=0, h2ROC1_Coin_pion_kaon_noID=0, h1mmisspiK=0, h1mmisspiK_rand=0, h1mmisspiK_cut=0, h1mmisspiK_remove=0, h1mmisspi=0, h1mmisspi_rand=0, h1mmisspi_cut=0, h1mmisspi_remove=0, h1mmissp=0, h1mmissp_rand=0, h1mmissp_cut=0, h1mmissp_remove=0, h2WvsQ2=0, h2tvsph_q=0, h1epsilon=0, h1EDTM=0,h1TRIG5=0, h3SHMS_HGC=0;}
+  virtual ~KaonYield_dechigh() { }
   virtual Int_t   Version() const { return 2; }
   virtual void    Begin(TTree *tree);
   virtual void    SlaveBegin(TTree *tree);
@@ -161,14 +161,14 @@ class KaonYield : public TSelector {
   virtual void    SlaveTerminate();
   virtual void    Terminate();
 
-  ClassDef(KaonYield,0);
+  ClassDef(KaonYield_dechigh,0);
 
 };
 
 #endif
 
-#ifdef KaonYield_cxx
-void KaonYield::Init(TTree *tree)
+#ifdef KaonYield_dechigh_cxx
+void KaonYield_dechigh::Init(TTree *tree)
 {
   // The Init() function is called when the selector needs to initialize
   // a new tree or chain. Typically here the reader is initialized.
@@ -180,7 +180,7 @@ void KaonYield::Init(TTree *tree)
   fReader.SetTree(tree);
 }
 
-Bool_t KaonYield::Notify()
+Bool_t KaonYield_dechigh::Notify()
 {
   // The Notify() function is called when a new file is opened. This
   // can be either for a new TTree in a TChain or when when a new TTree
@@ -191,4 +191,4 @@ Bool_t KaonYield::Notify()
   return kTRUE;
 }
 
-#endif // #ifdef KaonYield_cxx
+#endif // #ifdef KaonYield_dechigh_cxx

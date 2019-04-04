@@ -705,15 +705,15 @@ void KaonYield::Terminate()
   TLine *LambdaMass_Full = new TLine(1.1156,gPad->GetUymin(),1.1156,gPad->GetUymax()); 
   LambdaMass_Full->SetLineColor(kBlack); LambdaMass_Full->SetLineWidth(3); LambdaMass_Full->SetLineStyle(2);
   LambdaMass_Full->Draw();
-  TPaveText *ptLambdaEvt = new TPaveText(0.196407,0.715354,0.40713,0.85576,"NDC");
+  TPaveText *ptLambdaEvt = new TPaveText(0.58934,0.715354,0.80000,0.81576,"NDC");
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",200*Lambda_Fit_Full->Integral(1.0,1.25))); ptLambdaEvt->Draw();
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",h1mmissK_remove->Integral(h1mmissK_remove->GetXaxis()->FindBin(1.06),h1mmissK_remove->GetXaxis()->FindBin(1.16)) - (Back_Fit->Integral(1.06,1.16) / 0.005))); ptLambdaEvt->Draw();
   //ptLambdaEvt->AddText(Form("Run: %i",option.Atoi()));
   //ptLambdaEvt->AddText(Form("Current: %i uA",current));
-  ptLambdaEvt->AddText(Form("Current: %i uA",option.Atoi()));
+  ptLambdaEvt->AddText(Form("Run Number: %i",option.Atoi()));
   //ptLambdaEvt->AddText(Form("binlo: %.0d", h1mmissK_remove->GetXaxis()->FindBin(.89)));
   //ptLambdaEvt->AddText(Form("binhi: %.0d", h1mmissK_remove->GetXaxis()->FindBin(.93)));
-  ptLambdaEvt->AddText(Form("hsum: %.0f", h1mmissK_remove->Integral(1,199)));
+  // ptLambdaEvt->AddText(Form("hsum: %.0f", h1mmissK_remove->Integral(1,199)));
   //ptLambdaEvt->AddText(Form("pisum: %.0f", h1mmissK_remove->Integral(30,44)));
   ptLambdaEvt->AddText(Form("#Lambda Events: %.0f",Gauss_Fit->Integral(1.0,1.25) / 0.005));
   //ptLambdaEvt->AddText(Form("#Lambda Events: %.0f",Lambda_Fit_Full->Integral(1.0,1.25) / 0.005));

@@ -22,7 +22,9 @@ if [[ ${epsilon} = "low" ]]; then
 	run_script_Q3W2p32="root -l -b -q \"${script_Q3W2p32}\""
 	echo "Running ${script_Q3W2p32}"
 	eval ${run_script_Q3W2p32}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_lowe/Kinematics_leftQ3W2p32.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_lowe/Kinematics_leftQ3W2p32-lowe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q3.0_W2.32_x0.40_lowe/Kinematics_leftQ3W2p32-lowe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q3.0_W2.32_x0.40_lowe/Kinematics_leftQ3W2p32-lowe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_leftQ3W2p32_lowe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT LEFT ANGLE COMPLETE AT LOW EPSILON"
@@ -34,7 +36,9 @@ if [[ ${epsilon} = "low" ]]; then
 	run_script_Q3W2p32="root -l -b -q \"${script_Q3W2p32}\""
 	echo "Running ${script_Q3W2p32}"
 	eval ${run_script_Q3W2p32}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_lowe/Kinematics_centerQ3W2p32.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_lowe/Kinematics_centerQ3W2p32-lowe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q3.0_W2.32_x0.40_lowe/Kinematics_centerQ3W2p32-lowe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q3.0_W2.32_x0.40_lowe/Kinematics_centerQ3W2p32-lowe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_centerQ3W2p32_lowe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT CENTER ANGLE COMPLETE AT LOW EPSILON"
@@ -49,7 +53,9 @@ if [[ ${epsilon} = "high" ]]; then
 	run_script_Q3W2p32="root -l -b -q \"${script_Q3W2p32}\""
 	echo "Running ${script_Q3W2p32}"
 	eval ${run_script_Q3W2p32}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_leftQ3W2p32.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_leftQ3W2p32-highe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_leftQ3W2p32-highe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_leftQ3W2p32-highe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_leftQ3W2p32_highe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT LEFT ANGLE COMPLETE AT HIGH EPSILON"
@@ -61,7 +67,9 @@ if [[ ${epsilon} = "high" ]]; then
 	run_script_Q3W2p32="root -l -b -q \"${script_Q3W2p32}\""
 	echo "Running ${script_Q3W2p32}"
 	eval ${run_script_Q3W2p32}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_centerQ3W2p32.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_centerQ3W2p32-highe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_centerQ3W2p32-highe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_centerQ3W2p32-highe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_centerQ3W2p32_highe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT CENTER ANGLE COMPLETE AT HIGH EPSILON"
@@ -73,7 +81,9 @@ if [[ ${epsilon} = "high" ]]; then
 	run_script_Q3W2p32="root -l -b -q \"${script_Q3W2p32}\""
 	echo "Running ${script_Q3W2p32}"
 	eval ${run_script_Q3W2p32}
-	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_rightQ3W2p32.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_rightQ3W2p32-highe.pdf
+	mv ../OUTPUT/Kinematics_1uA_allPlots.png ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_rightQ3W2p32-highe.png
+	mv ../OUTPUT/Kinematics_1uA_allPlots_coin.png ../OUTPUT/Q3.0_W2.32_x0.40_highe/Kinematics_rightQ3W2p32-highe_coin.png
 	echo "Kinematics_1uA_allPlots.pdf changed to Kinematics_rightQ3W2p32_highe.pdf"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "CHAIN AT RIGHT ANGLE COMPLETE AT HIGH EPSILON"
