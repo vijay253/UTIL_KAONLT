@@ -73,7 +73,7 @@ ch.Add("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_r
   TProof *proof = TProof::Open("workers=8");
   //proof->SetProgressDialog(0);  
   ch.SetProof();
-  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_dec.C+","1");
+  ch.Process("/home/cdaq/hallc-online/hallc_replay_kaonlt/UTIL_KAONLT/scripts_KaonYield/KaonYield_dechigh.C+","1");
   proof->Close();
   
 }

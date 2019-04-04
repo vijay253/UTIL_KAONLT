@@ -258,7 +258,7 @@ def main() :
 
     # print("Lambda events were hand written in runlist, may be subject to change...")
     print("Total Lambda Events are  %0.2f, %0.1f%% of stat goal" % (sum(tot_lambda),(sum(tot_lambda)/lambda_goal)*100))
-    print("Lambda Events at 40 uA are  %0.2f, %0.1f%% of 40 uA stat goal" % (sum(lambda_fort),(sum(lambda_fort)/1000)*100)) # At 40 uA
+    # print("Lambda Events at 40 uA are  %0.2f, %0.1f%% of 40 uA stat goal" % (sum(lambda_fort),(sum(lambda_fort)/1000)*100)) # At 40 uA
     print("---->[Lambdas per Coulomb: %0.2f]<----\n\n" % ((sum(tot_lambda)/sum(acc_charge))*100))
     # print("Total Lambda Events are  %0.2f, %0.1f%% of PAC stat goal\n" % (sum(tot_lambda),(sum(tot_lambda)/lambda_goalPAC)*100))
 

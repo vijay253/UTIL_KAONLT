@@ -1,5 +1,5 @@
-#define KaonYield_dec_cxx
-// The class definition in KaonYield_dec.h has been generated automatically
+#define KaonYield_dechigh_cxx
+// The class definition in KaonYield_dechigh.h has been generated automatically
 // by the ROOT utility TTree::MakeSelector(). This class is derived
 // from the ROOT class TSelector. For more information on the TSelector
 // framework see $ROOTSYS/README/README.SELECTOR or the ROOT User Manual.
@@ -19,13 +19,13 @@
 //
 // To use this file, try the following session on your Tree T:
 //
-// root> T->Process("KaonYield_dec.C")
-// root> T->Process("KaonYield_dec.C","some options")
-// root> T->Process("KaonYield_dec.C+")
+// root> T->Process("KaonYield_dechigh.C")
+// root> T->Process("KaonYield_dechigh.C","some options")
+// root> T->Process("KaonYield_dechigh.C+")
 //
 
 
-#include "KaonYield_dec.h"
+#include "KaonYield_dechigh.h"
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <TLine.h>
@@ -34,7 +34,7 @@
 #include <TGaxis.h>
 #include <TArc.h>
 
-void KaonYield_dec::Begin(TTree * /*tree*/)
+void KaonYield_dechigh::Begin(TTree * /*tree*/)
 {
   // The Begin() function is called at the start of the query.
   // When running with PROOF Begin() is only called on the client.
@@ -47,7 +47,7 @@ void KaonYield_dec::Begin(TTree * /*tree*/)
   
 }
 
-void KaonYield_dec::SlaveBegin(TTree * /*tree*/)
+void KaonYield_dechigh::SlaveBegin(TTree * /*tree*/)
 {
   // The SlaveBegin() function is called after the Begin() function.
   // When running with PROOF SlaveBegin() is called on each slave server.
@@ -213,7 +213,7 @@ void KaonYield_dec::SlaveBegin(TTree * /*tree*/)
   GetOutputList()->Add(h3SHMS_HGC);
 }
 
-Bool_t KaonYield_dec::Process(Long64_t entry)
+Bool_t KaonYield_dechigh::Process(Long64_t entry)
 {
   // The Process() function is called for each entry in the tree (or possibly
   // keyed object in the case of PROOF) to be processed. The entry argument
@@ -295,21 +295,22 @@ Bool_t KaonYield_dec::Process(Long64_t entry)
   if (P_aero_npeSum[0] > 1.5 && P_hgcer_npeSum[0] < 1.5) { //Event identified as Kaon
     //if (sqrt(pow(emiss[0],2)-pow(pmiss[0],2)) > 1.05 && sqrt(pow(emiss[0],2)-pow(pmiss[0],2)) < 1.15) { //Event identified as Kaon
     
-    h2ROC1_Coin_Beta_noID_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 48.0),P_gtr_beta[0]); 
+    h2ROC1_Coin_Beta_noID_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 47.5),P_gtr_beta[0]); 
     //    h2ROC1_Coin_Beta_noID_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 44.5),P_gtr_beta[0]); 
     
     if (abs(P_gtr_beta[0]-1.00) > 0.1) return kTRUE;
     
-    h1missKcut_CT->Fill( CTime_eKCoinTime_ROC1[0] - 48.0, sqrt(pow(emiss[0],2)-pow(pmiss[0],2))); 
+    h1missKcut_CT->Fill( CTime_eKCoinTime_ROC1[0] - 47.5, sqrt(pow(emiss[0],2)-pow(pmiss[0],2))); 
     // h2XY->Fill(CTime_eKCoinTime_ROC1[0]-48.0,P_hgcer_xAtCer[0]);
-    //    if (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 1.25) {
-    //if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.5 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 0.95) {
-    //if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.4 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 1.05) {
-    if ( (CTime_eKCoinTime_ROC1[0] - 48.0) > -0.5 &&  (CTime_eKCoinTime_ROC1[0] - 48.0) < 1.05) {//6 degrees
+    //    if (abs((CTime_eKCoinTime_ROC1[0] - 47.5)) < 1.25) {
+    //if ( (CTime_eKCoinTime_ROC1[0] - 47.5) > -0.5 &&  (CTime_eKCoinTime_ROC1[0] - 47.5) < 0.95) {
+    //if ( (CTime_eKCoinTime_ROC1[0] - 47.5) > -0.4 &&  (CTime_eKCoinTime_ROC1[0] - 47.5) < 1.05) {
+    // if ( (CTime_eKCoinTime_ROC1[0] - 47.5) > -0.5 &&  (CTime_eKCoinTime_ROC1[0] - 47.5) < 1.05) {//
+    if ( (CTime_eKCoinTime_ROC1[0] - 47.5) > 0.0 &&  (CTime_eKCoinTime_ROC1[0] - 47.5) < 1.5) {//
       // h2missdelta->Fill(P_gtr_dp[0],sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
       // h2missbeta->Fill(P_gtr_beta[0],sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
 
-      h2ROC1_Coin_Beta_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 48.0),P_gtr_beta[0]);
+      h2ROC1_Coin_Beta_kaon->Fill((CTime_eKCoinTime_ROC1[0] - 47.5),P_gtr_beta[0]);
       h2SHMSK_kaon_cut->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
       h2SHMSK_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
       // SHMS_HGC_kaon->Fill(P_hgcer_npeSum[0]);
@@ -322,10 +323,11 @@ Bool_t KaonYield_dec::Process(Long64_t entry)
       
     }
  
-    //if(  (abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 22.0) ||
-    //(abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < -8.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > -22.0) ) {
-    if ((abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > -32.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < -18.0) ||
-	(abs((CTime_eKCoinTime_ROC1[0] - 48.0)) > 14.0 && abs((CTime_eKCoinTime_ROC1[0] - 48.0)) < 28.0) ) {
+    // if ((abs((CTime_eKCoinTime_ROC1[0] - 47.5)) > -32.0 && abs((CTime_eKCoinTime_ROC1[0] - 47.5)) < -18.0)
+	// || (abs((CTime_eKCoinTime_ROC1[0] - 47.5)) > 14.0 && abs((CTime_eKCoinTime_ROC1[0] - 47.5)) < 28.0) 
+    if ((abs((CTime_eKCoinTime_ROC1[0] - 47.5)) > -24.0 && abs((CTime_eKCoinTime_ROC1[0] - 47.5)) < -18.0)
+	|| (abs((CTime_eKCoinTime_ROC1[0] - 47.5)) > 14.0 && abs((CTime_eKCoinTime_ROC1[0] - 47.5)) < 20.0) 
+	) {
       h1mmissK_rand->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
       //h1mmissK_remove->Fill(sqrt(pow(emiss[0],2)-pow(pmiss[0],2)));
     }
@@ -436,7 +438,7 @@ Bool_t KaonYield_dec::Process(Long64_t entry)
   return kTRUE;
 }
 
-void KaonYield_dec::SlaveTerminate()
+void KaonYield_dechigh::SlaveTerminate()
 {
   // The SlaveTerminate() function is called after all entries or objects
   // have been processed. When running with PROOF SlaveTerminate() is called
@@ -444,7 +446,7 @@ void KaonYield_dec::SlaveTerminate()
 
 }
 
-void KaonYield_dec::Terminate()
+void KaonYield_dechigh::Terminate()
 {
 
   Info("Terminate", "Outputting Good Kaon Selection");
@@ -460,8 +462,8 @@ void KaonYield_dec::Terminate()
 
 
   //Perform Random Subtraction
-  h1mmissK_rand->Scale(1.0/14.0);
-  // h1mmissK_rand->Scale(1./10);
+  // h1mmissK_rand->Scale(1.0/14.0);
+  h1mmissK_rand->Scale(1./6);
   // h1mmisspiK_rand->Scale(1./3.);//
   h1mmisspi_rand->Scale(1.25/7.0);
   h1mmissp_rand->Scale(1.25/7.0);
@@ -483,24 +485,25 @@ void KaonYield_dec::Terminate()
   Back_Fit->SetParameter(2,0.16);*/
   
    //TF1 *Back_Fit = new TF1("Back_Fit","[A] + [B]*x + [C]*pow(x,2)",1.07,1.15);
-  TF1 *Back_Fit = new TF1("Back_Fit","[A] + [B]*x",1.05,1.18);
-  //Back_Fit->FixParameter(1,0);
+  TF1 *Back_Fit = new TF1("Back_Fit","[A] + [B]*x",1.07,1.15);
+  // Back_Fit->FixParameter(1,0.);
   h1mmissK_remove->Fit("Back_Fit","RMQN");
   
+  //->Blue
   //TF1 *GausBack = new TF1("GausBack","[Constant]*exp(-0.5*((x-[Mean])/[Sigma])*((x-[Mean])/[Sigma])) + [A] + [B]*x + [C]*pow(x,2)",1.07,1.15);
-  TF1 *GausBack = new TF1("GausBack","[Constant]*exp(-0.5*((x-[Mean])/[Sigma])*((x-[Mean])/[Sigma])) + [A] + [B]*x",1.05,1.18);
+  TF1 *GausBack = new TF1("GausBack","[Constant]*exp(-0.5*((x-[Mean])/[Sigma])*((x-[Mean])/[Sigma])) + [A] + [B]*x",1.07,1.15);
   //TF1 *GausBack = new TF1("GausBack","[0]*TMath::Landau(x,[1],[2]) + [A] + [B]*x",1.05,1.18);
+  GausBack->SetParLimits(2,0,5000);
+  GausBack->SetParLimits(3,1.105,1.13);
+  GausBack->SetParLimits(4,0.001,0.1);
   GausBack->FixParameter(0,Back_Fit->GetParameter(0));
   GausBack->FixParameter(1,Back_Fit->GetParameter(1));  
   GausBack->SetParameter(2,500);
-  GausBack->SetParameter(3,1.12);
-  GausBack->SetParameter(4,0.004);
-  GausBack->SetParLimits(2,0,5000);
-  GausBack->SetParLimits(3,1.10,1.13);
-  GausBack->SetParLimits(4,0.001,0.01);
+  GausBack->SetParameter(3,1.115);
+  GausBack->SetParameter(4,0.008);
   h1mmissK_remove->Fit("GausBack","RMQN");
 
-  TF1 *Gauss_Fit = new TF1("Gauss_Fit","[Constant]*exp(-0.5*((x-[Mean])/[Sigma])*((x-[Mean])/[Sigma]))",1.0,1.2);
+  TF1 *Gauss_Fit = new TF1("Gauss_Fit","[Constant]*exp(-0.5*((x-[Mean])/[Sigma])*((x-[Mean])/[Sigma]))",1.0,1.25);
   //TF1 *Gauss_Fit = new TF1("Gauss_Fit","[0]*TMath::Landau(x,[1],[2])",1.0,1.2);
   Gauss_Fit->FixParameter(0,GausBack->GetParameter(2));
   Gauss_Fit->FixParameter(1,GausBack->GetParameter(3));
@@ -510,19 +513,20 @@ void KaonYield_dec::Terminate()
   h1mmissK_noback->Add(Back_Fit,-1);
 
   //Fit the Lambda Missing Mass
-  TF1 *Lambda_Fit = new TF1("Lambda_Fit","[0]*exp(-0.5*((x-[1])/[2])*((x-[1])/[2]))",1.105,1.15);
+  TF1 *Lambda_Fit = new TF1("Lambda_Fit","[0]*exp(-0.5*((x-[1])/[2])*((x-[1])/[2]))",1.095,1.145);
   // TF1 *Lambda_Fit = new TF1("Lambda_Fit","[0]*TMath::Landau(x,[1],[2])",1.105,1.15);
   Lambda_Fit->SetParName(0,"Amplitude");
   Lambda_Fit->SetParName(1,"Mean");
   Lambda_Fit->SetParName(2,"Sigma");
   Lambda_Fit->SetParLimits(0,0.0,10000.0);
-  Lambda_Fit->SetParLimits(1,1.10,1.15);
+  Lambda_Fit->SetParLimits(1,1.105,1.13);
   Lambda_Fit->SetParLimits(2,0.0,0.1);
   Lambda_Fit->SetParameter(0,100);
-  Lambda_Fit->SetParameter(1,1.1075);
-  Lambda_Fit->SetParameter(2,0.011);
+  Lambda_Fit->SetParameter(1,1.115);
+  Lambda_Fit->SetParameter(2,0.008);
   h1mmissK_remove->Fit("Lambda_Fit","RMQN");
 
+  //->Green
   TF1 *Lambda_Fit_Full = new TF1("Lambda_Fit_Full","[0]*exp(-0.5*((x-[1])/[2])*((x-[1])/[2]))",1.0,1.25);
   // TF1 *Lambda_Fit_Full = new TF1("Lambda_Fit_Full","[0]*TMath::Landau(x,[1],[2])",1.0,1.25);
   Lambda_Fit_Full->SetParName(0,"Amplitude");
@@ -661,14 +665,14 @@ void KaonYield_dec::Terminate()
   // LowerRand->SetLineColor(kRed); LowerRand->SetLineWidth(1); LowerRand->Draw();
   // TLine *UpperRand = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
   // UpperRand->SetLineColor(kRed); UpperRand->SetLineWidth(1); UpperRand->Draw();
-  TLine *LowerRand = new TLine(-21.0,gPad->GetUymin(),-21.0,gPad->GetUymax()); 
+  TLine *LowerRand = new TLine(-24.0,gPad->GetUymin(),-24.0,gPad->GetUymax()); 
   LowerRand->SetLineColor(kRed); LowerRand->SetLineWidth(1); LowerRand->Draw();
-  TLine *UpperRand = new TLine(-9.0,gPad->GetUymin(),-9.0,gPad->GetUymax()); 
+  TLine *UpperRand = new TLine(-18.0,gPad->GetUymin(),-18.0,gPad->GetUymax()); 
   UpperRand->SetLineColor(kRed); UpperRand->SetLineWidth(1); UpperRand->Draw();
-  // TLine *LowerRand1 = new TLine(8.0,gPad->GetUymin(),8.0,gPad->GetUymax()); 
-  // LowerRand1->SetLineColor(kRed); LowerRand1->SetLineWidth(1); LowerRand1->Draw();
-  // TLine *UpperRand1 = new TLine(22.0,gPad->GetUymin(),22.0,gPad->GetUymax()); 
-  // UpperRand1->SetLineColor(kRed); UpperRand1->SetLineWidth(1); UpperRand1->Draw();
+  TLine *LowerRand1 = new TLine(14.0,gPad->GetUymin(),14.0,gPad->GetUymax()); 
+  LowerRand1->SetLineColor(kRed); LowerRand1->SetLineWidth(1); LowerRand1->Draw();
+  TLine *UpperRand1 = new TLine(20.0,gPad->GetUymin(),20.0,gPad->GetUymax()); 
+  UpperRand1->SetLineColor(kRed); UpperRand1->SetLineWidth(1); UpperRand1->Draw();
   cID->cd(6); h2ROC1_Coin_Beta_kaon->Draw("Colz");
   cID->cd(7); h1mmissK->Draw();
   cID->cd(8); h1mmissK_remove->Draw("hist");
@@ -676,10 +680,10 @@ void KaonYield_dec::Terminate()
   TLine *LambdaMass = new TLine(1.1156,0,1.1156,gPad->GetUymax()); 
   LambdaMass->SetLineColor(kBlack); LambdaMass->SetLineWidth(1);
   LambdaMass->Draw();
-  Lambda_Fit->SetLineColor(kBlack); Lambda_Fit->SetLineWidth(3);
+  Lambda_Fit->SetLineColor(kGreen); Lambda_Fit->SetLineWidth(1);
   Lambda_Fit->Draw("same");
   Lambda_Fit_Full->SetLineColor(kGreen); Lambda_Fit_Full->SetLineWidth(1);
-  Lambda_Fit_Full->Draw("same");
+  // Lambda_Fit_Full->Draw("same");
   //Lambda_Fit_Full->Draw("same");
   Back_Fit->SetLineColor(kRed); Back_Fit->SetLineWidth(1);
   Back_Fit->DrawClone("same");
@@ -820,14 +824,14 @@ void KaonYield_dec::Terminate()
   h1epsilon->SetTitleOffset(1.0,"Y");
   cKine->cd(4); h1mmissK_remove->Draw("hist"); 
   Lambda_Fit_Full->SetLineColor(kGreen); Lambda_Fit_Full->SetLineWidth(2);
-  //Lambda_Fit_Full->Draw("same"); 
+  // Lambda_Fit_Full->Draw("same"); 
   Gauss_Fit->SetLineColor(kBlack); Gauss_Fit->SetLineWidth(1);
   Gauss_Fit->DrawClone("same"); 
   cKine->Update();
   h1mmissK_remove->SetTitleOffset(1.0,"Y"); /*h1mmissK_remove->SetAxisRange(1.0,1.25,"X");*/// h1mmissK_remove->SetAxisRange(0.0,gPad->GetUymax(),"Y");
   cKine->Update();
   TLine *LambdaMass_Full = new TLine(1.1156,gPad->GetUymin(),1.1156,gPad->GetUymax()); 
-  LambdaMass_Full->SetLineColor(kRed); // LambdaMass_Full->SetLineWidth(3);
+  LambdaMass_Full->SetLineColor(kRed); LambdaMass_Full->SetLineWidth(2);
   LambdaMass_Full->Draw();
   TPaveText *ptLambdaEvt = new TPaveText(0.58934,0.715354,0.80000,0.81576,"NDC");
   //ptLambdaEvt->AddText(Form("# of #Lambda Events: %.0f",200*Lambda_Fit_Full->Integral(1.0,1.25))); ptLambdaEvt->Draw();
