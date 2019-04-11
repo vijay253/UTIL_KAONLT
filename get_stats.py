@@ -202,15 +202,26 @@ def main() :
     tot_charge = []
     tot_lambda = []
     lambda_fort = []
+    charge_fort = []
 
     if ANGLE_low < float(6.91) < ANGLE_high :
-        charge_goal = 11138
+        charge_goal = 10130
         lambda_goal = 8200
         # lambda_goal = 2550
 
     if ANGLE_low < float(9.91) < ANGLE_high :
-        charge_goal = 11138
+        charge_goal = 10130
         lambda_goal = 6100
+        # lambda_goal = 2550
+
+    if ANGLE_low < float(8.50) < ANGLE_high :
+        charge_goal = 10105
+        lambda_goal = 525
+        # lambda_goal = 2550
+
+    if ANGLE_low < float(6.20) < ANGLE_high :
+        charge_goal = 10105
+        lambda_goal = 525
         # lambda_goal = 2550
 
     # if Q2 == "3":        
@@ -241,6 +252,7 @@ def main() :
                 print("Run %s meets requirements [SHMS Angle is %s, Current is %s, Charge is %s, Lambda events are %s]" % (Run[i],Theta_SHMS[i],Current[i],Charge[i],lamb[i]))
                 if CURRENT_low < float(Current[i]) < CURRENT_high :
                     lambda_fort.append(float(lamb[i]))
+                    charge_fort.append(float(Charge[i]))
                     # print("->Run %s meets requirements [SHMS Angle is %s, Current is %s, Charge is %s, Lambda events are %s]" % (Run[i],Theta_SHMS[i],Current[i],Charge[i],lamb[i]))
         i=i+1
         if i == len(Run) :
@@ -251,6 +263,7 @@ def main() :
     # print("Charge for this setting is  %0.2f, %0.1f%% of PAC charge stat goal\n" % (sum(tot_charge),(sum(tot_charge)/charge_goalPAC)*100))
 
     print("\n\nTotal Charge for %s degrees is %0.2f, %0.1f%% of charge goal" % (ANGLE, sum(acc_charge), (sum(acc_charge)/charge_goal)*100))
+    # print("Charge at 40 uA are  %0.2f, %0.1f%% of charge goal" % ((sum(charge_fort)),(sum(charge_fort)/charge_goal)*100)) # At 40 uA
     # print("Total Charge for %s degrees is %0.2f, %0.1f%% of PAC charge stat goal\n" % (ANGLE, sum(acc_charge), (sum(acc_charge)/charge_goalPAC)*100))
 
     #print("%0.1f hours to complete setting at this current (100%% efficiency)" % (charge_goal/(float(CURRENT)*(10e-3)*60*60)))

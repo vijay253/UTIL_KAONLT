@@ -19,7 +19,7 @@ if [[ ${epsilon} = "low" ]]; then
     if [[ ${angle} = "left" ]]; then
 	## Chain runs script ##
 	script_Q5p5W3p02="../scripts_Summaries/Q5p5W3p02left_lowe.C"
-	run_script_Q5p5W3p02="root -l -b -q \"${script_Q5p5W3p02}\""
+	run_script_Q5p5W3p02="root -l \"${script_Q5p5W3p02}\""
 	echo "Running ${script_Q5p5W3p02}"
 	eval ${run_script_Q5p5W3p02}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q5.5_W3.02_x0.40_lowe/Kinematics_leftQ5p5W3p02-lowe.pdf
@@ -33,7 +33,7 @@ if [[ ${epsilon} = "low" ]]; then
     if [[ ${angle} = "center" ]]; then
 	## Chain runs script ##
 	script_Q5p5W3p02="../scripts_Summaries/Q5p5W3p02center_lowe.C"
-	run_script_Q5p5W3p02="root -l -b -q \"${script_Q5p5W3p02}\""
+	run_script_Q5p5W3p02="root -l \"${script_Q5p5W3p02}\""
 	echo "Running ${script_Q5p5W3p02}"
 	eval ${run_script_Q5p5W3p02}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q5.5_W3.02_x0.40_lowe/Kinematics_centerQ5p5W3p02-lowe.pdf
@@ -50,7 +50,7 @@ if [[ ${epsilon} = "high" ]]; then
     if [[ ${angle} = "left" ]]; then
 	## Chain runs script ##
 	script_Q5p5W3p02="../scripts_Summaries/Q5p5W3p02left_highe.C"
-	run_script_Q5p5W3p02="root -l -b -q \"${script_Q5p5W3p02}\""
+	run_script_Q5p5W3p02="root -l \"${script_Q5p5W3p02}\""
 	echo "Running ${script_Q5p5W3p02}"
 	eval ${run_script_Q5p5W3p02}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q5.5_W3.02_x0.40_highe/Kinematics_leftQ5p5W3p02-highe.pdf
@@ -64,7 +64,7 @@ if [[ ${epsilon} = "high" ]]; then
     if [[ ${angle} = "center" ]]; then
 	## Chain runs script ##
 	script_Q5p5W3p02="../scripts_Summaries/Q5p5W3p02center_highe.C"
-	run_script_Q5p5W3p02="root -l -b -q \"${script_Q5p5W3p02}\""
+	run_script_Q5p5W3p02="root -l \"${script_Q5p5W3p02}\""
 	echo "Running ${script_Q5p5W3p02}"
 	eval ${run_script_Q5p5W3p02}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q5.5_W3.02_x0.40_highe/Kinematics_centerQ5p5W3p02-highe.pdf
@@ -78,7 +78,7 @@ if [[ ${epsilon} = "high" ]]; then
     if [[ ${angle} = "right" ]]; then
 	## Chain runs script ##
 	script_Q5p5W3p02="../scripts_Summaries/Q5p5W3p02right_highe.C"
-	run_script_Q5p5W3p02="root -l -b -q \"${script_Q5p5W3p02}\""
+	run_script_Q5p5W3p02="root -l \"${script_Q5p5W3p02}\""
 	echo "Running ${script_Q5p5W3p02}"
 	eval ${run_script_Q5p5W3p02}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q5.5_W3.02_x0.40_highe/Kinematics_rightQ5p5W3p02-highe.pdf

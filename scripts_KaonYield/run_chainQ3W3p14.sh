@@ -19,7 +19,7 @@ if [[ ${epsilon} = "low" ]]; then
     if [[ ${angle} = "left" ]]; then
 	## Chain runs script ##
 	script_Q3W3p14="../scripts_Summaries/Q3W3p14left_lowe.C"
-	run_script_Q3W3p14="root -l -b -q \"${script_Q3W3p14}\""
+	run_script_Q3W3p14="root -l  \"${script_Q3W3p14}\""
 	echo "Running ${script_Q3W3p14}"
 	eval ${run_script_Q3W3p14}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W3.14_x0.25_lowe/Kinematics_leftQ3W3p14-lowe.pdf
@@ -33,7 +33,7 @@ if [[ ${epsilon} = "low" ]]; then
     if [[ ${angle} = "center" ]]; then
 	## Chain runs script ##
 	script_Q3W3p14="../scripts_Summaries/Q3W3p14center_lowe.C"
-	run_script_Q3W3p14="root -l -b -q \"${script_Q3W3p14}\""
+	run_script_Q3W3p14="root -l  \"${script_Q3W3p14}\""
 	echo "Running ${script_Q3W3p14}"
 	eval ${run_script_Q3W3p14}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W3.14_x0.25_lowe/Kinematics_centerQ3W3p14-lowe.pdf
@@ -50,7 +50,7 @@ if [[ ${epsilon} = "high" ]]; then
     if [[ ${angle} = "left" ]]; then
 	## Chain runs script ##
 	script_Q3W3p14="../scripts_Summaries/Q3W3p14left_highe.C"
-	run_script_Q3W3p14="root -l -b -q \"${script_Q3W3p14}\""
+	run_script_Q3W3p14="root -l  \"${script_Q3W3p14}\""
 	echo "Running ${script_Q3W3p14}"
 	eval ${run_script_Q3W3p14}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W3.14_x0.25_highe/Kinematics_leftQ3W3p14-highe.pdf
@@ -64,7 +64,7 @@ if [[ ${epsilon} = "high" ]]; then
     if [[ ${angle} = "center" ]]; then
 	## Chain runs script ##
 	script_Q3W3p14="../scripts_Summaries/Q3W3p14center_highe.C"
-	run_script_Q3W3p14="root -l -b -q \"${script_Q3W3p14}\""
+	run_script_Q3W3p14="root -l  \"${script_Q3W3p14}\""
 	echo "Running ${script_Q3W3p14}"
 	eval ${run_script_Q3W3p14}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W3.14_x0.25_highe/Kinematics_centerQ3W3p14-highe.pdf
@@ -78,7 +78,7 @@ if [[ ${epsilon} = "high" ]]; then
     if [[ ${angle} = "right" ]]; then
 	## Chain runs script ##
 	script_Q3W3p14="../scripts_Summaries/Q3W3p14right_highe.C"
-	run_script_Q3W3p14="root -l -b -q \"${script_Q3W3p14}\""
+	run_script_Q3W3p14="root -l  \"${script_Q3W3p14}\""
 	echo "Running ${script_Q3W3p14}"
 	eval ${run_script_Q3W3p14}
 	mv ../OUTPUT/Kinematics_1uA_allPlots.pdf ../OUTPUT/Q3.0_W3.14_x0.25_highe/Kinematics_rightQ3W3p14-highe.pdf

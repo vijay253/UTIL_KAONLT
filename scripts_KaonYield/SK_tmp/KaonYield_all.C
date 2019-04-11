@@ -104,6 +104,12 @@ void KaonYield_all::SlaveBegin(TTree * /*tree*/)
   h1mmissK_cut            = new TH1F("mmissK_cut","Kaon Missing mass with Cuts;Mass (GeV/c^{2});Counts",200,0.8,1.8);
   h1mmissK_remove         = new TH1F("mmissK_remove","Kaon Missing mass with Cuts (Random Subtracted);Mass (GeV/c^{2});Counts",200,0.8,1.8);
 
+  ///////////////////////////////
+  h2HGCPosK               = new TH2F("HGCPosK","HGC Y vs X;Y Dimension (cm);X Dimension (cm)",100,-50,50,100,-50,50); // HGC x/y position for Kaons in small peak left of neutron
+  h2HGCPosK_rand          = new TH2F("HGCPosK_rand","HGC Y vs X (randoms);Y Dimension (cm);X Dimension (cm)",100,-50,50,100,-50,50);
+  h2HGCPosK_cut           = new TH2F("HGCPosK_cut","HGC Y vs X (cut);Y Dimension (cm);X Dimension (cm)",100,-50,50,100,-50,50);
+  ///////////////////////////////
+
   h1mmisspi               = new TH1F("mmisspi","Pion Missing mass;Mass (GeV/c^{2});Counts",200,0.8,1.8);
   h1mmisspi_rand          = new TH1F("mmisspi_rand","Pion Missing mass from Random Coincidence;Mass (GeV/c^{2});Counts",200,0.8,1.8);
   h1mmisspi_cut           = new TH1F("mmisspi_cut","Pion Missing mass with Cuts;Mass (GeV/c^{2});Counts",200,0.8,1.8);
@@ -113,6 +119,12 @@ void KaonYield_all::SlaveBegin(TTree * /*tree*/)
   h1mmissp_rand           = new TH1F("mmissp_rand","Proton Missing mass from Random Coincidence;Mass (GeV/c^{2});Counts",200,0.0,2.0);
   h1mmissp_cut            = new TH1F("mmissp_cut","Proton Missing mass with Cuts;Mass (GeV/c^{2});Counts",200,0.0,2.0);
   h1mmissp_remove         = new TH1F("mmissp_remove","Proton Missing mass with Cuts (Random Subtracted);Mass (GeV/c^{2});Counts",200,0.0,2.0);
+
+  ///////////////////////////////
+  h2HGCPosp               = new TH2F("HGCPosp","HGC Y vs X;Y Dimension (cm);X Dimension (cm)",100,-50,50,100,-50,50);// HGC x/y position for protons in small peak at ~880
+  h2HGCPosp_rand          = new TH2F("HGCPosp_rand","HGC Y vs X (randoms);Y Dimension (cm);X Dimension (cm)",100,-50,50,100,-50,50);
+  h2HGCPosp_cut           = new TH2F("HGCPosp_cut","HGC Y vs X (cut);Y Dimension (cm);X Dimension (cm)",100,-50,50,100,-50,50);
+  ///////////////////////////////
 
   h2WvsQ2                 = new TH2F("WvsQ2","Q2 vs W;Q2;W",480,1.0,7.0,90,1.0,4.0);
   h2tvsph_q               = new TH2F("tvsph_q",";#phi;t",12,-3.14,3.14,16,0.0,2.0);
@@ -176,6 +188,17 @@ void KaonYield_all::SlaveBegin(TTree * /*tree*/)
   GetOutputList()->Add(h1EDTM);
   GetOutputList()->Add(h1TRIG5);
   GetOutputList()->Add(h3SHMS_HGC);
+
+  /////////////////////////////////
+  GetOutputList()->Add(h2HGCPosK);
+  GetOutputList()->Add(h2HGCPosK_rand);
+  GetOutputList()->Add(h2HGCPosK_cut);
+
+  GetOutputList()->Add(h2HGCPosp);
+  GetOutputList()->Add(h2HGCPosp_rand);
+  GetOutputList()->Add(h2HGCPosp_cut);
+  /////////////////////////////////
+
 }
 
 Bool_t KaonYield_all::Process(Long64_t entry)
@@ -263,6 +286,12 @@ Bool_t KaonYield_all::Process(Long64_t entry)
       h2SHMSK_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
       h1mmissK_cut->Fill(MMK);
 
+      ////////////////////
+      if (MMK > 0.810 && MMK < 0.880){
+	h2HGCPosK_cut->Fill(P_hgcer_yAtCer[0], P_hgcer_xAtCer[0]);
+      }
+      ////////////////////
+
       h2WvsQ2->Fill(Q2[0],W[0]);
       h2tvsph_q->Fill(ph_q[0],-MandelT[0]);
       h1epsilon->Fill(epsilon[0]);
@@ -271,6 +300,13 @@ Bool_t KaonYield_all::Process(Long64_t entry)
     if ((((CTime_eKCoinTime_ROC1[0] - 43) > -21.0 && (CTime_eKCoinTime_ROC1[0] - 43) < -9.0))) {
       h1mmissK_rand->Fill(MMK);
       h1mmissK_remove->Fill(MMK);
+
+      ////////////////////
+      if (MMK > 0.810 && MMK < 0.880){
+	h2HGCPosK_rand->Fill(P_hgcer_yAtCer[0], P_hgcer_xAtCer[0]);
+      }
+      ////////////////////
+
     }
 
   }
@@ -304,11 +340,24 @@ if (P_hgcer_npeSum[0] > 1.5) { //Event identified as Pion
       h2SHMSp_kaon_cut->Fill(P_aero_npeSum[0],P_hgcer_npeSum[0]);
       h2SHMSp_pion_cut->Fill(P_cal_etotnorm[0],P_hgcer_npeSum[0]);
       h1mmissp_cut->Fill(MMp);
+      ////////////////////
+      if (MMp > 0.835 && MMp < 0.920){
+	h2HGCPosp_cut->Fill(P_hgcer_yAtCer[0],P_hgcer_xAtCer[0]);
+      }
+      ////////////////////
+
     }
 
     if (abs((CTime_epCoinTime_ROC1[0] - 43.5)) > 6.0 && abs((CTime_epCoinTime_ROC1[0] - 43.5)) < 20.0) {
       h1mmissp_rand->Fill(MMp);
       h1mmissp_remove->Fill(MMp);
+
+      ////////////////////
+      if (MMp > 0.835 && MMp < 0.920){
+	h2HGCPosp_rand->Fill(P_hgcer_yAtCer[0], P_hgcer_xAtCer[0]);
+      }
+      ////////////////////
+
     }
   }
 
@@ -340,6 +389,13 @@ void KaonYield_all::Terminate()
   h1mmissK_remove->Add(h1mmissK_cut,h1mmissK_rand,1,-1);
   h1mmisspi_remove->Add(h1mmisspi_cut,h1mmisspi_rand,1,-1);
   h1mmissp_remove->Add(h1mmissp_cut,h1mmissp_rand,1,-1);
+
+  ////////////////////////////////////////////////////
+  h2HGCPosK_rand->Scale(1/3.0);
+  h2HGCPosK->Add(h2HGCPosK_cut, h2HGCPosK_rand, 1, -1);
+  h2HGCPosp_rand->Scale(1.25/7.0);
+  h2HGCPosp->Add(h2HGCPosp_cut, h2HGCPosp_rand, 1, -1);
+  ////////////////////////////////////////////////////
   
   TF1 *Back_Fit = new TF1("Back_Fit","[A] + [B]*x",1.05,1.18);
   h1mmissK_remove->Fit("Back_Fit","RMQN");
@@ -593,6 +649,14 @@ void KaonYield_all::Terminate()
 
   TDirectory *DEDTM = Histogram_file->mkdir("Accepted EDTM Events"); DEDTM->cd();
   EDTM->Write("EDTM TDC Time");
+
+  TDirectory *DMysteryPeakHGC= Histogram_file->mkdir("HGC Positions for Weird Peaks"); DMysteryPeakHGC->cd();
+  h2HGCPosK_cut->Write("Kaon HGC Pos, selected events");
+  h2HGCPosK_rand->Write("Kaon HGC Pos, random bg events");
+  h2HGCPosK->Write("Kaon HGC Pos");
+  h2HGCPosp_cut->Write("Proton HGC Pos, selected events");
+  h2HGCPosp_rand->Write("Proton HGC Pos, random bg events");
+  h2HGCPosp->Write("Proton HGC Pos");
 
   /*TDirectory *DHGCER = Histogram_file->mkdir("SHMS HGCER Info"); DHGCER->cd();
     SHMS_HGC_pyx->Write("SHMS HGCER X vs Y vs NPE");*/
