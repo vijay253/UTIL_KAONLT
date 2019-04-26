@@ -1,0 +1,9 @@
+PROJECT: e01011
+TRACK: analysis
+JOBNAME: KaonLT_7952
+DISK_SPACE: 20 GB
+MEMORY: 2500 MB
+OS: centos7
+CPU: 2
+COMMAND:/w/hallc-scifs17exp/kaon/sjdkay/hallc_replay_kaonlt/UTIL_KAONLT/KaonYield_batch.sh 7952
+MAIL: sjdkay@jlab.org
