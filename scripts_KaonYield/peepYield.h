@@ -29,6 +29,7 @@ class peepYield : public TSelector {
   TTree          *fChain = 0;   //!pointer to the analyzed TTree or TChain
 
   //Declare Histograms
+  TH2F           *h1misspcut_CT;
   TH2F           *h2ROC1_Coin_Beta_noID_proton;
   TH2F           *h2ROC1_Coin_Beta_proton;
 
@@ -71,6 +72,10 @@ class peepYield : public TSelector {
   TH1F           *h1pymiss;
   TH1F           *h1pzmiss;
 
+  /////
+  TH1F           *h1emiss;
+  /////
+
   TH1F           *h1EDTM;
   
 
@@ -106,7 +111,7 @@ class peepYield : public TSelector {
   TTreeReaderValue<Double_t> pEDTM              = {fReader, "T.coin.pEDTM_tdcTime"};
 
 
-  peepYield(TTree * /*tree*/ =0) {h2ROC1_Coin_Beta_noID_proton=0, h2ROC1_Coin_Beta_proton=0,h2HMS_electron=0, h2HMS_electron_cut=0, h1SHMS_electron=0, h1SHMS_electron_cut=0, h2SHMSp_kaon=0, h2SHMSp_kaon_cut=0, h2SHMSp_pion=0, h2SHMSp_pion_cut=0,h1SHMS_delta=0, h1SHMS_delta_cut=0, h1HMS_delta=0, h1HMS_delta_cut=0, h1SHMS_th=0, h1SHMS_th_cut=0, h1SHMS_ph=0, h1SHMS_ph_cut=0, h1HMS_th=0, h1HMS_th_cut=0, h1HMS_ph=0, h1HMS_ph_cut=0, h1mmissp=0, h1mmissp_rand=0, h1mmissp_cut=0, h1mmissp_remove=0, h2WvsQ2=0, h2tvsph_q=0, h1epsilon=0, h1pmiss=0, h1pxmiss=0, h1pymiss=0, h1pzmiss=0, h1EDTM=0;}
+  peepYield(TTree * /*tree*/ =0) {h2ROC1_Coin_Beta_noID_proton=0,h1misspcut_CT=0, h2ROC1_Coin_Beta_proton=0,h2HMS_electron=0, h2HMS_electron_cut=0, h1SHMS_electron=0, h1SHMS_electron_cut=0, h2SHMSp_kaon=0, h2SHMSp_kaon_cut=0, h2SHMSp_pion=0, h2SHMSp_pion_cut=0,h1SHMS_delta=0, h1SHMS_delta_cut=0, h1HMS_delta=0, h1HMS_delta_cut=0, h1SHMS_th=0, h1SHMS_th_cut=0, h1SHMS_ph=0, h1SHMS_ph_cut=0, h1HMS_th=0, h1HMS_th_cut=0, h1HMS_ph=0, h1HMS_ph_cut=0, h1mmissp=0, h1mmissp_rand=0, h1mmissp_cut=0, h1mmissp_remove=0, h2WvsQ2=0, h2tvsph_q=0, h1epsilon=0, h1pmiss=0, h1pxmiss=0, h1pymiss=0, h1pzmiss=0, h1EDTM=0, h1emiss =0;}
   virtual ~peepYield() { }
   virtual Int_t   Version() const { return 2; }
   virtual void    Begin(TTree *tree);

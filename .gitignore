@@ -1,7 +1,17 @@
 *~
-*#*#
+#*#
+*#
 *.pcm
 *.so
 *.d
 *.png
 *.pdf
+*.nfs*
+replay_pid*
+hs_err_pid*
+
+# Directories
+REPORT_OUTPUT
+HISTOGRAMS
+ROOTfiles
+OUTPUT

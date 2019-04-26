@@ -155,9 +155,9 @@ void replay_ADC_SHMS (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define DEF-file
-  analyzer->SetOdefFile("UTIL_KAONLT/scripts_Replay/ADCGates_SHMS.def");
+  analyzer->SetOdefFile("UTIL_KAONLT/DEF-files/ADCGates_SHMS.def");
   // Define cuts file
-  analyzer->SetCutFile("UTIL_KAONLT/scripts_Replay/ADCGates_SHMS_cuts.def");  // optional
+  analyzer->SetCutFile("UTIL_KAONLT/DEF-files/ADCGates_SHMS_cuts.def");  // optional
   // File to record accounting information for cuts
   //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/SHMS/PRODUCTION/summary_coin_all_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.

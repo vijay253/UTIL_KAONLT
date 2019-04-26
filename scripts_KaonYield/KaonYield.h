@@ -82,6 +82,15 @@ class KaonYield : public TSelector {
   TH1F           *h1mmissK_cut;
   TH1F           *h1mmissK_remove;
 
+  ///////////////////////////////////////////////
+  TH2F           *h2ROC1_Coin_pion_kaon_noID;
+  TH2F           *h2ROC1_Coin_pion_kaon;
+  TH1F           *h1mmisspiK;
+  TH1F           *h1mmisspiK_rand;
+  TH1F           *h1mmisspiK_cut;
+  TH1F           *h1mmisspiK_remove;
+  ///////////////////////////////////////////////
+
   TH1F           *h1mmisspi;
   TH1F           *h1mmisspi_rand;
   TH1F           *h1mmisspi_cut;
@@ -125,6 +134,7 @@ class KaonYield : public TSelector {
   TTreeReaderArray<Double_t> Q2                 = {fReader, "H.kin.primary.Q2"};
   TTreeReaderArray<Double_t> W                  = {fReader, "H.kin.primary.W"};
   TTreeReaderArray<Double_t> epsilon            = {fReader, "H.kin.primary.epsilon"};
+  /* TTreeReaderArray<Double_t> ph_q               = {fReader, "P.kin.secondary.ph_bq"}; */
   TTreeReaderArray<Double_t> ph_q               = {fReader, "P.kin.secondary.ph_xq"};
   TTreeReaderArray<Double_t> emiss              = {fReader, "P.kin.secondary.emiss"};
   TTreeReaderArray<Double_t> pmiss              = {fReader, "P.kin.secondary.pmiss"};
@@ -132,10 +142,10 @@ class KaonYield : public TSelector {
   TTreeReaderValue<Int_t>    fEvtType           = {fReader, "fEvtHdr.fEvtType"};
 
   TTreeReaderValue<Double_t> pEDTM              = {fReader, "T.coin.pEDTM_tdcTime"};
-  //TTreeReaderValue<Double_t> pTRIG5             = {fReader, "T.coin.pTRIG5_ROC2_tdcTime"};
+  /* TTreeReaderValue<Double_t> pTRIG5             = {fReader, "T.coin.pTRIG5_ROC1_tdcTime"}; */
 
 
-  KaonYield(TTree * /*tree*/ =0) {h1missKcut_CT=0, h2ROC1_Coin_Beta_noID_kaon=0, h2ROC1_Coin_Beta_kaon=0, h2ROC1_Coin_Beta_noID_pion=0, h2ROC1_Coin_Beta_pion=0, h2ROC1_Coin_Beta_noID_proton=0, h2ROC1_Coin_Beta_proton=0,h2HMS_electron=0, h2HMS_electron_cut=0, h1SHMS_electron=0, h1SHMS_electron_cut=0, h2SHMSK_kaon=0, h2SHMSK_kaon_cut=0, h2SHMSK_pion=0, h2SHMSK_pion_cut=0, h2SHMSpi_kaon=0, h2SHMSpi_kaon_cut=0, h2SHMSpi_pion=0, h2SHMSpi_pion_cut=0, h2SHMSp_kaon=0, h2SHMSp_kaon_cut=0, h2SHMSp_pion=0, h2SHMSp_pion_cut=0,h1SHMS_delta=0, h1SHMS_delta_cut=0, h1HMS_delta=0, h1HMS_delta_cut=0, h1SHMS_th=0, h1SHMS_th_cut=0, h1SHMS_ph=0, h1SHMS_ph_cut=0, h1HMS_th=0, h1HMS_th_cut=0, h1HMS_ph=0, h1HMS_ph_cut=0, h1mmissK=0, h1mmissK_rand=0, h1mmissK_cut=0, h1mmissK_remove=0, h1mmisspi=0, h1mmisspi_rand=0, h1mmisspi_cut=0, h1mmisspi_remove=0, h1mmissp=0, h1mmissp_rand=0, h1mmissp_cut=0, h1mmissp_remove=0, h2WvsQ2=0, h2tvsph_q=0, h1epsilon=0, h1EDTM=0, h3SHMS_HGC=0;}
+  KaonYield(TTree * /*tree*/ =0) {h1missKcut_CT=0, h2ROC1_Coin_Beta_noID_kaon=0, h2ROC1_Coin_Beta_kaon=0, h2ROC1_Coin_Beta_noID_pion=0, h2ROC1_Coin_Beta_pion=0, h2ROC1_Coin_Beta_noID_proton=0, h2ROC1_Coin_Beta_proton=0,h2HMS_electron=0, h2HMS_electron_cut=0, h1SHMS_electron=0, h1SHMS_electron_cut=0, h2SHMSK_kaon=0, h2SHMSK_kaon_cut=0, h2SHMSK_pion=0, h2SHMSK_pion_cut=0, h2SHMSpi_kaon=0, h2SHMSpi_kaon_cut=0, h2SHMSpi_pion=0, h2SHMSpi_pion_cut=0, h2SHMSp_kaon=0, h2SHMSp_kaon_cut=0, h2SHMSp_pion=0, h2SHMSp_pion_cut=0,h1SHMS_delta=0, h1SHMS_delta_cut=0, h1HMS_delta=0, h1HMS_delta_cut=0, h1SHMS_th=0, h1SHMS_th_cut=0, h1SHMS_ph=0, h1SHMS_ph_cut=0, h1HMS_th=0, h1HMS_th_cut=0, h1HMS_ph=0, h1HMS_ph_cut=0, h1mmissK=0,h1mmissK_rand=0, h1mmissK_cut=0, h1mmissK_remove=0, h2ROC1_Coin_pion_kaon=0, h2ROC1_Coin_pion_kaon_noID=0, h1mmisspiK=0, h1mmisspiK_rand=0, h1mmisspiK_cut=0, h1mmisspiK_remove=0, h1mmisspi=0, h1mmisspi_rand=0, h1mmisspi_cut=0, h1mmisspi_remove=0, h1mmissp=0, h1mmissp_rand=0, h1mmissp_cut=0, h1mmissp_remove=0, h2WvsQ2=0, h2tvsph_q=0, h1epsilon=0, h1EDTM=0, h3SHMS_HGC=0;}
   virtual ~KaonYield() { }
   virtual Int_t   Version() const { return 2; }
   virtual void    Begin(TTree *tree);

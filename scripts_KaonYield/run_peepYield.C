@@ -4,7 +4,7 @@
 #include <string>
 #include <stdio.h>
 
-void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_cut = 0, Int_t pscal = 0)
+void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_cut = 5, Int_t pscal = 1)
 {
   // Get RunNumber, MaxEvent, and current threshold if not provided.
   if(RunNumber == 0) {
@@ -62,5 +62,5 @@ void run_peepYield(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshold_c
 
   TChain sc("TSH");
   sc.Add(Form("/home/cdaq/hallc-online/hallc_replay/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_%i_%i.root",RunNumber,MaxEvent));
-  sc.Process("HMS_Scalers.C+",threshold);
+  sc.Process("HMS_Scalers.C+",option);
 }
