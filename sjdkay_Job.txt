@@ -1,0 +1,9 @@
+PROJECT: c-kaonlt
+TRACK: analysis
+JOBNAME: KaonLT_8056
+MEMORY: 2500 MB
+OS: centos7
+CPU: 1
+INPUT_FILES: /mss/hallc/spring17/raw/coin_all_08056.dat
+COMMAND:/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonlt/UTIL_KAONLT/SHMS_Replay_Batch.sh 8056
+MAIL: sjdkay@jlab.org
