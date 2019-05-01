@@ -38,7 +38,7 @@ source "/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/setup.sh"
 #mv bcmcurrent_$RUNNUMBER.param ../../PARAM/HMS/BCM/CALIB/bcmcurrent_$RUNNUMBER.param
 #cd ../../
 echo -e "\n\nStarting Replay Script\n\n"
-eval "/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonly/hcana -l -q \"SCRIPTS/COIN/PRODUCTION/replay_production_coin_hElec_pProt.C($RUNNUMBER,$MAXEVENTS)\""
+eval "/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/hcana -l -q \"SCRIPTS/COIN/PRODUCTION/replay_production_coin_hElec_pProt.C($RUNNUMBER,$MAXEVENTS)\""
 # cd UTIL_KAONLT/scripts_KaonYield/
 # echo -e "\n\nYield Calculation\n\n"
 # root -l "run_KaonYield.C($RUNNUMBER,$MAXEVENTS,5,1)"
