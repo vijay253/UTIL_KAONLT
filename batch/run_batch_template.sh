@@ -1,7 +1,7 @@
 #! /bin/bash                                                                                                                                                                                                      
 
-##### A batch submission script by Richard, insert the required script you want to batch run on line 51                                                                                                           
-##### Modify required resources as needed!                                                                                                                                   
+##### A batch submission script by Richard, insert the required script you want to batch run on line 53                                                                                 
+##### Modify required resources as needed! See comments, leave CPU as 1!                                                                      
 
 echo "Running as ${USER}"
 
@@ -11,7 +11,8 @@ historyfile=hist.$( date "+%Y-%m-%d_%H-%M-%S" ).log
 ##Output batch script##                                                                                                                                                                                           
 batch="${USER}_Job.txt"
 
-##Input run numbers##                                                                                                                                                                                             
+##Input run numbers##                                                                      
+##Point this to the location of your input run list, see templates folder for examples ##                                                                                                                       
 inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRuns"
 
 ## Tape stub                                                                                                                                                                                                      
@@ -34,24 +35,23 @@ while true; do
                 runNum=$line
                 tape_file=`printf $MSSstub $runNum`
                 tmp=tmp
-                ##Finds number of lines of input file##                                                                                                                                                           
+                ##Finds number of lines of input file##                                                                                                                       
                 numlines=$(eval "wc -l < ${inputFile}")
                 echo "Job $(( $i + 2 ))/$(( $numlines +1 ))"
                 echo "Running ${batch} for ${runNum}"
                 cp /dev/null ${batch}
                 ##Creation of batch script for submission##                                                                                                                                                       
                 echo "PROJECT: c-kaonlt" >> ${batch}
-                echo "TRACK: analysis" >> ${batch}
-                #echo "TRACK: debug" >> ${batch} ### Use for testing                                                                                                                                              
-                echo "JOBNAME: KaonLT_${runNum}" >> ${batch}
-                #echo "DISK_SPACE: 20 GB" >>${batch}                                                                                                                                                              
-                echo "MEMORY: 2500 MB" >> ${batch}
+                echo "TRACK: analysis" >> ${batch} ## Use this track for production running
+                #echo "TRACK: debug" >> ${batch} ### Use this track for testing, higher priority
+                echo "JOBNAME: KaonLT_${runNum}" >> ${batch} ## Change to be more specific if you want
+                echo "DISK_SPACE: 20 GB" >>${batch} ## Issues with files trunctuating unless this is set                              
+                echo "MEMORY: 2500 MB" >> ${batch} ## Note, unless NEEDED do not increase this much as it will slow your jobs down
                 echo "OS: centos7" >> ${batch}
-                echo "CPU: 1" >> ${batch} ### hcana single core, setting CPU higher will lower priority!                                                                                                          
+                echo "CPU: 1" >> ${batch} ### hcana is single core, setting CPU higher will lower priority and gain you nothing!
 		echo " INPUT_FILES: ${tape_file}" >> ${batch}
-                #echo "TIME: 1" >> ${batch} 
                 echo "COMMAND:/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/SCRIPT.sh${runNum}" >> ${batch} ### Insert your script at end!                                            
-                echo "MAIL: ${USER}@jlab.org" >> ${batch}
+                echo "MAIL: ${USER}@jlab.org" >> ${batch} ## Consider commenting out for large runs unless you enjoy 1k email spam
                 echo "Submitting batch"
                 eval "jsub ${batch} 2>/dev/null"
                 echo " "

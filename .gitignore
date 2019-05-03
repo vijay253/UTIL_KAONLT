@@ -9,6 +9,8 @@
 *.nfs*
 replay_pid*
 hs_err_pid*
+sjdkay_Job.txt
+AugerID.tmp
 
 # Directories
 REPORT_OUTPUT
