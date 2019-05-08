@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### Template for a batch running script from Richard, modify with your username and with the script you want to run on the final eval line
-### If you encounter errors, try commenting/uncommenting L18
+### If you encounter errors, try commenting/uncommenting L17 (export OS...)
 
 echo "Starting Kaon Yield Estimation"
 echo "I take as arguments the Run Number and max number of events!"

@@ -34,6 +34,8 @@ while true; do
                 ##Run number#                                                                                                                                                                                     
                 runNum=$line
                 tape_file=`printf $MSSstub $runNum`
+		# Print the size of the raw .dat file (converted to GB) to screen. sed command reads line 3 of the tape stub without the leading size=
+		echo "Raw .dat file is $(($(sed -n '3 s/^[^=]*= *//p' < $tape_file)/1000000000)) GB"
                 tmp=tmp
                 ##Finds number of lines of input file##                                                                                                                       
                 numlines=$(eval "wc -l < ${inputFile}")
@@ -45,8 +47,10 @@ while true; do
                 echo "TRACK: analysis" >> ${batch} ## Use this track for production running
                 #echo "TRACK: debug" >> ${batch} ### Use this track for testing, higher priority
                 echo "JOBNAME: KaonLT_${runNum}" >> ${batch} ## Change to be more specific if you want
-                echo "DISK_SPACE: 20 GB" >>${batch} ## Issues with files trunctuating unless this is set                              
-                echo "MEMORY: 2500 MB" >> ${batch} ## Note, unless NEEDED do not increase this much as it will slow your jobs down
+                # Read the tape stub and check the .dat file size. Request disk space dependening upon this. For trunctuated replays edit the + 25 GB buffer down as needed
+		# Note, unless this is set typically replays will produce broken root files
+		echo "DISK_SPACE: $(($(sed -n '3 s/^[^=]*= *//p' < $tape_file)/1000000000 +25)) GB" >> ${batch}
+		echo "MEMORY: 2500 MB" >> ${batch} ## Note, unless NEEDED do not increase this much as it will slow your jobs down
                 echo "OS: centos7" >> ${batch}
                 echo "CPU: 1" >> ${batch} ### hcana is single core, setting CPU higher will lower priority and gain you nothing!
 		echo " INPUT_FILES: ${tape_file}" >> ${batch}
