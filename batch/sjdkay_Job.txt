@@ -1,9 +1,10 @@
 PROJECT: c-kaonlt
 TRACK: analysis
-JOBNAME: KaonLT_5181
+JOBNAME: KaonLT_7045
+DISK_SPACE: 59 GB
 MEMORY: 2500 MB
 OS: centos7
 CPU: 1
-INPUT_FILES: /mss/hallc/spring17/raw/coin_all_05181.dat
-COMMAND:/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonlt/UTIL_KAONLT/HMS_Replay_Batch.sh 5181
+INPUT_FILES: /mss/hallc/spring17/raw/coin_all_07045.dat
+COMMAND:/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonlt/UTIL_KAONLT/FullReplay_Batch.sh 7045
 MAIL: sjdkay@jlab.org

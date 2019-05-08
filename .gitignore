@@ -9,6 +9,7 @@
 *.nfs*
 replay_pid*
 hs_err_pid*
+augerID.tmp
 
 # Directories
 REPORT_OUTPUT
