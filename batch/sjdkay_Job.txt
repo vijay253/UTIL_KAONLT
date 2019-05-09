@@ -1,10 +1,12 @@
-PROJECT: c-kaonlt
-TRACK: analysis
-JOBNAME: KaonLT_7045
-DISK_SPACE: 59 GB
-MEMORY: 2500 MB
-OS: centos7
-CPU: 1
-INPUT_FILES: /mss/hallc/spring17/raw/coin_all_07045.dat
-COMMAND:/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonlt/UTIL_KAONLT/FullReplay_Batch.sh 7045
-MAIL: sjdkay@jlab.org
+#!/bin/csh
+#PBS -N KaonLT_TEST_4865
+#PBS -m abe
+#PBS -M sjdkay@jlab.org
+#PBS -r n
+#PBS -o  /home/sjdkay/4865.out
+#PBS -e  /home/sjdkay/4865.err
+date
+cd /home/sjdkay/work/JLab/hallc_replay_kaonlt/UTIL_KAONLT/
+./Batch_Template_Lark.csh 4865
+date
+exit
