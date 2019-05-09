@@ -10,6 +10,8 @@
 replay_pid*
 hs_err_pid*
 augerID.tmp
+batch/tmp
+batch/sjdkay_Job.txt
 
 # Directories
 REPORT_OUTPUT

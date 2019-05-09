@@ -47,7 +47,7 @@ while true; do
                 echo "JOBNAME: KaonLT_${runNum}" >> ${batch}
                 #echo "DISK_SPACE: 15 GB" >>${batch}
                 # Request disk space depending upon raw file size
-                echo "DISK_SPACE: $(($(sed -n '3 s/^[^=]*= *//p' < $tape_file)/1000000000 +25)) GB" >> ${batch}
+                echo "DISK_SPACE: $(($(sed -n '3 s/^[^=]*= *//p' < $tape_file)/1000000000 *2)) GB" >> ${batch}
                 echo "MEMORY: 2500 MB" >> ${batch}
                 echo "OS: centos7" >> ${batch}
                 echo "CPU: 1" >> ${batch} ### hcana single core, setting CPU higher will lower priority!                                                                                                          
