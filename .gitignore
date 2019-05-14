@@ -7,6 +7,7 @@
 *.png
 *.pdf
 *.nfs*
+batch/inputRun_Templates/ProductionLH2_ALL_Supl
 replay_pid*
 hs_err_pid*
 batch/augerID.tmp
