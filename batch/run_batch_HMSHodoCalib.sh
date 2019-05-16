@@ -13,6 +13,7 @@ batch="${USER}_Job.txt"
 
 ##Input run numbers##                                                                                                                                                                                             
 inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRuns" 
+#inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRun_Templates/Lumi_ALL"
 
 ## Tape stub                                                                                                                                                                                                      
 MSSstub='/mss/hallc/spring17/raw/coin_all_%05d.dat'
@@ -41,9 +42,9 @@ while true; do
                 cp /dev/null ${batch}
                 ##Creation of batch script for submission##                                                                                                                                                       
                 echo "PROJECT: c-kaonlt" >> ${batch}
-                echo "TRACK: debug" >> ${batch} ### Use for testing                                                                                                                                              
+                echo "TRACK: analysis" >> ${batch}
                 echo "JOBNAME: KaonLT_HMSHodo_${runNum}" >> ${batch}
-		echo "DISK_SPACE: 15 GB" >>${batch}                                                                                                                                                             
+		echo "DISK_SPACE: 20 GB" >>${batch}                                                                                                                                                             
                 echo "MEMORY: 2500 MB" >> ${batch}
                 echo "OS: centos7" >> ${batch}
                 echo "CPU: 1" >> ${batch} ### hcana single core, setting CPU higher will lower priority!                                                                                                          

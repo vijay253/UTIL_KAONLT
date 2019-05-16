@@ -6,7 +6,7 @@
 ### Note that the second part also has an additional bit where it checks for a database file based upon the run number
 
 # The path to your hallc replay directory, change as needed
-REPLAYPATH="/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt"
+REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt"
 RUNNUMBER=$1
 MAXEVENTS=-1
 #MAXEVENTS=50000
@@ -31,12 +31,12 @@ eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/HMS/PRODUCTION/HMSHodo_Calib_Coin_Pt1.C(
 ROOTFILE="$REPLAYPATH/ROOTfilesHodoCalibPt1/hms_Hodo_Calib_Pt1_"$RUNNUMBER"_-1.root" 
 OPT="hms"
 cd "$REPLAYPATH/CALIBRATION/hms_hodo_calib/"
-root -l -q -b "timeWalkHistos.C (\"$ROOTFILE\", $RUNNUMBER, \"$OPT\")"
-root -l -q -b "timeWalkCalib.C($RUNNUMBER)"
+root -l -q -b "$REPLAYPATH/CALIBRATION/hms_hodo_calib/timeWalkHistos.C(\"$ROOTFILE\", $RUNNUMBER, \"$OPT\")"
+root -l -q -b "$REPLAYPATH/CALIBRATION/hms_hodo_calib/timeWalkCalib.C($RUNNUMBER)"
 
 # After executing first two root scripts, should have a new .param file so long as scripts ran ok, IF NOT THEN EXIT
 if [ ! -f "$REPLAYPATH/PARAM/HMS/HODO/hhodo_TWcalib_$RUNNUMBER.param" ]; then
-    echo "TWCalib_$RUNNUMBER not found, calibration script likely failed"
+    echo "hhodo_TWCalib_$RUNNUMBER.param not found, calibration script likely failed"
     exit 2
 fi
 
@@ -44,19 +44,20 @@ fi
 cd "$REPLAYPATH/DBASE/COIN"
 if [ "$RUNNUMBER" -le "6580" ]; then
     # Copy our normal ones
-    cp standard.database HMS_HodoCalib/standard_$RUNNUMBER.database
-    cp general.param HMS_HodoCalib/general_$RUNNUMBER.param
-    # Use sed to replace the strings, 3 means line 3, note for sed to work with a variable we need to use "", syntax "Line# s/TEXT TO REPLACE/REPLACEMENT/" FILE
-    sed -i "3 s/general.param/HMS_HodoCalib\/general_$RUNNUMBER.param/" HMS_HodoCalib/standard_$RUNNUMBER.database
-    sed -i "40 s/hhodo_TWcalib.param/hhodo_TWcalib_$RUNNUMBER.param/" HMS_HodoCalib/general_$RUNNUMBER.param 
+    cp "$REPLAYPATH/DBASE/COIN/standard.database" "$REPLAYPATH/DBASE/COIN/HMS_HodoCalib/standard_$RUNNUMBER.database"
+    cp "$REPLAYPATH/DBASE/COIN/general.param" "$REPLAYPATH/DBASE/COIN/HMS_HodoCalib/general_$RUNNUMBER.param"
+    # Use sed to replace the strings, 3 means line 3, note for sed to work with a variable we need to use "", \ is an ignore character which we need to get the \ in there syntax "Line# s/TEXT TO REPLACE/REPLACEMENT/" FILE
+    sed -i "3 s/general.param/HMS_HodoCalib\/general_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/HMS_HodoCalib/standard_$RUNNUMBER.database
+    sed -i "40 s/hhodo_TWcalib.param/hhodo_TWcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/HMS_HodoCalib/general_$RUNNUMBER.param 
 fi
 
 if [ "$RUNNUMBER" -ge "6581" ]; then
-    cp standard.database HMS_HodoCalib/standard_$RUNNUMBER.database
-    cp general_runperiod2.param HMS_HodoCalib/general_$RUNNUMBER.param
-    sed -i "8 s/general_runperiod2.param/HMS_HodoCalib\/general_$RUNNUMBER.param/" HMS_HodoCalib/standard_$RUNNUMBER.database
-    sed -i "40 s/hhodo_TWcalib.param/hhodo_TWcalib_$RUNNUMBER.param/" HMS_HodoCalib/general_$RUNNUMBER.param
+    cp "$REPLAYPATH/DBASE/COIN/standard.database" "$REPLAYPATH/DBASE/COIN/HMS_HodoCalib/standard_$RUNNUMBER.database"
+    cp "$REPLAYPATH/DBASE/COIN/general_runperiod2.param" "$REPLAYPATH/DBASE/COIN/HMS_HodoCalib/general_$RUNNUMBER.param"
+    sed -i "8 s/general_runperiod2.param/HMS_HodoCalib\/general_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/HMS_HodoCalib/standard_$RUNNUMBER.database
+    sed -i "40 s/hhodo_TWcalib.param/hhodo_TWcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/HMS_HodoCalib/general_$RUNNUMBER.param
 fi
+
 # Back to the main directory
 cd "$REPLAYPATH"                                
 # Off we go again replaying
@@ -64,13 +65,13 @@ eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/HMS/PRODUCTION/HMSHodo_Calib_Coin_Pt2.C(
 
 # Clean up the directories of our generated files
 mv "$REPLAYPATH/PARAM/HMS/HODO/hhodo_TWcalib_$RUNNUMBER.param" "$REPLAYPATH/PARAM/HMS/HODO/Calibration/hhodo_TWcalib_$RUNNUMBER.param"
-mv "$REPLAYPATH/CALIBRATION/hms_hodo_calib/timeWalk_Histos"$RUNNUMBER".root" "$REPLAYPATH/CALIBRATION/hms_hodo_calib/Calibration_Plots/timeWalkHistos_"$RUNNUMBER".root"
+mv "$REPLAYPATH/CALIBRATION/hms_hodo_calib/timeWalkHistos_"$RUNNUMBER".root" "$REPLAYPATH/CALIBRATION/hms_hodo_calib/Calibration_Plots/timeWalkHistos_"$RUNNUMBER".root"
 
 cd "$REPLAYPATH/CALIBRATION/hms_hodo_calib/"
 # Define the path to the second replay root file
 ROOTFILE2="$REPLAYPATH/ROOTfilesHodoCalibPt2/hms_Hodo_Calib_Pt2_"$RUNNUMBER"_-1.root"
 # Execute final script
-root -l -q -b "fitHodoCalib.C(\"$ROOTFILE2\", $RUNNUMBER)" 
+root -l -q -b "$REPLAYPATH/CALIBRATION/hms_hodo_calib/fitHodoCalib.C(\"$ROOTFILE2\", $RUNNUMBER)" 
  
 # Check our new file exists, if not exit, if yes, move it
 if [ ! -f "$REPLAYPATH/PARAM/HMS/HODO/hhodo_Vpcalib_$RUNNUMBER.param" ]; then
