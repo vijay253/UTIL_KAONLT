@@ -10,10 +10,18 @@
 batch/inputRun_Templates/ProductionLH2_ALL_Supl
 replay_pid*
 hs_err_pid*
+<<<<<<< HEAD
 batch/augerID.tmp
 batch/tmp
 batch/sjdkay_Job.txt
 *.tmp
+=======
+sjdkay_Job.txt
+*_Job.txt
+AugerID.tmp
+tmp
+batch/tmp
+>>>>>>> upstream/offline
 
 # Directories
 REPORT_OUTPUT
