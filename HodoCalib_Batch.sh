@@ -65,7 +65,7 @@ source "$REPLAYPATH/setup.sh"
 
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"Hodo_Calib_Coin_Pt1.C($RUNNUMBER,$MAXEVENTS)\""
 sleep 30
-ROOTFILE="$REPLAYPATH/ROOTfilesHodoCalibPt1/"$OPT"_Hodo_Calib_Pt1_"$RUNNUMBER"_"$MAXEVENTS".root" 
+ROOTFILE="$REPLAYPATH/ROOTfilesHodoCalib/"$OPT"_Hodo_Calib_Pt1_"$RUNNUMBER"_"$MAXEVENTS".root" 
 
 if [[ $OPT == "HMS" ]]; then
     spec="hms"
@@ -126,7 +126,7 @@ mv "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/timeWalkHistos_"$RUNNUMBER".root"
 
 cd "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/"
 # Define the path to the second replay root file
-ROOTFILE2="$REPLAYPATH/ROOTfilesHodoCalibPt2/"$OPT"_Hodo_Calib_Pt2_"$RUNNUMBER"_-1.root"
+ROOTFILE2="$REPLAYPATH/ROOTfilesHodoCalib/"$OPT"_Hodo_Calib_Pt2_"$RUNNUMBER"_-1.root"
 # Execute final script
 sleep 15
 root -l -q -b "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/fitHodoCalib.C(\"$ROOTFILE2\", $RUNNUMBER)" 

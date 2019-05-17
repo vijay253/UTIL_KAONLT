@@ -1,7 +1,6 @@
 #!/bin/tcsh
 
-### Template for a batch running script from Richard, modify with your username and with the script you want to run on the final eval line
-### If you encounter errors, try commenting/uncommenting L18
+### Template for a batch running script from Richard, modify with the script you want to run on the line 22
 
 echo "Starting Kaon Yield Estimation"
 echo "I take as arguments the Run Number and max number of events!"
