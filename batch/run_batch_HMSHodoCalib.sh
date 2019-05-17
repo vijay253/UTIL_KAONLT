@@ -42,7 +42,8 @@ while true; do
                 cp /dev/null ${batch}
                 ##Creation of batch script for submission##                                                                                                                                                       
                 echo "PROJECT: c-kaonlt" >> ${batch}
-                echo "TRACK: analysis" >> ${batch}
+                #echo "TRACK: analysis" >> ${batch}
+		echo "TRACK: debug" >> ${batch}
                 echo "JOBNAME: KaonLT_HMSHodo_${runNum}" >> ${batch}
 		echo "DISK_SPACE: 20 GB" >>${batch}                                                                                                                                                             
                 echo "MEMORY: 2500 MB" >> ${batch}

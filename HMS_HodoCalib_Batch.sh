@@ -28,11 +28,15 @@ cd "$REPLAYPATH"
 source "$REPLAYPATH/setup.sh"
 
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/HMS/PRODUCTION/HMSHodo_Calib_Coin_Pt1.C($RUNNUMBER,$MAXEVENTS)\""
+sleep 30
 ROOTFILE="$REPLAYPATH/ROOTfilesHodoCalibPt1/hms_Hodo_Calib_Pt1_"$RUNNUMBER"_-1.root" 
 OPT="hms"
 cd "$REPLAYPATH/CALIBRATION/hms_hodo_calib/"
+sleep 10
 root -l -q -b "$REPLAYPATH/CALIBRATION/hms_hodo_calib/timeWalkHistos.C(\"$ROOTFILE\", $RUNNUMBER, \"$OPT\")"
+sleep 10
 root -l -q -b "$REPLAYPATH/CALIBRATION/hms_hodo_calib/timeWalkCalib.C($RUNNUMBER)"
+sleep 10
 
 # After executing first two root scripts, should have a new .param file so long as scripts ran ok, IF NOT THEN EXIT
 if [ ! -f "$REPLAYPATH/PARAM/HMS/HODO/hhodo_TWcalib_$RUNNUMBER.param" ]; then
@@ -61,8 +65,9 @@ fi
 # Back to the main directory
 cd "$REPLAYPATH"                                
 # Off we go again replaying
+sleep 10
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/HMS/PRODUCTION/HMSHodo_Calib_Coin_Pt2.C($RUNNUMBER,$MAXEVENTS)\""
-
+sleep 10
 # Clean up the directories of our generated files
 mv "$REPLAYPATH/PARAM/HMS/HODO/hhodo_TWcalib_$RUNNUMBER.param" "$REPLAYPATH/PARAM/HMS/HODO/Calibration/hhodo_TWcalib_$RUNNUMBER.param"
 mv "$REPLAYPATH/CALIBRATION/hms_hodo_calib/timeWalkHistos_"$RUNNUMBER".root" "$REPLAYPATH/CALIBRATION/hms_hodo_calib/Calibration_Plots/timeWalkHistos_"$RUNNUMBER".root"
@@ -71,6 +76,7 @@ cd "$REPLAYPATH/CALIBRATION/hms_hodo_calib/"
 # Define the path to the second replay root file
 ROOTFILE2="$REPLAYPATH/ROOTfilesHodoCalibPt2/hms_Hodo_Calib_Pt2_"$RUNNUMBER"_-1.root"
 # Execute final script
+sleep 10
 root -l -q -b "$REPLAYPATH/CALIBRATION/hms_hodo_calib/fitHodoCalib.C(\"$ROOTFILE2\", $RUNNUMBER)" 
  
 # Check our new file exists, if not exit, if yes, move it

@@ -59,6 +59,7 @@ source "$REPLAYPATH/setup.sh"
 
 ### Run the first replay script, then, run the calibration macro
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"DC_Calib_Coin_Pt1.C($RUNNUMBER,$MAXEVENTS)\""
+sleep 30
 ROOTFILE="$REPLAYPATH/ROOTfilesDCCalibPt1/"$OPT"_DC_Calib_Pt1_"$RUNNUMBER"_"$MAXEVENTS".root" 
 cd "$REPLAYPATH/CALIBRATION/dc_calib/scripts"
 root -l -b -q "$REPLAYPATH/CALIBRATION/dc_calib/scripts/main_calib.C(\"$OPT\", \"$ROOTFILE\", $RUNNUMBER)"
@@ -128,6 +129,7 @@ if [[ $OPT == "SHMS" ]]; then
     fi    
 fi
 
+sleep 10
 ### Finally, replay again with our new parameter files
 cd $REPLAYPATH
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"DC_Calib_Coin_Pt2.C($RUNNUMBER,$MAXEVENTS)\""
