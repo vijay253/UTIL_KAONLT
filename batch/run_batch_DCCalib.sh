@@ -26,8 +26,8 @@ historyfile=hist.$( date "+%Y-%m-%d_%H-%M-%S" ).log
 batch="${USER}_Job.txt"
 
 ##Input run numbers##                                                                                                                                                                                             
-inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRuns" 
-#inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRun_Templates/Lumi_ALL"
+#inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRuns" 
+inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRun_Templates/Carbon_ALL"
 
 ## Tape stub                                                                                                                                                                                                      
 MSSstub='/mss/hallc/spring17/raw/coin_all_%05d.dat'
@@ -56,8 +56,8 @@ while true; do
                 cp /dev/null ${batch}
                 ##Creation of batch script for submission##                                                                                                                                                       
                 echo "PROJECT: c-kaonlt" >> ${batch}
-		#echo "TRACK: analysis" >> ${batch}
-		echo "TRACK: debug" >> ${batch}
+		echo "TRACK: analysis" >> ${batch}
+		#echo "TRACK: debug" >> ${batch}
                 echo "JOBNAME: KaonLT_DCCalib_${SPEC}_${runNum}" >> ${batch}
 		echo "DISK_SPACE: 20 GB" >>${batch}                                                                                                                                                             
                 echo "MEMORY: 2500 MB" >> ${batch}
