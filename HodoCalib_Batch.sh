@@ -4,7 +4,7 @@
 ### Note that the second part also has an additional bit where it checks for a database file based upon the run number
 
 # The path to your hallc replay directory, change as needed                                                                                                                                                        
-REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt"
+REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
 RUNNUMBER=$1
 OPT=$2
 ### Check the extra folders you'll need exist, if they don't then make them                                                                                                                                       

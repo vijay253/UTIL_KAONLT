@@ -16,7 +16,7 @@ batch="${USER}_Job.txt"
 
 ##Input run numbers##                                                                                                                                                                                           
  
-inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRun_Templates/ProductionDummy_ALL" 
+inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/UTIL_KAONLT/batch/inputRun_Templates/ProductionDummy_ALL" 
 
 ## Tape stub                                                                                                                                                                                                    
  
@@ -54,7 +54,7 @@ while true; do
                 echo "CPU: 1" >> ${batch} ### hcana single core, setting CPU higher will lower priority!
 		echo "INPUT_FILES: ${tape_file}" >> ${batch}
 		#echo "TIME: 1" >> ${batch} 
-		echo "COMMAND:/u/group/c-kaonlt/USERS/${USER}/hallc_replay_kaonlt/UTIL_KAONLT/FullReplay_Batch.sh ${runNum}" >> ${batch}                                                        
+		echo "COMMAND:/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/UTIL_KAONLT/FullReplay_Batch.sh ${runNum}" >> ${batch}                                                        
 		echo "MAIL: ${USER}@jlab.org" >> ${batch}
                 echo "Submitting batch"
                 eval "jsub ${batch} 2>/dev/null"

@@ -32,7 +32,7 @@ void run_TrackingTest(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshol
   }
 
   fstream REPORT_file;
-  REPORT_file.open (Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_TT_%i_%i.report",RunNumber,MaxEvent));
+  REPORT_file.open (Form("/home/apps/hallC_analyzer/hallc_replay_lt/UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_TT_%i_%i.report",RunNumber,MaxEvent));
   Int_t line_num = 0;
   string line;
   TString line_PS1;
@@ -60,7 +60,7 @@ void run_TrackingTest(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshol
   cout << Form("Using prescale factors: PS1 %i, PS3 %i\n",PS1,PS3);
 
   TChain ch("T");
-  ch.Add(Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/coin_replay_production_TT_%i_%i.root",RunNumber,MaxEvent));
+  ch.Add(Form("/home/apps/hallC_analyzer/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/coin_replay_production_TT_%i_%i.root",RunNumber,MaxEvent));
   TString option = Form("%i", RunNumber);
 
   TProof *proof = TProof::Open("workers=4");
@@ -70,7 +70,7 @@ void run_TrackingTest(Int_t RunNumber = 0, Int_t MaxEvent = 0, Double_t threshol
   proof->Close();
 
   //TChain sc("TSH");
-  //sc.Add(Form("/home/apps/hallC_analyzer/hallc_replay_kaonlt/UTIL_KAONLT/ROOTfiles/coin_replay_production_TT_%i_%i.root",RunNumber,MaxEvent));
+  //sc.Add(Form("/home/apps/hallC_analyzer/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/coin_replay_production_TT_%i_%i.root",RunNumber,MaxEvent));
   //sc.Process("Scalers.C+",option);
 
 }

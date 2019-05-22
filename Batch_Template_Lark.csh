@@ -15,8 +15,8 @@ if ( $1 ==  "" ) then
     #Initialize hcana
     cd "/home/apps/hallC_analyzer/hcana"
     source "/home/apps/hallC_analyzer/hcana/setup.csh"
-    cd "/home/${USER}/work/JLab/hallc_replay_kaonlt"
-    source "/home/${USER}/work/JLab/hallc_replay_kaonlt/setup.csh"
+    cd "/home/${USER}/work/JLab/hallc_replay_lt"
+    source "/home/${USER}/work/JLab/hallc_replay_lt/setup.csh"
 
     echo  "\n\nStarting Replay Script\n\n"
     hcana -l -q "SCRIPTS/COIN/PRODUCTION/replay_production_coin_hElec_pProt.C($RUNNUMBER,$MAXEVENTS)"

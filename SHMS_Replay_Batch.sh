@@ -16,8 +16,8 @@ source /site/12gev_phys/softenv.sh 2.1
 #Initialize hcana
 cd "/u/group/c-kaonlt/hcana"
 source "/u/group/c-kaonlt/hcana/setup.sh"
-cd "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonlt"
-source "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonlt/setup.sh"
+cd "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt"
+source "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/setup.sh"
 
 echo -e "\n\nStarting Replay Script\n\n"
-eval "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonlt/hcana -l -q \"SCRIPTS/COIN/PRODUCTION/SHMS_HighRate.C ($RUNNUMBER,$MAXEVENTS)\""                                                            
+eval "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/hcana -l -q \"SCRIPTS/COIN/PRODUCTION/SHMS_HighRate.C ($RUNNUMBER,$MAXEVENTS)\""                                                            

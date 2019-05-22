@@ -87,7 +87,7 @@ Errors...
  > ROOT 	 version:  6.10.02
  > SCONS 	 version:  1.5
  > XERCESC 	 version:  3.1.4
-/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonlt/UTIL_KAONLT/Batch_Template.sh: line 41: /u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonly/hcana: No such file or directory
+/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/UTIL_KAONLT/Batch_Template.sh: line 41: /u/group/c-kaonlt/USERS/sjdkay/hallc_replay_kaonly/hcana: No such file or directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Job info...
  

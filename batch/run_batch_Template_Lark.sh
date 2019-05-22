@@ -13,7 +13,7 @@ historyfile=hist.$( date "+%Y-%m-%d_%H-%M-%S" ).log # Creates a log file
 batch="${USER}_Job.txt" # The name of the job submission script it'll create each time'
 
 ##Input run numbers##                                                                                                                                                                                             
-inputFile="/home/${USER}/work/JLab/hallc_replay_kaonlt/UTIL_KAONLT/batch/inputRuns" # Path to your input file which is just a list of run numbers, see templates
+inputFile="/home/${USER}/work/JLab/hallc_replay_lt/UTIL_KAONLT/batch/inputRuns" # Path to your input file which is just a list of run numbers, see templates
 
 auger="augerID.tmp"
 
@@ -45,7 +45,7 @@ while true; do
 		echo "#PBS -o  /home/${USER}/trq_output/${runNum}.out" >> ${batch} # Output directory and file name, set to what you like
 		echo "#PBS -e  /home/${USER}/trq_output/${runNum}.err" >> ${batch} # Error output directory and file name
 		echo "date" >> ${batch} 
-		echo "cd /home/${USER}/work/JLab/hallc_replay_kaonlt/UTIL_KAONLT/" >> ${batch} # Tell your job to go to the directory with the script you want to run
+		echo "cd /home/${USER}/work/JLab/hallc_replay_lt/UTIL_KAONLT/" >> ${batch} # Tell your job to go to the directory with the script you want to run
 		echo "./Batch_Template_Lark.csh ${runNum}" >> ${batch} # Run your script, change this to what you like
 		echo "date">>${batch}
 		echo "exit">>${batch} # End of your job script
