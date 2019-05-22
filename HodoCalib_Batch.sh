@@ -56,8 +56,7 @@ fi
 #export OSRELEASE="Linux_CentOS7.2.1511-x86_64-gcc5.2.0"
 source /site/12gev_phys/softenv.sh 2.1
 
-#Initialize hcana, change if not running on the farm!
-# Change this path if you're not on the JLab farm!
+# Initialize hcana, change the path if not running on the farm!
 cd "/u/group/c-kaonlt/hcana/"
 source "/u/group/c-kaonlt/hcana/setup.sh"
 cd "$REPLAYPATH"
@@ -78,7 +77,7 @@ fi
 cd "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/"
 sleep 30
 root -l -q -b "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/timeWalkHistos.C(\"$ROOTFILE\", $RUNNUMBER, \"$spec\")"
-sleep 300
+sleep 60
 root -l -q -b "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/timeWalkCalib.C($RUNNUMBER)"
 sleep 30
 
@@ -146,3 +145,19 @@ if [ ! -f "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/HodoCalibPlots_$RUNNUMBER.
 fi
 
 mv "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/HodoCalibPlots_$RUNNUMBER.root" "$REPLAYPATH/CALIBRATION/"$spec"_hodo_calib/Calibration_Plots/HodoCalibPlots_$RUNNUMBER.root"
+
+### Now we set up the third replay by edditing our general.param file
+cd "$REPLAYPATH/DBASE/COIN"
+
+if [[ $OPT == "HMS" ]]; then
+    sed -i "40 s/hhodo_TWcalib_$RUNNUMBER.param/Calibration\/hhodo_TWcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/HMS_HodoCalib/general_$RUNNUMBER.param 
+    sed -i "41 s/hhodo_Vpcalib.param/Calibration\/hhodo_Vpcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/HMS_HodoCalib/general_$RUNNUMBER.param
+elif [[ $OPT == "SHMS" ]]; then	
+    sed -i "74 s/phodo_TWcalib_$RUNNUMBER.param/Calibration\/phodo_TWcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/SHMS_HodoCalib/general_$RUNNUMBER.param 
+    sed -i "75 s/phodo_Vpcalib.param/Calibration\/phodo_Vpcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/SHMS_HodoCalib/general_$RUNNUMBER.param
+fi
+
+sleep 30
+cd "$REPLAYPATH"
+eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"Hodo_Calib_Coin_Pt3.C($RUNNUMBER,$MAXEVENTS)\""
+sleep 30

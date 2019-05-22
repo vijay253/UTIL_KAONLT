@@ -46,6 +46,14 @@ else
     MAXEVENTS=$3
 fi
 
+if [[ $OPT == "HMS" ]]; then
+    spec="hms"
+    specL="h"
+    elif [[ $OPT == "SHMS" ]]; then
+    spec="shms"
+    specL="p"
+fi
+
 # Initialize enviroment
 #export OSRELEASE="Linux_CentOS7.2.1511-x86_64-gcc5.2.0"
 source /site/12gev_phys/softenv.sh 2.1
@@ -63,71 +71,53 @@ sleep 30
 ROOTFILE="$REPLAYPATH/ROOTfilesDCCalib/"$OPT"_DC_Calib_Pt1_"$RUNNUMBER"_"$MAXEVENTS".root" 
 cd "$REPLAYPATH/CALIBRATION/dc_calib/scripts"
 root -l -b -q "$REPLAYPATH/CALIBRATION/dc_calib/scripts/main_calib.C(\"$OPT\", \"$ROOTFILE\", $RUNNUMBER)"
+sleep 15
 
-### If we're running for the HMS, then do some stuff
-if [[ $OPT == "HMS" ]];then
-    ### Loop checks if the new parameter files exist, returns an error if they don't
-    if [[ ! -f "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/hdc_calib_"$RUNNUMBER$".param" && ! -f  "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/hdc_tzero_per_wire_"$RUNNUMBER$".param" ]]; then                        
-	echo "New parameter files not found, calibration script likely failed"                                                                                                                             
-	exit 2
-    fi
-    ### Copy our new parameter files to another directory
-    cp "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/hdc_calib_"$RUNNUMBER$".param" "$REPLAYPATH/PARAM/"$OPT"/DC/CALIB/hdc_calib_"$RUNNUMBER$".param"
-    cp "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/hdc_tzero_per_wire_"$RUNNUMBER$".param" "$REPLAYPATH/PARAM/"$OPT"/DC/CALIB/hdc_tzero_per_wire_"$RUNNUMBER$".param"
-    cd "$REPLAYPATH/DBASE/COIN"
-    ### For run numbers under 6580, we use the run period 1 files as a base
-    ### Copy these files to a new directory and rename them
-    ### Replace info in lines 3, 37 and 38 with the path to our new files via sed commands
-    if [ "$RUNNUMBER" -le "6580" ]; then
-	cp "$REPLAYPATH/DBASE/COIN/standard.database" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/standard_$RUNNUMBER.database"
-	cp "$REPLAYPATH/DBASE/COIN/general.param" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/general_$RUNNUMBER.param"
-	sed -i "3 s/general.param/"$OPT"_DCCalib\/general_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/standard_"$RUNNUMBER".database"
-	sed -i "37 s/hdc_calib.param/CALIB\/hdc_calib_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
-	sed -i "38 s/hdc_tzero_per_wire.param/CALIB\/hdc_tzero_per_wire_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
-    fi
-    ### For run numbers over 6580, we use the run period 2 files as a base
-    ### Copy these files to a new directory and rename them
-    ### Replace info in lines 8, 37 and 38 with the path to our new files via sed commands
-    if [ "$RUNNUMBER" -ge "6581" ]; then
-	cp "$REPLAYPATH/DBASE/COIN/standard.database" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/standard_$RUNNUMBER.database"
-	cp "$REPLAYPATH/DBASE/COIN/general_runperiod2.param" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/general_$RUNNUMBER.param"
-	sed -i "8 s/general_runperiod2.param/"$OPT"_DCCalib\/general_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/standard_"$RUNNUMBER".database"
-	sed -i "37 s/hdc_calib.param/CALIB\/hdc_calib_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
-	sed -i "38 s/hdc_tzero_per_wire.param/CALIB\/hdc_tzero_per_wire_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
-    fi
+### Loop checks if the new parameter files exist, returns an error if they don't
+if [[ ! -f "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/"$specL"dc_calib_"$RUNNUMBER$".param" && ! -f  "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/"$specL"dc_tzero\
+_per_wire_"$RUNNUMBER$".param" ]]; then
+    echo "New parameter files not found, calibration script likely failed"
+    exit 2
 fi
 
-### If we're running for the SHMS, do things a wee bit differently
-if [[ $OPT == "SHMS" ]]; then
-    ### Check if our new parameter files exist, get the hell out of here if they don't
-    if [[ ! -f "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/pdc_calib_"$RUNNUMBER$".param" && ! -f  "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/pdc_tzero_per_wire_"$RUNNUMBER$".param" ]]; then                        
-	echo "New parameter files not found, calibration script likely failed"                                                                                                                             
-	exit 2
+### Copy our new parameter files to another directory
+cp "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/"$specL"dc_calib_"$RUNNUMBER$".param" "$REPLAYPATH/PARAM/"$OPT"/DC/CALIB/"$specL"dc_calib_"$RUNNUMBER$".param"
+cp "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/"$specL"dc_tzero_per_wire_"$RUNNUMBER$".param" "$REPLAYPATH/PARAM/"$OPT"/DC/CALIB/"$specL"dc_tzero_per_wire_"$RUNNUMBER$".param"
+cd "$REPLAYPATH/DBASE/COIN"
+
+### For run numbers under 6580, we use the run period 1 files as a base
+### Copy these files to a new directory and rename them
+### Replace info in lines 3, 37 and 38 with the path to our new files via sed commands
+if [ "$RUNNUMBER" -le "6580" ]; then
+    cp "$REPLAYPATH/DBASE/COIN/standard.database" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/standard_$RUNNUMBER.database"
+    cp "$REPLAYPATH/DBASE/COIN/general.param" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/general_$RUNNUMBER.param"
+    sed -i "3 s/general.param/"$OPT"_DCCalib\/general_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/standard_"$RUNNUMBER".database"
+    if [[ $OPT == "HMS" ]];then
+	sed -i "37 s/hdc_calib.param/CALIB\/hdc_calib_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
+	sed -i "38 s/hdc_tzero_per_wire.param/CALIB\/hdc_tzero_per_wire_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
     fi
-    ### Copy our new parameter files to another directory
-    cp "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/pdc_calib_"$RUNNUMBER$".param" "$REPLAYPATH/PARAM/"$OPT"/DC/CALIB/pdc_calib_"$RUNNUMBER$".param"
-    cp "$REPLAYPATH/CALIBRATION/dc_calib/scripts/"$OPT"_DC_cardLog_"$RUNNUMBER"/pdc_tzero_per_wire_"$RUNNUMBER$".param" "$REPLAYPATH/PARAM/"$OPT"/DC/CALIB/pdc_tzero_per_wire_"$RUNNUMBER$".param"
-    ### For run numbers under 6580, we use the run period 1 files as a base
-    ### Copy these files to a new directory and rename them
-    ### Replace info in lines 3, 71 and 72 with the path to our new files via sed commands
-    if [ "$RUNNUMBER" -le "6580" ]; then
-	cp "$REPLAYPATH/DBASE/COIN/standard.database" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/standard_$RUNNUMBER.database"
-	cp "$REPLAYPATH/DBASE/COIN/general.param" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/general_$RUNNUMBER.param"
-	sed -i "3 s/general.param/"$OPT"_DCCalib\/general_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/standard_"$RUNNUMBER".database"
+    if [[ $OPT == "SHMS" ]];then
 	sed -i "71 s/dc_calib.param/CALIB\/pdc_calib_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
 	sed -i "72 s/pdc_tzero_per_wire.param/CALIB\/pdc_tzero_per_wire_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
     fi
-    ### For run numbers overr 6580, we use the run period 2 files as a base
-    ### Copy these files to a new directory and rename them
-    ### Replace info in lines 3, 71 and 72 with the path to our new files via sed commands
-    if [ "$RUNNUMBER" -ge "6581" ]; then
-	cp "$REPLAYPATH/DBASE/COIN/standard.database" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/standard_$RUNNUMBER.database"
-	cp "$REPLAYPATH/DBASE/COIN/general_runperiod2.param" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/general_$RUNNUMBER.param"
-	sed -i "8 s/general_runperiod2.param/"$OPT"_DCCalib\/general_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/standard_"$RUNNUMBER".database"
+fi
+### For run numbers over 6580, we use the run period 2 files as a base
+### Copy these files to a new directory and rename them
+### Replace info in lines 8, 37 and 38 with the path to our new files via sed commands
+if [ "$RUNNUMBER" -ge "6581" ]; then
+    cp "$REPLAYPATH/DBASE/COIN/standard.database" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/standard_$RUNNUMBER.database"
+    cp "$REPLAYPATH/DBASE/COIN/general_runperiod2.param" "$REPLAYPATH/DBASE/COIN/"$OPT"_DCCalib/general_$RUNNUMBER.param"
+    sed -i "8 s/general_runperiod2.param/"$OPT"_DCCalib\/general_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/standard_"$RUNNUMBER".database"
+    if [[ $OPT == "HMS" ]];then
+	sed -i "37 s/hdc_calib.param/CALIB\/hdc_calib_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
+	sed -i "38 s/hdc_tzero_per_wire.param/CALIB\/hdc_tzero_per_wire_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
+    fi
+    if [[ $OPT == "SHMS" ]]; then
 	sed -i "71 s/pdc_calib.param/CALIB\/pdc_calib_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
 	sed -i "72 s/pdc_tzero_per_wire.param/CALIB\/pdc_tzero_per_wire_$RUNNUMBER.param/" $REPLAYPATH"/DBASE/COIN/"$OPT"_DCCalib/general_"$RUNNUMBER".param"
-    fi    
+    fi
 fi
+
 
 sleep 10
 ### Finally, replay again with our new parameter files
