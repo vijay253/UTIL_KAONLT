@@ -13,7 +13,7 @@
 #include <TProfile2D.h>
 #include <TH2.h>
 #include <TF1.h>
-
+#include <TArc.h>
 // Headers needed by this particular selector
 
 class KaonYield_all : public TSelector {
@@ -25,6 +25,8 @@ class KaonYield_all : public TSelector {
   Double_t       *MMp;
   Double_t       *MMPi;
   Double_t       *MMK;
+
+  TArc           *Arc[10];
 
   //Declare Histograms
   TH2F           *h1missKcut_CT;
