@@ -9,7 +9,7 @@ echo "Running as ${USER}"
 historyfile=hist.$( date "+%Y-%m-%d_%H-%M-%S" ).log
 
 ##Output batch script##                                                                                                                                                                                           
-batch="${USER}_Job.txt"
+batch="${USER}_Test_Job.txt"
 
 ##Input run numbers##                                                                                                                                                                                             
 inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/UTIL_KAONLT/batch/inputRuns" 
@@ -32,8 +32,12 @@ while true; do
                 ##Run number#
                 runNum=$line
                 tape_file=`printf $MSSstub $runNum`
-		echo "Raw .dat file is $(($(sed -n '3 s/^[^=]*= *//p' < $tape_file)/1000000000)) GB"
-                tmp=tmp
+                TapeFileSize=$(($(sed -n '3 s/^[^=]*= *//p' < $tape_file)/1000000000))
+                if [[ $TapeFileSize == 0 ]];then
+		    TapeFileSize=1
+		fi
+		echo "Raw .dat file is "$TapeFileSize" GB"
+		tmp=tmp
                 ##Finds number of lines of input file##
                 numlines=$(eval "wc -l < ${inputFile}")
                 echo "Job $(( $i + 2 ))/$(( $numlines +1 ))"
@@ -43,11 +47,13 @@ while true; do
                 echo "PROJECT: c-kaonlt" >> ${batch}
                 echo "TRACK: debug" >> ${batch} ### Use for testing                                     
                 echo "JOBNAME: KaonLT_TEST_${runNum}" >> ${batch}
-		#echo "DISK_SPACE: 15 GB" >>${batch}             
-                # Request disk space depending upon raw file size
-                echo "DISK_SPACE: $(($(sed -n '3 s/^[^=]*= *//p' < $tape_file)/1000000000 *2)) GB" >> ${batch}
-		echo "MEMORY: 2500 MB" >> ${batch}
-                echo "OS: centos7" >> ${batch}
+		echo "DISK_SPACE: "$(( $TapeFileSize * 2 ))" GB" >> ${batch}
+                if [[ $TapeFileSize -le 45 ]]; then                                                                             
+                    echo "MEMORY: 2500 MB" >> ${batch}
+                elif [[ $TapeFileSize -ge 45 ]]; then
+                    echo "MEMORY: 4000 MB" >> ${batch}
+                fi
+		echo "OS: centos7" >> ${batch}
                 echo "CPU: 1" >> ${batch} ### hcana single core, setting CPU higher will lower priority!                                                                                                          
 		echo "INPUT_FILES: ${tape_file}" >> ${batch}
 		echo "COMMAND:/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/UTIL_KAONLT/Batch_Template.sh ${runNum}" >> ${batch} 
