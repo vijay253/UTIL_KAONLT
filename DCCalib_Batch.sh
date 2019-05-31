@@ -4,19 +4,55 @@
 ### REQUIRES two arguments, runnumber and spectrometer (HMS or SHMS, the caps are important!)
 ### If you want to run with LESS than all of the events, provide a third argument with # events
 
-if [[ ${USER} = "cdaq" ]]; then
-    echo "Warning, running as cdaq."                                                                                                                             
-    echo "Please be sure you want to do this and edit the path as needed."
-    echo "Comment this section out and run again once you set the correct path."    
-    exit 2
-fi
-
-# The path to your hallc replay directory, change as needed
-REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
 RUNNUMBER=$1
 OPT=$2
-### Check the extra folders you'll need exist, if they don't then make them
+### Check you've provided the first argument
+if [[ $1 -eq "" ]]; then
+    echo "I need a Run Number!"
+    echo "Please provide a run number as input"
+    exit 2
+fi
+### Check you have provided the second argument correctly
+if [[ ! $2 =~ ^("HMS"|"SHMS")$ ]]; then
+    echo "Please specify spectrometer, HMS or SHMS"
+    exit 2
+fi
+### Check if a third argument was provided, if not assume -1, if yes, this is max events
+if [[ $3 -eq "" ]]; then
+    MAXEVENTS=-1
+else
+    MAXEVENTS=$3
+fi
+if [[ $OPT == "HMS" ]]; then
+    spec="hms"
+    specL="h"
+    elif [[ $OPT == "SHMS" ]]; then
+    spec="shms"
+    specL="p"
+fi
+if [[ ${USER} = "cdaq" ]]; then
+    echo "Warning, running as cdaq."
+    echo "Please be sure you want to do this."
+    echo "Comment this section out and run again if you're sure."
+    exit 2
+fi        
+# Set path depending upon hostname. Change or add more as needed  
+if [[ "${HOSTNAME}" = *"farm"* ]]; then  
+    REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
+    if [[ "${HOSTNAME}" != *"ifarm"* ]]; then
+	source /site/12gev_phys/softenv.sh 2.1
+    fi
+elif [[ "${HOSTNAME}" = *"cdaq"* ]]; then
+    REPLAYPATH="/home/cdaq/hallc-online/hallc_replay_lt"
+elif [[ "${HOSTNAME}" = *"phys.uregina.ca"* ]]; then
+    REPLAYPATH="/home/${USER}/work/JLab/hallc_replay_lt"
+fi
+cd "/u/group/c-kaonlt/hcana/"
+source "/u/group/c-kaonlt/hcana/setup.sh"
+cd "$REPLAYPATH"
+source "$REPLAYPATH/setup.sh"
 
+### Check the extra folders you'll need exist, if they don't then make them
 if [ ! -d "$REPLAYPATH/DBASE/COIN/HMS_DCCalib" ]; then
     mkdir "$REPLAYPATH/DBASE/COIN/HMS_DCCalib"
 fi
@@ -32,45 +68,6 @@ fi
 if [ ! -d "$REPLAYPATH/PARAM/SHMS/DC/CALIB" ]; then
     mkdir "$REPLAYPATH/PARAM/SHMS/DC/CALIB"
 fi
-
-### Check you've provided the first argument
-if [[ $1 -eq "" ]]; then
-    echo "I need a Run Number!"
-    echo "Please provide a run number as input"
-    exit 2
-fi
-
-### Check you have provided the second argument correctly
-if [[ ! $2 =~ ^("HMS"|"SHMS")$ ]]; then
-    echo "Please specify spectrometer, HMS or SHMS"
-    exit 2
-fi
-
-### Check if a third argument was provided, if not assume -1, if yes, this is max events
-if [[ $3 -eq "" ]]; then
-    MAXEVENTS=-1
-else
-    MAXEVENTS=$3
-fi
-
-if [[ $OPT == "HMS" ]]; then
-    spec="hms"
-    specL="h"
-    elif [[ $OPT == "SHMS" ]]; then
-    spec="shms"
-    specL="p"
-fi
-
-# Initialize enviroment
-#export OSRELEASE="Linux_CentOS7.2.1511-x86_64-gcc5.2.0"
-source /site/12gev_phys/softenv.sh 2.1
-
-# Initialize hcana, change if not running on the farm!
-# Change this path if you're not on the JLab farm!
-cd "/u/group/c-kaonlt/hcana/"
-source "/u/group/c-kaonlt/hcana/setup.sh"
-cd "$REPLAYPATH"
-source "$REPLAYPATH/setup.sh"
 
 ### Run the first replay script, then, run the calibration macro
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"DC_Calib_Coin_Pt1.C($RUNNUMBER,$MAXEVENTS)\""
@@ -145,3 +142,4 @@ sleep 10
 ### Finally, replay again with our new parameter files
 cd $REPLAYPATH
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"DC_Calib_Coin_Pt2.C($RUNNUMBER,$MAXEVENTS)\""
+exit 1

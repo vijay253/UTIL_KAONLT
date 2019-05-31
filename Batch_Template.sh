@@ -3,43 +3,38 @@
 ### Template for a batch running script from Richard, modify with your username and with the script you want to run on the final eval line
 ### If you encounter errors, try commenting/uncommenting L17 (export OS...)
 
-echo "Starting Kaon Yield Estimation"
+echo "Starting Replay script"
 echo "I take as arguments the Run Number and max number of events!"
 RUNNUMBER=$1
 MAXEVENTS=-1
-# MAXEVENTS=50000
+### Check you've provided the an argument
 if [[ $1 -eq "" ]]; then
     echo "I need a Run Number!"
+    echo "Please provide a run number as input"
     exit 2
 fi
-
-#Initialize enviroment
-#export OSRELEASE="Linux_CentOS7.2.1511-x86_64-gcc5.2.0"
-source /site/12gev_phys/softenv.sh 2.1
-
-#Initialize hcana
+if [[ ${USER} = "cdaq" ]]; then
+    echo "Warning, running as cdaq."
+    echo "Please be sure you want to do this."
+    echo "Comment this section out and run again if you're sure."
+    exit 2
+fi  
+# Set path depending upon hostname. Change or add more as needed  
+if [[ "${HOSTNAME}" = *"farm"* ]]; then  
+    REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
+    if [[ "${HOSTNAME}" != *"ifarm"* ]]; then
+	source /site/12gev_phys/softenv.sh 2.1
+    fi
+elif [[ "${HOSTNAME}" = *"cdaq"* ]]; then
+    REPLAYPATH="/home/cdaq/hallc-online/hallc_replay_lt"
+elif [[ "${HOSTNAME}" = *"phys.uregina.ca"* ]]; then
+    REPLAYPATH="/home/${USER}/work/JLab/hallc_replay_lt"
+fi
 cd "/u/group/c-kaonlt/hcana/"
 source "/u/group/c-kaonlt/hcana/setup.sh"
-cd "/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
-source "/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/setup.sh"
+cd "$REPLAYPATH"
+source "$REPLAYPATH/setup.sh"
 
-# cd ../
-#   Load params for BCM
-#   const char* CurrentFileNamePattern = "PARAM/HMS/BCM/CALIB/bcmcurrent_%d.param";
-#   gHcParms->Load(Form(CurrentFileNamePattern, RunNumber));
-# When we comment out the below bit ONLY when the bit above is commented out in replay_production_coin.C
-#echo -e "\n\nStarting Scaler Replay Script\n\n"
-#./hcana -q "SCRIPTS/COIN/SCALERS/replay_coin_scalers.C($RUNNUMBER,150000)"
-#cd CALIBRATION/bcm_current_map/
-#root -b<<EOF
-#.L ScalerCalib.C+
-#.x run.C("../../ROOTfiles/coin_replay_scalers_${RUNNUMBER}_150000.root")
-#EOF
-#mv bcmcurrent_$RUNNUMBER.param ../../PARAM/HMS/BCM/CALIB/bcmcurrent_$RUNNUMBER.param
-#cd ../../
 echo -e "\n\nStarting Replay Script\n\n"
-eval "/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/hcana -l -q \"SCRIPTS/COIN/PRODUCTION/replay_production_coin_hElec_pProt.C($RUNNUMBER,$MAXEVENTS)\""
-# cd UTIL_KAONLT/scripts_KaonYield/
-# echo -e "\n\nYield Calculation\n\n"
-# root -l "run_KaonYield.C($RUNNUMBER,$MAXEVENTS,5,1)"
-# cd ../
+eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/COIN/PRODUCTION/replay_production_coin_hElec_pProt.C($RUNNUMBER,$MAXEVENTS)\""
+exit 1

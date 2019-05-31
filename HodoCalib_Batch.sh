@@ -1,21 +1,53 @@
 #!/bin/bash
 
-### Script for running (via batch or otherwise) thehodoscope calibration, this one script does all of the relevant steps for the calibration proces
+### Script for running (via batch or otherwise) the hodoscope calibration, this one script does all of the relevant steps for the calibration proces
 ### Note that the second part also has an additional bit where it checks for a database file based upon the run number
 
-# The path to your hallc replay directory, change as needed                                                                                                                                                       
-
-if [[ ${USER} = "cdaq" ]]; then
-    echo "Warning, running as cdaq."
-    echo "Please be sure you want to do this and edit the path as needed."
-    echo "Comment this section out and run again once you set the correct path."
-    exit 2
-fi       
- 
-REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
 RUNNUMBER=$1
 OPT=$2
-### Check the extra folders you'll need exist, if they don't then make them                                                                                                                                       
+### Check you've provided the first argument  
+if [[ $1 -eq "" ]]; then
+    echo "I need a Run Number!"
+    echo "Please provide a run number as input"
+    exit 2
+fi
+### Check you have provided the second argument correctly
+if [[ ! $2 =~ ^("HMS"|"SHMS")$ ]]; then
+    echo "Please specify spectrometer, HMS or SHMS"
+    exit 2
+fi
+### Check if a third argument was provided, if not assume -1, if yes, this is max events
+if [[ $3 -eq "" ]]; then
+    MAXEVENTS=-1
+else
+    MAXEVENTS=$3
+fi
+
+# Set replaypath depending upon hostname. Change as needed
+if [[ ${USER} = "cdaq" ]]; then
+    echo "Warning, running as cdaq."
+    echo "Please be sure you want to do this."
+    echo "Comment this section out and run again if you're sure."
+    exit 2
+fi       
+     
+# Set path depending upon hostname. Change or add more as needed  
+if [[ "${HOSTNAME}" = *"farm"* ]]; then  
+    REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
+    if [[ "${HOSTNAME}" != *"ifarm"* ]]; then
+	source /site/12gev_phys/softenv.sh 2.1
+    fi
+elif [[ "${HOSTNAME}" = *"cdaq"* ]]; then
+    REPLAYPATH="/home/cdaq/hallc-online/hallc_replay_lt"
+elif [[ "${HOSTNAME}" = *"phys.uregina.ca"* ]]; then
+    REPLAYPATH="/home/${USER}/work/JLab/hallc_replay_lt"
+fi
+cd "/u/group/c-kaonlt/hcana/"
+source "/u/group/c-kaonlt/hcana/setup.sh"
+cd "$REPLAYPATH"
+source "$REPLAYPATH/setup.sh"
+
+### Check the extra folders you'll need exist, if they don't then make them
 if [ ! -d "$REPLAYPATH/DBASE/COIN/HMS_HodoCalib" ]; then
     mkdir "$REPLAYPATH/DBASE/COIN/HMS_HodoCalib"
 fi
@@ -39,36 +71,6 @@ fi
 if [ ! -d "$REPLAYPATH/CALIBRATION/shms_hodo_calib/Calibration_Plots" ]; then
     mkdir "$REPLAYPATH/CALIBRATION/shms_hodo_calib/Calibration_Plots"
 fi
-
-### Check you've provided the first argument                                                                                                                                                                      
-if [[ $1 -eq "" ]]; then
-    echo "I need a Run Number!"
-    echo "Please provide a run number as input"
-    exit 2
-fi
-
-### Check you have provided the second argument correctly                                                                                                                                                         
-if [[ ! $2 =~ ^("HMS"|"SHMS")$ ]]; then
-    echo "Please specify spectrometer, HMS or SHMS"
-    exit 2
-fi
-
-### Check if a third argument was provided, if not assume -1, if yes, this is max events
-if [[ $3 -eq "" ]]; then
-    MAXEVENTS=-1
-else
-    MAXEVENTS=$3
-fi
-
-#Initialize enviroment
-#export OSRELEASE="Linux_CentOS7.2.1511-x86_64-gcc5.2.0"
-source /site/12gev_phys/softenv.sh 2.1
-
-# Initialize hcana, change the path if not running on the farm!
-cd "/u/group/c-kaonlt/hcana/"
-source "/u/group/c-kaonlt/hcana/setup.sh"
-cd "$REPLAYPATH"
-source "$REPLAYPATH/setup.sh"
 
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"Hodo_Calib_Coin_Pt1.C($RUNNUMBER,$MAXEVENTS)\""
 sleep 30
@@ -196,3 +198,4 @@ sleep 30
 cd "$REPLAYPATH"
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"Hodo_Calib_Coin_Pt3.C($RUNNUMBER,$MAXEVENTS)\""
 sleep 30
+exit 1
