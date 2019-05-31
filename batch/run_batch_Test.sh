@@ -12,7 +12,7 @@ historyfile=hist.$( date "+%Y-%m-%d_%H-%M-%S" ).log
 batch="${USER}_Test_Job.txt"
 
 ##Input run numbers##                                                                                                                                                                                             
-inputFile="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/UTIL_KAONLT/batch/inputRuns" 
+inputFile="/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/UTIL_KAONLT/batch/inputRuns" 
 
 ## Tape stub                                                                                                                                                                                                      
 MSSstub='/mss/hallc/spring17/raw/coin_all_%05d.dat'
@@ -56,7 +56,7 @@ while true; do
 		echo "OS: centos7" >> ${batch}
                 echo "CPU: 1" >> ${batch} ### hcana single core, setting CPU higher will lower priority!                                                                                                          
 		echo "INPUT_FILES: ${tape_file}" >> ${batch}
-		echo "COMMAND:/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/UTIL_PION/HeepCoinYield.sh ${runNum}" >> ${batch} 
+		echo "COMMAND:/group/c-kaonlt/USERS/${USER}/hallc_replay_lt/UTIL_PION/HeepCoinYield.sh ${runNum}" >> ${batch} 
                 echo "MAIL: ${USER}@jlab.org" >> ${batch}
                 echo "Submitting batch"
                 eval "jsub ${batch} 2>/dev/null"

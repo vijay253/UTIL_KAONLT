@@ -14,10 +14,10 @@ fi
 source /site/12gev_phys/softenv.sh 2.1
 
 #Initialize hcana
-cd "/u/group/c-kaonlt/hcana"
-source "/u/group/c-kaonlt/hcana/setup.sh"
-cd "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt"
-source "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/setup.sh"
+cd "/group/c-kaonlt/hcana"
+source "/group/c-kaonlt/hcana/setup.sh"
+cd "/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt"
+source "/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/setup.sh"
 
 echo -e "\n\nStarting Replay Script\n\n"
-eval "/u/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/hcana -l -q \"SCRIPTS/HMS/PRODUCTION/replay_production_hms_coin_all_DC_Calib.C($RUNNUMBER,$MAXEVENTS)\""                                                            
+eval "/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/hcana -l -q \"SCRIPTS/HMS/PRODUCTION/replay_production_hms_coin_all_DC_Calib.C($RUNNUMBER,$MAXEVENTS)\""                                                            

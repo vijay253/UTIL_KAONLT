@@ -38,19 +38,20 @@ if [[ ${USER} = "cdaq" ]]; then
 fi        
 # Set path depending upon hostname. Change or add more as needed  
 if [[ "${HOSTNAME}" = *"farm"* ]]; then  
-    REPLAYPATH="/u/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
+    REPLAYPATH="/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
     if [[ "${HOSTNAME}" != *"ifarm"* ]]; then
 	source /site/12gev_phys/softenv.sh 2.1
     fi
+    cd "/group/c-kaonlt/hcana/"
+    source "/group/c-kaonlt/hcana/setup.sh"
+    cd "$REPLAYPATH"
+    source "$REPLAYPATH/setup.sh"
 elif [[ "${HOSTNAME}" = *"cdaq"* ]]; then
     REPLAYPATH="/home/cdaq/hallc-online/hallc_replay_lt"
 elif [[ "${HOSTNAME}" = *"phys.uregina.ca"* ]]; then
     REPLAYPATH="/home/${USER}/work/JLab/hallc_replay_lt"
 fi
-cd "/u/group/c-kaonlt/hcana/"
-source "/u/group/c-kaonlt/hcana/setup.sh"
-cd "$REPLAYPATH"
-source "$REPLAYPATH/setup.sh"
+cd $REPLAYPATH
 
 ### Check the extra folders you'll need exist, if they don't then make them
 if [ ! -d "$REPLAYPATH/DBASE/COIN/HMS_DCCalib" ]; then
