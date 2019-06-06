@@ -183,7 +183,7 @@ if [[ $OPT == "HMS" ]]; then
     if [ "$RUNNUMBER" -ge "7046" ]; then
 	sed -i "41 s/hhodo_Vpcalib_Spring19.param/Calibration\/hhodo_Vpcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/HMS_HodoCalib/general_$RUNNUMBER.param
     fi
-elif [[ $OPT == "SHMS" ]]; then	
+elif [[ $OPT == "SHMS" ]]; then
     sed -i "74 s/phodo_TWcalib_$RUNNUMBER.param/Calibration\/phodo_TWcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/SHMS_HodoCalib/general_$RUNNUMBER.param 
     if [ "$RUNNUMBER" -le "5334" ]; then
 	sed -i "75 s/hhodo_Vpcalib_Autumn18.param/Calibration\/hhodo_Vpcalib_$RUNNUMBER.param/" $REPLAYPATH/DBASE/COIN/HMS_HodoCalib/general_$RUNNUMBER.param
