@@ -143,4 +143,4 @@ sleep 10
 ### Finally, replay again with our new parameter files
 cd $REPLAYPATH
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"DC_Calib_Coin_Pt2.C($RUNNUMBER,$MAXEVENTS)\""
-exit 1
+exit 0

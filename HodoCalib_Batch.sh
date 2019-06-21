@@ -200,4 +200,4 @@ sleep 30
 cd "$REPLAYPATH"
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/"$OPT"/PRODUCTION/"$OPT"Hodo_Calib_Coin_Pt3.C($RUNNUMBER,$MAXEVENTS)\""
 sleep 30
-exit 1
+exit 0

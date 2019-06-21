@@ -36,4 +36,4 @@ cd $REPLAYPATH
 
 echo -e "\n\nStarting Replay Script\n\n"
 eval "$REPLAYPATH/hcana -l -q \"SCRIPTS/COIN/PRODUCTION/FullReplay.C ($RUNNUMBER,$MAXEVENTS)\""
-exit 1
+exit 0

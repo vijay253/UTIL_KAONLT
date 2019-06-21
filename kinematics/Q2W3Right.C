@@ -22,12 +22,8 @@ void Q2W3Right()
   ch.Add("/group/c-kaonlt/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4937_-1.root");
   ch.Add("/group/c-kaonlt/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4938_-1.root");
   ch.Add("/group/c-kaonlt/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4939_-1.root");
-
-
   ch.Add("/group/c-kaonlt/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4943_-1.root");
   ch.Add("/group/c-kaonlt/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4944_-1.root");
-
-
   ch.Add("/group/c-kaonlt/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4948_-1.root");
   ch.Add("/group/c-kaonlt/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4949_-1.root");
   ch.Add("/group/c-kaonlt/hallc_replay_lt/UTIL_KAONLT/ROOTfiles/KaonLT_coin_replay_production_4950_-1.root");
