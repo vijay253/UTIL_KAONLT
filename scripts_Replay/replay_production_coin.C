@@ -57,9 +57,6 @@ void replay_production_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   SHMS->AddEvtType(6);
   SHMS->AddEvtType(7);
   gHaApps->Add(SHMS);
-  // Add Noble Gas Cherenkov to SHMS apparatus
-  THcCherenkov* pngcer = new THcCherenkov("ngcer", "Noble Gas Cherenkov");
-  SHMS->AddDetector(pngcer);
   // Add drift chambers to SHMS apparatus
   THcDC* pdc = new THcDC("dc", "Drift Chambers");
   SHMS->AddDetector(pdc);
@@ -255,6 +252,6 @@ void replay_production_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   analyzer->Process(run);
   // Create report file from template	       
   analyzer->PrintReport("UTIL_KAONLT/TEMPLATES/COIN/coin_production.template",
-			Form("/home/trottar/ResearchNP/ROOTAnalysis/REPORT_OUTPUT/COIN/PRODUCTION/KaonLT_replay_coin_production_%d_%d.report", RunNumber, MaxEvent));  // optional
+			Form("/UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/KaonLT_replay_coin_production_%d_%d.report", RunNumber, MaxEvent));  // optional
 
 }
