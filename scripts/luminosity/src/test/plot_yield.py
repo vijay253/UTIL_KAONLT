@@ -3,7 +3,7 @@
 #
 # Description:
 # ================================================================
-# Time-stamp: "2020-04-24 15:41:15 trottar"
+# Time-stamp: "2020-04-22 00:46:39 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -14,23 +14,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from csv import DictReader
+from itertools import chain
 import os, subprocess
 
-# Add this to all files for more dynamic pathing
-USER = subprocess.getstatusoutput("whoami") # Grab user info for file finding
-HOST = subprocess.getstatusoutput("hostname")
+USER = subprocess.getstatusoutput("whoami")
 
-if ("farm" in HOST[1]):
-    REPLAYPATH = "/group/c-kaonlt/USERS/%s/hallc_replay_lt" % USER[1]
-elif ("lark" in HOST[1]):
-    REPLAYPATH = "/home/%s/work/JLab/hallc_replay_lt" % USER[1]
-elif ("trottar" in HOST[1]):
-    REPLAYPATH = "/home/trottar/Analysis/hallc_replay_lt"
-
-print("Running as %s on %s, hallc_replay_lt path assumed as %s" % (USER[1], HOST[1], REPLAYPATH))
-
-inp_f = "%s/UTIL_KAONLT/scripts/luminosity/OUTPUTS/lumi_data.csv" % str(REPLAYPATH)
-out_f = "%s/UTIL_KAONLT/scripts/luminosity/OUTPUTS/yield_data.csv" % str(REPLAYPATH)
+inp_f = "/home/trottar/Analysis/hallc_replay_lt/UTIL_KAONLT/scripts/luminosity/OUTPUTS/lumi_data.csv"
+out_f = "/home/trottar/Analysis/hallc_replay_lt/UTIL_KAONLT/scripts/luminosity/src/test/OUTPUTS/yield_data.csv"
 
 try:
     lumi_data = dict(pd.read_csv(inp_f))
@@ -167,7 +157,7 @@ def main():
     
     yield_data = plot_yield()
     # data = {**lumi_data, **yield_data} # only python 3.5+
-    
+
     for key, val in lumi_data.items():
         lumi_data[key] = val.tolist()
 

@@ -40,6 +40,7 @@ import warnings
 import numpy as np
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+from ROOT import TFile, TH1F
 import matplotlib.pyplot as plt
 from matplotlib import interactive
 from matplotlib import colors
@@ -72,8 +73,37 @@ class pyBranch(pyDict):
         leafHist = branch[leafVal]
 
         return np.array(leafHist)
+    
+class pyRoot():
 
-class pyBin():
+    # Save arrays,lists,etc. to root file as histograms
+    def py2root(self,inputDict,rootName):
+        try:
+            tmp = ""
+            hist_key = []*len(inputDict)
+            hist_val = []*len(inputDict)
+            for key,val in inputDict.items():
+                tmp = "hist_%s" % key
+                tmp = TH1F( tmp, '%s' % key, len(val), 0., max(val))
+                hist_key.append(tmp)
+                hist_val.append(val)
+
+            f = TFile( rootName, 'recreate' )
+            for i, evt in enumerate(hist_val):
+                for j, hevt in enumerate(hist_val[i]):
+                    print(hist_key[i], "-> ", hevt)
+                    hist_key[i].Fill(hevt)
+                hist_key[i].Write()
+ 
+            f.Write()
+            f.Close()
+        except TypeError:
+            print("\nERROR: Only current accepting 1D array/list values\n")
+    
+class pyPlot(pyDict):
+    
+    def __init__(self, cutDict=None):
+        self.cutDict = cutDict
 
     def setbin(self,plot,numbin,xmin=None,xmax=None):
         
@@ -92,20 +122,29 @@ class pyBin():
             
         arrCut = cut
         arrPlot = plot
-        
         arrPlot = arrPlot[(arrCut > low) & (arrCut < high)]
 
         return arrPlot
-    
-class pyPlot(pyDict):
-    
-    def __init__(self, cutDict=None):
-        self.cutDict = cutDict
-        
-    def cut(self,key):
-            
-        return[self.cutDict.get(key,"Leaf name not found")]
 
+    # Create a working dictionary for cuts
+    def w_dict(self,cuts):
+
+        inputDict = self.cutDict
+        subDict = inputDict[cuts]
+        cut_arr = [evt for evt in subDict]
+        return cut_arr
+            
+    def cut(self,key,cuts=None):
+
+        if cuts:
+            inputDict = self.cutDict
+            subDict = inputDict[cuts]
+            value = subDict.get(key,"Leaf name not found")
+            return value
+        else:
+            return self.cutDict.get(key,"Leaf name not found")
+
+    # Old version of apply cuts
     def applyCuts(self,leaf,cuts=None):
         
         if cuts:
@@ -113,15 +152,31 @@ class pyPlot(pyDict):
             applycut = 'tmp['
             i=0
             while i < (len(cuts)-1):
-                applycut += 'self.cut("%s")[0] & ' % cuts[i]
+                applycut += 'self.cut("%s") & ' % cuts[i]
                 i+=1
-            applycut += 'self.cut("%s")[0]]' % cuts[len(cuts)-1]
+            applycut += 'self.cut("%s")]' % cuts[len(cuts)-1]
             tmp = eval(applycut)
         else:
             print('No cuts applied to %s' % leaf)
             tmp = leaf
         
         return tmp
+
+    # New version of applying cuts
+    def add_cut(self,arr, cuts):
+        
+        arr_cut = arr  
+        applycut = "arr_cut["
+        inputDict = self.cutDict
+        subDict = inputDict[cuts]
+        for i,(key,val) in enumerate(subDict.items()):
+            if i == len(subDict)-1:
+                applycut += 'self.cut("%s","%s")]' % (key,cuts)
+            else:
+                applycut += 'self.cut("%s","%s") & ' % (key,cuts)
+        arr_cut = eval(applycut)        
+        return arr_cut
+
 
     def progressBar(self,value, endvalue, bar_length):
 
@@ -132,7 +187,7 @@ class pyPlot(pyDict):
         sys.stdout.write(" \r[{0}] {1}%".format(arrow + spaces, int(round(percent * 100))))
         sys.stdout.flush()
 
-        # Recreates the histograms of the root file
+    # Recreates the histograms of the root file
     def recreateLeaves(self):
                 
         binwidth = 1.0
