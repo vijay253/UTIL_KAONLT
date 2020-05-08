@@ -375,7 +375,7 @@ class pyPlot(pyDict):
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
                         # Convert database to a dictionary
-                        fout = "../../../../../UTIL_PROTON/config/cuts/Tracking_Parameters.csv"
+                        fout = "../../../../DB/PARAM/Tracking_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -394,7 +394,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/Tracking_Parameters.csv"
+                    fout = "../../../../DB/PARAM/Tracking_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -437,7 +437,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/Tracking_Parameters.csv"
+                    fout = "../../../../DB/PARAM/Tracking_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -459,7 +459,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/Acceptance_Parameters.csv"
+                        fout = "../../../../DB/PARAM/Acceptance_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -475,7 +475,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/Acceptance_Parameters.csv"
+                    fout = "../../../../DB/PARAM/Acceptance_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -497,7 +497,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/Timing_Parameters.csv"
+                        fout = "../../../../DB/PARAM/Timing_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -513,7 +513,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/Timing_Parameters.csv"
+                    fout = "../../../../DB/PARAM/Timing_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -535,7 +535,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                        fout = "../../../../DB/PARAM/PID_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -551,7 +551,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                    fout = "../../../../DB/PARAM/PID_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -573,7 +573,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                        fout = "../../../../DB/PARAM/PID_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -589,7 +589,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                    fout = "../../../../DB/PARAM/PID_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -611,7 +611,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                        fout = "../../../../DB/PARAM/PID_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -627,7 +627,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                    fout = "../../../../DB/PARAM/PID_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -649,7 +649,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                        fout = "../../../../DB/PARAM/PID_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -665,7 +665,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                    fout = "../../../../DB/PARAM/PID_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -687,7 +687,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                        fout = "../../../../DB/PARAM/PID_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -703,7 +703,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                    fout = "../../../../DB/PARAM/PID_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -725,7 +725,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                        fout = "../../../../DB/PARAM/PID_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -741,7 +741,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                    fout = "../../../../DB/PARAM/PID_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -763,7 +763,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                        fout = "../../../../DB/PARAM/PID_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -779,7 +779,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                    fout = "../../../../DB/PARAM/PID_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:
@@ -801,7 +801,7 @@ class pyPlot(pyDict):
                     for a in conj:
                         tmp = a.split(".")
                         tmp = tmp[1].split(")")[0]
-                        fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                        fout = "../../../../DB/PARAM/PID_Parameters.csv"
                         try:
                             data = dict(pd.read_csv(fout))
                         except IOError:
@@ -817,7 +817,7 @@ class pyPlot(pyDict):
                 else:
                     tmp = cut.split(".")
                     tmp = tmp[1].split(")")[0]
-                    fout = "../../../../../UTIL_PROTON/config/cuts/PID_Parameters.csv"
+                    fout = "../../../../DB/PARAM/PID_Parameters.csv"
                     try:
                         data = dict(pd.read_csv(fout))
                     except IOError:

@@ -30,7 +30,7 @@ RunListFile="${UTILPATH}/scripts/kaonyield/kinematics/Q4p4W2p74center_lowe_Pt2"
 while IFS='' read -r line || [[ -n "$line" ]]; do
     runNum=$line
     RootName+="${runNum}_-1_Analysed_Data.root "
-    eval '"$SCRIPTPATH" $runNum -1 Production_Config'
+    eval '"$SCRIPTPATH" $runNum -1'
 done < "$RunListFile"
 sleep 5
 cd "${UTILPATH}/scripts/kaonyield/OUTPUT"

@@ -19,13 +19,12 @@ import matplotlib.pyplot as plt
 import sys, math, os, subprocess
 
 sys.path.insert(0, 'python/')
-if len(sys.argv)-1!=3:
-    print("!!!!! ERROR !!!!!\n Expected 3 arguments\n Usage is with - RunNumber MaxEvents CutFileName\n!!!!! ERROR !!!!!")
+if len(sys.argv)-1!=2:
+    print("!!!!! ERROR !!!!!\n Expected 2 arguments\n Usage is with - RunNumber MaxEvents\n!!!!! ERROR !!!!!")
     sys.exit(1)
 # Input params - run number and max number of events
 runNum = sys.argv[1]
 MaxEvent = sys.argv[2]
-ConfigFileName = sys.argv[3]
 
 USER = subprocess.getstatusoutput("whoami") # Grab user info for file finding
 HOST = subprocess.getstatusoutput("hostname")
@@ -37,38 +36,23 @@ elif ("lark.phys.uregina" in HOST[1]):
     REPLAYPATH = "/home/%s/work/JLab/hallc_replay_lt" % USER[1]
 
 # Add more path setting as needed in a similar manner
-OUTPATH = "%s/UTIL_PROTON/scripts/kaonyield/OUTPUT" % REPLAYPATH
-sys.path.insert(0, '%s/UTIL_PROTON/bin/python/' % REPLAYPATH)
+OUTPATH = "%s/UTIL_KAONLT/scripts/kaonyield/OUTPUT" % REPLAYPATH
+sys.path.insert(0, '%s/UTIL_KAONLT/bin/python/' % REPLAYPATH)
 import kaonlt as klt
 
 print("Running as %s on %s, hallc_replay_lt path assumed as %s" % (USER[1], HOST[1], REPLAYPATH))
-rootName = "%s/UTIL_KAONLT/ROOTfilesProton/Proton_coin_replay_production_%s_%s.root" % (REPLAYPATH, runNum, MaxEvent)
-ConfigFile = "%s/UTIL_KAONLT/config/%s" % (REPLAYPATH,  ConfigFileName)
-print("Using cuts defined in %s" % ConfigFile)
+rootName = "%s/UTIL_KAONLT/ROOTfiles/Proton_coin_replay_production_%s_%s.root" % (REPLAYPATH, runNum, MaxEvent)
 
-Configf = open(ConfigFile)
-for line in Configf:
-    line = line.rstrip()
-    array = line.split("= ")
-    if ("Timing_Cuts" in array[0]):
-        TimingTmp = array[1]
-        TimingCutFile = "%s/UTIL_KAONLT/config/%s" % (REPLAYPATH,TimingTmp)
-    if ("PID_Cuts" in array[0]):
-        PIDTmp = array[1]
-        PIDCutFile = "%s/UTIL_KAONLT/config/%s" % (REPLAYPATH,PIDTmp)
-    if ("Acceptance_Cuts" in array[0]):
-        AcceptTmp = array[1]
-        AcceptCutFile = "%s/UTIL_KAONLT/config/%s" % (REPLAYPATH,AcceptTmp)
-Configf.close()
+TimingCutFile = "%s/UTIL_KAONLT/DB/PARAM/Timing_Parameters.csv" % REPLAYPATH
+AcceptCutFile = "%s/UTIL_KAONLT/DB/PARAM/Acceptance_Parameters.csv" % REPLAYPATH
+
 try:
     TimingCutFile
-    PIDCutFile
     AcceptCutFile
 except NameError:
-    print("!!!!! ERRROR !!!!!\n One (or more) of the cut files is not defined in the config file provided\n!!!!! ERRORR !!!!!")
+    print("!!!!! ERRROR !!!!!\n One (or more) of the cut files not found!\n!!!!! ERRORR !!!!!")
     sys.exit(2)
 print("Reading timing cuts from %s" % TimingCutFile)
-print("Reading PID cuts from %s" % PIDCutFile)
 print("Reading acceptance cuts from %s" % AcceptCutFile)
 
 TimingCutf = open(TimingCutFile)
