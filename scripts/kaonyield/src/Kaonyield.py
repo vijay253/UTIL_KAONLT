@@ -227,9 +227,9 @@ def coin_pions():
                     if PiDel > AcceptCutArray[6] and PiDel < AcceptCutArray[7]
                     if Pixp > AcceptCutArray[8] and Pixp < AcceptCutArray[9]
                     if Piyp > AcceptCutArray[10] and Piyp <  AcceptCutArray[11]
-                    if abs(PiBeta -1.0) < PIDCutArray[2] # H_ecut.H_Beta = [2]
-                    if PiAero > PIDCutArray[23] # P_picut.P.aero = [23] 
-                    if PiHGC > PIDCutArray[22] # P_picut.P.hgcer = [22]
+                    if abs(PiBeta -1.0) < PIDCutArray[21] # P_picut.P_Beta = [21]
+                    if PiAero > PIDCutArray[23] # P_picut.P_aero = [23] 
+                    if PiHGC > PIDCutArray[22] # P_picut.P_hgcer = [22]
                     if RFCutDist > 1.4 and RFCutDist < 3]
 
     # Create array of arrays of pions after cuts, prompt events
@@ -242,9 +242,9 @@ def coin_pions():
                     if PiDel > AcceptCutArray[6] and PiDel < AcceptCutArray[7]
                     if Pixp > AcceptCutArray[8] and Pixp < AcceptCutArray[9]
                     if Piyp > AcceptCutArray[10] and Piyp <  AcceptCutArray[11]
-                    if abs(PiBeta -1.0) < PIDCutArray[2] # H_ecut.H_Beta = [2]
-                    if PiAero > PIDCutArray[23] # P_picut.P.aero = [23] 
-                    if PiHGC > PIDCutArray[22] # P_picut.P.hgcer = [22]
+                    if abs(PiBeta -1.0) < PIDCutArray[21] # P_picut.P_Beta = [21]
+                    if PiAero > PIDCutArray[23] # P_picut.P_aero = [23] 
+                    if PiHGC > PIDCutArray[22] # P_picut.P_hgcer = [22]
                     if CTPi > (PromptPeak[0]-((BunchSpacing/2)+CT_Offset)) and CTPi < (PromptPeak[0]+((BunchSpacing/2)+CT_Offset))
                     if RFCutDist > 1.4 and RFCutDist < 3]
 
@@ -257,9 +257,9 @@ def coin_pions():
                     if PiDel > AcceptCutArray[6] and PiDel < AcceptCutArray[7]
                     if Pixp > AcceptCutArray[8] and Pixp < AcceptCutArray[9]
                     if Piyp > AcceptCutArray[10] and Piyp <  AcceptCutArray[11]
-                    if abs(PiBeta -1.0) < PIDCutArray[2] # H_ecut.H_Beta = [2]
-                    if PiAero > PIDCutArray[23] # P_picut.P.aero = [23] 
-                    if PiHGC > PIDCutArray[22] # P_picut.P.hgcer = [22]
+                    if abs(PiBeta -1.0) < PIDCutArray[21] # P_picut.P_Beta = [21]
+                    if PiAero > PIDCutArray[23] # P_picut.P_aero = [23] 
+                    if PiHGC > PIDCutArray[22] # P_picut.P_hgcer = [22]
                     if (CTPi > RandomWindows[0][0][0] and CTPi < RandomWindows[0][1][0]) or (CTPi > RandomWindows[1][0][0] and CTPi < RandomWindows[1][1][0])
                     if RFCutDist > 1.4 and RFCutDist < 3]
 
@@ -281,13 +281,13 @@ def coin_kaons():
                     if Hdel > AcceptCutArray[0] and Hdel < AcceptCutArray[1]
                     if Hxp > AcceptCutArray[2] and Hxp < AcceptCutArray[3]
                     if Hyp > AcceptCutArray[4] and Hyp < AcceptCutArray[5]
-                    if HCal > 0.7 and HCal <1.5
+                    if HCal > PIDCutArray[0] and HCal < PIDCutArray[0]+0.8 # H_ecut.H_cal [0]
                     if KDel > AcceptCutArray[6] and KDel < AcceptCutArray[7]
                     if Kxp > AcceptCutArray[8] and Kxp < AcceptCutArray[9]
                     if Kyp > AcceptCutArray[10] and Kyp < AcceptCutArray[11]
-                    if abs(KBeta -1.0) < 0.3
-                    if KAero > 1.5
-                    if KHGC < 1.5
+                    if abs(KBeta -1.0) < PIDCutArray[27] # P_kcut.P_Beta = [27]
+                    if KAero > PIDCutArray[29] # P_kcut.P_aero = [29]
+                    if KHGC < PIDCutArray[28] # P_kcut.P_hgcer = [28]
                     if RFCutDist > 1.3 and RFCutDist < 3]
     # Create array of a/rrays of pions after cuts, prompt events
     # NOTE - Should just be able to feed all events array into this somehow? Should investigate
@@ -295,13 +295,13 @@ def coin_kaons():
                     if Hdel > AcceptCutArray[0] and Hdel < AcceptCutArray[1]
                     if Hxp > AcceptCutArray[2] and Hxp < AcceptCutArray[3]
                     if Hyp > AcceptCutArray[4] and Hyp < AcceptCutArray[5]
-                    if HCal > 0.7 and HCal <1.5
-                    if KDel > -10 and KDel < 20
-                    if abs(Kxp) < 0.06
-                    if abs(Kyp) < 0.04
-                    if abs(KBeta -1.0) < 0.3
-                    if KAero > 1.5
-                    if KHGC < 1.5
+                    if HCal > PIDCutArray[0] and HCal < PIDCutArray[0]+0.8 # H_ecut.H_cal [0]
+                    if KDel > AcceptCutArray[6] and KDel < AcceptCutArray[7]
+                    if Kxp > AcceptCutArray[8] and Kxp < AcceptCutArray[9]
+                    if Kyp > AcceptCutArray[10] and Kyp < AcceptCutArray[11]
+                    if abs(KBeta -1.0) < PIDCutArray[27] # P_kcut.P_Beta = [27]
+                    if KAero > PIDCutArray[29] # P_kcut.P_aero = [29]
+                    if KHGC < PIDCutArray[28] # P_kcut.P_hgcer = [28]
                     if CTK > (PromptPeak[1]-((BunchSpacing/2)+CT_Offset)) and CTK < (PromptPeak[1]+((BunchSpacing/2)+CT_Offset))
                     if RFCutDist > 1.3 and RFCutDist < 3]
     # Create array of arrays of pions after cuts, random events    
@@ -309,13 +309,13 @@ def coin_kaons():
                     if Hdel > AcceptCutArray[0] and Hdel < AcceptCutArray[1]
                     if Hxp > AcceptCutArray[2] and Hxp < AcceptCutArray[3]
                     if Hyp > AcceptCutArray[4] and Hyp < AcceptCutArray[5]
-                    if HCal > 0.7 and HCal <1.5
+                    if HCal > PIDCutArray[0] and HCal < PIDCutArray[0]+0.8 # H_ecut.H_cal [0]
                     if KDel > AcceptCutArray[6] and KDel < AcceptCutArray[7]
                     if Kxp > AcceptCutArray[8] and Kxp < AcceptCutArray[9]
                     if Kyp > AcceptCutArray[10] and Kyp < AcceptCutArray[11]
-                    if abs(KBeta -1.0) < 0.3
-                    if KAero > 1.5
-                    if KHGC < 1.5
+                    if abs(KBeta -1.0) < PIDCutArray[27] # P_kcut.P_Beta = [27]
+                    if KAero > PIDCutArray[29] # P_kcut.P_aero = [29]
+                    if KHGC < PIDCutArray[28] # P_kcut.P_hgcer = [28]
                     if (CTK > RandomWindows[0][0][1] and CTK < RandomWindows[0][1][1]) or (CTK > RandomWindows[1][0][1] and CTK < RandomWindows[1][1][1])
                     if RFCutDist > 1.3 and RFCutDist < 3]
 
@@ -337,13 +337,13 @@ def coin_protons():
                     if Hdel > AcceptCutArray[0] and Hdel < AcceptCutArray[1]
                     if Hxp > AcceptCutArray[2] and Hxp < AcceptCutArray[3]
                     if Hyp > AcceptCutArray[4] and Hyp < AcceptCutArray[5]
-                    if HCal > 0.7 and HCal <1.5
+                    if HCal > PIDCutArray[0] and HCal < PIDCutArray[0]+0.8 # H_ecut.H_cal [0]
                     if pDel > AcceptCutArray[6] and pDel < AcceptCutArray[7]
                     if pxp > AcceptCutArray[8] and pxp < AcceptCutArray[9]
                     if pyp > AcceptCutArray[10] and pyp < AcceptCutArray[11]
-                    if abs(pBeta -1.0) < 0.3
-                    if pAero < 1.5
-                    if pHGC < 1.5
+                    if abs(pBeta -1.0) < PIDCutArray[33] # P_pcut.P_Beta = [33]
+                    if pAero < PIDCutArray[35] # P_pcut.P_Aero = [35]
+                    if pHGC < PIDCutArray[34] # P_pcut.P_hgcer = [34]
                     if RFCutDist < 1.5]
     # Create array of a/rrays of pions after cuts, prompt events
     # NOTE - Should just be able to feed all events array into this somehow? Should investigate
@@ -351,13 +351,13 @@ def coin_protons():
                     if Hdel > AcceptCutArray[0] and Hdel < AcceptCutArray[1]
                     if Hxp > AcceptCutArray[2] and Hxp < AcceptCutArray[3]
                     if Hyp > AcceptCutArray[4] and Hyp < AcceptCutArray[5]
-                    if HCal > 0.7 and HCal <1.5
+                    if HCal > PIDCutArray[0] and HCal < PIDCutArray[0]+0.8 # H_ecut.H_cal [0]
                     if pDel > AcceptCutArray[6] and pDel < AcceptCutArray[7]
                     if pxp > AcceptCutArray[8] and pxp < AcceptCutArray[9]
                     if pyp > AcceptCutArray[10] and pyp < AcceptCutArray[11]
-                    if abs(pBeta -1.0) < 0.3
-                    if pAero < 1.5
-                    if pHGC < 1.5
+                    if abs(pBeta -1.0) < PIDCutArray[33] # P_pcut.P_Beta = [33]
+                    if pAero < PIDCutArray[35] # P_pcut.P_Aero = [35]
+                    if pHGC < PIDCutArray[34] # P_pcut.P_hgcer = [34]
                     if CTp > (PromptPeak[2]-((BunchSpacing/2)+CT_Offset)) and CTp < (PromptPeak[2]+((BunchSpacing/2)+CT_Offset))
                     if RFCutDist < 1.5]
     # Create array of arrays of pions after cuts, random events    
@@ -365,13 +365,13 @@ def coin_protons():
                     if Hdel > AcceptCutArray[0] and Hdel < AcceptCutArray[1]
                     if Hxp > AcceptCutArray[2] and Hxp < AcceptCutArray[3]
                     if Hyp > AcceptCutArray[4] and Hyp < AcceptCutArray[5]
-                    if HCal > 0.7 and HCal <1.5
+                    if HCal > PIDCutArray[0] and HCal < PIDCutArray[0]+0.8 # H_ecut.H_cal [0]
                     if pDel > AcceptCutArray[6] and pDel < AcceptCutArray[7]
                     if pxp > AcceptCutArray[8] and pxp < AcceptCutArray[9]
                     if pyp > AcceptCutArray[10] and pyp < AcceptCutArray[11]
-                    if abs(pBeta -1.0) < 0.3
-                    if pAero < 1.5
-                    if pHGC < 1.5
+                    if abs(pBeta -1.0) < PIDCutArray[33] # P_pcut.P_Beta = [33]
+                    if pAero < PIDCutArray[35] # P_pcut.P_Aero = [35]
+                    if pHGC < PIDCutArray[34] # P_pcut.P_hgcer = [34]
                     if (CTp > RandomWindows[0][0][2] and CTp < RandomWindows[0][1][2]) or (CTp > RandomWindows[1][0][2] and CTp < RandomWindows[1][1][2])
                     if RFCutDist < 1.5]
 
