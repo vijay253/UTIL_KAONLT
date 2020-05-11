@@ -46,7 +46,7 @@ rootName = "%s/UTIL_KAONLT/ROOTfiles/Proton_coin_replay_production_%s_%s.root" %
 
 ###############################################################################################################
 #### I don't like how the timing cut generation is implemented currently so doing it manually here for now ####
-############################################ Sorry Richard! ##################################################
+############################################ Sorry Richard! ###################################################
 ###############################################################################################################
 TimingCutFile = "%s/UTIL_KAONLT/DB/PARAM/Timing_Parameters.csv" % REPLAYPATH
 TimingCutf = open(TimingCutFile)
@@ -101,7 +101,7 @@ H_gtr_xp = e_tree.array("H.gtr.th") # xpfp -> Theta
 H_gtr_yp = e_tree.array("H.gtr.ph") # ypfp -> Phi
 H_gtr_dp = e_tree.array("H.gtr.dp")
 H_cal_etotnorm = e_tree.array("H.cal.etotnorm")
-H_cer_npesum = e_tree.array("H.cer.npeSum")
+H_cer_npeSum = e_tree.array("H.cer.npeSum")
 # SHMS info
 P_gtr_beta = e_tree.array("P.gtr.beta")
 P_gtr_xp = e_tree.array("P.gtr.th") # xpfp -> Theta
@@ -141,6 +141,7 @@ MMp = np.array([math.sqrt(abs((em + math.sqrt(abs((MK*MK) + (gtrp*gtrp))) - math
 # Create array of mod(BunchSpacing)(RFTime - StartTime + Offset) for all events. Offset is chosen to centre the pion peak in the distribution (need to test 2ns runs)
 RF_CutDist = np.array([ ((RFTime-StartTime + RF_Offset)%(BunchSpacing)) for (RFTime, StartTime) in zip(P_RF_tdcTime, P_hod_fpHitsTime)]) # In python x % y is taking the modulo y of x
 
+r = klt.pyRoot()
 fout = '%s/UTIL_KAONLT/DB/CUTS/run_type/coin_prod.cuts' % REPLAYPATH
 # read in cuts file and make dictionary
 c = klt.pyPlot(None)
@@ -151,32 +152,45 @@ readDict = c.read_dict(fout,runNum)
 # overall, but a bit more cumbersome in the analysis script. Perhaps one day a better solution will be
 # implimented.
 def make_cutDict(cut,inputDict=None):
+
     global c
+
     c = klt.pyPlot(readDict)
     x = c.w_dict(cut)
     print("%s" % cut)
     print("x ", x)
+    
     if inputDict == None:
         inputDict = {}
+        
     for key,val in readDict.items():
         if key == cut:
             inputDict.update({key : {}})
+
     for i,val in enumerate(x):
         tmp = x[i]
         inputDict[cut].update(eval(tmp))
+        
     return inputDict
 
-cutDict = make_cutDict("coin_epi_cut_orig")
+cutDict = make_cutDict("coin_epi_cut")
+cutDict = make_cutDict("coin_epi_cut_orig", cutDict)
+cutDict = make_cutDict("coin_ek_cut", cutDict)
+cutDict = make_cutDict("coin_ek_cut_orig", cutDict)
+cutDict = make_cutDict("coin_ep_cut", cutDict)
+cutDict = make_cutDict("coin_ep_cut_orig", cutDict)
 c = klt.pyPlot(cutDict)
-print(cutDict)
 
 def coin_pions(): 
     # Define the array of arrays containing the relevant HMS and SHMS info
-    NoCut_COIN_Pions = [H_gtr_beta, H_gtr_xp, H_gtr_yp, H_gtr_dp, H_cal_etotnorm, H_cer_npesum, CTime_ePiCoinTime_ROC1, P_RF_tdcTime, P_hod_fpHitsTime, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer, MMpi, MMK, MMp, RF_CutDist, Q2, W, epsilon, MandelT, MandelU, ph_q]
-    Uncut_COIN_Pions = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*NoCut_COIN_Pions)] # Create array of arrays of pions after cuts, all events, prompt and random
+    NoCut_COIN_Pions = [H_gtr_beta, H_gtr_xp, H_gtr_yp, H_gtr_dp, H_cal_etotnorm, H_cer_npeSum, CTime_ePiCoinTime_ROC1, P_RF_tdcTime, P_hod_fpHitsTime, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer, MMpi, MMK, MMp, RF_CutDist, Q2, W, epsilon, MandelT, MandelU, ph_q]
+    Uncut_COIN_Pions = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*NoCut_COIN_Pions)] 
+    # Create array of arrays of pions after cuts, all events, prompt and random
+    Cut_COIN_Pions_all = np.array(c.add_cut("coin_epi_cut_orig"))
 
     COIN_Pions = {
         "Uncut_Pion_Events" : Uncut_COIN_Pions,
+        "Cut_Pion_Events_All" : Cut_COIN_Pions_all,
         }
 
     return COIN_Pions
@@ -186,7 +200,7 @@ def main():
     # This is just the list of branches we use from the initial root file for each dict
     # I don't like re-defining this here as it's very prone to errors if you included (or removed something) earlier but didn't modify it here
     # Should base the branches to include based on some list and just repeat the list here (or call it again directly below)
-    COIN_Pion_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","H_cal_etotnorm","H_cer_npesum","CTime_ePiCoinTime_ROC1","P_RF_tdcTime","P_hod_fpHitsTime","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm","P_aero_npeSum","P_hgcer_npeSum","P_hgcer_xAtCer","P_hgcer_yAtCer","MMpi","MMK","MMp","RF_CutDist", "Q2", "W", "epsilon", "MandelT", "MandelU", "ph_q"]
+    COIN_Pion_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","H_cal_etotnorm","H_cer_npeSum","CTime_ePiCoinTime_ROC1","P_RF_tdcTime","P_hod_fpHitsTime","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm","P_aero_npeSum","P_hgcer_npeSum","P_hgcer_xAtCer","P_hgcer_yAtCer","MMpi","MMK","MMp","RF_CutDist", "Q2", "W", "epsilon", "MandelT", "MandelU", "ph_q"]
 
     # Need to create a dict for all the branches we grab
     data = {}
