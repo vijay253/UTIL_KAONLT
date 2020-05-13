@@ -121,7 +121,6 @@ elif(TempPar > 1):
     print("!!! WARNING!!! Run number was found within the range of two (or more) line entries of %s !!! WARNING !!!" % AcceptCutFile)
     print("The last matching entry will be treated as the input, you should ensure this is what you want")
 
-
 PIDCutf = open(PIDCutFile)
 linenum = 0 # Count line number we're on
 TempPar = -1 # To check later
@@ -401,7 +400,6 @@ def main():
     COIN_Proton_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","H_cal_etotnorm","H_cer_npeSum","CTime_epCoinTime_ROC1","P_RF_tdcTime","P_hod_fpHitsTime","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm","P_aero_npeSum","P_hgcer_npeSum","P_hgcer_xAtCer","P_hgcer_yAtCer","MMpi","MMK","MMp","RF_CutDist", "Q2", "W", "epsilon", "MandelT", "MandelU", "ph_q"]
 
     # Need to create a dict for all the branches we grab
-
     data = {}
     for d in (HMS_Elec_Data, COIN_Pion_Data, COIN_Kaon_Data, COIN_Proton_Data): # Convert individual dictionaries into a "dict of dicts"
         data.update(d)

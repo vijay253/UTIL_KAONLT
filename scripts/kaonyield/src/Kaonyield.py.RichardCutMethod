@@ -186,9 +186,10 @@ def coin_pions():
     NoCut_COIN_Pions = [H_gtr_beta, H_gtr_xp, H_gtr_yp, H_gtr_dp, H_cal_etotnorm, H_cer_npeSum, CTime_ePiCoinTime_ROC1, P_RF_tdcTime, P_hod_fpHitsTime, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer, MMpi, MMK, MMp, RF_CutDist, Q2, W, epsilon, MandelT, MandelU, ph_q]
     Uncut_COIN_Pions = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*NoCut_COIN_Pions)] 
     # Create array of arrays of pions after cuts, all events, prompt and random
-    Cut_COIN_Pions_Hbeta = np.array(c.add_cut(H_gtr_beta, "coin_epi_cut_orig"))
-    Cut_COIN_Pions_Hxp = np.array(c.add_cut(H_gtr_xp, "coin_epi_cut_orig"))
-    Cut_COIN_Pions_Hyp = np.array(c.add_cut(H_gtr_yp, "coin_epi_cut_orig"))
+    Cut_COIN_Pions_tmp = Uncut_COIN_Pions
+    Cut_COIN_Pions_all = []
+    for arr in Cut_COIN_Pions_tmp:
+        Cut_COIN_Pions_all.append(c.add_cut(arr, "coin_epi_cut_orig"))
 
     COIN_Pions = {
         "Uncut_Pion_Events" : Uncut_COIN_Pions,

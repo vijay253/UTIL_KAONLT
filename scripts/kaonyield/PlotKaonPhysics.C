@@ -1,7 +1,7 @@
 // 5/5/20 - Stephen Kay, University of Regina
 
 // root .c macro plotting script, reads in desired trees from analysed root file and plots some stuff
-
+// Saves  pdf file with plots and a .root file
 #define PlotKaonPhysics_cxx
 
 // Include relevant stuff

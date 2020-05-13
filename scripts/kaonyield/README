@@ -67,7 +67,24 @@ but later you specify
 
 Test_Tree_Header = ["H_gtr_beta","H_gtr_xp"]
 
-and try to save this as a root file via the pd->root routine. You will have some complaint along the lines of arrays not being the correct size (I'll deliberately run this type of error later and paste the output below).
+and try to save this as a root file via the pd->root routine. You will have some complaint along the lines of arrays not being the correct size.
 This is telling you your branches in the tree you're trying to make and the number of headers for them don't match up.
+This type of error will look something like the following -
+
+Traceback (most recent call last):
+  File "/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/UTIL_KAONLT/scripts/kaonyield/src/Kaonyield.py", line 427, in <module>
+  File "/group/c-kaonlt/USERS/sjdkay/hallc_replay_lt/UTIL_KAONLT/scripts/kaonyield/src/Kaonyield.py", line 424, in main
+    
+  File "/apps/python/3.4.3/lib/python3.4/site-packages/pandas/core/frame.py", line 369, in __init__
+    arrays, columns = _to_arrays(data, columns, dtype=dtype)
+  File "/apps/python/3.4.3/lib/python3.4/site-packages/pandas/core/frame.py", line 6284, in _to_arrays
+    dtype=dtype)
+  File "/apps/python/3.4.3/lib/python3.4/site-packages/pandas/core/frame.py", line 6363, in _list_to_arrays
+    coerce_float=coerce_float)
+  File "/apps/python/3.4.3/lib/python3.4/site-packages/pandas/core/frame.py", line 6420, in _convert_object_array
+    'columns' % (len(columns), len(content)))
+AssertionError: 28 columns passed, passed data had 29 columns
+
+Notice the last line in particular.
 
 If someone has a nice fix to this problem - aka they know how you could force the branch names in the header to exactly match the ones you had earlier, please let me know since this would be a nice thing to fix!   
