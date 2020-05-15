@@ -259,7 +259,7 @@ def coin_protons():
     Cut_COIN_Protons_all_tmp = []
 
     for arr in Cut_COIN_Protons_tmp:
-        Cut_COIN_Protons_all_tmp.append(c.add_cut(arr, "coin_ek_cut_orig"))
+        Cut_COIN_Protons_all_tmp.append(c.add_cut(arr, "coin_ep_cut_orig"))
 
     Cut_COIN_Protons_all = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Protons_all_tmp)
                     if RFCutDist > 1.4 and RFCutDist < 3]
