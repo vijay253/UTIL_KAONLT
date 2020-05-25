@@ -11,7 +11,7 @@ coin_epi_cut_orig = pid.p_picut+accept.delta+accept.h_pfp+accept.p_pfp-pid.p_pic
 ##############
 coin_ek_cut = pid.p_kcut+accept.delta+accept.h_pfp+accept.p_pfp
 #
-coin_ek_cut_orig = pid.p_picut+accept.delta+accept.h_pfp+accept.p_pfp-pid.p_kcut.P_cal_etotnorm-pid.p_kcut.H_cer_npeSum
+coin_ek_cut_orig = pid.p_kcut+accept.delta+accept.h_pfp+accept.p_pfp-pid.p_kcut.P_cal_etotnorm-pid.p_kcut.H_cer_npeSum
 #
 ##############
 # SHMS pcut  #
