@@ -63,10 +63,10 @@ for line in TimingCutf: # Read all lines in the cut file
             TempPar += 2 # If run number is in range, set to non -1 value
             BunchSpacing = float(array[2]) # Bunch spacing in ns
             CT_Offset = float(array[3]) # Offset to add to width of prompt peak
-            PromptPeak[0] = float(array[6]) # Pion CT prompt peak positon
-            PromptPeak[1] = float(array[7]) # Kaon CT prompt peak positon
-            PromptPeak[2] = float(array[8]) # Proton CT prompt peak positon
-            RF_Offset = float(array[9]) # Offset for RF timing cut
+            PromptPeak[0] = float(array[4]) # Pion CT prompt peak positon
+            PromptPeak[1] = float(array[5]) # Kaon CT prompt peak positon
+            PromptPeak[2] = float(array[6]) # Proton CT prompt peak positon
+            RF_Offset = float(array[7]) # Offset for RF timing cut
 TimingCutf.close() # After scanning all lines in file, close file
 if(TempPar == -1): # If value is still -1, run number provided din't match any ranges specified so exit
     print("!!!!! ERROR !!!!!\n Run number specified does not fall within a set of runs for which cuts are defined in %s\n!!!!! ERROR !!!!!" % TimingCutFile)
@@ -176,15 +176,9 @@ def make_cutDict(cut,inputDict=None):
         
     return inputDict
 
-cutDict = make_cutDict("coin_epi_cut_all")
-cutDict = make_cutDict("coin_epi_cut_prompt", cutDict)
-cutDict = make_cutDict("coin_epi_cut_rand", cutDict)
-cutDict = make_cutDict("coin_ek_cut_all", cutDict)
-cutDict = make_cutDict("coin_ek_cut_prompt", cutDict)
-cutDict = make_cutDict("coin_ek_cut_rand", cutDict)
-cutDict = make_cutDict("coin_ep_cut_all", cutDict)
-cutDict = make_cutDict("coin_ep_cut_prompt", cutDict)
-cutDict = make_cutDict("coin_ep_cut_rand", cutDict)
+cutDict = make_cutDict("coin_epi_cut")
+cutDict = make_cutDict("coin_ek_cut", cutDict)
+cutDict = make_cutDict("coin_ep_cut", cutDict)
 c = klt.pyPlot(cutDict)
 
 def coin_pions(): 
@@ -195,16 +189,15 @@ def coin_pions():
     # Create array of arrays of pions after cuts, all events, prompt and random
     Cut_COIN_Pions_tmp = NoCut_COIN_Pions
     Cut_COIN_Pions_all_tmp = []
-    Cut_COIN_Pions_prompt_tmp = []
 
     for arr in Cut_COIN_Pions_tmp:
-        Cut_COIN_Pions_all_tmp.append(c.add_cut(arr, "coin_epi_cut_all"))
-        Cut_COIN_Pions_prompt_tmp.append(c.add_cut(arr, "coin_epi_cut_prompt"))
+        Cut_COIN_Pions_all_tmp.append(c.add_cut(arr, "coin_epi_cut"))
 
     Cut_COIN_Pions_all = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Pions_all_tmp)
                     if RFCutDist > 1.4 and RFCutDist < 3]
 
-    Cut_COIN_Pions_prompt = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Pions_prompt_tmp)
+    Cut_COIN_Pions_prompt = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Pions_all_tmp)
+                    if CTPi > (PromptPeak[0]-((BunchSpacing/2)+CT_Offset)) and CTPi < (PromptPeak[0]+((BunchSpacing/2)+CT_Offset))
                     if RFCutDist > 1.4 and RFCutDist < 3]
 
     Cut_COIN_Pions_random = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, RF, HodStart, PiBeta, Pixp, Piyp, PiP, PiDel, PiCal, PiAero, PiHGC, PiHGCX, PiHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Pions_all_tmp)
@@ -228,16 +221,15 @@ def coin_kaons():
     # Create array of arrays of pions after cuts, all events, prompt and random
     Cut_COIN_Kaons_tmp = NoCut_COIN_Kaons
     Cut_COIN_Kaons_all_tmp = []
-    Cut_COIN_Kaons_prompt_tmp = []
 
     for arr in Cut_COIN_Kaons_tmp:
-        Cut_COIN_Kaons_all_tmp.append(c.add_cut(arr, "coin_ek_cut_all"))
-        Cut_COIN_Kaons_prompt_tmp.append(c.add_cut(arr, "coin_ek_cut_prompt"))
+        Cut_COIN_Kaons_all_tmp.append(c.add_cut(arr, "coin_ek_cut"))
 
     Cut_COIN_Kaons_all = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, RF, HodStart, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, RF, HodStart, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Kaons_all_tmp)
                     if RFCutDist > 1.3 and RFCutDist < 3]
 
-    Cut_COIN_Kaons_prompt = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, RF, HodStart, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, RF, HodStart, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Kaons_prompt_tmp)
+    Cut_COIN_Kaons_prompt = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, RF, HodStart, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, RF, HodStart, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Kaons_all_tmp)
+                    if CTK > (PromptPeak[1]-((BunchSpacing/2)+CT_Offset)) and CTK < (PromptPeak[1]+((BunchSpacing/2)+CT_Offset))
                     if RFCutDist > 1.3 and RFCutDist < 3]
 
     Cut_COIN_Kaons_random = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, RF, HodStart, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, RF, HodStart, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Kaons_all_tmp)
@@ -262,16 +254,15 @@ def coin_protons():
     # Create array of arrays of pions after cuts, all events, prompt and random
     Cut_COIN_Protons_tmp = NoCut_COIN_Protons
     Cut_COIN_Protons_all_tmp = []
-    Cut_COIN_Protons_prompt_tmp =[]
 
     for arr in Cut_COIN_Protons_tmp:
-        Cut_COIN_Protons_all_tmp.append(c.add_cut(arr, "coin_ep_cut_all"))
-        Cut_COIN_Protons_prompt_tmp.append(c.add_cut(arr, "coin_ep_cut_prompt"))
+        Cut_COIN_Protons_all_tmp.append(c.add_cut(arr, "coin_ep_cut"))
 
     Cut_COIN_Protons_all = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Protons_all_tmp)
                             if RFCutDist < 1.5]
 
-    Cut_COIN_Protons_prompt = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Protons_prompt_tmp)
+    Cut_COIN_Protons_prompt = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Protons_all_tmp)
+                    if CTp > (PromptPeak[2]-((BunchSpacing/2)+CT_Offset)) and CTp < (PromptPeak[2]+((BunchSpacing/2)+CT_Offset))
                     if RFCutDist < 1.5]
 
     Cut_COIN_Protons_random = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTp, RF, HodStart, pBeta, pxp, pyp, pP, pDel, pCal, pAero, pHGC, pHGCX, pHGCY, mm1, mm2, mm3, RFCutDist, Kin_Q2, Kin_W, Kin_eps, Kin_t, Kin_u, phq) in zip(*Cut_COIN_Protons_all_tmp)

@@ -16,7 +16,9 @@ where values here have beent tab separated for clarity.
 Run_Start -> First run number in setting/group
 Run_End -> Last run number in setting/group
 Bunch_Spacing -> Timing between each beam bucket hitting the target
-CT_Offset -> Adjustment to width of prompt timing window, prompt is between PromptPeak -(CT_Offset+Bunch_Spacing/2) and PromptPeak + (CT_Offset+Bunch_Spacing/2), adjust offset if not all of the peak is correctly being included
+Coin_Offset -> Adjustment to width of prompt timing window, prompt is between PromptPeak -(CT_Offset+Bunch_Spacing/2) and PromptPeak + (CT_Offset+Bunch_Spacing/2), adjust offset if not all of the peak is correctly being included
+nSkip -> Number of random windows to skip before defining random window area
+nWindows -> Total number of random windows to examine
 Pion_Prompt_Peak -> Centroid of the prompt peak for the coin time calculated for pions. Note, you should base this upon the timing peak after PID (but without any BG subtraction)
 Pion_Prompt_Peak -> Centroid of the prompt peak for the coin time calculated for kaons. Note, you should base this upon the timing peak after PID (but without any BG subtraction)
 Pion_Prompt_Peak -> Centroid of the prompt peak for the coin time calculated for protons. Note, you should base this upon the timing peak after PID (but without any BG subtraction)
