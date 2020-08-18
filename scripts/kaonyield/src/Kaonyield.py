@@ -49,7 +49,6 @@ rootName = "%s/UTIL_KAONLT/ROOTfiles/Proton_coin_replay_production_%s_%s.root" %
 ###############################################################################################################
 TimingCutFile = "%s/UTIL_KAONLT/DB/PARAM/Timing_Parameters.csv" % REPLAYPATH
 TimingCutf = open(TimingCutFile)
-PromptPeak = [0, 0, 0]
 linenum = 0 # Count line number we're on
 TempPar = -1 # To check later
 for line in TimingCutf: # Read all lines in the cut file
