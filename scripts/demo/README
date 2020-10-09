@@ -1,9 +1,13 @@
 Stephen Kay - University of Regina
 09/10/20
 
-Before running ensure you are using a ROOT 6.18.04 -
+A selection of demo python scripts that carry out some simple processes using the new analysis framework.
+
+Before running ensure you are using ROOT 6.18.04 -
 
 source /apps/root/6.18.04/setroot_CUE.csh
+
+(assuming you're running this on the JLab iFarm, also this assumes you are using softenv v2.3)
 
 You should also make sure you have the relevant packages, in particular, execute -
 
@@ -11,15 +15,15 @@ pip install --user root_numpy
 
 pip install --user root_pandas
 
-A selection of demo python scripts that carry out some simple processes using the new analysis framework.
+if you have not done so previously.
 
-Execute them via -
+Execute the scripts via -
 
 python3 SCRIPT arg1 arg2...
 
 The script should prompt for the arguments it needs if you don't provide them. I would recommend checking what it expects before trying to run the script in question.
 
-For quick analysis and checking, I recommend that you use 100k replay ROOTfiles if possible
+For quicker analysis and checking, I recommend that you use 100k replay ROOTfiles if possible
 
 ### Demo1 ###
 
