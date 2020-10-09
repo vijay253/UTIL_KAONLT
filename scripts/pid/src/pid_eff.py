@@ -39,7 +39,8 @@ elif ("trottar" in HOST[1]):
 print("Running as %s on %s, hallc_replay_lt path assumed as %s" % (USER[1], HOST[1], REPLAYPATH))
 
 filename = "%s/UTIL_KAONLT/scripts/pid/OUTPUTS/pid_data.csv" % (REPLAYPATH)
-rootName = "%s/UTIL_KAONLT/ROOTfiles/pid_coin_offline_%s_%s.root" % (REPLAYPATH, runNum,MaxEvent)
+#rootName = "%s/UTIL_KAONLT/ROOTfiles/pid_coin_offline_%s_%s.root" % (REPLAYPATH, runNum,MaxEvent)
+rootName = "%s/UTIL_KAONLT/ROOTfiles/coin_replay_Full_%s_%s.root" % (REPLAYPATH, runNum, MaxEvent)
 
 '''
 ANALYSIS TREE, T
