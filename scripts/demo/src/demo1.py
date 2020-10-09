@@ -70,6 +70,7 @@ def All_events():
     
     All_Events = { # Create a dictionary containg our array
         # Name of the element in our dictionary - this is important!
+        # The elements (dict keys) we enter here are the "trees" in the root file we make at the end, the branches of the tree are the elements of the array above (which are themselves, arrays)
         # Our produced root file will have trees named according to what we enter here
         "All_Events" : Events_Info,
     }
@@ -105,9 +106,9 @@ def main():
     SHMS_Events_Data = SHMS_events()
     
     # This is just the list of branches we use from the initial root file for each dict
-    # They're the "headers" of the data frame we create - i.e. they're going to be the branches in our new root file
+    # They're the "headers" of the data frame we create - i.e. they're going to be the names of the tree branches in our new root file
     # Note - I don't like re-defining this here as it's very prone to errors if you included (or removed something) earlier but didn't modify it here
-    All_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp"]
+    All_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp"] 
     HMS_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp"]
     SHMS_Data_Header = ["P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp"]
     data = {} # Create an empty dictionary
