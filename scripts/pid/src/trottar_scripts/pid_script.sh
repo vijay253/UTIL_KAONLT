@@ -48,7 +48,7 @@ source /apps/root/6.18.04/setroot_CUE.bash
 cd ${REPLAYPATH}/UTIL_KAONLT/scripts/pid/src/
 python3 pid_eff.py ${RUNNUMBER} ${MAXEVENTS}
 
-cd ${REPLAYPATH}/UTIL_KAONLT/scripts/pid/OUTPUT/
+cd ${REPLAYPATH}/UTIL_KAONLT/scripts/pid/OUTPUTS/
 convert MMK_${RUNNUMBER}.png noID_shms_hgcer_${RUNNUMBER}.png PID_shms_hgcer_${RUNNUMBER}.png pid_plots_${RUNNUMBER}.pdf
 rm -rf *.png
 
