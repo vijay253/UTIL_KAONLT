@@ -24,5 +24,6 @@ tmp
 REPORT_OUTPUT
 HISTOGRAMS
 ROOTfiles
+ROOTfiles_100k
 OUTPUT
 batch/tmp
