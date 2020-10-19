@@ -1,8 +1,7 @@
 #! /usr/bin/python
 
 # 15/10/20 - Stephen Kay, University of Regina
-
-# Script to extract the kaon cointime peak from the data and save info as a new rootfile, subsequent script fits the peak to extract the position to examine the stability
+# Script to extract the pion and kaon cointime peak from the data and save info as a new rootfile, subsequent script fits the peak to extract the position to examine the stability
 
 # Import relevant packages
 import uproot as up
@@ -17,12 +16,14 @@ import matplotlib.pyplot as plt
 import sys, math, os, subprocess
 
 sys.path.insert(0, 'python/')
-if len(sys.argv)-1!=2:
-    print("!!!!! ERROR !!!!!\n Expected 2 arguments\n Usage is with - RunNumber MaxEvents \n!!!!! ERROR !!!!!")
+# Check the number of arguments provided to the script
+if len(sys.argv)-1!=3:
+    print("!!!!! ERROR !!!!!\n Expected 3 arguments\n Usage is with - ROOTfilePrefix RunNumber MaxEvents \n!!!!! ERROR !!!!!")
     sys.exit(1)
 # Input params - run number and max number of events
-runNum = sys.argv[1]
-MaxEvent = sys.argv[2]
+ROOTPrefix = sys.argv[1]
+runNum = sys.argv[2]
+MaxEvent = sys.argv[3]
 
 USER = subprocess.getstatusoutput("whoami") # Grab user info for file finding
 HOST = subprocess.getstatusoutput("hostname")
@@ -41,10 +42,11 @@ import kaonlt as klt
 
 print("Running as %s on %s, hallc_replay_lt path assumed as %s" % (USER[1], HOST[1], REPLAYPATH))
 #rootName = "%s/UTIL_KAONLT/ROOTfiles/Proton_coin_replay_production_%s_%s.root" % (REPLAYPATH, runNum, MaxEvent)
-rootName =  "%s/UTIL_KAONLT/ROOTfiles_100k/coin_replay_Full_%s_%s.root" % (REPLAYPATH, runNum, MaxEvent)
+rootName = "%s/UTIL_KAONLT/ROOTfiles/%s_%s_%s.root" % (REPLAYPATH, ROOTPrefix, runNum, MaxEvent)
 # Read stuff from the main event tree
 e_tree = up.open(rootName)["T"]
 # Timing info
+CTime_ePiCoinTime_ROC1 = e_tree.array("CTime.ePiCoinTime_ROC1")
 CTime_eKCoinTime_ROC1 = e_tree.array("CTime.eKCoinTime_ROC1")
 # HMS info
 H_gtr_beta = e_tree.array("H.gtr.beta")
@@ -101,53 +103,69 @@ def make_cutDict(cut,inputDict=None):
         
     return inputDict
 
-cutDict = make_cutDict("coin_ek_cut_all")
+cutDict = make_cutDict("coin_epi_cut_all")
+cutDict = make_cutDict("coin_ek_cut_all", cutDict)
+cutDict = make_cutDict("coin_epi_cut_prompt", cutDict)
 cutDict = make_cutDict("coin_ek_cut_prompt", cutDict)
+cutDict = make_cutDict("coin_epi_cut_peak_only", cutDict)
 cutDict = make_cutDict("coin_ek_cut_peak_only", cutDict)
 c = klt.pyPlot(cutDict)
 
-def coin_kaons(): 
+def coin_events(): 
     # Define the array of arrays containing the relevant HMS and SHMS info
-    All_Events_Uncut_tmp = [H_gtr_beta, H_gtr_xp, H_gtr_yp, H_gtr_dp, H_cal_etotnorm, H_cer_npeSum, CTime_eKCoinTime_ROC1, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer]
-    All_Events_Uncut = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*All_Events_Uncut_tmp)] 
+    All_Events_Uncut_tmp = [H_gtr_beta, H_gtr_xp, H_gtr_yp, H_gtr_dp, H_cal_etotnorm, H_cer_npeSum, CTime_ePiCoinTime_ROC1, CTime_eKCoinTime_ROC1, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer]
+    All_Events_Uncut = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*All_Events_Uncut_tmp)] 
 
-    # Create array of arrays of pions after cuts, all events, prompt and random
+    # Create array of arrays of pions and kaons after cuts, all events, prompt and random
+    Pion_Events_All_tmp =[]
     Kaon_Events_All_tmp = []
 
     # Go over every array in All_Events_Uncut_tmp, append to the other arrays the array after a cut is applied
     for arr in All_Events_Uncut_tmp:
+        Pion_Events_All_tmp.append(c.add_cut(arr, "coin_epi_cut_all")) # Apply PID but no cointime cut
         Kaon_Events_All_tmp.append(c.add_cut(arr, "coin_ek_cut_all")) # Apply PID but no cointime cut
 
-    Prompt_Events_CT_Only = np.array(c.add_cut(CTime_eKCoinTime_ROC1, "coin_ek_cut_peak_only")) # Apply only the prompt CT cut
-    Prompt_Kaon_Events_CT_Only = np.array(c.add_cut(CTime_eKCoinTime_ROC1, "coin_ek_cut_prompt")) # Apply PID and cointime cuts
-       
-    Kaon_Events_All = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*Kaon_Events_All_tmp)]
+    Prompt_Events_piCT_Only = np.array(c.add_cut(CTime_ePiCoinTime_ROC1, "coin_epi_cut_peak_only")) # Apply only the prompt CT cut
+    Prompt_Pion_Events_piCT_Only = np.array(c.add_cut(CTime_ePiCoinTime_ROC1, "coin_epi_cut_prompt")) # Apply PID and cointime cuts
+    Prompt_Events_kCT_Only = np.array(c.add_cut(CTime_eKCoinTime_ROC1, "coin_ek_cut_peak_only")) # Apply only the prompt CT cut
+    Prompt_Kaon_Events_kCT_Only = np.array(c.add_cut(CTime_eKCoinTime_ROC1, "coin_ek_cut_prompt")) # Apply PID and cointime cuts
+      
+    Pion_Events_All = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*Pion_Events_All_tmp)] 
+    Kaon_Events_All = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*Kaon_Events_All_tmp)]
 
-    COIN_Kaons = {
+    COIN_EventInfo = {
         "All_Events" : All_Events_Uncut,
-        "Prompt_CT_Only" : Prompt_Events_CT_Only,
-        "Kaons_All" :  Kaon_Events_All,
-        "Prompt_Kaons_CT_Only" : Prompt_Kaon_Events_CT_Only,
+        "Prompt_piCT_Only" : Prompt_Events_piCT_Only,
+        "Prompt_kCT_Only" : Prompt_Events_kCT_Only,
+        "Pions_All" : Pion_Events_All,
+        "Kaons_All" : Kaon_Events_All,
+        "Prompt_Pions_piCT_Only" : Prompt_Pion_Events_piCT_Only,
+        "Prompt_Kaons_kCT_Only" : Prompt_Kaon_Events_kCT_Only,
         }
 
-    return COIN_Kaons
+    return COIN_EventInfo
 
 def main():
-    COIN_Kaon_Data = coin_kaons()
-    COIN_CT_Only_Header = ["CTime_eKCoinTime_ROC1"]
-    COIN_Kaon_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","H_cal_etotnorm","H_cer_npeSum","CTime_eKCoinTime_ROC1","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm","P_aero_npeSum","P_hgcer_npeSum","P_hgcer_xAtCer","P_hgcer_yAtCer"]
+    COIN_Data = coin_events()
 
-    data_keys = list(COIN_Kaon_Data.keys()) # Create a list of all the keys in all dicts added above, each is an array of data
+    COIN_piCT_Only_Header = ["CTime_eKCoinTime_ROC1"]
+    COIN_kCT_Only_Header = ["CTime_eKCoinTime_ROC1"]
+    COIN_All_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","H_cal_etotnorm","H_cer_npeSum","CTime_ePiCoinTime_ROC1","CTime_eKCoinTime_ROC1","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm","P_aero_npeSum","P_hgcer_npeSum","P_hgcer_xAtCer","P_hgcer_yAtCer"]
+
+    data_keys = list(COIN_Data.keys()) # Create a list of all the keys in all dicts added above, each is an array of data
+    #print(data_keys)
 
     for i in range (0, len(data_keys)):
-        if("CT_Only" in data_keys[i]):
-            DFHeader=list(COIN_CT_Only_Header)
+        if("piCT" in data_keys[i]):
+            DFHeader=list(COIN_piCT_Only_Header)
+        elif("kCT" in data_keys[i]):
+            DFHeader=list(COIN_kCT_Only_Header)
         else:
-            DFHeader=list(COIN_Kaon_Data_Header)
+            DFHeader=list(COIN_All_Data_Header)
         if (i == 0):
-            pd.DataFrame(COIN_Kaon_Data.get(data_keys[i]), columns = DFHeader, index = None).to_root("%s/%s_%s_KCT_Data.root" % (OUTPATH, runNum, MaxEvent), key ="%s" % data_keys[i])
+            pd.DataFrame(COIN_Data.get(data_keys[i]), columns = DFHeader, index = None).to_root("%s/%s_%s_CTPeak_Data.root" % (OUTPATH, runNum, MaxEvent), key ="%s" % data_keys[i])
         elif (i != 0):
-            pd.DataFrame(COIN_Kaon_Data.get(data_keys[i]), columns = DFHeader, index = None).to_root("%s/%s_%s_KCT_Data.root" % (OUTPATH, runNum, MaxEvent), key ="%s" % data_keys[i], mode ='a') 
+            pd.DataFrame(COIN_Data.get(data_keys[i]), columns = DFHeader, index = None).to_root("%s/%s_%s_CTPeak_Data.root" % (OUTPATH, runNum, MaxEvent), key ="%s" % data_keys[i], mode ='a') 
                     
 if __name__ == '__main__':
     main()
