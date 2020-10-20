@@ -67,16 +67,15 @@ if [ $TestingVar == 1 ]; then
 elif [ $TestingVar != 1 ]; then
     cp "${UTILPATH}/scripts/CoinTimePeak/Kinematics/${KINEMATIC}_MissingCTAnalysis" "$REPLAYPATH/UTIL_BATCH/InputRunLists/${KINEMATIC}_MissingCTAnalysis"
     if [ $Autosub == 1 ]; then
-	yes y | eval "$REPLAYPATH/UTIL_BATCH/batch_scripts/CTPeak_Analysis.sh ${KINEMATIC}_MissingCTAnalysis"
+	yes y | eval "$REPLAYPATH/UTIL_BATCH/batch_scripts/run_batch_CTPeak_Analysis.sh ${KINEMATIC}_MissingCTAnalysis"
     else echo "Analyses missing, list copied to UTIL_BATCH directory, run if desired"
     fi
 fi
 if [ $TestingVar == 1 ]; then
-    if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output" ]; then
-	rm "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output"
-    else touch "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output"
+    if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv" ]; then
+	rm "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv"
+    else touch "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv"
     fi
-    echo "RunNum,PionPeak,PionPeakErr,PionWidth,PionWidthErr,KaonPeak,KaonPeakErr,KaonWidth,KaonWidthErr" >> "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output"
     while IFS='' read -r line || [[ -n "$line" ]]; do
 	runNum=$line
 	OutputFile="${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_Out_tmp"
@@ -87,10 +86,14 @@ if [ $TestingVar == 1 ]; then
 	root -b -l -q "${UTILPATH}/scripts/CoinTimePeak/PlotCoinPeak.C(\"${runNum}_-1_CTPeak_Data.root\", \"${runNum}_CTOut\")" >> ${OutputFile}
 	sleep 1
 	Data=$(sed -n "/${runNum},/p" $OutputFile)
-	echo ${Data} >> "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output"
+	echo ${Data} >> "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv"
 	sleep 1
-	#rm ${OutputFile}
+	rm ${OutputFile}
     done < "$RunListFile"
+fi
+
+if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv" ]; then
+    root -b -l -q "${UTILPATH}/scripts/CoinTimePeak/PlotKinematic.C(\"${KINEMATIC}\")" 
 fi
 
 exit 0

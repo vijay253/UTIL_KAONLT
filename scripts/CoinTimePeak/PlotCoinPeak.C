@@ -88,6 +88,7 @@ void PlotCoinPeak(string InFilename = "", string OutFilename = "")
   PionFit->SetParName(2, "Sigma");
   PionFit->SetParLimits(0, (PionMaxEnt/2), (PionMaxEnt*2)); PionFit->SetParameter(0, PionMaxEnt);
   PionFit->SetParLimits(1, (PionMaxVal-0.5), (PionMaxVal+0.5)); PionFit->SetParameter(1, PionMaxVal);
+  PionFit->SetParLimits(2, 0.1, 2); PionFit->SetParameter(2, 0.2);
   PionFit->SetRange(PionMaxVal-1, PionMaxVal+1);
   TF1 *KaonFit = new TF1("KaonFit","([0]*exp(-0.5*((x-[1])/[2])*((x-[1])/[2])))");
   KaonFit->SetParName(0, "Amplitude");
@@ -95,6 +96,7 @@ void PlotCoinPeak(string InFilename = "", string OutFilename = "")
   KaonFit->SetParName(2, "Sigma");
   KaonFit->SetParLimits(0, (KaonMaxEnt/2), (KaonMaxEnt*2)); KaonFit->SetParameter(0, KaonMaxEnt);
   KaonFit->SetParLimits(1, (KaonMaxVal-0.5), (KaonMaxVal+0.5)); KaonFit->SetParameter(1, KaonMaxVal);
+  KaonFit->SetParLimits(2, 0.1, 2); KaonFit->SetParameter(2, 0.2);
   KaonFit->SetRange(KaonMaxVal-1, KaonMaxVal+1);
   h1_CT_Pions->Fit("PionFit", "RMQ");
   h1_CT_Kaons->Fit("KaonFit", "RMQ");
