@@ -48,6 +48,7 @@ e_tree = up.open(rootName)["T"]
 # Timing info
 CTime_ePiCoinTime_ROC1 = e_tree.array("CTime.ePiCoinTime_ROC1")
 CTime_eKCoinTime_ROC1 = e_tree.array("CTime.eKCoinTime_ROC1")
+CTime_epCoinTime_ROC1 = e_tree.array("CTime.epCoinTime_ROC1")
 # HMS info
 H_gtr_beta = e_tree.array("H.gtr.beta")
 H_gtr_xp = e_tree.array("H.gtr.th") # xpfp -> Theta
@@ -105,42 +106,53 @@ def make_cutDict(cut,inputDict=None):
 
 cutDict = make_cutDict("coin_epi_cut_all")
 cutDict = make_cutDict("coin_ek_cut_all", cutDict)
+cutDict = make_cutDict("coin_ep_cut_all", cutDict)
 cutDict = make_cutDict("coin_epi_cut_prompt", cutDict)
 cutDict = make_cutDict("coin_ek_cut_prompt", cutDict)
+cutDict = make_cutDict("coin_ep_cut_prompt", cutDict)
 cutDict = make_cutDict("coin_epi_cut_peak_only", cutDict)
 cutDict = make_cutDict("coin_ek_cut_peak_only", cutDict)
+cutDict = make_cutDict("coin_ep_cut_peak_only", cutDict)
 c = klt.pyPlot(cutDict)
 
 def coin_events(): 
     # Define the array of arrays containing the relevant HMS and SHMS info
-    All_Events_Uncut_tmp = [H_gtr_beta, H_gtr_xp, H_gtr_yp, H_gtr_dp, H_cal_etotnorm, H_cer_npeSum, CTime_ePiCoinTime_ROC1, CTime_eKCoinTime_ROC1, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer]
-    All_Events_Uncut = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*All_Events_Uncut_tmp)] 
+    All_Events_Uncut_tmp = [H_gtr_beta, H_gtr_xp, H_gtr_yp, H_gtr_dp, H_cal_etotnorm, H_cer_npeSum, CTime_ePiCoinTime_ROC1, CTime_eKCoinTime_ROC1, CTime_epCoinTime_ROC1, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer]
+    All_Events_Uncut = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, CTp, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, CTp, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*All_Events_Uncut_tmp)] 
 
     # Create array of arrays of pions and kaons after cuts, all events, prompt and random
     Pion_Events_All_tmp =[]
     Kaon_Events_All_tmp = []
+    Proton_Events_All_tmp = []
 
     # Go over every array in All_Events_Uncut_tmp, append to the other arrays the array after a cut is applied
     for arr in All_Events_Uncut_tmp:
         Pion_Events_All_tmp.append(c.add_cut(arr, "coin_epi_cut_all")) # Apply PID but no cointime cut
         Kaon_Events_All_tmp.append(c.add_cut(arr, "coin_ek_cut_all")) # Apply PID but no cointime cut
+        Proton_Events_All_tmp.append(c.add_cut(arr, "coin_ep_cut_all")) # Apply PID but no cointime cut
 
     Prompt_Events_piCT_Only = np.array(c.add_cut(CTime_ePiCoinTime_ROC1, "coin_epi_cut_peak_only")) # Apply only the prompt CT cut
     Prompt_Pion_Events_piCT_Only = np.array(c.add_cut(CTime_ePiCoinTime_ROC1, "coin_epi_cut_prompt")) # Apply PID and cointime cuts
     Prompt_Events_kCT_Only = np.array(c.add_cut(CTime_eKCoinTime_ROC1, "coin_ek_cut_peak_only")) # Apply only the prompt CT cut
     Prompt_Kaon_Events_kCT_Only = np.array(c.add_cut(CTime_eKCoinTime_ROC1, "coin_ek_cut_prompt")) # Apply PID and cointime cuts
+    Prompt_Events_pCT_Only = np.array(c.add_cut(CTime_epCoinTime_ROC1, "coin_ep_cut_peak_only")) # Apply only the prompt CT cut
+    Prompt_Proton_Events_pCT_Only = np.array(c.add_cut(CTime_epCoinTime_ROC1, "coin_ep_cut_prompt")) # Apply PID and cointime cuts
       
-    Pion_Events_All = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*Pion_Events_All_tmp)] 
-    Kaon_Events_All = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*Kaon_Events_All_tmp)]
+    Pion_Events_All = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, CTp, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, CTp, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*Pion_Events_All_tmp)] 
+    Kaon_Events_All = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, CTp, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, CTp, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*Kaon_Events_All_tmp)]
+    Proton_Events_All = [(HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, CTp, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) for (HBeta, Hxp, Hyp, Hdel, HCal, HCer, CTPi, CTK, CTp, KBeta, Kxp, Kyp, KP, KDel, KCal, KAero, KHGC, KHGCX, KHGCY) in zip(*Proton_Events_All_tmp)]
 
     COIN_EventInfo = {
         "All_Events" : All_Events_Uncut,
         "Prompt_piCT_Only" : Prompt_Events_piCT_Only,
         "Prompt_kCT_Only" : Prompt_Events_kCT_Only,
+        "Prompt_pCT_Only" : Prompt_Events_pCT_Only,
         "Pions_All" : Pion_Events_All,
         "Kaons_All" : Kaon_Events_All,
+        "Protons_All" : Proton_Events_All,
         "Prompt_Pions_piCT_Only" : Prompt_Pion_Events_piCT_Only,
         "Prompt_Kaons_kCT_Only" : Prompt_Kaon_Events_kCT_Only,
+        "Prompt_Protons_pCT_Only" : Prompt_Proton_Events_pCT_Only,
         }
 
     return COIN_EventInfo
@@ -150,7 +162,8 @@ def main():
 
     COIN_piCT_Only_Header = ["CTime_eKCoinTime_ROC1"]
     COIN_kCT_Only_Header = ["CTime_eKCoinTime_ROC1"]
-    COIN_All_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","H_cal_etotnorm","H_cer_npeSum","CTime_ePiCoinTime_ROC1","CTime_eKCoinTime_ROC1","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm","P_aero_npeSum","P_hgcer_npeSum","P_hgcer_xAtCer","P_hgcer_yAtCer"]
+    COIN_pCT_Only_Header = ["CTime_epCoinTime_ROC1"]
+    COIN_All_Data_Header = ["H_gtr_beta","H_gtr_xp","H_gtr_yp","H_gtr_dp","H_cal_etotnorm","H_cer_npeSum","CTime_ePiCoinTime_ROC1","CTime_eKCoinTime_ROC1","CTime_epCoinTime_ROC1","P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm","P_aero_npeSum","P_hgcer_npeSum","P_hgcer_xAtCer","P_hgcer_yAtCer"]
 
     data_keys = list(COIN_Data.keys()) # Create a list of all the keys in all dicts added above, each is an array of data
     #print(data_keys)
@@ -160,6 +173,8 @@ def main():
             DFHeader=list(COIN_piCT_Only_Header)
         elif("kCT" in data_keys[i]):
             DFHeader=list(COIN_kCT_Only_Header)
+        elif("pCT" in data_keys[i]):
+            DFHeader=list(COIN_pCT_Only_Header)
         else:
             DFHeader=list(COIN_All_Data_Header)
         if (i == 0):

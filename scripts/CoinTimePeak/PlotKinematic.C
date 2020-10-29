@@ -60,7 +60,7 @@ void PlotKinematic(string Kinematic = "")
   // Slightly labourious but converts csv to tree, then reads all the info from the tree and assigns it to double arrays
   // Can then define our TGraphErrors using the arrays
   TTree *KinData = new TTree("t","tree from"+KinCsv);
-  KinData->ReadFile(KinCsv, "RunNumber/D:PionPeak:PionPeakErr:PionWidth:PionWidthErr:KaonPeak:KaonPeakErr:KaonWidth:KaonWidthErr");
+  KinData->ReadFile(KinCsv, "RunNumber/D:PionPeak:PionPeakErr:PionWidth:PionWidthErr:KaonPeak:KaonPeakErr:KaonWidth:KaonWidthErr:ProtonPeak:ProtonPeakErr:ProtonWidth:ProtonWidthErr");
   Long64_t nEntries = KinData->GetEntries();
   Double_t RunNum; Double_t RunNumArr[nEntries]; KinData->SetBranchAddress("RunNumber", &RunNum); 
   Double_t PiCTPeak; Double_t PiCTPeakArr[nEntries]; KinData->SetBranchAddress("PionPeak", &PiCTPeak);
@@ -71,6 +71,11 @@ void PlotKinematic(string Kinematic = "")
   Double_t KCTPeakErr; Double_t KCTPeakErrArr[nEntries]; KinData->SetBranchAddress("KaonPeakErr", &KCTPeakErr);
   Double_t KCTWidth; Double_t KCTWidthArr[nEntries]; KinData->SetBranchAddress("KaonWidth", &KCTWidth);
   Double_t KCTWidthErr; Double_t KCTWidthErrArr[nEntries]; KinData->SetBranchAddress("KaonWidthErr", &KCTWidthErr);
+  Double_t pCTPeak; Double_t pCTPeakArr[nEntries]; KinData->SetBranchAddress("ProtonPeak", &pCTPeak);
+  Double_t pCTPeakErr; Double_t pCTPeakErrArr[nEntries]; KinData->SetBranchAddress("ProtonPeakErr", &pCTPeakErr);
+  Double_t pCTWidth; Double_t pCTWidthArr[nEntries]; KinData->SetBranchAddress("ProtonWidth", &pCTWidth);
+  Double_t pCTWidthErr; Double_t pCTWidthErrArr[nEntries]; KinData->SetBranchAddress("ProtonWidthErr", &pCTWidthErr);
+
   // We also need x errors annoyingly so just make an array and fill it with 0
   Double_t RunNumErr[nEntries]; // No actual error on this but needed for TGraph errors
 
@@ -86,6 +91,10 @@ void PlotKinematic(string Kinematic = "")
     KCTPeakErrArr[i]=KCTPeakErr;
     KCTWidthArr[i]=KCTWidth;
     KCTWidthErrArr[i]=KCTWidthErr;
+    pCTPeakArr[i]=pCTPeak;
+    pCTPeakErrArr[i]=pCTPeakErr;
+    pCTWidthArr[i]=pCTWidth;
+    pCTWidthErrArr[i]=pCTWidthErr;
   }
 
   auto PiCTPeakPlot = new TGraphErrors(nEntries, RunNumArr, PiCTPeakArr, RunNumErr, PiCTPeakErrArr);
@@ -100,9 +109,15 @@ void PlotKinematic(string Kinematic = "")
   auto KCTWidthPlot = new TGraphErrors(nEntries, RunNumArr, KCTWidthArr, RunNumErr, KCTWidthErrArr);
   KCTWidthPlot->SetTitle(Form("%s K CT Peak Width; RunNumber; CT Peak Width/ns", Kinematic.c_str()));
   KCTWidthPlot->SetMarkerStyle(22); KCTWidthPlot->SetMarkerSize(1.2); KCTWidthPlot->SetMarkerColor(2); KCTWidthPlot->SetLineColor(2);
+  auto pCTPeakPlot = new TGraphErrors(nEntries, RunNumArr, pCTPeakArr, RunNumErr, pCTPeakErrArr);
+  pCTPeakPlot->SetTitle(Form("%s p CT Peak Position; RunNumber; CT Peak Position/ns", Kinematic.c_str()));
+  pCTPeakPlot->SetMarkerStyle(22); pCTPeakPlot->SetMarkerSize(1.2); pCTPeakPlot->SetMarkerColor(2); pCTPeakPlot->SetLineColor(2);
+  auto pCTWidthPlot = new TGraphErrors(nEntries, RunNumArr, pCTWidthArr, RunNumErr, pCTWidthErrArr);
+  pCTWidthPlot->SetTitle(Form("%s p CT Peak Width; RunNumber; CT Peak Width/ns", Kinematic.c_str()));
+  pCTWidthPlot->SetMarkerStyle(22); pCTWidthPlot->SetMarkerSize(1.2); pCTWidthPlot->SetMarkerColor(2); pCTWidthPlot->SetLineColor(2);
 
   TCanvas *c_Summary = new TCanvas("c_Summary", "Summary", 100, 0, 1000, 900);
-  c_Summary->Divide(2,2);
+  c_Summary->Divide(2,3);
   c_Summary->cd(1);
   PiCTPeakPlot->Draw("AEP");
   c_Summary->cd(2);
@@ -111,6 +126,11 @@ void PlotKinematic(string Kinematic = "")
   KCTPeakPlot->Draw("AEP");
   c_Summary->cd(4);
   KCTWidthPlot->Draw("AEP");
+  c_Summary->cd(5);
+  pCTPeakPlot->Draw("AEP");
+  c_Summary->cd(6);
+  pCTWidthPlot->Draw("AEP");
+
   c_Summary->Print(foutpdf + '(');
 
   TCanvas *c_PiPeakPos = new TCanvas("PiPeakPos", "#pi CT Peak Position", 100, 0, 1000, 900);
@@ -124,13 +144,21 @@ void PlotKinematic(string Kinematic = "")
   c_KPeakPos->Print(foutpdf);
   TCanvas *c_KPeakWid = new TCanvas("KPeakWid", "K CT Peak Width", 100, 0, 1000, 900);
   KCTWidthPlot->Draw("AEP");
-  c_KPeakWid->Print(foutpdf + ')');
+  c_KPeakWid->Print(foutpdf);
+  TCanvas *c_pPeakPos = new TCanvas("pPeakPos", "p CT Peak Position", 100, 0, 1000, 900);
+  pCTPeakPlot->Draw("AEP");
+  c_pPeakPos->Print(foutpdf);
+  TCanvas *c_pPeakWid = new TCanvas("pPeakWid", "p CT Peak Width", 100, 0, 1000, 900);
+  pCTWidthPlot->Draw("AEP");
+  c_pPeakWid->Print(foutpdf + ')');
 
   TFile *OutRoot_file = new TFile(foutroot,"RECREATE");
   PiCTPeakPlot->Write();
   PiCTWidthPlot->Write();
   KCTPeakPlot->Write();
   KCTWidthPlot->Write();
+  pCTPeakPlot->Write();
+  pCTWidthPlot->Write();
   OutRoot_file->Close();
 
 }
