@@ -31,8 +31,8 @@ elif ("trottar" in HOST[1]):
 
 print("Running as %s on %s, hallc_replay_lt path assumed as %s" % (USER[1], HOST[1], REPLAYPATH))
 
-inp_f = "%s/UTIL_KAONLT/scripts/pid/OUTPUT/pid_data.csv" % str(REPLAYPATH)
-out_f = "%s/UTIL_KAONLT/scripts/pid/OUTPUT/pid_data.root" % str(REPLAYPATH)
+inp_f = "%s/UTIL_KAONLT/scripts/pid/OUTPUTS/pid_data.csv" % str(REPLAYPATH)
+out_f = "%s/UTIL_KAONLT/scripts/pid/OUTPUTS/pid_data.root" % str(REPLAYPATH)
 
 try:
     pid_data = dict(pd.read_csv(inp_f))
