@@ -67,10 +67,32 @@ if [ $TestingVar == 1 ]; then
 elif [ $TestingVar != 1 ]; then
     cp "${UTILPATH}/scripts/CoinTimePeak/Kinematics/${KINEMATIC}_MissingCTAnalysis" "$REPLAYPATH/UTIL_BATCH/InputRunLists/${KINEMATIC}_MissingCTAnalysis"
     if [ $Autosub == 1 ]; then
+	while IFS='' read -r line || [[ -n "$line" ]]; do
+	    runNum=$line
+	    if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_-1_CTPeak_Data.root" ]; then
+		rm "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_-1_CTPeak_Data.root"
+	    fi
+	    if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/Kaon_coin_replay_production_${runNum}_-1.root" ]; then
+		rm "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/Kaon_coin_replay_production_${runNum}_-1.root"
+	    fi
+	done < "${UTILPATH}/scripts/CoinTimePeak/Kinematics/${KINEMATIC}_MissingCTAnalysis"
 	yes y | eval "$REPLAYPATH/UTIL_BATCH/batch_scripts/run_batch_CTPeak_Analysis.sh ${KINEMATIC}_MissingCTAnalysis"
-    else echo "Analyses missing, list copied to UTIL_BATCH directory, run if desired"
+    elif [ $Autosub != 1 ]; then
+	echo "Analyses missing, list copied to UTIL_BATCH directory, run on farm if desired"
+	read -p "Process python script for missing replays/analyses interactively? <Y/N> " prompt2
+	if [[ $prompt2 == "y" || $prompt2 == "Y" || $prompt2 == "yes" || $prompt2 == "Yes" ]]; then
+	    source /apps/root/6.18.04/setroot_CUE.bash
+	    while IFS='' read -r line || [[ -n "$line" ]]; do
+		runNum=$line
+		if [ ! -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_-1_CTPeak_Data.root" ]; then
+		    python3 $UTILPATH/scripts/CoinTimePeak/src/CoinTimePeak.py "Kaon_coin_replay_production" ${runNum} "-1" 
+		fi
+	    done < "$RunListFile"
+	    else echo "Not processing python script interactively"
+	fi
     fi
 fi
+
 if [ $TestingVar == 1 ]; then
     if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv" ]; then
 	rm "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv"

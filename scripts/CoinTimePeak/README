@@ -1,0 +1,80 @@
+Stephen Kay - University of Regina
+05/11/20
+stephen.kay@uregina.ca
+
+This folder contains a series of scripts which can be utilised to determine the cointime peak position for pions, kaons and protons.
+
+This is a two step process (with an additional step if you want to analyse a whole kinematic at once). 
+
+##################################################
+############# Step 1 - Python Script #############
+##################################################
+
+Note - to execute the script you must be using a relatively new version of ROOT (>6.14, I use 6.18.04) and Python 3.4.3. You will also need a local installation of all of the imported package in the script. Typically, when running on the farm this means you will need to ass root_numpy and root_pandas. Execute
+
+pip install --user root_numpy                                                                                        
+pip install --user root_pandas
+
+from the command line if you do not have these installed already.
+
+The first step is to run the python script in /src, src/CoinTimePeak.py. This script is run via
+
+python3 CoinTimePeak.py ROOTPrefix runNum MaxEvent
+
+ROOTPrefix - Prefix of the replay ROOTfile name, omitting the final _ before the run number, assumed ROOTfiles are in the path - UTIL_KAONLT/ROOTfiles
+runNum - The run number of the replay ROOTfile
+MaxEvent - Max number of events in the replay ROOTfile
+
+e.g. if your replay is Kaon_coin_replay_production_8540_-1.root, you would execute the script via -
+
+python3 CoinTimePeak.py Kaon_coin_replay_production 8540 -1
+
+The output of this file is a trimmed .root file stored in UTIL_KAOLT/scripts/CoinTimePeak/OUTPUT with the name runNum_MaxEvent_CTPeak_Data.root. This rootfile includes trees which store info for Pi/K/p candidates, including branches that can be used to check the PID cut are OK if desired. For further analysis, only the following trees from this ROOTfile are used -
+
+Pions_All
+Kaons_All
+Protons_All
+
+These trees simply contains a branch with the Contime values for events that passed PID cuts for these particle species.
+
+#######################################################
+############# Step 2 - ROOT Fitting Macro #############
+#######################################################
+
+The second step is to execute a quick ROOT fitting macro, PlotCoinPeak.C, on our output from the pythin script. 
+
+The script is executed via
+
+root -b -l -q 'PlotCoinPeak.C("InputFile", "OutputfileName")'
+
+InputFile - This is simply the output of the python script, it is expected this file is in UTIL_KAOLT/scripts/CoinTimePeak/OUTPUT
+OutputfileName - This is the name of the desired outputfile (which again will be saved to UTIL_KAOLT/scripts/CoinTimePeak/OUTPUT)
+E.g. if we wanted to run on our output from the example above we would run
+
+root -b -l -q 'PlotCoinPeak.C("8540_-1_CTPeak_Data.root", "8540_Test")' 
+
+Note, run without -b/-l/-q if desired, this just trims down junk to screen from the farm.
+
+This script simply fills histograms of the Cointime data for each particle species and fits a simple Gaussian to the prompt peak in the data. This is achieved by forcing some contraints on the fitting ranges. 
+
+The mean of the gaussian fit is initially set to be equal to the value of the bin with the largest number of entries (e.g. GetBinCenter(h1_CT_Pions->GetMaximumBin()) ), for any run with anything more than a few events, this will almost certainly be a bin which roughly corresponds to the position of the coincidence time peak. The mean of the fit is only allowed to vary within +/- 0.5 of this value. 
+
+The amplitude of the Gaussian fit is also restricted to vary between 1/2 and 2x the number of entries in the bin with the larget number of entries (e.g.GetBinContent(h1_CT_Pions->GetMaximumBin())). Finally, the standard deviation of the fit is limited to vary between 0.1 and 2. 
+
+A fit is applied to each particle species ONLY in the range (InitialMeanVal-1) to (InitialMeanVal+1). Without this, minuit has a tendency to produce broad, flat peaks.
+
+The resulting three fits are saved to a .pdf and .root file with names based upon the specified OutputfileName provided as an argument. E.g. in our example we would get
+
+8540_Test.pdf and 8540_Test.root
+
+The script will also print to screen a list of numbers, these correspond to 
+
+RunNumber, PionPeakPos, PionPeakPosError, PionPeakFWHM, PionPeakFWHMError, KaonPeakPos, KaonPeakPosError, KaonPeakFWHM, KaonPeakFWHMError, ProtonPeakPos, ProtonPeakPosError, ProtonPeakFWHM, ProtonPeakFWHMError
+
+The intention is that these can be piped to a .csv file rather than the screen. This is done in the optional third step which processes an entire kinematic.
+
+NOTE - WORK IN PROGRESS - The peak position values will also soon be fed into a file with a format that matches up to the Timing_Parameters.csv used by the python script.
+
+##################################################################
+############# Step 3 - (Optional) Kinematic Analysis #############
+##################################################################
