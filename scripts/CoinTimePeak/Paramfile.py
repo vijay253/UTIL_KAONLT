@@ -66,42 +66,51 @@ for KinLine in KinListf:
         KinFilef = open(KinFile)
         #KinFileLineNum = 0 #
         for KinFileLine in KinFilef:
-            RunParamData = [0] * 10 # Initialise a 10 element array for the param data for each run (line) in the KinFile
-            # Go through output csv line by line, convert each line to an array
-            #KinFileLineNum += 1
-            KinFileLine=KinFileLine.rstrip() # Remoe trailing spaces
-            KinFileData=KinFileLine.split(",") # Convert csv row to an array
-            RunParamData[0]=int(KinFileData[0]) # Run number
-            RunParamData[1]=int(KinFileData[0])+1 # Run start = run end as this is to cover one run at a time
-            RunParamData[6]=float(KinFileData[1]) # Pion peak pos
-            RunParamData[7]=float(KinFileData[5]) # Kaon peak pos
-            RunParamData[8]=float(KinFileData[9]) # Proton peak pos
-            # Need to now get the rest of the run param values from the existing param file which we were also given
-            TempPar = -1 # To check later
-            TimingCutLineNum = 0 # Count Timing cut file line number
-            TimingCutFilef = open(TimingCutFile)
-            for TimingCutLine in TimingCutFilef:
-                TimingCutLineNum += 1 # Add one to line number at start of each loop
-                if(TimingCutLineNum > 1): # Skip first line
-                    TimingCutLine = TimingCutLine.partition('#')[0] # Treat anything after a # as a comment and ignore it
-                    TimingCutLine = TimingCutLine.rstrip()
-                    OldParamFileArr = TimingCutLine.split(",") # Convert line into an array, anything after a comma is a new entry
-                    if(int(OldParamFileArr[0]) in range (int(OldParamFileArr[0]), int(OldParamFileArr[1])+1)): # Check if run number for file is within any of the ranges specified in the cut file
-                        TempPar += 2 # If run number is in range, set to non -1 value
-                        RunParamData[2]=float(OldParamFileArr[2])
-                        RunParamData[3]=float(OldParamFileArr[3])
-                        RunParamData[4]=float(OldParamFileArr[4])
-                        RunParamData[5]=float(OldParamFileArr[5])
-                        RunParamData[9]=float(OldParamFileArr[9])
-            TimingCutFilef.close()
-            # If the run number was in the old param file, our new parameter file entry is now complete, we need to append it to our array for the new param file
-            if (TempPar != -1):
-                ParamData.append(RunParamData)
-            elif(TempPar == -1): # If the run number wasn't found in the old param file add it to a faild array file
-                FailedParamData.append(RunParamData)
+            # Check the line is not blank and process it if not
+            if (KinFileLine != "\n"):
+                RunParamData = [0] * 10 # Initialise a 10 element array for the param data for each run (line) in the KinFile
+                # Go through output csv line by line, convert each line to an array
+                #KinFileLineNum += 1
+                KinFileLine=KinFileLine.rstrip() # Remoe trailing spaces
+                KinFileData=KinFileLine.split(",") # Convert csv row to an array
+                RunParamData[0]=int(KinFileData[0]) # Run number
+                RunParamData[1]=int(KinFileData[0])+1 # Run start = run end as this is to cover one run at a time
+                RunParamData[6]=float(KinFileData[1]) # Pion peak pos
+                RunParamData[7]=float(KinFileData[5]) # Kaon peak pos
+                RunParamData[8]=float(KinFileData[9]) # Proton peak pos
+                # Need to now get the rest of the run param values from the existing param file which we were also given
+                TempPar = -1 # To check later
+                TimingCutLineNum = 0 # Count Timing cut file line number
+                TimingCutFilef = open(TimingCutFile)
+                for TimingCutLine in TimingCutFilef:
+                    TimingCutLineNum += 1 # Add one to line number at start of each loop
+                    if(TimingCutLineNum > 1): # Skip first line
+                        TimingCutLine = TimingCutLine.partition('#')[0] # Treat anything after a # as a comment and ignore it
+                        TimingCutLine = TimingCutLine.rstrip()
+                        OldParamFileArr = TimingCutLine.split(",") # Convert line into an array, anything after a comma is a new entry
+                        if(int(RunParamData[0]) in range (int(OldParamFileArr[0]), int(OldParamFileArr[1])+1)): # Check if run number for file is within any of the ranges specified in the cut file
+                            TempPar += 2 # If run number is in range, set to non -1 value
+                            RunParamData[2]=float(OldParamFileArr[2])
+                            RunParamData[3]=float(OldParamFileArr[3])
+                            RunParamData[4]=float(OldParamFileArr[4])
+                            RunParamData[5]=float(OldParamFileArr[5])
+                            RunParamData[9]=float(OldParamFileArr[9])
+                # Close loop over timing cut file and close the file
+                TimingCutFilef.close()
+                # If the run number was in the old param file, our new parameter file entry is now complete, we need to append it to our array for the new param file
+                if (TempPar != -1):
+                    ParamData.append(RunParamData)
+                elif(TempPar == -1): # If the run number wasn't found in the old param file add it to a failed array file
+                    FailedParamData.append(RunParamData)
+            # This is the else condition of if a line in the output for a kinematic file was emptry
+            else:
+                print("!!! WARNING !!! - Blank line in %s - check output is OK - !!! WARNING !!!" % KinFile)
+        # End loop over output file for a kinematic and close it
         KinFilef.close()
+    # If the output csv file for a kinematic doesn't exist or can't be opened, skip it
     else:
         print("!!!!! ERROR !!!!!\n %s does not exist or is not a valid file - Skipping \n!!!!! ERROR !!!!!" % KinFile)
+# End loop over kinematic file list and cloe it
 KinListf.close()
 
 ParamDataArr=np.array(ParamData, dtype='O')
