@@ -70,17 +70,19 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
 
   // Particles information with HGC cuts
   
-  TTree* Pions     = (TTree*)InFile->Get("SHMS_Pions")  ; Long64_t nEntries_Pions = (Long64_t)Pions->GetEntries();
-  TTree* Kaons     = (TTree*)InFile->Get("SHMS_Kaons")  ; Long64_t nEntries_Kaons = (Long64_t)Kaons->GetEntries();
-  TTree* Protons   = (TTree*)InFile->Get("SHMS_Protons"); Long64_t nEntries_Protons = (Long64_t)Protons->GetEntries();
+  TTree* Pions         = (TTree*)InFile->Get("SHMS_Pions")  ; Long64_t nEntries_Pions = (Long64_t)Pions->GetEntries();
+  TTree* Kaons         = (TTree*)InFile->Get("SHMS_Kaons")  ; Long64_t nEntries_Kaons = (Long64_t)Kaons->GetEntries();
+  TTree* Protons       = (TTree*)InFile->Get("SHMS_Protons"); Long64_t nEntries_Protons = (Long64_t)Protons->GetEntries();
+  TTree* Positrons     = (TTree*)InFile->Get("SHMS_Positrons")  ; Long64_t nEntries_Positrons = (Long64_t)Positrons->GetEntries();
 
  // Particles information no HGC cuts
   
-  TTree* Pions_No_HGC_Cuts     = (TTree*)InFile->Get("SHMS_Pions_Without_HGC_Cuts")  ; Long64_t nEntries_Pions_No_HGC_Cuts = (Long64_t)Pions_No_HGC_Cuts->GetEntries();
-  TTree* Kaons_No_HGC_Cuts     = (TTree*)InFile->Get("SHMS_Kaons_Without_HGC_Cuts")  ; Long64_t nEntries_Kaons_No_HGC_Cuts = (Long64_t)Kaons_No_HGC_Cuts->GetEntries();
-  TTree* Protons_No_HGC_Cuts   = (TTree*)InFile->Get("SHMS_Protons_Without_HGC_Cuts"); Long64_t nEntries_Protons_No_HGC_Cuts = (Long64_t)Protons_No_HGC_Cuts->GetEntries();
-  TTree* Pions_No_Aero_Cuts   = (TTree*)InFile->Get("SHMS_Pions_Aero_Without_Aero_Cuts"); Long64_t nEntries_Pions_No_Aero_Cuts = (Long64_t)Pions_No_Aero_Cuts->GetEntries();
-  TTree* Pions_No_Cal_Cuts   = (TTree*)InFile->Get("SHMS_Pions_Cal_Without_Cal_Cuts"); Long64_t nEntries_Pions_No_Cal_Cuts = (Long64_t)Pions_No_Cal_Cuts->GetEntries();
+  TTree* Pions_No_HGC_Cuts         = (TTree*)InFile->Get("SHMS_Pions_Without_HGC_Cuts")      ; Long64_t nEntries_Pions_No_HGC_Cuts       = (Long64_t)Pions_No_HGC_Cuts->GetEntries();
+  TTree* Positrons_No_HGC_Cuts     = (TTree*)InFile->Get("SHMS_Positrons_Without_HGC_Cuts")  ; Long64_t nEntries_Positrons_No_HGC_Cuts   = (Long64_t)Positrons_No_HGC_Cuts->GetEntries();
+  TTree* Kaons_No_HGC_Cuts         = (TTree*)InFile->Get("SHMS_Kaons_Without_HGC_Cuts")      ; Long64_t nEntries_Kaons_No_HGC_Cuts       = (Long64_t)Kaons_No_HGC_Cuts->GetEntries();
+  TTree* Protons_No_HGC_Cuts       = (TTree*)InFile->Get("SHMS_Protons_Without_HGC_Cuts")    ; Long64_t nEntries_Protons_No_HGC_Cuts     = (Long64_t)Protons_No_HGC_Cuts->GetEntries();
+  TTree* Pions_No_Aero_Cuts        = (TTree*)InFile->Get("SHMS_Pions_Aero_Without_Aero_Cuts"); Long64_t nEntries_Pions_No_Aero_Cuts  = (Long64_t)Pions_No_Aero_Cuts->GetEntries();
+  TTree* Pions_No_Cal_Cuts         = (TTree*)InFile->Get("SHMS_Pions_Cal_Without_Cal_Cuts")  ; Long64_t nEntries_Pions_No_Cal_Cuts     = (Long64_t)Pions_No_Cal_Cuts->GetEntries();
 
  // Particles information no cuts
   
@@ -111,29 +113,10 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
   Double_t CTime_eK_ROC1; SHMS_Events->SetBranchAddress("CTime_eKCoinTime_ROC1", &CTime_eK_ROC1);
   Double_t CTime_eP_ROC1; SHMS_Events->SetBranchAddress("CTime_epCoinTime_ROC1", &CTime_eP_ROC1);
 
-  // Set branch address for no HGC cuts
-
-
-  Double_t XAtCer_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_hgcer_xAtCer", &XAtCer_no_HGC_cut);
-  Double_t YAtCer_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_hgcer_yAtCer", &YAtCer_no_HGC_cut);
-  Double_t Prshower_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_cal_pr_eplane", &Prshower_no_HGC_cut);
-  Double_t Cal_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_cal_fly_earray", &Cal_no_HGC_cut);
-  Double_t gtr_x_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_x", &gtr_x_no_HGC_cut);
-  Double_t gtr_y_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_y", &gtr_y_no_HGC_cut);
-  Double_t gtr_beta_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_beta", &gtr_beta_no_HGC_cut);
-  Double_t gtr_p_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_p", &gtr_p_no_HGC_cut);
-  Double_t gtr_dp_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_dp", &gtr_dp_no_HGC_cut);
-  Double_t gtr_xp_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_xp", &gtr_xp_no_HGC_cut);
-  Double_t gtr_yp_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_yp", &gtr_yp_no_HGC_cut);
-  Double_t hgcer_npeSum_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_hgcer_npeSum", &hgcer_npeSum_no_HGC_cut);
-  Double_t P_cal_etot_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("P_cal_etotnorm", &P_cal_etot_no_HGC_cut);
-  Double_t CTime_ePi_ROC1_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("CTime_ePiCoinTime_ROC1", &CTime_ePi_ROC1_no_HGC_cut);
-  Double_t CTime_eK_ROC1_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("CTime_eKCoinTime_ROC1", &CTime_eK_ROC1_no_HGC_cut);
-  Double_t CTime_eP_ROC1_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("CTime_epCoinTime_ROC1", &CTime_eP_ROC1_no_HGC_cut);
-
+ 
  // Set branch address for Pions with HGC cuts
 
- //Pions
+ //Pions with HGC
   Double_t Pions_XAtCer; Pions->SetBranchAddress("P_hgcer_xAtCer", &Pions_XAtCer);
   Double_t Pions_YAtCer; Pions->SetBranchAddress("P_hgcer_yAtCer", &Pions_YAtCer);
   Double_t Pions_Cal_Pr_Shower; Pions->SetBranchAddress("P_cal_pr_eplane", &Pions_Cal_Pr_Shower);
@@ -141,7 +124,33 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
   Double_t Pions_SHMS_gtr_x; Pions->SetBranchAddress("P_gtr_x", &Pions_SHMS_gtr_x);
   Double_t Pions_SHMS_gtr_y; Pions->SetBranchAddress("P_gtr_y", &Pions_SHMS_gtr_y);
   Double_t Pions_SHMS_hgcer_npeSum; Pions->SetBranchAddress("P_hgcer_npeSum", &Pions_SHMS_hgcer_npeSum);
-  Double_t Pions_SHMS_aero_npeSum; Pions->SetBranchAddress("P_aero_npeSum", &Pions_SHMS_hgcer_npeSum);
+  Double_t Pions_SHMS_aero_npeSum; Pions->SetBranchAddress("P_aero_npeSum", &Pions_SHMS_aero_npeSum);
+  Double_t Pions_gtr_beta; Pions->SetBranchAddress("P_gtr_beta", &Pions_gtr_beta);
+  Double_t Pions_gtr_p; Pions->SetBranchAddress("P_gtr_p", &Pions_gtr_p);
+  Double_t Pions_gtr_dp; Pions->SetBranchAddress("P_gtr_dp", &Pions_gtr_dp);
+  Double_t Pions_gtr_xp; Pions->SetBranchAddress("P_gtr_xp", &Pions_gtr_xp);
+  Double_t Pions_gtr_yp; Pions->SetBranchAddress("P_gtr_yp", &Pions_gtr_yp); 
+  Double_t Pions_P_cal_etot; Pions->SetBranchAddress("P_cal_etotnorm", &Pions_P_cal_etot);
+  Double_t Pions_CTime_ePi_ROC1; Pions->SetBranchAddress("CTime_ePiCoinTime_ROC1", &Pions_CTime_ePi_ROC1);
+
+//Positrons with HGC
+  Double_t Positrons_XAtCer; Positrons->SetBranchAddress("P_hgcer_xAtCer", &Positrons_XAtCer);
+  Double_t Positrons_YAtCer; Positrons->SetBranchAddress("P_hgcer_yAtCer", &Positrons_YAtCer);
+  Double_t Positrons_Cal_Pr_Shower; Positrons->SetBranchAddress("P_cal_pr_eplane", &Positrons_Cal_Pr_Shower);
+  Double_t Positrons_Cal_Shower; Positrons->SetBranchAddress("P_cal_fly_earray", &Positrons_Cal_Shower);
+  Double_t Positrons_SHMS_gtr_x; Positrons->SetBranchAddress("P_gtr_x", &Positrons_SHMS_gtr_x);
+  Double_t Positrons_SHMS_gtr_y; Positrons->SetBranchAddress("P_gtr_y", &Positrons_SHMS_gtr_y);
+  Double_t Positrons_SHMS_hgcer_npeSum; Positrons->SetBranchAddress("P_hgcer_npeSum", &Positrons_SHMS_hgcer_npeSum);
+  Double_t Positrons_SHMS_aero_npeSum; Positrons->SetBranchAddress("P_aero_npeSum", &Positrons_SHMS_aero_npeSum);
+  Double_t Positrons_gtr_beta; Positrons->SetBranchAddress("P_gtr_beta", &Positrons_gtr_beta);
+  Double_t Positrons_gtr_p; Positrons->SetBranchAddress("P_gtr_p", &Positrons_gtr_p);
+  Double_t Positrons_gtr_dp; Positrons->SetBranchAddress("P_gtr_dp", &Positrons_gtr_dp);
+  Double_t Positrons_gtr_xp; Positrons->SetBranchAddress("P_gtr_xp", &Positrons_gtr_xp);
+  Double_t Positrons_gtr_yp; Positrons->SetBranchAddress("P_gtr_yp", &Positrons_gtr_yp); 
+  Double_t Positrons_P_cal_etot; Positrons->SetBranchAddress("P_cal_etotnorm", &Positrons_P_cal_etot);
+  // Double_t Positrons_CTime_ePi_ROC1; Pions->SetBranchAddress("CTime_ePiCoinTime_ROC1", &_CTime_ePi_ROC1);
+
+
 
  // Set branch address for Kaons with HGC cuts
 
@@ -175,7 +184,36 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
   Double_t Pions_No_HGC_Cuts_SHMS_gtr_x; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_x", &Pions_No_HGC_Cuts_SHMS_gtr_x);
   Double_t Pions_No_HGC_Cuts_SHMS_gtr_y; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_y", &Pions_No_HGC_Cuts_SHMS_gtr_y);
   Double_t Pions_No_HGC_Cuts_SHMS_hgcer_npeSum; Pions_No_HGC_Cuts->SetBranchAddress("P_hgcer_npeSum", &Pions_No_HGC_Cuts_SHMS_hgcer_npeSum);
-  
+  Double_t Pions_No_HGC_Cuts_SHMS_aero_npeSum; Pions_No_HGC_Cuts->SetBranchAddress("P_aero_npeSum", &Pions_No_HGC_Cuts_SHMS_aero_npeSum);
+  Double_t Pions_No_HGC_Cuts_gtr_beta; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_beta", &Pions_No_HGC_Cuts_gtr_beta);
+  Double_t Pions_No_HGC_Cuts_gtr_p; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_p", &Pions_No_HGC_Cuts_gtr_p);
+  Double_t Pions_No_HGC_Cuts_gtr_dp; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_dp", &Pions_No_HGC_Cuts_gtr_dp);
+  Double_t Pions_No_HGC_Cuts_gtr_xp; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_xp", &Pions_No_HGC_Cuts_gtr_xp);
+  Double_t Pions_No_HGC_Cuts_gtr_yp; Pions_No_HGC_Cuts->SetBranchAddress("P_gtr_yp", &Pions_No_HGC_Cuts_gtr_yp); 
+  Double_t Pions_No_HGC_Cuts_P_cal_etot; Pions_No_HGC_Cuts->SetBranchAddress("P_cal_etotnorm", &Pions_No_HGC_Cuts_P_cal_etot);
+  Double_t Pions_No_HGC_Cuts_CTime_ePi_ROC1; Pions_No_HGC_Cuts->SetBranchAddress("CTime_ePiCoinTime_ROC1", &Pions_No_HGC_Cuts_CTime_ePi_ROC1);
+  //Double_t CTime_eK_ROC1_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("CTime_eKCoinTime_ROC1", &CTime_eK_ROC1_no_HGC_cut);
+  // Double_t CTime_eP_ROC1_no_HGC_cut; Pions_No_HGC_Cuts->SetBranchAddress("CTime_epCoinTime_ROC1", &CTime_eP_ROC1_no_HGC_cut);
+
+  //Positrons
+  Double_t Positrons_No_HGC_Cuts_XAtCer; Positrons_No_HGC_Cuts->SetBranchAddress("P_hgcer_xAtCer", &Positrons_No_HGC_Cuts_XAtCer);
+  Double_t Positrons_No_HGC_Cuts_YAtCer; Positrons_No_HGC_Cuts->SetBranchAddress("P_hgcer_yAtCer", &Positrons_No_HGC_Cuts_YAtCer);
+  Double_t Positrons_No_HGC_Cuts_Cal_Pr_Shower; Positrons_No_HGC_Cuts->SetBranchAddress("P_cal_pr_eplane", &Positrons_No_HGC_Cuts_Cal_Pr_Shower);
+  Double_t Positrons_No_HGC_Cuts_Cal_Shower; Positrons_No_HGC_Cuts->SetBranchAddress("P_cal_fly_earray", &Positrons_No_HGC_Cuts_Cal_Shower);
+  Double_t Positrons_No_HGC_Cuts_SHMS_gtr_x; Positrons_No_HGC_Cuts->SetBranchAddress("P_gtr_x", &Positrons_No_HGC_Cuts_SHMS_gtr_x);
+  Double_t Positrons_No_HGC_Cuts_SHMS_gtr_y; Positrons_No_HGC_Cuts->SetBranchAddress("P_gtr_y", &Positrons_No_HGC_Cuts_SHMS_gtr_y);
+  Double_t Positrons_No_HGC_Cuts_SHMS_hgcer_npeSum; Positrons_No_HGC_Cuts->SetBranchAddress("P_hgcer_npeSum", &Positrons_No_HGC_Cuts_SHMS_hgcer_npeSum);
+  Double_t Positrons_No_HGC_Cuts_SHMS_aero_npeSum; Positrons_No_HGC_Cuts->SetBranchAddress("P_aero_npeSum", &Positrons_No_HGC_Cuts_SHMS_aero_npeSum);
+  Double_t Positrons_No_HGC_Cuts_gtr_beta; Positrons_No_HGC_Cuts->SetBranchAddress("P_gtr_beta", &Positrons_No_HGC_Cuts_gtr_beta);
+  Double_t Positrons_No_HGC_Cuts_gtr_p; Positrons_No_HGC_Cuts->SetBranchAddress("P_gtr_p", &Positrons_No_HGC_Cuts_gtr_p);
+  Double_t Positrons_No_HGC_Cuts_gtr_dp; Positrons_No_HGC_Cuts->SetBranchAddress("P_gtr_dp", &Positrons_No_HGC_Cuts_gtr_dp);
+  Double_t Positrons_No_HGC_Cuts_gtr_xp; Positrons_No_HGC_Cuts->SetBranchAddress("P_gtr_xp", &Positrons_No_HGC_Cuts_gtr_xp);
+  Double_t Positrons_No_HGC_Cuts_gtr_yp; Positrons_No_HGC_Cuts->SetBranchAddress("P_gtr_yp", &Positrons_No_HGC_Cuts_gtr_yp); 
+  Double_t Positrons_No_HGC_Cuts_P_cal_etot; Positrons_No_HGC_Cuts->SetBranchAddress("P_cal_etotnorm", &Positrons_No_HGC_Cuts_P_cal_etot);
+  // Double_t Pions_No_HGC_Cuts_CTime_ePi_ROC1; Pions_No_HGC_Cuts->SetBranchAddress("CTime_ePiCoinTime_ROC1", &Pions_No_HGC_Cuts_CTime_ePi_ROC1);
+ 
+
+
  // Set branch address for Kaons with no HGC cuts
 
   //Kaons
@@ -207,14 +245,15 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
   //Protons->Draw("CTime_eKCoinTime_ROC1 >> h1_CT_Protons", "", "goff"); 
 
  //Histograms for aerogel and Cal
-  TH1D *h1_aero_npeSum = new TH1D("h1_aero_npeSum","NPE vs Events; NPE; Events;", 300, 0.0, 30);
+  TH1D *h1_aero_npeSum = new TH1D("h1_aero_npeSum","Aerogel; P_aero_npeSum; Events;", 300, 0.0, 30);
 
   for(Long64_t i = 0; i <nEntries_Pions_No_Aero_Cuts; i++){
     Pions_No_Aero_Cuts->GetEntry(i);
     h1_aero_npeSum->Fill(aero_npeSum);
   }
 
-    TH1D *h1_cal_etot = new TH1D("h1_cal_etot","Calorimeter; Cal; Events;", 300, 0.0, 30);
+    TH1D *h1_cal_etot = new TH1D("h1_cal_etot","Calorimeter; P_cal_etotnorm; Events;", 300, 0.0, 5);
+    //x TH2D *h2_cal_vs_hgc = new TH2D("h2_cal_vs_hgc","Calorimeter VS HGC; P_cal_etotnorm; P_hgcer_npeSum;", 300, 0.0, 5, 300, 0.0, 30);
       
     for(Long64_t i = 0; i <nEntries_Pions_No_Cal_Cuts; i++){
       Pions_No_Cal_Cuts->GetEntry(i);
@@ -245,8 +284,8 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
       h1_hgcer_npeSum->Fill(hgcer_npeSum);
       h1_XAtCer->Fill(XAtCer);
       h1_YAtCer->Fill(YAtCer);
-      h1_Cal->Fill(Cal);
-      h1_Prshower->Fill(Prshower);
+      h1_Cal->Fill(Cal/gtr_p);
+      h1_Prshower->Fill(Prshower/gtr_p);
       h1_Xgtr->Fill(gtr_x);
       h1_Ygtr->Fill(gtr_y);
       h1_P_etot->Fill(P_cal_etot);  
@@ -262,20 +301,101 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
 
     //Histograms for cuts + HGC cuts
     //Pions
-    TH1D *h1_Pions_hgcer_npeSum = new TH1D("h1_Pion_hgcer_npeSum","NPE vs Events; NPE; Events;", 300, 0.0, 40);
-    TH2D *h2_Pions_XYAtCer = new TH2D("h2_Pions_XYAtCer","YAtCer vs XAtCer; YAtCer; XAtCer;", 200, -40, 40, 200, -40, 40);
-    TH2D *h2_Pions_Cal_Showers = new TH2D("h2_Pions_Cal_Showers","Cal vs Pr-Shower; Cal; Pr-Shower;", 300, 0.0, 2.0, 300, 0.0, 1.0);
-    TH2D *h2_Pions_XYgtr = new TH2D("h2_Pions_XYgtr","XY gtr; X gtr ; Y gtr;", 300, -3.0, 3.0, 300, -10, 10);
-    TH2D *h2_Pions_Eff = new TH2D("h2_Pions_Eff","Efficiency VS Position; X gtr ; Y gtr;", 200, -40, 40, 200, -40, 40);
-    TH1D *h1_Pions_aero_npeSum = new TH1D("h1_Pion_aero_npeSum","NPE vs Events; NPE; Events;", 300, 0.0, 40);
-   
+    //1-D Histograms
+    TH1D *h1_Pions_XAtCer = new TH1D("h1_Pions_XAtCer","HGC; P_hgcer_xAtCer; Events;", 300, -40, 40);
+    TH1D *h1_Pions_YAtCer = new TH1D("h1_Pions_YAtCer","HGC; P_hgcer_yAtCer; Events;", 300, -40, 40);
+    TH1D *h1_Pions_Prshower = new TH1D("h1_Pions_Prshower","Calorimeter; P_cal_pr_eplane; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pions_Shower = new TH1D("h1_Pions_Shower","Calorimeter; P_cal_fly_earray; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pions_Xgtr = new TH1D("h1_Pions_Xgtr","HGC; P_gtr_x ; Events;", 300, -3.0, 3.0);
+    TH1D *h1_Pions_Ygtr = new TH1D("h1_Pions_Ygtr","HGC; P_gtr_y ; Events;", 300, -3.0, 3.0);
+    TH1D *h1_Pions_P_etot = new TH1D("h1_Pions_P_etot","Calorimeter; P_cal_etotnorm; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pions_gtr_beta = new TH1D("h1_Pions_gtr_beta","HGC; P_gtr_beta; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pions_gtr_p = new TH1D("h1_Pions_gtr_p","HGC; P_gtr_p; Events;", 300, -10.0, 10.0);
+    TH1D *h1_Pions_gtr_dp = new TH1D("h1_Pions_gtr_dp","HGC; P_gtr_dp; Events;", 300, -30.0, 30.0);
+    TH1D *h1_Pions_gtr_xp = new TH1D("h1_Pions_gtr_xp","HGC; P_gtr_xp; Events;", 300, -40.0, 40.0);
+    TH1D *h1_Pions_gtr_yp = new TH1D("h1_Pions_gtr_yp","HGC; P_gtr_yp; Events;", 300, -40.0, 40.0);
+    TH1D *h1_Pions_CTime_ePi_ROC1 = new TH1D("h1_Pions_CTime_ePi_ROC1","CTime_ePiCoinTime_ROC1; CTime_ePiCoinTime_ROC1; Events;", 300, -10.0, 100.0);
+    TH1D *h1_Pions_hgcer_npeSum = new TH1D("h1_Pions_hgcer_npeSum","HGC; P_hgcer_npeSum; Events;", 300, 0.0, 40);
+    TH1D *h1_Pions_aero_npeSum = new TH1D("h1_Pions_aero_npeSum","Aero; P_aero_npeSum; Events;", 300, 0.0, 40);
+
+     //2-D Histograms
+    TH2D *h2_Pions_XYAtCer = new TH2D("h2_Pions_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40);
+    TH2D *h2_Pions_Cal_Showers = new TH2D("h2_Pions_Cal_Showers","Calorimeter; P_cal_fly_earray; P_cal_pr_eplane;", 250, 0.0, 0.8, 250, 0.0, 0.7);
+    TH2D *h2_Pions_XYgtr = new TH2D("h2_Pions_XYgtr","HGC; P_gtr_x ; P_gtr_y;", 250, -0.5, 0.8, 250, -2.5, 2.5);
+  
     for(Long64_t i = 0; i < nEntries_Pions; i++){
       Pions->GetEntry(i);
+      //2-D Histograms
       h2_Pions_XYAtCer->Fill(Pions_YAtCer, Pions_XAtCer);
-      h2_Pions_Cal_Showers->Fill(Pions_Cal_Shower/6.053, Pions_Cal_Pr_Shower/6.053);
+      h2_Pions_Cal_Showers->Fill(Pions_Cal_Shower/Pions_gtr_p, Pions_Cal_Pr_Shower/Pions_gtr_p);
       h2_Pions_XYgtr->Fill(Pions_SHMS_gtr_x, Pions_SHMS_gtr_y);
+
+      // 1-D Histograms
       h1_Pions_hgcer_npeSum->Fill(Pions_SHMS_hgcer_npeSum);
-      h1_Pions_aero_npeSum->Fill(Pions_SHMS_aero_npeSum);   
+      h1_Pions_aero_npeSum->Fill(Pions_SHMS_aero_npeSum);     
+      h1_Pions_XAtCer->Fill(Pions_XAtCer);
+      h1_Pions_YAtCer->Fill(Pions_YAtCer);
+      h1_Pions_Prshower->Fill(Pions_Cal_Pr_Shower/Pions_gtr_p);
+      h1_Pions_Shower->Fill(Pions_Cal_Shower/Pions_gtr_p);
+      h1_Pions_Xgtr->Fill(Pions_SHMS_gtr_x);
+      h1_Pions_Ygtr->Fill(Pions_SHMS_gtr_y);
+      h1_Pions_gtr_beta->Fill(Pions_gtr_beta);    
+      h1_Pions_gtr_p->Fill(Pions_gtr_p);
+      h1_Pions_gtr_dp->Fill(Pions_gtr_dp);
+      h1_Pions_gtr_xp->Fill(Pions_gtr_xp);
+      h1_Pions_gtr_yp->Fill(Pions_gtr_yp);
+      h1_Pions_P_etot->Fill(Pions_P_cal_etot);  
+      h1_Pions_CTime_ePi_ROC1->Fill(Pions_CTime_ePi_ROC1);
+
+    }
+
+    //Positrons
+    //1-D Histograms
+    TH1D *h1_Positrons_XAtCer = new TH1D("h1_Positrons_XAtCer","HGC; P_hgcer_xAtCer; Events;", 300, -40, 40);
+    TH1D *h1_Positrons_YAtCer = new TH1D("h1_Positrons_YAtCer","HGC; P_hgcer_yAtCer; Events;", 300, -40, 40);
+    TH1D *h1_Positrons_Prshower = new TH1D("h1_Positrons_Prshower","Calorimeter; P_cal_pr_eplane; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Positrons_Shower = new TH1D("h1_Positrons_Shower","Calorimeter; P_cal_fly_earray; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Positrons_Xgtr = new TH1D("h1_Positrons_Xgtr","HGC; P_gtr_x ; Events;", 300, -3.0, 3.0);
+    TH1D *h1_Positrons_Ygtr = new TH1D("h1_Positrons_Ygtr","HGC; P_gtr_y ; Events;", 300, -3.0, 3.0);
+    TH1D *h1_Positrons_P_etot = new TH1D("h1_Positrons_P_etot","Calorimeter; P_cal_etotnorm; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Positrons_gtr_beta = new TH1D("h1_Positrons_gtr_beta","HGC; P_gtr_beta; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Positrons_gtr_p = new TH1D("h1_Positrons_gtr_p","HGC; P_gtr_p; Events;", 300, -10.0, 10.0);
+    TH1D *h1_Positrons_gtr_dp = new TH1D("h1_Positrons_gtr_dp","HGC; P_gtr_dp; Events;", 300, -30.0, 30.0);
+    TH1D *h1_Positrons_gtr_xp = new TH1D("h1_Positrons_gtr_xp","HGC; P_gtr_xp; Events;", 300, -40.0, 40.0);
+    TH1D *h1_Positrons_gtr_yp = new TH1D("h1_Positrons_gtr_yp","HGC; P_gtr_yp; Events;", 300, -40.0, 40.0);
+    // TH1D *h1_Pions_CTime_ePi_ROC1 = new TH1D("h1_Pions_CTime_ePi_ROC1","CTime_ePiCoinTime_ROC1; CTime_ePiCoinTime_ROC1; Events;", 300, -10.0, 100.0);
+    TH1D *h1_Positrons_hgcer_npeSum = new TH1D("h1_Positrons_hgcer_npeSum","HGC; P_hgcer_npeSum; Events;", 300, 0.0, 40);
+    TH1D *h1_Positrons_aero_npeSum = new TH1D("h1_Positrons_aero_npeSum","Aero; P_aero_npeSum; Events;", 300, 0.0, 40);
+
+     //2-D Histograms
+    TH2D *h2_Positrons_XYAtCer = new TH2D("h2_Positrons_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40);
+    TH2D *h2_Positrons_Cal_Showers = new TH2D("h2_Positrons_Cal_Showers","Calorimeter; P_cal_fly_earray; P_cal_pr_eplane;", 250, 0.0, 1.5, 250, 0.0, 0.7);
+    TH2D *h2_Positrons_XYgtr = new TH2D("h2_Positrons_XYgtr","HGC; P_gtr_x ; P_gtr_y;", 250, -0.5, 0.8, 250, -2.5, 2.5);
+  
+    for(Long64_t i = 0; i < nEntries_Positrons; i++){
+      Positrons->GetEntry(i);
+      //2-D Histograms
+      h2_Positrons_XYAtCer->Fill(Positrons_YAtCer, Positrons_XAtCer);
+      h2_Positrons_Cal_Showers->Fill(Positrons_Cal_Shower/Positrons_gtr_p, Positrons_Cal_Pr_Shower/Positrons_gtr_p);
+      h2_Positrons_XYgtr->Fill(Positrons_SHMS_gtr_x, Positrons_SHMS_gtr_y);
+
+      // 1-D Histograms
+      h1_Positrons_hgcer_npeSum->Fill(Positrons_SHMS_hgcer_npeSum);
+      h1_Positrons_aero_npeSum->Fill(Positrons_SHMS_aero_npeSum);     
+      h1_Positrons_XAtCer->Fill(Positrons_XAtCer);
+      h1_Positrons_YAtCer->Fill(Positrons_YAtCer);
+      h1_Positrons_Prshower->Fill(Positrons_Cal_Pr_Shower/Positrons_gtr_p);
+      h1_Positrons_Shower->Fill(Positrons_Cal_Shower/Positrons_gtr_p);
+      h1_Positrons_Xgtr->Fill(Positrons_SHMS_gtr_x);
+      h1_Positrons_Ygtr->Fill(Positrons_SHMS_gtr_y);
+      h1_Positrons_gtr_beta->Fill(Positrons_gtr_beta);    
+      h1_Positrons_gtr_p->Fill(Positrons_gtr_p);
+      h1_Positrons_gtr_dp->Fill(Positrons_gtr_dp);
+      h1_Positrons_gtr_xp->Fill(Positrons_gtr_xp);
+      h1_Positrons_gtr_yp->Fill(Positrons_gtr_yp);
+      h1_Positrons_P_etot->Fill(Positrons_P_cal_etot);  
+      // h1_Pions_CTime_ePi_ROC1->Fill(Pions_CTime_ePi_ROC1);
+
     }
 
     //Histograms for cuts + HGC cuts
@@ -303,7 +423,7 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     for(Long64_t i = 0; i < nEntries_Protons; i++){
       Protons->GetEntry(i);
       h2_Protons_XYAtCer->Fill(Protons_YAtCer, Protons_XAtCer);
-      h2_Protons_Cal_Showers->Fill(Protons_Cal_Shower/6.053, Protons_Cal_Pr_Shower/6.053);
+      h2_Protons_Cal_Showers->Fill(Protons_Cal_Shower, Protons_Cal_Pr_Shower);
       h2_Protons_XYgtr->Fill(Protons_SHMS_gtr_x, Protons_SHMS_gtr_y);
       h1_Protons_hgcer_npeSum->Fill(Protons_SHMS_hgcer_npeSum);
 
@@ -311,53 +431,103 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
 
     //Histograms for cuts + no HGC cuts
     //Pions
-    TH1D *h1_Pi_hgcer_npeSum = new TH1D("h1_Pi_hgcer_npeSum","NPE vs Events; NPE; Events;", 300, 0.0, 30);
-    TH1D *h1_Pi_XAtCer = new TH1D("h1_Pi_XAtCer","XAtCer; XAtCer; Events;", 300, -40, 40);
-    TH1D *h1_Pi_YAtCer = new TH1D("h1_Pi_YAtCer","YAtCer; YAtCer; Events;", 300, -40, 40);
-    TH1D *h1_Pi_Cal = new TH1D("h1_Pi_Cal","Calorimeter; Cal; Events;", 300, 0.0, 10.0);
-    TH1D *h1_Pi_Prshower = new TH1D("h1_Pi_Prshower","Preshower; Prshower; Events;", 300, 0.0, 10.0);
-    TH1D *h1_Pi_Xgtr = new TH1D("h1_Pi_Xgtr","X gtr; X gtr ; Events;", 300, -3.0, 3.0);
-    TH1D *h1_Pi_Ygtr = new TH1D("h1_Pi_Ygtr","Y gtr; Y gtr ; Events;", 300, -3.0, 3.0);
-    TH1D *h1_Pi_P_etot = new TH1D("h1_Pi_P_etot","P_cal_etotnorm; P_cal_etotnorm; Events;", 300, 0.0, 10.0);
-    TH1D *h1_Pi_gtr_beta = new TH1D("h1_Pi_gtr_beta","P_gtr_beta; P_gtr_beta; Events;", 300, 0.0, 10.0);
-    TH1D *h1_Pi_gtr_p = new TH1D("h1_Pi_gtr_p","P_gtr_p; P_gtr_p; Events;", 300, -10.0, 10.0);
-    TH1D *h1_Pi_gtr_dp = new TH1D("h1_Pi_gtr_dp","P_gtr_dp; P_gtr_dp; Events;", 300, -30.0, 30.0);
-    TH1D *h1_Pi_gtr_xp = new TH1D("h1_Pi_gtr_xp","P_gtr_xp; P_gtr_xp; Events;", 300, -40.0, 40.0);
-    TH1D *h1_Pi_gtr_yp = new TH1D("h1_Pi_gtr_yp","P_gtr_yp; P_gtr_yp; Events;", 300, -40.0, 40.0);
+    //1-D Histograms
+    TH1D *h1_Pi_XAtCer = new TH1D("h1_Pi_XAtCer","HGC; P_hgcer_xAtCer; Events;", 300, -40, 40);
+    TH1D *h1_Pi_YAtCer = new TH1D("h1_Pi_YAtCer","HGC; P_hgcer_yAtCer; Events;", 300, -40, 40);
+    TH1D *h1_Pi_Prshower = new TH1D("h1_Pi_Prshower","Calorimeter; P_cal_pr_eplane; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pi_Shower = new TH1D("h1_Pi_Shower","Calorimeter; P_cal_fly_earray; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pi_Xgtr = new TH1D("h1_Pi_Xgtr","HGC; P_gtr_x ; Events;", 300, -3.0, 3.0);
+    TH1D *h1_Pi_Ygtr = new TH1D("h1_Pi_Ygtr","HGC; P_gtr_y ; Events;", 300, -3.0, 3.0);
+    TH1D *h1_Pi_P_etot = new TH1D("h1_Pi_P_etot","Calorimeter; P_cal_etotnorm; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pi_gtr_beta = new TH1D("h1_Pi_gtr_beta","HGC; P_gtr_beta; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pi_gtr_p = new TH1D("h1_Pi_gtr_p","HGC; P_gtr_p; Events;", 300, -10.0, 10.0);
+    TH1D *h1_Pi_gtr_dp = new TH1D("h1_Pi_gtr_dp","HGC; P_gtr_dp; Events;", 300, -30.0, 30.0);
+    TH1D *h1_Pi_gtr_xp = new TH1D("h1_Pi_gtr_xp","HGC; P_gtr_xp; Events;", 300, -40.0, 40.0);
+    TH1D *h1_Pi_gtr_yp = new TH1D("h1_Pi_gtr_yp","HGC; P_gtr_yp; Events;", 300, -40.0, 40.0);
     TH1D *h1_Pi_CTime_ePi_ROC1 = new TH1D("h1_Pi_CTime_ePi_ROC1","CTime_ePiCoinTime_ROC1; CTime_ePiCoinTime_ROC1; Events;", 300, -10.0, 100.0);
-    TH1D *h1_Pi_CTime_eK_ROC1 = new TH1D("h1_Pi_CTime_eK_ROC1","CTime_eKCoinTime_ROC1; CTime_eKCoinTime_ROC1; Events;", 300, -10.0, 100.0);
-    TH1D *h1_Pi_CTime_eP_ROC1 = new TH1D("h1_Pi_CTime_eP_ROC1","CTime_epCoinTime_ROC1; CTime_epCoinTime_ROC1; Events;", 300, -10.0, 100.0);
+    TH1D *h1_Pi_hgcer_npeSum = new TH1D("h1_Pi_hgcer_npeSum","HGC; P_hgcer_npeSum; Events;", 300, 0.0, 40);
+    TH1D *h1_Pi_aero_npeSum = new TH1D("h1_Pi_aero_npeSum","Aero; P_aero_npeSum; Events;", 300, 0.0, 40);
 
-    TH1D *h1_Pions_No_HGC_Cuts_hgcer_npeSum = new TH1D("h1_Pions_No_HGC_Cuts_hgcer_npeSum","NPE vs Events; NPE; Events;", 300, 0.0, 40);
-    TH2D *h2_Pions_No_HGC_Cuts_XYAtCer = new TH2D("h2_Pions_No_HGC_Cuts_XYAtCer","YAtCer vs XAtCer; YAtCer; XAtCer;", 200, -40, 40, 200, -40, 40);
-    TH2D *h2_Pions_No_HGC_Cuts_Cal_Showers = new TH2D("h2_Pions_No_HGC_Cuts_Cal_Showers","Cal vs Pr-Shower; Cal; Pr-Shower;", 300, 0.0, 2.0, 300, 0.0, 1.0);
-    TH2D *h2_Pions_No_HGC_Cuts_XYgtr = new TH2D("h2_Pions_No_HGC_Cuts_XYgtr","XY gtr; X gtr ; Y gtr;", 300, -3.0, 3.0, 300, -10, 10);
+     //2-D Histograms
+    TH2D *h2_Pi_XYAtCer = new TH2D("h2_Pi_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40);
+    TH2D *h2_Pi_Cal_Showers = new TH2D("h2_Pi_Cal_Showers","Calorimeter; P_cal_fly_earray; P_cal_pr_eplane;", 250, 0.0, 0.8, 250, 0.0, 0.7);
+    TH2D *h2_Pi_XYgtr = new TH2D("h2_Pi_XYgtr","HGC; P_gtr_x ; P_gtr_y;", 250, -0.5, 0.8, 250, -2.5, 2.5);
   
     for(Long64_t i = 0; i < nEntries_Pions_No_HGC_Cuts; i++){
       Pions_No_HGC_Cuts->GetEntry(i);
-      h2_Pions_No_HGC_Cuts_XYAtCer->Fill(Pions_No_HGC_Cuts_YAtCer, Pions_No_HGC_Cuts_XAtCer);
-      h2_Pions_No_HGC_Cuts_Cal_Showers->Fill(Pions_No_HGC_Cuts_Cal_Shower/6.053, Pions_No_HGC_Cuts_Cal_Pr_Shower/6.053);
-      h2_Pions_No_HGC_Cuts_XYgtr->Fill(Pions_No_HGC_Cuts_SHMS_gtr_x, Pions_No_HGC_Cuts_SHMS_gtr_y);
-      h1_Pions_No_HGC_Cuts_hgcer_npeSum->Fill(Pions_No_HGC_Cuts_SHMS_hgcer_npeSum);     
+      //2-D Histograms
+      h2_Pi_XYAtCer->Fill(Pions_No_HGC_Cuts_YAtCer, Pions_No_HGC_Cuts_XAtCer);
+      h2_Pi_Cal_Showers->Fill(Pions_No_HGC_Cuts_Cal_Shower/Pions_No_HGC_Cuts_gtr_p, Pions_No_HGC_Cuts_Cal_Pr_Shower/Pions_No_HGC_Cuts_gtr_p);
+      h2_Pi_XYgtr->Fill(Pions_No_HGC_Cuts_SHMS_gtr_x, Pions_No_HGC_Cuts_SHMS_gtr_y);
 
-      h1_Pi_hgcer_npeSum->Fill(hgcer_npeSum_no_HGC_cut);
-      h1_Pi_XAtCer->Fill(XAtCer_no_HGC_cut);
-      h1_Pi_YAtCer->Fill(YAtCer_no_HGC_cut);
-      h1_Pi_Cal->Fill(Cal_no_HGC_cut);
-      h1_Pi_Prshower->Fill(Prshower_no_HGC_cut);
-      h1_Pi_Xgtr->Fill(gtr_x_no_HGC_cut);
-      h1_Pi_Ygtr->Fill(gtr_y_no_HGC_cut);
-      h1_Pi_P_etot->Fill(P_cal_etot_no_HGC_cut);  
-      h1_Pi_gtr_beta->Fill(gtr_beta_no_HGC_cut);  
-      h1_Pi_gtr_p->Fill(gtr_p_no_HGC_cut);
-      h1_Pi_gtr_dp->Fill(gtr_dp_no_HGC_cut);
-      h1_Pi_gtr_xp->Fill(gtr_xp_no_HGC_cut);
-      h1_Pi_gtr_yp->Fill(gtr_yp_no_HGC_cut);
-      h1_Pi_CTime_ePi_ROC1->Fill(CTime_ePi_ROC1_no_HGC_cut);
-      h1_Pi_CTime_eK_ROC1->Fill(CTime_eK_ROC1_no_HGC_cut);
-      h1_Pi_CTime_eP_ROC1->Fill(CTime_eP_ROC1_no_HGC_cut);
+      // 1-D Histograms
+      h1_Pi_hgcer_npeSum->Fill(Pions_No_HGC_Cuts_SHMS_hgcer_npeSum);
+      h1_Pi_aero_npeSum->Fill(Pions_No_HGC_Cuts_SHMS_aero_npeSum);     
+      h1_Pi_XAtCer->Fill(Pions_No_HGC_Cuts_XAtCer);
+      h1_Pi_YAtCer->Fill(Pions_No_HGC_Cuts_YAtCer);
+      h1_Pi_Prshower->Fill(Pions_No_HGC_Cuts_Cal_Pr_Shower/Pions_No_HGC_Cuts_gtr_p);
+      h1_Pi_Shower->Fill(Pions_No_HGC_Cuts_Cal_Shower/Pions_No_HGC_Cuts_gtr_p);
+      h1_Pi_Xgtr->Fill(Pions_No_HGC_Cuts_SHMS_gtr_x);
+      h1_Pi_Ygtr->Fill(Pions_No_HGC_Cuts_SHMS_gtr_y);
+      h1_Pi_gtr_beta->Fill(Pions_No_HGC_Cuts_gtr_beta);    
+      h1_Pi_gtr_p->Fill(Pions_No_HGC_Cuts_gtr_p);
+      h1_Pi_gtr_dp->Fill(Pions_No_HGC_Cuts_gtr_dp);
+      h1_Pi_gtr_xp->Fill(Pions_No_HGC_Cuts_gtr_xp);
+      h1_Pi_gtr_yp->Fill(Pions_No_HGC_Cuts_gtr_yp);
+      h1_Pi_P_etot->Fill(Pions_No_HGC_Cuts_P_cal_etot);  
+      h1_Pi_CTime_ePi_ROC1->Fill(Pions_No_HGC_Cuts_CTime_ePi_ROC1);
 
     }
+
+    //Positrons
+    //1-D Histograms
+    TH1D *h1_Pos_XAtCer = new TH1D("h1_Pos_XAtCer","HGC; P_hgcer_xAtCer; Events;", 300, -40, 40);
+    TH1D *h1_Pos_YAtCer = new TH1D("h1_Pos_YAtCer","HGC; P_hgcer_yAtCer; Events;", 300, -40, 40);
+    TH1D *h1_Pos_Prshower = new TH1D("h1_Pos_Prshower","Calorimeter; P_cal_pr_eplane; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pos_Shower = new TH1D("h1_Pos_Shower","Calorimeter; P_cal_fly_earray; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pos_Xgtr = new TH1D("h1_Pos_Xgtr","HGC; P_gtr_x ; Events;", 300, -3.0, 3.0);
+    TH1D *h1_Pos_Ygtr = new TH1D("h1_Pos_Ygtr","HGC; P_gtr_y ; Events;", 300, -3.0, 3.0);
+    TH1D *h1_Pos_P_etot = new TH1D("h1_Pos_P_etot","Calorimeter; P_cal_etotnorm; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pos_gtr_beta = new TH1D("h1_Pos_gtr_beta","HGC; P_gtr_beta; Events;", 300, 0.0, 10.0);
+    TH1D *h1_Pos_gtr_p = new TH1D("h1_Pos_gtr_p","HGC; P_gtr_p; Events;", 300, -10.0, 10.0);
+    TH1D *h1_Pos_gtr_dp = new TH1D("h1_Pos_gtr_dp","HGC; P_gtr_dp; Events;", 300, -30.0, 30.0);
+    TH1D *h1_Pos_gtr_xp = new TH1D("h1_Pos_gtr_xp","HGC; P_gtr_xp; Events;", 300, -40.0, 40.0);
+    TH1D *h1_Pos_gtr_yp = new TH1D("h1_Pos_gtr_yp","HGC; P_gtr_yp; Events;", 300, -40.0, 40.0);
+    // TH1D *h1_Pos_CTime_ePi_ROC1 = new TH1D("h1_Pi_CTime_ePi_ROC1","CTime_ePiCoinTime_ROC1; CTime_ePiCoinTime_ROC1; Events;", 300, -10.0, 100.0);
+    TH1D *h1_Pos_hgcer_npeSum = new TH1D("h1_Pos_hgcer_npeSum","HGC; P_hgcer_npeSum; Events;", 300, 0.0, 40);
+    TH1D *h1_Pos_aero_npeSum = new TH1D("h1_Pos_aero_npeSum","Aero; P_aero_npeSum; Events;", 300, 0.0, 40);
+
+     //2-D Histograms
+    TH2D *h2_Pos_XYAtCer = new TH2D("h2_Pos_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40);
+    TH2D *h2_Pos_Cal_Showers = new TH2D("h2_Pos_Cal_Showers","Calorimeter; P_cal_fly_earray; P_cal_pr_eplane;", 250, 0.0, 1.5, 250, 0.0, 0.7);
+    TH2D *h2_Pos_XYgtr = new TH2D("h2_Pos_XYgtr","HGC; P_gtr_x ; P_gtr_y;", 250, -0.5, 0.8, 250, -2.5, 2.5);
+  
+    for(Long64_t i = 0; i < nEntries_Positrons_No_HGC_Cuts; i++){
+      Positrons_No_HGC_Cuts->GetEntry(i);
+      //2-D Histograms
+      h2_Pos_XYAtCer->Fill(Positrons_No_HGC_Cuts_YAtCer, Positrons_No_HGC_Cuts_XAtCer);
+      h2_Pos_Cal_Showers->Fill(Positrons_No_HGC_Cuts_Cal_Shower/Positrons_No_HGC_Cuts_gtr_p, Positrons_No_HGC_Cuts_Cal_Pr_Shower/Positrons_No_HGC_Cuts_gtr_p);
+      h2_Pos_XYgtr->Fill(Positrons_No_HGC_Cuts_SHMS_gtr_x, Positrons_No_HGC_Cuts_SHMS_gtr_y);
+
+      // 1-D Histograms
+      h1_Pos_hgcer_npeSum->Fill(Positrons_No_HGC_Cuts_SHMS_hgcer_npeSum);
+      h1_Pos_aero_npeSum->Fill(Positrons_No_HGC_Cuts_SHMS_aero_npeSum);     
+      h1_Pos_XAtCer->Fill(Positrons_No_HGC_Cuts_XAtCer);
+      h1_Pos_YAtCer->Fill(Positrons_No_HGC_Cuts_YAtCer);
+      h1_Pos_Prshower->Fill(Positrons_No_HGC_Cuts_Cal_Pr_Shower/Positrons_No_HGC_Cuts_gtr_p);
+      h1_Pos_Shower->Fill(Positrons_No_HGC_Cuts_Cal_Shower/Positrons_No_HGC_Cuts_gtr_p);
+      h1_Pos_Xgtr->Fill(Positrons_No_HGC_Cuts_SHMS_gtr_x);
+      h1_Pos_Ygtr->Fill(Positrons_No_HGC_Cuts_SHMS_gtr_y);
+      h1_Pos_gtr_beta->Fill(Positrons_No_HGC_Cuts_gtr_beta);    
+      h1_Pos_gtr_p->Fill(Positrons_No_HGC_Cuts_gtr_p);
+      h1_Pos_gtr_dp->Fill(Positrons_No_HGC_Cuts_gtr_dp);
+      h1_Pos_gtr_xp->Fill(Positrons_No_HGC_Cuts_gtr_xp);
+      h1_Pos_gtr_yp->Fill(Positrons_No_HGC_Cuts_gtr_yp);
+      h1_Pos_P_etot->Fill(Positrons_No_HGC_Cuts_P_cal_etot);  
+      //h1_Pi_CTime_ePi_ROC1->Fill(Pions_No_HGC_Cuts_CTime_ePi_ROC1);
+
+    }
+
     TH1D *h1_Kaons_No_HGC_Cuts_hgcer_npeSum = new TH1D("h1_Kaons_No_HGC_Cuts_hgcer_npeSum","NPE vs Events; NPE; Events;", 300, 0.0, 40);
     TH2D *h2_Kaons_No_HGC_Cuts_XYAtCer = new TH2D("h2_Kaons_No_HGC_Cuts_XYAtCer","YAtCer vs XAtCer; YAtCer; XAtCer;", 200, -40, 40, 200, -40, 40);
     TH2D *h2_Kaons_No_HGC_Cuts_Cal_Showers = new TH2D("h2_Kaons_No_HGC_Cuts_Cal_Showers","Cal vs Pr-Shower; Cal; Pr-Shower;", 300, 0.0, 2.0, 300, 0.0, 1.0);
@@ -397,14 +567,56 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     
     TFile *OutHisto_file = new TFile(foutname,"RECREATE");
     TDirectory *Pions_info = OutHisto_file->mkdir("Pions_info");
-    
+
     Pions_info->cd();
+    //2-D Histograms
     h2_Pions_XYAtCer->Write();
     h2_Pions_Cal_Showers->Write();
     h2_Pions_XYgtr->Write();
+
+    //1-D Histograms
     h1_Pions_hgcer_npeSum->Write();
-    h1_Pions_aero_npeSum->Write();
-    //    h2_Pions_Eff->Write();
+    h1_Pions_aero_npeSum->Write();   
+    h1_Pions_XAtCer->Write();
+    h1_Pions_YAtCer->Write();
+    h1_Pions_Shower->Write();
+    h1_Pions_Prshower->Write();
+    h1_Pions_Xgtr->Write();
+    h1_Pions_Ygtr->Write();
+    h1_Pions_P_etot->Write();
+    h1_Pions_gtr_beta->Write();
+    h1_Pions_gtr_p->Write();
+    h1_Pions_gtr_dp->Write();
+    h1_Pions_gtr_xp->Write();  
+    h1_Pions_gtr_yp->Write();  
+    h1_Pions_CTime_ePi_ROC1->Write();  
+
+    TDirectory *Positrons_info = OutHisto_file->mkdir("Positrons_info");
+
+    Positrons_info->cd();
+    //2-D Histograms
+    h2_Positrons_XYAtCer->Write();
+    h2_Positrons_Cal_Showers->Write();
+    h2_Positrons_XYgtr->Write();
+
+    //1-D Histograms
+    h1_Positrons_hgcer_npeSum->Write();
+    h1_Positrons_aero_npeSum->Write();   
+    h1_Positrons_XAtCer->Write();
+    h1_Positrons_YAtCer->Write();
+    h1_Positrons_Shower->Write();
+    h1_Positrons_Prshower->Write();
+    h1_Positrons_Xgtr->Write();
+    h1_Positrons_Ygtr->Write();
+    h1_Positrons_P_etot->Write();
+    h1_Positrons_gtr_beta->Write();
+    h1_Positrons_gtr_p->Write();
+    h1_Positrons_gtr_dp->Write();
+    h1_Positrons_gtr_xp->Write();  
+    h1_Positrons_gtr_yp->Write();  
+    //h1_Pions_CTime_ePi_ROC1->Write();  
+
+    
     TDirectory *Kaons_info = OutHisto_file->mkdir("Kaons_info");
     
     Kaons_info->cd();
@@ -424,18 +636,21 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     TDirectory *Pions_No_HGC_Cuts_info = OutHisto_file->mkdir("Pions_No_HGC_Cuts_info");
     
     Pions_No_HGC_Cuts_info->cd();
-    h2_Pions_No_HGC_Cuts_XYAtCer->Write();
-    h2_Pions_No_HGC_Cuts_Cal_Showers->Write();
-    h2_Pions_No_HGC_Cuts_XYgtr->Write();
-    h1_Pions_No_HGC_Cuts_hgcer_npeSum->Write();
-   
+
+    //2-D Histograms
+    h2_Pi_XYAtCer->Write();
+    h2_Pi_Cal_Showers->Write();
+    h2_Pi_XYgtr->Write();
+
+    //1-D Histograms
+    h1_Pi_hgcer_npeSum->Write();
+    h1_Pi_aero_npeSum->Write();   
     h1_Pi_XAtCer->Write();
     h1_Pi_YAtCer->Write();
-    h1_Pi_Cal->Write();
+    h1_Pi_Shower->Write();
     h1_Pi_Prshower->Write();
     h1_Pi_Xgtr->Write();
     h1_Pi_Ygtr->Write();
-    h1_Pi_hgcer_npeSum->Write();
     h1_Pi_P_etot->Write();
     h1_Pi_gtr_beta->Write();
     h1_Pi_gtr_p->Write();
@@ -443,11 +658,34 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     h1_Pi_gtr_xp->Write();  
     h1_Pi_gtr_yp->Write();  
     h1_Pi_CTime_ePi_ROC1->Write();  
-    h1_Pi_CTime_eK_ROC1->Write();  
-    h1_Pi_CTime_eP_ROC1->Write();  
+
+    TDirectory *Positrons_No_HGC_Cuts_info = OutHisto_file->mkdir("Positrons_No_HGC_Cuts_info");
+    
+    Positrons_No_HGC_Cuts_info->cd();
+
+    //2-D Histograms
+    h2_Pos_XYAtCer->Write();
+    h2_Pos_Cal_Showers->Write();
+    h2_Pos_XYgtr->Write();
+
+    //1-D Histograms
+    h1_Pos_hgcer_npeSum->Write();
+    h1_Pos_aero_npeSum->Write();   
+    h1_Pos_XAtCer->Write();
+    h1_Pos_YAtCer->Write();
+    h1_Pos_Shower->Write();
+    h1_Pos_Prshower->Write();
+    h1_Pos_Xgtr->Write();
+    h1_Pos_Ygtr->Write();
+    h1_Pos_P_etot->Write();
+    h1_Pos_gtr_beta->Write();
+    h1_Pos_gtr_p->Write();
+    h1_Pos_gtr_dp->Write();
+    h1_Pos_gtr_xp->Write();  
+    h1_Pos_gtr_yp->Write();  
+    //h1_Pos_CTime_ePi_ROC1->Write();  
+
    
-
-
     TDirectory *Kaons_No_HGC_Cuts_info = OutHisto_file->mkdir("Kaons_No_HGC_Cuts_info");
     
     Kaons_No_HGC_Cuts_info->cd();
