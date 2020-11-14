@@ -1,4 +1,9 @@
 #############
+# SHMS cal and HGC #
+#############
+p_cut_eff_no_cal_hgcer = pid.p_ecut+accept.delta-accept.delta.H_gtr_dp+accept.p_pfp-pid.p_picut.P_hgcer_npeSum-pid.P_picut_P_cal
+p_cut_eff_no_hgcer_aero_cal = pid.p_ecut+accept.delta-accept.delta.H_gtr_dp+accept.p_pfp-pid.p_picut.P_hgcer_npeSum-pid.p_picut.P_aero_npeSum-pid.P_picut_P_cal
+#############
 # SHMS ecut #
 #############
 p_ecut_eff_no_hgcer = pid.p_ecut+accept.delta-accept.delta.H_gtr_dp+accept.p_pfp-pid.p_picut.P_hgcer_npeSum
