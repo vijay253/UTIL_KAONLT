@@ -120,6 +120,9 @@ cutDict = make_cutDict("p_kcut_eff_no_hgcer",cutDict)
 # Protons cuts
 cutDict = make_cutDict("p_pcut_eff",cutDict)
 cutDict = make_cutDict("p_pcut_eff_no_hgcer",cutDict)
+#SHMS cuts with no cal, hgc and cal
+cutDict = make_cutDict("p_cut_eff_no_cal_hgcer",cutDict)
+cutDict = make_cutDict("p_cut_eff_no_hgcer_aero_cal",cutDict)
 c = klt.pyPlot(cutDict)
 
 # Define a function to return a dictionary of the events we want
@@ -140,6 +143,8 @@ def SHMS_events():
     Kaon_Cut_noHGC_Events = []
     P_Cut_wHGC_Events = []
     P_Cut_noHGC_Events = []
+    P_Cut_no_Cal_HGC_Events = []
+    P_Cut_no_Cal_HGC_Aero_Events = []
 
     #Apply our cuts to the data and save our new arrays
     for arr in   Cut_Events_SHMS_tmp:
@@ -153,6 +158,9 @@ def SHMS_events():
         Kaon_Cut_noHGC_Events.append(c.add_cut(arr, "p_kcut_eff_no_hgcer"))
         P_Cut_wHGC_Events.append(c.add_cut(arr, "p_pcut_eff"))
         P_Cut_noHGC_Events.append(c.add_cut(arr, "p_pcut_eff_no_hgcer"))
+        P_Cut_no_Cal_HGC_Events.append(c.add_cut(arr, "p_cut_eff_no_cal_hgcer"))
+        P_Cut_no_Cal_HGC_Aero_Events.append(c.add_cut(arr, "p_cut_eff_no_hgcer_aero_cal"))
+
         
         # Again, strictly force this to be an array and NOT a list
     Pion_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Pion_Cut_wHGC_Events)]
@@ -165,7 +173,8 @@ def SHMS_events():
     Kaon_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Kaon_Cut_noHGC_Events)]
     P_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*P_Cut_wHGC_Events)]
     P_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*P_Cut_noHGC_Events)]
-
+    P_Cut_no_Cal_HGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*P_Cut_no_Cal_HGC_Events)]
+    P_Cut_no_Cal_HGC_Aero_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*P_Cut_no_Cal_HGC_Aero_Events)]
     SHMS_Events = {
         "SHMS_Events": SHMS_Events_Info,
         "SHMS_Pions": Pion_Cut_wHGC_Events_Info,
@@ -178,6 +187,8 @@ def SHMS_events():
         "SHMS_Kaons_Without_HGC_Cuts": Kaon_Cut_noHGC_Events_Info,
         "SHMS_Protons": P_Cut_wHGC_Events_Info,
         "SHMS_Protons_Without_HGC_Cuts": P_Cut_noHGC_Events_Info,
+        "SHMS_cut_no_Cal_HGC": P_Cut_no_Cal_HGC_Events_Info,
+        "SHMS_cut_no_Cal_HGC_Aero": P_Cut_no_Cal_HGC_Aero_Events_Info,
     }
 
     return SHMS_Events
