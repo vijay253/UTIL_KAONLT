@@ -84,6 +84,11 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
   TTree* Pions_No_Aero_Cuts        = (TTree*)InFile->Get("SHMS_Pions_Aero_Without_Aero_Cuts"); Long64_t nEntries_Pions_No_Aero_Cuts  = (Long64_t)Pions_No_Aero_Cuts->GetEntries();
   TTree* Pions_No_Cal_Cuts         = (TTree*)InFile->Get("SHMS_Pions_Cal_Without_Cal_Cuts")  ; Long64_t nEntries_Pions_No_Cal_Cuts     = (Long64_t)Pions_No_Cal_Cuts->GetEntries();
 
+ // Particles information no Cal HGC and Aero cuts
+
+  TTree* Events_no_cal_hgc_cuts       = (TTree*)InFile->Get("SHMS_cut_no_Cal_HGC")       ; Long64_t nEntries_Events_no_cal_hgc_cuts       = (Long64_t)Events_no_cal_hgc_cuts->GetEntries();
+  TTree* Events_no_cal_hgc_aero_cuts  = (TTree*)InFile->Get("SHMS_cut_no_Cal_HGC_Aero")  ; Long64_t nEntries_Events_no_cal_hgc_aero_cuts  = (Long64_t)Events_no_cal_hgc_aero_cuts->GetEntries();
+
  // Particles information no cuts
   
   TTree* SHMS_Events = (TTree*)InFile->Get("SHMS_Events")  ; Long64_t nEntries_SHMS_Events = (Long64_t)SHMS_Events->GetEntries();
@@ -113,6 +118,14 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
   Double_t CTime_eK_ROC1; SHMS_Events->SetBranchAddress("CTime_eKCoinTime_ROC1", &CTime_eK_ROC1);
   Double_t CTime_eP_ROC1; SHMS_Events->SetBranchAddress("CTime_epCoinTime_ROC1", &CTime_eP_ROC1);
 
+  // Set branch address for no cal and  hgc cuts
+  Double_t P_no_cal_hgc_cuts_hgcer_npeSum; Events_no_cal_hgc_cuts->SetBranchAddress("P_hgcer_npeSum", &P_no_cal_hgc_cuts_hgcer_npeSum);
+  Double_t P_no_cal_hgc_etot; Events_no_cal_hgc_cuts->SetBranchAddress("P_cal_etotnorm", &P_no_cal_hgc_etot);
+
+ // Set branch address for no cal, hgc and aero cuts
+  Double_t P_no_cal_hgc_aero_cuts_hgcer_npeSum; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_hgcer_npeSum", &P_no_cal_hgc_aero_cuts_hgcer_npeSum);
+  Double_t P_no_cal_hgc_aero_cuts_aero_npeSum; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_aero_npeSum", &P_no_cal_hgc_aero_cuts_aero_npeSum);
+ 
  
  // Set branch address for Pions with HGC cuts
 
@@ -298,6 +311,13 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
       h1_CTime_eK_ROC1->Fill(CTime_eK_ROC1);
       h1_CTime_eP_ROC1->Fill(CTime_eP_ROC1);
   }
+    //Histograms for cuts + no Cal, HGC and Aero cuts
+
+    TH2D *h2_events_no_cal_hgc_cuts = new TH2D("h2_events_no_cal_hgc_cuts","Calorimeter VS HGC; P_cal_etotnorm; P_hgcer_npeSum;", 250, 0.0, 30.0, 250, 0.0, 3.0);
+    for(Long64_t i = 0; i < nEntries_Events_no_cal_hgc_cuts; i++){
+      Events_no_cal_hgc_cuts->GetEntry(i);
+      h2_events_no_cal_hgc_cuts->Fill(P_no_cal_hgc_cuts_hgcer_npeSum, P_no_cal_hgc_etot);
+    }
 
     //Histograms for cuts + HGC cuts
     //Pions
@@ -731,6 +751,7 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     SHMS_Events_No_Cal_Cuts->cd();
      
     h1_cal_etot->Write();
+    h2_events_no_cal_hgc_cuts->Write();
 
     OutHisto_file->Close();
     // TString RunNumStr = TInFilename(0,4); Int_t RunNum=(RunNumStr.Atoi());
