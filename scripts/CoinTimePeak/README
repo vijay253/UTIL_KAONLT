@@ -55,11 +55,14 @@ root -b -l -q 'PlotCoinPeak.C("8540_-1_CTPeak_Data.root", "8540_Test")'
 
 Note, run without -b/-l/-q if desired, this just trims down junk to screen from the farm.
 
-This script simply fills histograms of the Cointime data for each particle species and fits a simple Gaussian to the prompt peak in the data. This is achieved by forcing some contraints on the fitting ranges. 
+This script simply fills histograms of the Cointime data for each particle species and fits a simple Gaussian to the prompt peak in the data. This is achieved by forcing some constraints on the fitting ranges. 
 
-The mean of the gaussian fit is initially set to be equal to the value of the bin with the largest number of entries (e.g. GetBinCenter(h1_CT_Pions->GetMaximumBin()) ), for any run with anything more than a few events, this will almost certainly be a bin which roughly corresponds to the position of the coincidence time peak. The mean of the fit is only allowed to vary within +/- 0.5 of this value. 
+The mean of the gaussian fit is initially set to be equal to the value of the bin with the largest number of entries (e.g. GetBinCenter(h1_CT_Pions->GetMaximumBin()) )
+For any run with anything more than a few events, this will almost certainly be a bin which roughly corresponds to the position of the coincidence time peak. 
+The mean of the fit is only allowed to vary within +/- 0.5 of this value. 
 
-The amplitude of the Gaussian fit is also restricted to vary between 1/2 and 2x the number of entries in the bin with the larget number of entries (e.g.GetBinContent(h1_CT_Pions->GetMaximumBin())). Finally, the standard deviation of the fit is limited to vary between 0.1 and 2. 
+The amplitude of the Gaussian fit is also restricted to vary between 1/2 and 2x the number of entries in the bin with the larget number of entries (e.g.GetBinContent(h1_CT_Pions->GetMaximumBin())).
+Finally, the standard deviation of the fit is limited to vary between 0.1 and 2. 
 
 A fit is applied to each particle species ONLY in the range (InitialMeanVal-1) to (InitialMeanVal+1). Without this, minuit has a tendency to produce broad, flat peaks.
 
@@ -95,7 +98,8 @@ See this file for more info on how to execute it.
 ############# Step 3a - (Optional) Kinematic Analysis #############
 ###################################################################
 
-To examine trends in sequences of runs (such as across a kinematic setting), an additional shell script and root macro are also provided. The shell script checks all of the runs in a list have been analysed (Steps 1+2 have been completed for the file) and compiles a .csv file containing the relevant data for all of the runs in a kinemati (CT peak position, width e.t.c.)
+To examine trends in sequences of runs (such as across a kinematic setting), an additional shell script and root macro are also provided. 
+The shell script checks all of the runs in a list have been analysed (Steps 1+2 have been completed for the file) and compiles a .csv file containing the relevant data for all of the runs in a kinematic (CT peak position, width e.t.c.)
 
 The shell script, AnalyseKinematic_CTPeak.sh is executed via
 
@@ -105,7 +109,9 @@ where KINEMATIC_LIST is a text file in the Kinematics folder. This file should b
 
 When running the file, the user will be prompted to respond (Y/N) as to whether they want to automatically create a farm job to analyse any missing runs from the list provided.
 
-The shell script will check that each run number in the file has been replayed and that Steps 1 and 2 have been carried out on the file. If the user responded "Y" to the initial prompt, the script will submit any missing analyses as a farm job. If the user responded "N" and some runs were not analysed, a second Y/N prompt will appear asking if they wish to manually execute the python script (and root macro) on the run in question. 
+The shell script will check that each run number in the file has been replayed and that Steps 1 and 2 have been carried out on the file. 
+If the user responded "Y" to the initial prompt, the script will submit any missing analyses as a farm job. 
+If the user responded "N" and some runs were not analysed, a second Y/N prompt will appear asking if they wish to manually execute the python script (and root macro) on the run in question. 
 
 If all of the run numbers are found, the shell script will create a .csv file containing CT information for every run in the file. This file will be created in OUTPUT and named
 
@@ -126,7 +132,7 @@ This macro simply produces plots of the CT peak position (and width) for all thr
 KINEMATIC_LIST_CTPeakPlots.pdf
 KINEMATIC_LIST_CTPeakPlots.root
 
-These plots also include the error on these parameters in the plot. Note that the graphs are outscaled in y so can occassionally be misleading as to how much the CTPeak position shifts between runs. Check the y axis scale carefully!
+These plots also include the error on these parameters in the plot. Note that the graphs are autoscaled in y so can occassionally be misleading as to how much the CTPeak position shifts between runs. Check the y axis scale carefully!
 
 ###############################################################
 ############# Step 3b - (Optional) New Param File #############
@@ -158,6 +164,6 @@ OLD_PARAM_FILE - This is the name of the old timing parameter file we want to ba
 The script looks for OLD_PARAM_FILE.csv in UTIL_KAONLT/DB/PARAM/ so say your old file was UTIL_KAONLT/DB/PARAM/Original_Param.csv, you would simply provide Original_Param as the argument here
 
 Once executed, the script will construct a new param file, line by line, for all of the runs in all of the kinematics you requested. The produced output will be of the form KINEMATICS_LIST_TimingParamFile.csv in this directory. 
-The produced output is sorted by run number (low to high). If you wish to use this file subsqeuently to generate your timing cuts, move it to UTIL_KAONLT/DB/PARAM/ and change the sym link to point to your file.
+The produced output is sorted by run number (low to high). If you wish to use this file subsequently to generate your timing cuts, move it to UTIL_KAONLT/DB/PARAM/ and change the sym link to point to your file.
 
 ### NOTE ### - This python script also requires the packages (and versions) listed in Step 1
