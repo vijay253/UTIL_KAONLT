@@ -18,6 +18,8 @@
 #include <TTree.h>
 #include <TArc.h>
 #include <TCutG.h>
+#include <TExec.h>
+#include <TColor.h>
 
 // Input should be the input root file name (including suffix) and an output file name string (without any suffix)
 void HGC_TCutG(string InFilename = "", string OutFilename = "")
@@ -111,6 +113,7 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   //Histograms 
  
   TH2D *h2_XYAtCer                  = new TH2D("h2_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
+  TH3D *h3_aero_XYAtCer_npeSum      = new TH3D("h3_aero_XYAtCer_npeSum","Aero; P_aero_yAtCer; P_aero_xAtCer; P_aero_npeSum", 300, -50, 50, 300, -50, 50, 300, 0, 30);
   TH3D *h3_XYAtCer_npeSum           = new TH3D("h3_XYAtCer_npeSum","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
   TH2D *h2_npeSum                   = new TH2D("h2_npeSum","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
   TH2D *h2_npeSum_TCutG_IN          = new TH2D("h2_npeSum_TCutG_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
@@ -131,7 +134,16 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
     h3_XYAtCer_npeSum->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(P_aero_yAtCer>31) continue;
+    h3_aero_XYAtCer_npeSum->Fill(P_aero_yAtCer, P_aero_xAtCer, P_aero_npeSum);
+  }
+
   // Project 3D histogram on XY
+
+  TProfile2D *h3_aero_XYAtCer_npeSum_pyx = new TProfile2D("h3_aero_XYAtCer_npeSum_pyx","Aero; P_aero_yAtCer; P_aero_xAtCer ",300,-50,50, 300,-50,50, 0, 30);
+  h3_aero_XYAtCer_npeSum->Project3DProfile("yx");
 
   TProfile2D *h3_XYAtCer_npeSum_pyx = new TProfile2D("h3_XYAtCer_npeSum_pyx","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
   h3_XYAtCer_npeSum->Project3DProfile("yx");
@@ -139,13 +151,15 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   //Fill NPE entry inside the TCutG      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if (cutg->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 0.3 || P_aero_yAtCer > 31) continue;
+   if (cutg->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     h2_npeSum_TCutG_OUT->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
   //Fill entry outside the TCutG
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 0.3 || P_aero_yAtCer > 31) continue;
     if (!cutg->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     h2_npeSum_TCutG_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
@@ -154,32 +168,23 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 0.3 || P_aero_yAtCer > 31) continue;
     h2_npeSum->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
-
-
-    // TCanvas *c_CT = new TCanvas("c_CT", "XY Cherenkov", 100, 0, 1000, 900);
-    // c_CT->cd();   
-    // Pions->Draw("P_hgcer_xAtCer:P_hgcer_yAtCer>>hxy(300,0,30,300,0,30)", "cutg",  "colz");
-    // c_CT->SaveAs("v.png");
-    // h2_Pions_XYAtCer->Draw("cutg");
-    // h1_CT_Kaons->Draw();
-    // c_CT->cd(3);
-    // h1_CT_Protons->Draw();
-    //c_CT->Print(foutpdf);
-    
-    TFile *OutHisto_file = new TFile(foutname,"RECREATE");
-    TDirectory *TCutG_Info = OutHisto_file->mkdir("TCutG_Info");
-    TCutG_Info->cd();
-    h2_XYAtCer->GetListOfFunctions()->Add(cutg,"L"); 
-    h2_XYAtCer->Write();
-    h3_XYAtCer_npeSum_pyx->GetListOfFunctions()->Add(cutg,"L"); 
-    h3_XYAtCer_npeSum_pyx->Write();
-    h2_npeSum_TCutG_IN->Write();
-    h2_npeSum_TCutG_OUT->Write();
-    h2_npeSum->Write();
-    OutHisto_file->Close();
-    // TString RunNumStr = TInFilename(0,4); Int_t RunNum=(RunNumStr.Atoi());
-    //TString OutputStr = Form("%i,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f", RunNum, PionFit->GetParameter(1), PionFit->GetParError(1), PionFWHM, PionFWHMErr, KaonFit->GetParameter(1), KaonFit->GetParError(1), KaonFWHM, KaonFWHMErr, ProtonFit->GetParameter(1), ProtonFit->GetParError(1), ProtonFWHM, ProtonFWHMErr);
+  
+  TFile *OutHisto_file = new TFile(foutname,"RECREATE");
+  TDirectory *TCutG_Info = OutHisto_file->mkdir("TCutG_Info");
+  TCutG_Info->cd();
+  h2_XYAtCer->GetListOfFunctions()->Add(cutg,"L"); 
+  h2_XYAtCer->Write();
+  h3_XYAtCer_npeSum_pyx->GetListOfFunctions()->Add(cutg,"L"); 
+  h3_XYAtCer_npeSum_pyx->Write();
+  h2_npeSum_TCutG_IN->Write();
+  h2_npeSum_TCutG_OUT->Write();
+  h2_npeSum->Write();
+  h3_aero_XYAtCer_npeSum_pyx->Write();
+  OutHisto_file->Close();
+  // TString RunNumStr = TInFilename(0,4); Int_t RunNum=(RunNumStr.Atoi());
+  //TString OutputStr = Form("%i,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f", RunNum, PionFit->GetParameter(1), PionFit->GetParError(1), PionFWHM, PionFWHMErr, KaonFit->GetParameter(1), KaonFit->GetParError(1), KaonFWHM, KaonFWHMErr, ProtonFit->GetParameter(1), ProtonFit->GetParError(1), ProtonFWHM, ProtonFWHMErr);
     //cout << OutputStr << endl;
 }
