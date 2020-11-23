@@ -110,6 +110,7 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   cutg->SetLineColor(kRed);
   cutg->SetLineWidth(5);
 
+
   //Histograms 
  
   TH2D *h2_XYAtCer                  = new TH2D("h2_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
@@ -183,7 +184,9 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   h2_npeSum_TCutG_OUT->Write();
   h2_npeSum->Write();
   h3_aero_XYAtCer_npeSum_pyx->Write();
+  //  cutg->Write();
   OutHisto_file->Close();
+  //  cutg->SaveAs("cutg.txt");
   // TString RunNumStr = TInFilename(0,4); Int_t RunNum=(RunNumStr.Atoi());
   //TString OutputStr = Form("%i,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f", RunNum, PionFit->GetParameter(1), PionFit->GetParError(1), PionFWHM, PionFWHMErr, KaonFit->GetParameter(1), KaonFit->GetParError(1), KaonFWHM, KaonFWHMErr, ProtonFit->GetParameter(1), ProtonFit->GetParError(1), ProtonFWHM, ProtonFWHMErr);
     //cout << OutputStr << endl;
