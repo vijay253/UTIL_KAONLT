@@ -70,11 +70,12 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   TString foutname = Outpath1+"/" + TOutFilename + ".root";
   TString foutpdf = Outpath1+"/" + TOutFilename + ".pdf";
 
-  // Defined masses of particles 
+  // Defined masses of particles for the calcualtions of massing masses
+  //................................................................... 
   Double_t Mp    = 0.93828; 
   Double_t MPi   = 0.13957018;
   Double_t MK    = 0.493677;
-
+  //...................................................................
   // Particles information with acceptnce cuts ONLY... 
   
   TTree* SHMS_EVENTS  = (TTree*)InFile->Get("SHMS_cut_no_Cal_HGC_Aero"); Long64_t nEntries_SHMS_EVENTS  = (Long64_t)SHMS_EVENTS->GetEntries();
@@ -146,11 +147,25 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   cutg2->SetPoint(18,-25,2);
   cutg2->SetLineColor(kRed);
   cutg2->SetLineWidth(5);
-  //Histograms 
 
-  TH1D *h1_emiss_Pi                    = new TH1D("h1_emiss_Pi","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0, 5 );
-  TH1D *h1_emiss_K                     = new TH1D("h1_emiss_K","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0, 5 );
-  TH1D *h1_emiss_P                     = new TH1D("h1_emiss_P","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0, 5 );
+  //Histograms for missing masses plots
+  TH1D *h1_MM_Pi                                 = new TH1D("h1_MM_Pi","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_K                                  = new TH1D("h1_MM_K","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_P                                  = new TH1D("h1_MM_P","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+  
+  TH1D *h1_MM_Pi_IN_TCutG1                       = new TH1D("h1_MM_Pi_IN_TCutG1","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_K_IN_TCutG1                        = new TH1D("h1_MM_K_IN_TCutG1","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_P_IN_TCutG1                        = new TH1D("h1_MM_P_IN_TCutG1","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+ 
+  TH1D *h1_MM_Pi_IN_TCutG12                      = new TH1D("h1_MM_Pi_IN_TCutG12","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_K_IN_TCutG12                       = new TH1D("h1_MM_K_IN_TCutG12","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_P_IN_TCutG12                       = new TH1D("h1_MM_P_IN_TCutG12","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+ 
+  TH1D *h1_MM_Pi_OUT_TCutG2                      = new TH1D("h1_MM_Pi_OUT_TCutG2","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_K_OUT_TCutG2                       = new TH1D("h1_MM_K_OUT_TCutG2","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_P_OUT_TCutG2                       = new TH1D("h1_MM_P_OUT_TCutG2","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+ 
+  
   TH2D *h2_XYAtCer                     = new TH2D("h2_XYAtCer","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
   TH2D *h2_XYAtCer2                    = new TH2D("h2_XYAtCer2","HGC, P_hgcer_npeSum => 4.0; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
   TH3D *h3_aero_XYAtCer_npeSum         = new TH3D("h3_aero_XYAtCer_npeSum","Aero; P_aero_yAtAero; P_aero_xAtAero; P_aero_npeSum", 300, -50, 50, 300, -50, 50, 300, 0, 30);
@@ -170,11 +185,11 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
     SHMS_EVENTS->GetEntry(i);
     if(P_hgcer_npeSum < 0.1) continue;
     //Calculation of Pion missing mass
-    h1_emiss_Pi->Fill(sqrt((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p) - (p_miss*p_miss))))); 
+    h1_MM_Pi->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))); 
     //Calculation of Kaon missing mass
-    h1_emiss_K->Fill(sqrt(e_miss*e_miss - p_miss*p_miss));
+    h1_MM_K->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
     //Calculation of Proton missing mass 
-    h1_emiss_P->Fill(sqrt((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p) - (p_miss*p_miss)))));  
+    h1_MM_P->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));   
   }
  
   //Fill xyAtCer entry
@@ -240,6 +255,9 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
     if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
     if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     h2_npeSum_TCutG1_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    h1_MM_Pi_IN_TCutG1->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    h1_MM_K_IN_TCutG1->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+    h1_MM_P_IN_TCutG1->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
   }
   //Fill NPE entry inside the TCutG2      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -247,7 +265,11 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
     if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
    if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     h2_npeSum_TCutG2_OUT->Fill(P_hgcer_npeSum, P_aero_npeSum);
-  }
+    h1_MM_Pi_OUT_TCutG2->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    h1_MM_K_OUT_TCutG2->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+    h1_MM_P_OUT_TCutG2->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+  
+}
   //Fill entry outside the TCutG2
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -265,6 +287,9 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
     if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;   
     if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     h2_npeSum_TCutG12_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    h1_MM_Pi_IN_TCutG12->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    h1_MM_K_IN_TCutG12->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+    h1_MM_P_IN_TCutG12->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
   }
 
 
@@ -281,9 +306,18 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   TFile *OutHisto_file = new TFile(foutname,"RECREATE");
   TDirectory *TCutG_Info = OutHisto_file->mkdir("TCutG_Info");
   TCutG_Info->cd();
-  h1_emiss_Pi->Write();
-  h1_emiss_K->Write();
-  h1_emiss_P->Write();
+  h1_MM_Pi->Write();
+  h1_MM_K->Write();
+  h1_MM_P->Write();
+  h1_MM_Pi_IN_TCutG1->Write();
+  h1_MM_K_IN_TCutG1->Write();
+  h1_MM_P_IN_TCutG1->Write();
+  h1_MM_Pi_IN_TCutG12->Write();
+  h1_MM_K_IN_TCutG12->Write();
+  h1_MM_P_IN_TCutG12->Write();
+  h1_MM_Pi_OUT_TCutG2->Write();
+  h1_MM_K_OUT_TCutG2->Write();
+  h1_MM_P_OUT_TCutG2->Write();
   h2_XYAtCer->GetListOfFunctions()->Add(cutg1,"L"); 
   h2_XYAtCer->Write();
   h2_XYAtCer->GetListOfFunctions()->Clear("L"); 
