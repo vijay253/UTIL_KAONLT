@@ -70,6 +70,11 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   TString foutname = Outpath1+"/" + TOutFilename + ".root";
   TString foutpdf = Outpath1+"/" + TOutFilename + ".pdf";
 
+  // Defined masses of particles 
+  Double_t Mp    = 0.93828; 
+  Double_t MPi   = 0.13957018;
+  Double_t MK    = 0.493677;
+
   // Particles information with acceptnce cuts ONLY... 
   
   TTree* SHMS_EVENTS  = (TTree*)InFile->Get("SHMS_cut_no_Cal_HGC_Aero"); Long64_t nEntries_SHMS_EVENTS  = (Long64_t)SHMS_EVENTS->GetEntries();
@@ -81,46 +86,97 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   Double_t P_aero_xAtCer; SHMS_EVENTS->SetBranchAddress("P_aero_xAtCer", &P_aero_xAtCer);
   Double_t P_aero_yAtCer; SHMS_EVENTS->SetBranchAddress("P_aero_yAtCer", &P_aero_yAtCer);
   Double_t P_cal_etotnorm; SHMS_EVENTS->SetBranchAddress("P_cal_etotnorm", &P_cal_etotnorm);
+  Double_t P_gtr_p; SHMS_EVENTS->SetBranchAddress("P_gtr_p", &P_gtr_p);
+  Double_t e_miss; SHMS_EVENTS->SetBranchAddress("emiss", &e_miss);
+  Double_t p_miss; SHMS_EVENTS->SetBranchAddress("pmiss", &p_miss);
 
-  // Defined Geometrical Cuts
-  TCutG *cutg = new TCutG("cutg",21);
-  cutg->SetVarX("P_hgcer_yAtCer");
-  cutg->SetVarY("P_hgcer_xAtCer");
-  cutg->SetPoint(0,-25,2);
-  cutg->SetPoint(1,-2,2);
-  cutg->SetPoint(2,-1,2.5);
-  cutg->SetPoint(3,0,3);
-  cutg->SetPoint(4,1,3);
-  cutg->SetPoint(5,2,3.3);
-  cutg->SetPoint(6,3,3.0);
-  cutg->SetPoint(7,4,2.5);
-  cutg->SetPoint(8,5,2);
-  cutg->SetPoint(9,25,2);
-  cutg->SetPoint(10,25,0.5);
-  cutg->SetPoint(11,5,0.5);
-  cutg->SetPoint(12,4,1);
-  cutg->SetPoint(13,3,-1);
-  cutg->SetPoint(14,2,-2);
-  cutg->SetPoint(15,1,-2.3);
-  cutg->SetPoint(16,0,-1.5);
-  cutg->SetPoint(17,-1,-1);
-  cutg->SetPoint(18,-2,0.5);
-  cutg->SetPoint(19,-25,0.5);
-  cutg->SetPoint(20,-25,2);
-  cutg->SetLineColor(kRed);
-  cutg->SetLineWidth(5);
+  // Missing masses calculations...
+  //For Kaon 
 
+  // Defined Geometrical Cuts1
+  TCutG *cutg1 = new TCutG("cutg1",21);
+  cutg1->SetVarX("P_hgcer_yAtCer");
+  cutg1->SetVarY("P_hgcer_xAtCer");
+  cutg1->SetPoint(0,-25,2);
+  cutg1->SetPoint(1,-2,2);
+  cutg1->SetPoint(2,-1,2.5);
+  cutg1->SetPoint(3,0,3);
+  cutg1->SetPoint(4,1,3);
+  cutg1->SetPoint(5,2,3.3);
+  cutg1->SetPoint(6,3,3.0);
+  cutg1->SetPoint(7,4,2.5);
+  cutg1->SetPoint(8,5,2);
+  cutg1->SetPoint(9,25,2);
+  cutg1->SetPoint(10,25,0.5);
+  cutg1->SetPoint(11,5,0.5);
+  cutg1->SetPoint(12,4,1);
+  cutg1->SetPoint(13,3,-1);
+  cutg1->SetPoint(14,2,-2);
+  cutg1->SetPoint(15,1,-2.3);
+  cutg1->SetPoint(16,0,-1.5);
+  cutg1->SetPoint(17,-1,-1);
+  cutg1->SetPoint(18,-2,0.5);
+  cutg1->SetPoint(19,-25,0.5);
+  cutg1->SetPoint(20,-25,2);
+  cutg1->SetLineColor(kRed);
+  cutg1->SetLineWidth(5);
 
+  // Defined Geometrical Cuts2
+  TCutG *cutg2 = new TCutG("cutg2",19);
+  cutg2->SetVarX("P_hgcer_yAtCer");
+  cutg2->SetVarY("P_hgcer_xAtCer");
+  cutg2->SetPoint(0,-25,2);
+  cutg2->SetPoint(1,-2,2);
+  cutg2->SetPoint(2,0,3.5);
+  cutg2->SetPoint(3,2,5.5);
+  cutg2->SetPoint(4,4,5);
+  cutg2->SetPoint(5,6,4.5);
+  cutg2->SetPoint(6,8,4);
+  cutg2->SetPoint(7,10,2);
+  cutg2->SetPoint(8,25,2);
+  cutg2->SetPoint(9,25,0.5);
+  cutg2->SetPoint(10,6,0.5);
+  cutg2->SetPoint(11,4,-1);
+  cutg2->SetPoint(12,2,-3);
+  cutg2->SetPoint(13,0,-3.5);
+  cutg2->SetPoint(14,-2,-2);
+  cutg2->SetPoint(15,-4,-0.75);
+  cutg2->SetPoint(16,-6,-0.5);
+  cutg2->SetPoint(17,-25,0.5);
+  cutg2->SetPoint(18,-25,2);
+  cutg2->SetLineColor(kRed);
+  cutg2->SetLineWidth(5);
   //Histograms 
+
+  TH1D *h1_emiss_Pi                    = new TH1D("h1_emiss_Pi","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0, 5 );
+  TH1D *h1_emiss_K                     = new TH1D("h1_emiss_K","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0, 5 );
+  TH1D *h1_emiss_P                     = new TH1D("h1_emiss_P","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0, 5 );
+  TH2D *h2_XYAtCer                     = new TH2D("h2_XYAtCer","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
+  TH2D *h2_XYAtCer2                    = new TH2D("h2_XYAtCer2","HGC, P_hgcer_npeSum => 4.0; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
+  TH3D *h3_aero_XYAtCer_npeSum         = new TH3D("h3_aero_XYAtCer_npeSum","Aero; P_aero_yAtAero; P_aero_xAtAero; P_aero_npeSum", 300, -50, 50, 300, -50, 50, 300, 0, 30);
+  TH3D *h3_aero_XYAtCer_nocut_npeSum   = new TH3D("h3_aero_XYAtCer_nocut_npeSum","Aero; P_aero_yAtAero; P_aero_xAtAero; P_aero_npeSum", 300, -50, 50, 300, -50, 50, 300, 0, 30);
+  TH3D *h3_XYAtCer_npeSum              = new TH3D("h3_XYAtCer_npeSum","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
+  TH3D *h3_XYAtCer_npeSum2             = new TH3D("h3_XYAtCer_npeSum2","HGC, P_hgcer_npeSum => 4.0; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
+  TH2D *h2_npeSum                      = new TH2D("h2_npeSum","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
+  TH2D *h2_npeSum_TCutG1_IN            = new TH2D("h2_npeSum_TCutG1_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
+  TH2D *h2_npeSum_TCutG1_OUT           = new TH2D("h2_npeSum_TCutG1_OUT","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
+  TH2D *h2_npeSum_TCutG2_IN            = new TH2D("h2_npeSum_TCutG2_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
+  TH2D *h2_npeSum_TCutG2_OUT           = new TH2D("h2_npeSum_TCutG2_OUT","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
+  TH2D *h2_npeSum_TCutG12_IN           = new TH2D("h2_npeSum_TCutG12_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
+
+  //Fill entries for missing masses
+
+ for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 0.1) continue;
+    //Calculation of Pion missing mass
+    h1_emiss_Pi->Fill(sqrt((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p) - (p_miss*p_miss))))); 
+    //Calculation of Kaon missing mass
+    h1_emiss_K->Fill(sqrt(e_miss*e_miss - p_miss*p_miss));
+    //Calculation of Proton missing mass 
+    h1_emiss_P->Fill(sqrt((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p) - (p_miss*p_miss)))));  
+  }
  
-  TH2D *h2_XYAtCer                  = new TH2D("h2_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
-  TH3D *h3_aero_XYAtCer_npeSum      = new TH3D("h3_aero_XYAtCer_npeSum","Aero; P_aero_yAtCer; P_aero_xAtCer; P_aero_npeSum", 300, -50, 50, 300, -50, 50, 300, 0, 30);
-  TH3D *h3_XYAtCer_npeSum           = new TH3D("h3_XYAtCer_npeSum","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
-  TH2D *h2_npeSum                   = new TH2D("h2_npeSum","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
-  TH2D *h2_npeSum_TCutG_IN          = new TH2D("h2_npeSum_TCutG_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
-  TH2D *h2_npeSum_TCutG_OUT         = new TH2D("h2_npeSum_TCutG_OUT","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30, 300, 0.0, 30);
-
-
   //Fill xyAtCer entry
       
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -128,6 +184,12 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
     if(P_hgcer_npeSum < 1.5) continue;
     h2_XYAtCer->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
   }
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 4) continue;
+    h2_XYAtCer2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+  //Fill entry for 3D
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
@@ -137,54 +199,109 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 4) continue;
+    h3_XYAtCer_npeSum2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
+  }
+
+  //Fill entry for Aero
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    h3_aero_XYAtCer_nocut_npeSum->Fill(P_aero_yAtCer, P_aero_xAtCer, P_aero_npeSum);
     if(P_aero_yAtCer>31) continue;
     h3_aero_XYAtCer_npeSum->Fill(P_aero_yAtCer, P_aero_xAtCer, P_aero_npeSum);
   }
 
   // Project 3D histogram on XY
 
-  TProfile2D *h3_aero_XYAtCer_npeSum_pyx = new TProfile2D("h3_aero_XYAtCer_npeSum_pyx","Aero; P_aero_yAtCer; P_aero_xAtCer ",300,-50,50, 300,-50,50, 0, 30);
+  TProfile2D *h3_aero_XYAtCer_npeSum_pyx = new TProfile2D("h3_aero_XYAtCer_npeSum_pyx","Aero; P_aero_yAtAero; P_aero_xAtAero ",300,-50,50, 300,-50,50, 0, 30);
   h3_aero_XYAtCer_npeSum->Project3DProfile("yx");
 
-  TProfile2D *h3_XYAtCer_npeSum_pyx = new TProfile2D("h3_XYAtCer_npeSum_pyx","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
+  TProfile2D *h3_aero_XYAtCer_nocut_npeSum_pyx = new TProfile2D("h3_aero_XYAtCer_nocut_npeSum_pyx","Aero; P_aero_yAtAero; P_aero_xAtAero ",300,-50,50, 300,-50,50, 0, 30);
+  h3_aero_XYAtCer_nocut_npeSum->Project3DProfile("yx");
+
+  TProfile2D *h3_XYAtCer_npeSum_pyx = new TProfile2D("h3_XYAtCer_npeSum_pyx","HGC,P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
   h3_XYAtCer_npeSum->Project3DProfile("yx");
 
-  //Fill NPE entry inside the TCutG      
+  TProfile2D *h3_XYAtCer_npeSum2_pyx = new TProfile2D("h3_XYAtCer_npeSum2_pyx","HGC, P_hgcer_npeSum => 4.0; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
+  h3_XYAtCer_npeSum2->Project3DProfile("yx");
+
+  //Fill NPE entry inside the TCutG1      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.3 || P_aero_yAtCer > 31) continue;
-   if (cutg->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    h2_npeSum_TCutG_OUT->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
+   if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    h2_npeSum_TCutG1_OUT->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
-  //Fill entry outside the TCutG
+  //Fill entry outside the TCutG1
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.3 || P_aero_yAtCer > 31) continue;
-    if (!cutg->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    h2_npeSum_TCutG_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    h2_npeSum_TCutG1_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
+  //Fill NPE entry inside the TCutG2      
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
+   if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    h2_npeSum_TCutG2_OUT->Fill(P_hgcer_npeSum, P_aero_npeSum);
+  }
+  //Fill entry outside the TCutG2
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
+    if (!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    h2_npeSum_TCutG2_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
+  }
+
+  //Fill entry between TCutG1 & 2
+  
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
+    if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;   
+    if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    h2_npeSum_TCutG12_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
+  }
+
 
   //Fill entry without TCutG
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.3 || P_aero_yAtCer > 31) continue;
+    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
     h2_npeSum->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
   
+  //Write the info in the root format
+
   TFile *OutHisto_file = new TFile(foutname,"RECREATE");
   TDirectory *TCutG_Info = OutHisto_file->mkdir("TCutG_Info");
   TCutG_Info->cd();
-  h2_XYAtCer->GetListOfFunctions()->Add(cutg,"L"); 
+  h1_emiss_Pi->Write();
+  h1_emiss_K->Write();
+  h1_emiss_P->Write();
+  h2_XYAtCer->GetListOfFunctions()->Add(cutg1,"L"); 
   h2_XYAtCer->Write();
-  h3_XYAtCer_npeSum_pyx->GetListOfFunctions()->Add(cutg,"L"); 
+  h2_XYAtCer->GetListOfFunctions()->Clear("L"); 
+  h2_XYAtCer2->GetListOfFunctions()->Add(cutg2,"L"); 
+  h2_XYAtCer2->Write();
+  h2_XYAtCer2->GetListOfFunctions()->Clear("L"); 
+  h3_XYAtCer_npeSum_pyx->GetListOfFunctions()->Add(cutg1,"L"); 
   h3_XYAtCer_npeSum_pyx->Write();
-  h2_npeSum_TCutG_IN->Write();
-  h2_npeSum_TCutG_OUT->Write();
+  h3_XYAtCer_npeSum2_pyx->GetListOfFunctions()->Add(cutg2,"L"); 
+  h3_XYAtCer_npeSum2_pyx->Write();
+  h2_npeSum_TCutG1_IN->Write();
+  h2_npeSum_TCutG1_OUT->Write();
+  h2_npeSum_TCutG2_IN->Write();
+  h2_npeSum_TCutG2_OUT->Write();
+  h2_npeSum_TCutG12_IN->Write();
   h2_npeSum->Write();
+  h3_aero_XYAtCer_nocut_npeSum_pyx->Write();  
   h3_aero_XYAtCer_npeSum_pyx->Write();
-  //  cutg->Write();
   OutHisto_file->Close();
   //  cutg->SaveAs("cutg.txt");
   // TString RunNumStr = TInFilename(0,4); Int_t RunNum=(RunNumStr.Atoi());
