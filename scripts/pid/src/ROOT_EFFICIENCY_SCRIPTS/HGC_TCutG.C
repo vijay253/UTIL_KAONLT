@@ -149,21 +149,21 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   cutg2->SetLineWidth(5);
 
   //Histograms for missing masses plots
-  TH1D *h1_MM_Pi                                 = new TH1D("h1_MM_Pi","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *h1_MM_K                                  = new TH1D("h1_MM_K","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
-  TH1D *h1_MM_P                                  = new TH1D("h1_MM_P","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_Pi                                 = new TH1D("h1_MM_Pi","Pion Missing Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_K                                  = new TH1D("h1_MM_K","Kaon Missing Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_P                                  = new TH1D("h1_MM_P","Proton Missing Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
   
-  TH1D *h1_MM_Pi_IN_TCutG1                       = new TH1D("h1_MM_Pi_IN_TCutG1","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *h1_MM_K_IN_TCutG1                        = new TH1D("h1_MM_K_IN_TCutG1","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
-  TH1D *h1_MM_P_IN_TCutG1                        = new TH1D("h1_MM_P_IN_TCutG1","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_Pi_IN_TCutG1                       = new TH1D("h1_MM_Pi_IN_TCutG1","Pion Missing Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_K_IN_TCutG1                        = new TH1D("h1_MM_K_IN_TCutG1","Kaon Missing Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_P_IN_TCutG1                        = new TH1D("h1_MM_P_IN_TCutG1","Proton Missing Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
  
-  TH1D *h1_MM_Pi_IN_TCutG12                      = new TH1D("h1_MM_Pi_IN_TCutG12","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *h1_MM_K_IN_TCutG12                       = new TH1D("h1_MM_K_IN_TCutG12","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
-  TH1D *h1_MM_P_IN_TCutG12                       = new TH1D("h1_MM_P_IN_TCutG12","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_Pi_IN_TCutG12                      = new TH1D("h1_MM_Pi_IN_TCutG12","Pion Missing Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_K_IN_TCutG12                       = new TH1D("h1_MM_K_IN_TCutG12","Kaon Missing Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_P_IN_TCutG12                       = new TH1D("h1_MM_P_IN_TCutG12","Proton Missing Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
  
-  TH1D *h1_MM_Pi_OUT_TCutG2                      = new TH1D("h1_MM_Pi_OUT_TCutG2","Pion Mising Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *h1_MM_K_OUT_TCutG2                       = new TH1D("h1_MM_K_OUT_TCutG2","Kaon Mising Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
-  TH1D *h1_MM_P_OUT_TCutG2                       = new TH1D("h1_MM_P_OUT_TCutG2","Proton Mising Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_Pi_OUT_TCutG2                      = new TH1D("h1_MM_Pi_OUT_TCutG2","Pion Missing Mass; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_K_OUT_TCutG2                       = new TH1D("h1_MM_K_OUT_TCutG2","Kaon Missing Mass; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *h1_MM_P_OUT_TCutG2                       = new TH1D("h1_MM_P_OUT_TCutG2","Proton Missing Mass; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
  
   
   TH2D *h2_XYAtCer                     = new TH2D("h2_XYAtCer","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
