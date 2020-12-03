@@ -1,5 +1,5 @@
 // .... This script has created to anasyzed the HGC's whole in it using the TCutG....
-// .... Created Date: Nov 21, 2021 ....
+// .... Created Date: Dec 3, 2021 ....
 // .... Author: Vijay Kumar ....
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -101,20 +101,46 @@ void EFF_SCANNING(string InFilename = "", string OutFilename = "")
 
   for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
     Pion_No_HGC_Cut->GetEntry(i);
-    if(Pion_npeSum < 1.0 || Pion_aero_npeSum <1.5 || P_aero_yAtCer >31) continue;
+    if(Pion_npeSum < 1.0 || Pion_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
     h2_Eff_Pos2->Fill(P_hgcer_xAtCer, P_hgcer_yAtCer);
   }
 
   // Take Efficiency scanning 
   h2_Eff_Pos3 = (TH2D*)h2_Eff_Pos2->Clone();
   h2_Eff_Pos3->Divide(h2_Eff_Pos1);
+
+  // Delta scanning of Efficiecny 
+
+  TH1D *h1_Eff_Del1    = new TH1D("h1_Eff_Del1","Efficieny vs Delta; Delta (%); Efficiency (%);", 300, -10, 20.0); 
+  TH1D *h1_Eff_Del2    = new TH1D("h1_Eff_Del2","Efficiency vs Delta; Delta (%); Efficiency (%);", 300, -10, 20.0); 
+  TH1D *h1_Eff_Del3    = new TH1D("h1_Eff_Del3","Efficiency vs Delta; Delta (%); Efficiency (%);", 300, -10, 20.0); 
  
+  //Fill entries for efficiency scanning
+
+  for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
+    Pion_No_HGC_Cut->GetEntry(i);
+    if(Pion_npeSum < 0.1 || Pion_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    h1_Eff_Del1->Fill(P_gtr_dp);
+  }
+
+  for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
+    Pion_No_HGC_Cut->GetEntry(i);
+    if(Pion_npeSum < 1.0 || Pion_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    h1_Eff_Del2->Fill(P_gtr_dp);
+  }
+
+  // Take Efficiency scanning 
+  h1_Eff_Del3 = (TH1D*)h1_Eff_Del2->Clone();
+  h1_Eff_Del3->Divide(h1_Eff_Del1);
+  //  h1_Eff_Del3->GetYaxis()->SetRangeUser(0.8,1.0);
+  
   //Write the info in the root format
 
   TFile *OutHisto_file = new TFile(foutname,"RECREATE");
   TDirectory *EFF_SCA = OutHisto_file->mkdir("EFF_SCA");
   EFF_SCA->cd();
   h2_Eff_Pos3->Write();
+  h1_Eff_Del3->Write();  
   OutHisto_file->Close();
 
   // TString RunNumStr = TInFilename(0,4); Int_t RunNum=(RunNumStr.Atoi());
