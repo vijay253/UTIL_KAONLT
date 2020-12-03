@@ -149,40 +149,40 @@ void HGC_efficiency(string RunNumber = "")
   //Defined Histograms for npeSum
 
   //Pion
-  TH1D *h1_Pion_HGC_Cut_npeSum         =  new TH1D("h1_Pion_HGC_Cut_npeSum;","NPE with HGC Cut;  P_hgcer_npeSum;" ,300, 0.0, 40);
-  TH1D *h1_Pion_No_HGC_Cut_npeSum      =  new TH1D("h1_Pion_No_HGC_Cut_npeSum;", "NPE with HGC Cut; P_hgcer_npeSum;" ,300, 0.0, 40);
+  TH1D *h1_Pion_HGC_Cut_npeSum         =  new TH1D("h1_Pion_HGC_Cut_npeSum;","NPE with HGC Cut (Pion Selected);  P_hgcer_npeSum;" ,300, 0.0, 40);
+  TH1D *h1_Pion_No_HGC_Cut_npeSum      =  new TH1D("h1_Pion_No_HGC_Cut_npeSum;", "NPE No HGC Cut (Pion Selected); P_hgcer_npeSum;" ,300, 0.0, 40);
   //Kaon
 
-  TH1D *h1_Kaon_HGC_Cut_npeSum         =  new TH1D("h1_Kaon_HGC_Cut_npeSum;", "NPE with HGC Cut; P_hgcer_npeSum;" ,300, 0.0, 40);
-  TH1D *h1_Kaon_No_HGC_Cut_npeSum      =  new TH1D("h1_Kaon_No_HGC_Cut_npeSum;", "NPE with HGC Cut; P_hgcer_npeSum;" ,300, 0.0, 40);
+  TH1D *h1_Kaon_HGC_Cut_npeSum         =  new TH1D("h1_Kaon_HGC_Cut_npeSum;", "NPE with HGC Cut (Kaon Selected); P_hgcer_npeSum;" ,300, 0.0, 40);
+  TH1D *h1_Kaon_No_HGC_Cut_npeSum      =  new TH1D("h1_Kaon_No_HGC_Cut_npeSum;", "NPE No HGC Cut (Kaon Selected); P_hgcer_npeSum;" ,300, 0.0, 40);
   //Proton
 
-  TH1D *h1_Proton_HGC_Cut_npeSum       =  new TH1D("h1_Proton_HGC_Cut_npeSum;", "NPE with HGC Cut; P_hgcer_npeSum;", 300, 0.0, 40);
-  TH1D *h1_Proton_No_HGC_Cut_npeSum    =  new TH1D("h1_Proton_No_HGC_Cut_npeSum;", "NPE with HGC Cut; P_hgcer_npeSum;", 300, 0.0, 40);
+  TH1D *h1_Proton_HGC_Cut_npeSum       =  new TH1D("h1_Proton_HGC_Cut_npeSum;", "NPE with HGC Cut (Proton Selected); P_hgcer_npeSum;", 300, 0.0, 40);
+  TH1D *h1_Proton_No_HGC_Cut_npeSum    =  new TH1D("h1_Proton_No_HGC_Cut_npeSum;", "NPE No HGC Cut (Proton Selected); P_hgcer_npeSum;", 300, 0.0, 40);
 
 
   //Fill npeSum entries
       
   for(Long64_t i = 0; i < nEntries_Pion_HGC_Cut; i++){
     Pion_HGC_Cut->GetEntry(i);
-    // if(P_hgcer_npeSum < 1.5) continue;
+    if(Pion_HGC_Cut_npeSum < 0.1) continue;
     h1_Pion_HGC_Cut_npeSum->Fill(Pion_HGC_Cut_npeSum);
   }
 
   for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
     Pion_No_HGC_Cut->GetEntry(i);
-    // if(P_hgcer_npeSum < 1.5) continue;
+    if(Pion_No_HGC_Cut_npeSum < 0.1) continue;
     h1_Pion_No_HGC_Cut_npeSum->Fill(Pion_No_HGC_Cut_npeSum);
   }
 
   for(Long64_t i = 0; i < nEntries_Kaon_HGC_Cut; i++){
     Kaon_HGC_Cut->GetEntry(i);
-    // if(P_hgcer_npeSum < 1.5) continue;
-    h1_Kaon_HGC_Cut_npeSum->Fill(Kaon_HGC_Cut_npeSum);
+  if(Kaon_HGC_Cut_npeSum < 0.1) continue;  
+  h1_Kaon_HGC_Cut_npeSum->Fill(Kaon_HGC_Cut_npeSum);
   }
   for(Long64_t i = 0; i < nEntries_Kaon_No_HGC_Cut; i++){
     Kaon_No_HGC_Cut->GetEntry(i);
-    // if(P_hgcer_npeSum < 1.5) continue;
+    if(Kaon_No_HGC_Cut_npeSum < 0.1) continue;  
     h1_Kaon_HGC_Cut_npeSum->Fill(Kaon_No_HGC_Cut_npeSum);
   }
 
