@@ -87,22 +87,22 @@ void EFF_SCANNING(string InFilename = "", string OutFilename = "")
 
  
   // Histograms for scanning the efficiency 
-  TH2D *h2_Eff_Pos1    = new TH2D("h2_Eff_Pos1","Efficiency vs Position; X Position (cm); Y Position (cm);", 300, -30, 30.0, 300, -30, 30.0 ); 
-  TH2D *h2_Eff_Pos2    = new TH2D("h2_Eff_Pos2","Efficiency vs Position; X Position (cm); Y Position (cm);", 300, -30, 30.0, 300, -30, 30.0 ); 
-  TH2D *h2_Eff_Pos3    = new TH2D("h2_Eff_Pos3","Efficiency vs Position; X Position (cm); Y Position (cm);", 300, -30, 30.0, 300, -30, 30.0 ); 
+  TH2D *h2_Eff_Pos1    = new TH2D("h2_Eff_Pos1","Efficiency vs Position; Y Position (cm); X Position (cm);", 300, -40, 40.0, 300, -40, 40.0 ); 
+  TH2D *h2_Eff_Pos2    = new TH2D("h2_Eff_Pos2","Efficiency vs Position; Y Position (cm); X Position (cm);", 300, -40, 40.0, 300, -40, 40.0 ); 
+  TH2D *h2_Eff_Pos3    = new TH2D("h2_Eff_Pos3","Efficiency vs Position; Y Position (cm); X Position (cm);", 300, -40, 40.0, 300, -40, 40.0 ); 
  
   //Fill entries for efficiency scanning
 
   for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
     Pion_No_HGC_Cut->GetEntry(i);
     if(Pion_npeSum < 0.1 || Pion_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
-    h2_Eff_Pos1->Fill(P_hgcer_xAtCer, P_hgcer_yAtCer);
+    h2_Eff_Pos1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
   }
 
   for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
     Pion_No_HGC_Cut->GetEntry(i);
     if(Pion_npeSum < 1.0 || Pion_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
-    h2_Eff_Pos2->Fill(P_hgcer_xAtCer, P_hgcer_yAtCer);
+    h2_Eff_Pos2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
   }
 
   // Take Efficiency scanning 
@@ -132,7 +132,32 @@ void EFF_SCANNING(string InFilename = "", string OutFilename = "")
   // Take Efficiency scanning 
   h1_Eff_Del3 = (TH1D*)h1_Eff_Del2->Clone();
   h1_Eff_Del3->Divide(h1_Eff_Del1);
-  //  h1_Eff_Del3->GetYaxis()->SetRangeUser(0.8,1.0);
+  h1_Eff_Del3->GetYaxis()->SetRangeUser(0.8,1.02);
+
+  //Efficieny vs xAtCer plot  
+
+  TH1D *h1_Eff1_xAtCer    = new TH1D("h1_Eff1_xAtCer","xAtCer vs Efficiency; xAtCer; Efficiency (%);", 300, -40, 40.0); 
+  TH1D *h1_Eff2_xAtCer    = new TH1D("h1_Eff2_xAtCer","xAtCer vs Efficiecny; xAtCer; Efficiency (%);", 300, -40, 40.0); 
+  TH1D *h1_Eff3_xAtCer    = new TH1D("h1_Eff3_xAtCer","xAtCer vs Efficiecny; xAtCer; Efficiency (%);", 300, -40, 40.0); 
+ 
+  //Fill entries for efficiency scanning
+
+    for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
+    Pion_No_HGC_Cut->GetEntry(i);
+    if(Pion_npeSum < 0.1 || Pion_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    h1_Eff1_xAtCer->Fill(P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
+    Pion_No_HGC_Cut->GetEntry(i);
+    if(Pion_npeSum < 1.0 || Pion_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    h1_Eff2_xAtCer->Fill(P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  h1_Eff3_xAtCer = (TH1D*)h1_Eff2_xAtCer->Clone();
+  h1_Eff3_xAtCer->Divide(h1_Eff1_xAtCer);
+  h1_Eff3_xAtCer->GetYaxis()->SetRangeUser(0.5,1.02);
   
   //Write the info in the root format
 
@@ -140,6 +165,7 @@ void EFF_SCANNING(string InFilename = "", string OutFilename = "")
   TDirectory *EFF_SCA = OutHisto_file->mkdir("EFF_SCA");
   EFF_SCA->cd();
   h2_Eff_Pos3->Write();
+  h1_Eff3_xAtCer->Write();
   h1_Eff_Del3->Write();  
   OutHisto_file->Close();
 
