@@ -11,9 +11,9 @@ source /apps/root/6.18.04/setroot_CUE.csh
 
 You should also make sure you have the relevant packages, in particular, execute -
 
-pip install --user root_numpy
+pip install --user root_numpy --user
 
-pip install --user root_pandas
+pip install --user root_pandas --user
 
 if you have not done so previously.
 

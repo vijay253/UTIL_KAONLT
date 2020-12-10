@@ -33,8 +33,10 @@ if ("farm" in HOST[1]):
     REPLAYPATH = "/group/c-kaonlt/USERS/%s/hallc_replay_lt" % USER[1]
 elif ("qcd" in HOST[1]):
     REPLAYPATH = "/group/c-kaonlt/USERS/%s/hallc_replay_lt" % USER[1]
-elif ("lark.phys.uregina" in HOST[1]):
+elif ("phys.uregina" in HOST[1]):
     REPLAYPATH = "/home/%s/work/JLab/hallc_replay_lt" % USER[1]
+elif ("skynet" in HOST[1]):
+    REPLAYPATH = "/home/%s/Work/JLab/hallc_replay_lt" % USER[1]
 
 # Add more path setting as needed in a similar manner
 OUTPATH = "%s/UTIL_KAONLT/scripts/demo/OUTPUT" % REPLAYPATH

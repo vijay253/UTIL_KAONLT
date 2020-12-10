@@ -32,9 +32,11 @@ if ("farm" in HOST[1]):
     REPLAYPATH = "/group/c-kaonlt/USERS/%s/hallc_replay_lt" % USER[1]
 elif ("qcd" in HOST[1]):
     REPLAYPATH = "/group/c-kaonlt/USERS/%s/hallc_replay_lt" % USER[1]
-elif ("lark.phys.uregina" in HOST[1]):
+elif ("phys.uregina" in HOST[1]):
     REPLAYPATH = "/home/%s/work/JLab/hallc_replay_lt" % USER[1]
-
+elif("skynet" in HOST[1]):
+    REPLAYPATH = "/home/%s/Work/JLab/hallc_replay_lt" % USER[1]
+    
 # Add more path setting as needed in a similar manner
 OUTPATH = "%s/UTIL_KAONLT/scripts/kaonyield/OUTPUT" % REPLAYPATH
 CUTPATH = "%s/UTIL_KAONLT/DB/CUTS" % REPLAYPATH
@@ -127,7 +129,7 @@ RF_CutDist = np.array([ ((RFTime-StartTime + RF_Offset)%(BunchSpacing)) for (RFT
 r = klt.pyRoot()
 fout = '%s/UTIL_KAONLT/DB/CUTS/run_type/coin_prod.cuts' % REPLAYPATH
 # read in cuts file and make dictionary
-c = klt.pyPlot(None)
+c = klt.pyPlot(REPLAYPATH)
 readDict = c.read_dict(fout,runNum)
 # This method calls several methods in kaonlt package. It is required to create properly formated
 # dictionaries. The evaluation must be in the analysis script because the analysis variables (i.e. the
@@ -138,7 +140,7 @@ def make_cutDict(cut,inputDict=None):
 
     global c
 
-    c = klt.pyPlot(readDict)
+    c = klt.pyPlot(REPLAYPATH,readDict)
     x = c.w_dict(cut)
     print("%s" % cut)
     print("x ", x)
@@ -168,7 +170,7 @@ cutDict = make_cutDict("coin_ek_cut_rand", cutDict)
 cutDict = make_cutDict("coin_ep_cut_all", cutDict)
 cutDict = make_cutDict("coin_ep_cut_prompt", cutDict)
 cutDict = make_cutDict("coin_ep_cut_rand", cutDict)
-c = klt.pyPlot(cutDict)
+c = klt.pyPlot(REPLAYPATH,cutDict)
 
 def coin_pions(): 
     # Define the array of arrays containing the relevant HMS and SHMS info
