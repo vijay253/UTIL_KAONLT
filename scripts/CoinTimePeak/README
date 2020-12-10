@@ -41,14 +41,14 @@ These trees simply contains a branch with the Contime values for events that pas
 ############# Step 2 - ROOT Fitting Macro #############
 #######################################################
 
-The second step is to execute a quick ROOT fitting macro, PlotCoinPeak.C, on our output from the pythin script. 
+The second step is to execute a quick ROOT fitting macro, PlotCoinPeak.C, on our output from the python script. 
 
 The script is executed via
 
 root -b -l -q 'PlotCoinPeak.C("InputFile", "OutputfileName")'
 
 InputFile - This is simply the output of the python script, it is expected this file is in UTIL_KAOLT/scripts/CoinTimePeak/OUTPUT
-OutputfileName - This is the name of the desired outputfile (which again will be saved to UTIL_KAOLT/scripts/CoinTimePeak/OUTPUT)
+OutputfileName - This is the name of the desired output file (which again will be saved to UTIL_KAOLT/scripts/CoinTimePeak/OUTPUT)
 E.g. if we wanted to run on our output from the example above we would run
 
 root -b -l -q 'PlotCoinPeak.C("8540_-1_CTPeak_Data.root", "8540_Test")' 
