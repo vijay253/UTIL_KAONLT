@@ -2,6 +2,13 @@
 
 # 26/05/20 - Stephen Kay, University of Regina
 
+RUNPREFIX=$1
+if [[ -z "$1" ]]; then
+    echo "I need a Run Prefix!"
+    echo "Please provide a run prefix as input"
+    exit 2
+fi
+
 echo "Starting analysis of Q2 = 5.5, W = 3.02, left angle, high espilon setting"
 
 # Set path depending upon hostname. Change or add more as needed  
@@ -28,7 +35,7 @@ RunListFile="${UTILPATH}/scripts/kinematics/Q5p5W3p02left_highe"
 while IFS='' read -r line || [[ -n "$line" ]]; do
     runNum=$line
     RootName+="${runNum}_-1_Analysed_Data.root "
-    eval '"$SCRIPTPATH" $runNum -1'
+    eval '"$SCRIPTPATH" $RunPrefix $runNum -1'
 done < "$RunListFile"
 sleep 5
 cd "${UTILPATH}/scripts/kaonyield/OUTPUT"
