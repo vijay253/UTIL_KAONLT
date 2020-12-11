@@ -70,6 +70,18 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TString foutname = Outpath1+"/" + TOutFilename + ".root";
   TString foutpdf = Outpath1+"/" + TOutFilename + ".pdf";
 
+
+  
+//#################################################################### 
+
+  Double_t Mp    = 0.93828;      // Mass of Proton
+  Double_t MPi   = 0.13957018;  // Mass of Pion
+  Double_t MK    = 0.493677;   // Mass of Kaon
+
+//#################################################################### 
+
+
+
   // Particles information with acceptnce cuts ONLY... 
   
   TTree* SHMS_EVENTS  = (TTree*)InFile->Get("SHMS_Events_wCuts"); Long64_t nEntries_SHMS_EVENTS  = (Long64_t)SHMS_EVENTS->GetEntries();
@@ -85,6 +97,10 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Double_t P_gtr_dp; SHMS_EVENTS->SetBranchAddress("P_gtr_dp", &P_gtr_dp);
   Double_t e_miss; SHMS_EVENTS->SetBranchAddress("emiss", &e_miss);
   Double_t p_miss; SHMS_EVENTS->SetBranchAddress("pmiss", &p_miss);
+  Double_t P_CTime_ePion;SHMS_EVENTS->SetBranchAddress("CTime_ePiCoinTime_ROC1",&P_CTime_ePion);
+  Double_t P_CTime_eKaon;SHMS_EVENTS->SetBranchAddress("CTime_eKCoinTime_ROC1",&P_CTime_eKaon);
+  Double_t P_CTime_eProton;SHMS_EVENTS->SetBranchAddress("CTime_epCoinTime_ROC1",&P_CTime_eProton);
+  Double_t P_RF_time;SHMS_EVENTS->SetBranchAddress("RF_time", &P_RF_time);
 
 
   // ######################### First set of Geometrical Cuts #################### 
@@ -317,6 +333,112 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   //##############################################################################
 
+  // Missing mass calculations 
+ // For Pion
+  TH1D *Pi_mm_IN_TCutG1     = new TH1D("Pi_mm_IN_TCutG1","Pion Missing Mass Inside 1st Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0 ); 
+  TH1D *Pi_mm_IN_TCutG12    = new TH1D("Pi_mm_IN_TCutG12","Pion Missing Mass b/w 1st & 2nd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *Pi_mm_OUT_TCutG2    = new TH1D("Pi_mm_OUT_TCutG2","Pion Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+
+  TH1D *h1_CTime_ePion_OUT_TCutG2        = new TH1D("h1_CTime_ePion_OUT_TCutG2","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
+  TH1D *h1_RF_tdc_Time_OUT_TCutG2        = new TH1D("h1_RF_tdc_Time_OUT_TCutG2","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2, 6); 
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum <1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Pi_mm_IN_TCutG1->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+  }
+  
+  //Fill entry outside the TCutG2
+  
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 3.5 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Pi_mm_OUT_TCutG2->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    h1_CTime_ePion_OUT_TCutG2->Fill(P_CTime_ePion);
+    h1_RF_tdc_Time_OUT_TCutG2->Fill(P_RF_time);
+  }  
+ 
+  //Fill entry between TCutG1 & 2
+  
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;   
+    if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Pi_mm_IN_TCutG12->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+
+  }
+
+ // For Kaon
+
+  TH1D *K_mm_IN_TCutG1        = new TH1D("K_mm_IN_TCutG1","Kaon Missing Mass Inside 1st Region; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *K_mm_IN_TCutG12       = new TH1D("K_mm_IN_TCutG12","Kaon Missing Mass b/w 1st & 2nd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *K_mm_OUT_TCutG2       = new TH1D("K_mm_OUT_TCutG2","Kaon Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+
+  // Histograms for Timing Info                                                                                                                                                                       
+  TH1D *h1_CTime_eKaon_OUT_TCutG2        = new TH1D("h1_CTime_eKaon_OUT_TCutG2","Electron-Kaon Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
+  TH1D *h1_RF_tdc_TimeK_OUT_TCutG2       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG2","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
+  
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum > 1.0 || P_aero_npeSum < 1.0 || P_aero_yAtCer >31) continue;
+    K_mm_IN_TCutG1->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+  }
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum > 1.5 || P_aero_npeSum < 1.0 || P_aero_yAtCer >31) continue;
+    K_mm_OUT_TCutG2->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+    h1_CTime_eKaon_OUT_TCutG2->Fill(P_CTime_eKaon);
+    h1_RF_tdc_TimeK_OUT_TCutG2->Fill(P_RF_time);
+
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum > 1.0 || P_aero_npeSum < 1.0 || P_aero_yAtCer >31) continue;
+    K_mm_IN_TCutG12->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+
+  }
+
+ // For Proton
+
+  // Histograms for Missing Mass
+  TH1D *P_mm_IN_TCutG1        = new TH1D("h1_MM_P_IN_TCutG1","Proton Missing Mass Inside 1st Region; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
+  TH1D *P_mm_IN_TCutG12       = new TH1D("P_mm_IN_TCutG12 ","Proton Missing Mass b/w 1st & 2nd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
+  TH1D *P_mm_OUT_TCutG2       = new TH1D("P_mm_OUT_TCutG2","Proton Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+
+  // Histograms for Timing Info
+  TH1D *h1_CTime_eProton_OUT_TCutG2        = new TH1D("h1_CTime_eProton_OUT_TCutG2","Electron-Proton Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
+  TH1D *h1_RF_tdc_TimeP_OUT_TCutG2          = new TH1D("h1_RF_tdc_TimeP_OUT_TCutG2","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2,6); 
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 1.0 || P_aero_yAtCer >31) continue;
+    P_mm_IN_TCutG1->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+  }
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 2.0 || P_aero_yAtCer >31) continue;
+    P_mm_OUT_TCutG2->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    h1_CTime_eProton_OUT_TCutG2->Fill(P_CTime_eProton);
+    h1_RF_tdc_TimeP_OUT_TCutG2->Fill(P_RF_time);
+
+  }
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;   
+    if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;  
+    if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 2.0 ||P_aero_yAtCer >31) continue;
+    P_mm_IN_TCutG12->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+  }
 
  
   //Write the info in the root format
@@ -344,9 +466,28 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h2_npeSum->Write();
   h3_aero_XYAtCer_nocut_npeSum_pyx->Write();  
   h3_aero_XYAtCer_npeSum_pyx->Write();
-  TDirectory *MM_Plots = OutHisto_file->mkdir("MM_Plots");
-  MM_Plots->cd();
-  TDirectory *Eff_Plots = OutHisto_file->mkdir("Eff_Plots");
+  TDirectory *Pi_mm_tim_Plots = OutHisto_file->mkdir("Pi_mm_tim_Plots");
+  Pi_mm_tim_Plots->cd();
+  h1_CTime_ePion_OUT_TCutG2->Write(); 
+  h1_RF_tdc_Time_OUT_TCutG2->Write();
+  Pi_mm_OUT_TCutG2->Write();
+  Pi_mm_IN_TCutG12->Write();
+  Pi_mm_IN_TCutG1->Write();
+ TDirectory *K_mm_tim_Plots = OutHisto_file->mkdir("K_mm__tim_Plots");
+  K_mm_tim_Plots->cd();
+  h1_CTime_eKaon_OUT_TCutG2->Write();
+  h1_RF_tdc_Time_OUT_TCutG2->Write(); 
+  K_mm_OUT_TCutG2->Write(); 
+  K_mm_IN_TCutG12->Write(); 
+  K_mm_IN_TCutG1->Write(); 
+ TDirectory *P_mm_tim_Plots = OutHisto_file->mkdir("P_mm_tim_Plots");
+  P_mm_tim_Plots->cd();
+  h1_CTime_eProton_OUT_TCutG2->Write();
+  h1_RF_tdc_TimeP_OUT_TCutG2->Write();
+  P_mm_OUT_TCutG2->Write();
+  P_mm_IN_TCutG12->Write();
+  P_mm_IN_TCutG1->Write();
+ TDirectory *Eff_Plots = OutHisto_file->mkdir("Eff_Plots");
   Eff_Plots->cd();
   h2_Eff_Pos3->Write(); 
   h1_Eff_Del3->Write();
