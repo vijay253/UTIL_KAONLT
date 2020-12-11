@@ -74,7 +74,8 @@ for KinLine in KinListf:
                 KinFileLine=KinFileLine.rstrip() # Remoe trailing spaces
                 KinFileData=KinFileLine.split(",") # Convert csv row to an array
                 RunParamData[0]=int(KinFileData[0]) # Run number
-                RunParamData[1]=int(KinFileData[0])+1 # Run start = run end as this is to cover one run at a time
+                #RunParamData[1]=int(KinFileData[0])+1
+                RunParamData[1]=int(KinFileData[0]) # Run start = run end as this is to cover one run at a time
                 RunParamData[6]=float(KinFileData[1]) # Pion peak pos
                 RunParamData[7]=float(KinFileData[5]) # Kaon peak pos
                 RunParamData[8]=float(KinFileData[9]) # Proton peak pos
