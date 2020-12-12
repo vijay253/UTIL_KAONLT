@@ -409,7 +409,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
  // For Proton
 
   // Histograms for Missing Mass
-  TH1D *P_mm_IN_TCutG1        = new TH1D("h1_MM_P_IN_TCutG1","Proton Missing Mass Inside 1st Region; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
+  TH1D *P_mm_IN_TCutG1        = new TH1D("P_mm_IN_TCutG1","Proton Missing Mass Inside 1st Region; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
   TH1D *P_mm_IN_TCutG12       = new TH1D("P_mm_IN_TCutG12 ","Proton Missing Mass b/w 1st & 2nd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
   TH1D *P_mm_OUT_TCutG2       = new TH1D("P_mm_OUT_TCutG2","Proton Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
 
