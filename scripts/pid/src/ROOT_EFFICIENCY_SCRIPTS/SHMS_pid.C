@@ -374,8 +374,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   TH1D *h1_CTime_eKaon_OUT_TCutG3        = new TH1D("h1_CTime_eKaon_OUT_TCutG3","Electron-Kaon Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
   TH1D *h1_RF_tdc_TimeK_OUT_TCutG3       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
-  TH2D *coin_K_mm_OUT_TCutG3             = new TH2D("coin_K_mm_OUT_TCutG3","Coin time vs Kaon mm (outside 3rd region); CTime_ePiCoinTime_ROC1; Kaon mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
-  TH2D *coin_K_beta_OUT_TCutG3           = new TH2D("coin_K_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_ePiCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
+  TH2D *coin_K_mm_OUT_TCutG3             = new TH2D("coin_K_mm_OUT_TCutG3","Coin time vs Kaon mm (outside 3rd region); CTime_eKCoinTime_ROC1; Kaon mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
+  TH2D *coin_K_beta_OUT_TCutG3           = new TH2D("coin_K_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_eKCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
 
   // Kaon missing mass inside 1st region  
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -421,8 +421,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   TH1D *h1_CTime_eProton_OUT_TCutG3        = new TH1D("h1_CTime_eProton_OUT_TCutG3","Electron-Proton Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_TimeP_OUT_TCutG3         = new TH1D("h1_RF_tdc_TimeP_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2,6); 
-  TH2D *coin_P_mm_OUT_TCutG3               = new TH2D("coin_P_mm_OUT_TCutG3","Coin time vs Proton mm (outside 3rd region); CTime_ePiCoinTime_ROC1; Proton mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
-  TH2D *coin_P_beta_OUT_TCutG3             = new TH2D("coin_P_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_ePiCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
+  TH2D *coin_P_mm_OUT_TCutG3               = new TH2D("coin_P_mm_OUT_TCutG3","Coin time vs Proton mm (outside 3rd region); CTime_epCoinTime_ROC1; Proton mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
+  TH2D *coin_P_beta_OUT_TCutG3             = new TH2D("coin_P_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_epCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
 
   // Proton missing mass inside 1st region
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
