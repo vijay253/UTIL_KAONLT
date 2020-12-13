@@ -93,6 +93,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Double_t P_aero_xAtCer; SHMS_EVENTS->SetBranchAddress("P_aero_xAtCer", &P_aero_xAtCer);
   Double_t P_aero_yAtCer; SHMS_EVENTS->SetBranchAddress("P_aero_yAtCer", &P_aero_yAtCer);
   Double_t P_cal_etotnorm; SHMS_EVENTS->SetBranchAddress("P_cal_etotnorm", &P_cal_etotnorm);
+  Double_t P_gtr_beta; SHMS_EVENTS->SetBranchAddress("P_gtr_beta", &P_gtr_beta);
   Double_t P_gtr_p; SHMS_EVENTS->SetBranchAddress("P_gtr_p", &P_gtr_p);
   Double_t P_gtr_dp; SHMS_EVENTS->SetBranchAddress("P_gtr_dp", &P_gtr_dp);
   Double_t e_miss; SHMS_EVENTS->SetBranchAddress("emiss", &e_miss);
@@ -325,6 +326,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   TH1D *h1_CTime_ePion_OUT_TCutG3        = new TH1D("h1_CTime_ePion_OUT_TCutG3","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_Time_OUT_TCutG3        = new TH1D("h1_RF_tdc_Time_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2, 6); 
+  TH2D *coin_Pi_mm_OUT_TCutG3            = new TH2D("coin_Pi_mm_OUT_TCutG3","Coin time vs Pion mm (outside 3rd region); CTime_ePiCoinTime_ROC1; Pion mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
+  TH2D *coin_Pi_beta_OUT_TCutG3             = new TH2D("coin_Pi_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_ePiCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
 
   // Pion misssing mass inside 1st region
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -358,7 +361,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
     h1_CTime_ePion_OUT_TCutG3->Fill(P_CTime_ePion);
     h1_RF_tdc_Time_OUT_TCutG3->Fill(P_RF_time);
-  }  
+    coin_Pi_mm_OUT_TCutG3->Fill(P_CTime_ePion, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    coin_Pi_beta_OUT_TCutG3->Fill(P_CTime_ePion, P_gtr_beta); 
+ }  
 
   // For Kaon
 
@@ -369,6 +374,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   TH1D *h1_CTime_eKaon_OUT_TCutG3        = new TH1D("h1_CTime_eKaon_OUT_TCutG3","Electron-Kaon Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
   TH1D *h1_RF_tdc_TimeK_OUT_TCutG3       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
+  TH2D *coin_K_mm_OUT_TCutG3             = new TH2D("coin_K_mm_OUT_TCutG3","Coin time vs Kaon mm (outside 3rd region); CTime_ePiCoinTime_ROC1; Kaon mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
+  TH2D *coin_K_beta_OUT_TCutG3           = new TH2D("coin_K_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_ePiCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
 
   // Kaon missing mass inside 1st region  
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -401,6 +408,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
     h1_CTime_eKaon_OUT_TCutG3->Fill(P_CTime_eKaon);
     h1_RF_tdc_TimeK_OUT_TCutG3->Fill(P_RF_time);
+    coin_K_mm_OUT_TCutG3->Fill(P_CTime_eKaon, sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+    coin_K_beta_OUT_TCutG3->Fill(P_CTime_eKaon, P_gtr_beta);
   }
 
   // For Proton
@@ -412,6 +421,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   TH1D *h1_CTime_eProton_OUT_TCutG3        = new TH1D("h1_CTime_eProton_OUT_TCutG3","Electron-Proton Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_TimeP_OUT_TCutG3         = new TH1D("h1_RF_tdc_TimeP_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2,6); 
+  TH2D *coin_P_mm_OUT_TCutG3               = new TH2D("coin_P_mm_OUT_TCutG3","Coin time vs Proton mm (outside 3rd region); CTime_ePiCoinTime_ROC1; Proton mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
+  TH2D *coin_P_beta_OUT_TCutG3             = new TH2D("coin_P_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_ePiCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
 
   // Proton missing mass inside 1st region
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -444,7 +455,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
     h1_CTime_eProton_OUT_TCutG3->Fill(P_CTime_eProton);
     h1_RF_tdc_TimeP_OUT_TCutG3->Fill(P_RF_time);
-  }
+    coin_P_mm_OUT_TCutG3->Fill(P_CTime_eProton, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))); 
+    coin_P_beta_OUT_TCutG3->Fill(P_CTime_eProton, P_gtr_beta);
+ }
 
  
   //Write the info in the root format
@@ -475,6 +488,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Pi_mm_tim_Plots->cd();
   h1_CTime_ePion_OUT_TCutG3->Write(); 
   h1_RF_tdc_Time_OUT_TCutG3->Write();
+  coin_Pi_mm_OUT_TCutG3->Write();
+  coin_Pi_beta_OUT_TCutG3->Write(); 
   Pi_mm_OUT_TCutG3->Write();
   Pi_mm_IN_TCutG23->Write();
   Pi_mm_IN_TCutG12->Write();
@@ -482,7 +497,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
  TDirectory *K_mm_tim_Plots = OutHisto_file->mkdir("K_mm__tim_Plots");
   K_mm_tim_Plots->cd();
   h1_CTime_eKaon_OUT_TCutG3->Write();
-  h1_RF_tdc_TimeK_OUT_TCutG3->Write(); 
+  h1_RF_tdc_TimeK_OUT_TCutG3->Write();
+  coin_K_mm_OUT_TCutG3->Write();
+  coin_K_beta_OUT_TCutG3->Write();
   K_mm_OUT_TCutG3->Write(); 
   K_mm_IN_TCutG23->Write(); 
   K_mm_IN_TCutG12->Write(); 
@@ -491,6 +508,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   P_mm_tim_Plots->cd();
   h1_CTime_eProton_OUT_TCutG3->Write();
   h1_RF_tdc_TimeP_OUT_TCutG3->Write();
+  coin_P_mm_OUT_TCutG3->Write();
+  coin_P_beta_OUT_TCutG3->Write();
   P_mm_OUT_TCutG3->Write();
   P_mm_IN_TCutG23->Write();
   P_mm_IN_TCutG12->Write();
