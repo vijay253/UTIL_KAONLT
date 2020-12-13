@@ -134,19 +134,18 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   //##############################################################################
 
   // Defined histograms for TCutGs
-  TH2D *h2_XYAtCer                     = new TH2D("h2_XYAtCer","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
+  TH2D *h2_XYAtCer1                    = new TH2D("h2_XYAtCer1","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
   TH2D *h2_XYAtCer2                    = new TH2D("h2_XYAtCer2","HGC, P_hgcer_npeSum => 5.0; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
   TH3D *h3_aero_XYAtCer_npeSum         = new TH3D("h3_aero_XYAtCer_npeSum","Aero; P_aero_yAtAero; P_aero_xAtAero; P_aero_npeSum", 300, -50, 50, 300, -50, 50, 300, 0, 30);
   TH3D *h3_aero_XYAtCer_nocut_npeSum   = new TH3D("h3_aero_XYAtCer_nocut_npeSum","Aero; P_aero_yAtAero; P_aero_xAtAero; P_aero_npeSum", 300, -50, 50, 300, -50, 50, 300, 0, 30);
-  TH3D *h3_XYAtCer_npeSum              = new TH3D("h3_XYAtCer_npeSum","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
+  TH3D *h3_XYAtCer_npeSum1             = new TH3D("h3_XYAtCer_npeSum1","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
   TH3D *h3_XYAtCer_npeSum2             = new TH3D("h3_XYAtCer_npeSum2","HGC, P_hgcer_npeSum => 5.0; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
   TH3D *h3_XYAtCer_npeSum3             = new TH3D("h3_XYAtCer_npeSum3","HGC, P_hgcer_npeSum => 7.0; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
-  TH2D *h2_npeSum                      = new TH2D("h2_npeSum","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
-  TH2D *h2_npeSum_TCutG1_IN            = new TH2D("h2_npeSum_TCutG1_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
-  TH2D *h2_npeSum_TCutG1_OUT           = new TH2D("h2_npeSum_TCutG1_OUT","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
-  TH2D *h2_npeSum_TCutG2_IN            = new TH2D("h2_npeSum_TCutG2_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
-  TH2D *h2_npeSum_TCutG2_OUT           = new TH2D("h2_npeSum_TCutG2_OUT","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
-  TH2D *h2_npeSum_TCutG12_IN           = new TH2D("h2_npeSum_TCutG12_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
+  TH2D *h2_npeSum_IN_TCutG1            = new TH2D("h2_npeSum_IN_TCutG1","HGC, Entries Inside 1st Region; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
+  TH2D *h2_npeSum_IN_TCutG12           = new TH2D("h2_npeSum_IN_TCutG12","HGC, Entries b/w 1st & 2nd Regions; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
+  TH2D *h2_npeSum_IN_TCutG23           = new TH2D("h2_npeSum_IN_TCutG23","HGC, Entries b/w 2nd & 3rd Regions; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
+  TH2D *h2_npeSum_OUT_TCutG3           = new TH2D("h2_npeSum_OUT_TCutG3","HGC, Entries outside 3rd Region; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
+  TH2D *h2_npeSum                      = new TH2D("h2_npeSum","HGC, All Entries ; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
 
   //##############################################################################
 
@@ -171,7 +170,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     SHMS_EVENTS->GetEntry(i);
     if(P_hgcer_npeSum < 1.5) continue;
     if (P_aero_yAtCer > 31) continue;
-    h2_XYAtCer->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+    h2_XYAtCer1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
   }
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
@@ -184,7 +183,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if(P_hgcer_npeSum < 1.5 || P_aero_yAtCer > 31) continue;
-    h3_XYAtCer_npeSum->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
+    h3_XYAtCer_npeSum1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -216,64 +215,48 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TProfile2D *h3_aero_XYAtCer_nocut_npeSum_pyx = new TProfile2D("h3_aero_XYAtCer_nocut_npeSum_pyx","Aero; P_aero_yAtAero; P_aero_xAtAero ",300,-50,50, 300,-50,50, 0, 30);
   h3_aero_XYAtCer_nocut_npeSum->Project3DProfile("yx");
 
-  TProfile2D *h3_XYAtCer_npeSum_pyx = new TProfile2D("h3_XYAtCer_npeSum_pyx","HGC,P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
-  h3_XYAtCer_npeSum->Project3DProfile("yx");
+  TProfile2D *h3_XYAtCer_npeSum1_pyx = new TProfile2D("h3_XYAtCer_npeSum1_pyx","HGC,P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
+  h3_XYAtCer_npeSum1->Project3DProfile("yx");
 
   TProfile2D *h3_XYAtCer_npeSum2_pyx = new TProfile2D("h3_XYAtCer_npeSum2_pyx","HGC, P_hgcer_npeSum => 5.0; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
   h3_XYAtCer_npeSum2->Project3DProfile("yx");
   TProfile2D *h3_XYAtCer_npeSum3_pyx = new TProfile2D("h3_XYAtCer_npeSum3_pyx","HGC, P_hgcer_npeSum => 7.0; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
   h3_XYAtCer_npeSum3->Project3DProfile("yx");
 
-  //Fill NPE entry inside the TCutG1      
+  //Fill NPEs entries which are inside 1st Region      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
-   if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    h2_npeSum_TCutG1_OUT->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    if ((!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31)) continue;
+    h2_npeSum_IN_TCutG1->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
-  //Fill entry outside the TCutG1
-
+  //Fill entries b/w 1st & 2nd Regions      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
-    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    h2_npeSum_TCutG1_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    if ((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) ||(cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31)) continue;
+    h2_npeSum_IN_TCutG12->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
 
-  //Fill NPE entry inside the TCutG2      
+  //Fill entries b/w 2st & 3nd Regions      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
-   if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    h2_npeSum_TCutG2_OUT->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    if ((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31))  continue;
+    h2_npeSum_IN_TCutG23->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
-  //Fill entry outside the TCutG2
 
+  //Fill entries outside 3nd Region      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
-    if (!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    h2_npeSum_TCutG2_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31)) continue;
+    h2_npeSum_OUT_TCutG3->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
 
-  //Fill entry between TCutG1 & 2
-  
-  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
-    SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
-    if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;   
-    if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    h2_npeSum_TCutG12_IN->Fill(P_hgcer_npeSum, P_aero_npeSum);
-  }
-
-  //Fill entry without TCutG
-
+  //Fill all entries      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if(P_hgcer_npeSum < 0.1 || P_aero_yAtCer > 31) continue;
     h2_npeSum->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
- 
+
   //##############################################################################
   //Efficiency scanning process
 
@@ -331,113 +314,136 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h1_Eff3_xAtCer->Sumw2();
   h1_Eff3_xAtCer->Divide(h1_Eff1_xAtCer);
 
-  //##############################################################################
+ //##############################################################################
 
-  // Missing mass calculations 
- // For Pion
+  // Missing mass calculations in each region
+  // For Pion
   TH1D *Pi_mm_IN_TCutG1     = new TH1D("Pi_mm_IN_TCutG1","Pion Missing Mass Inside 1st Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0 ); 
   TH1D *Pi_mm_IN_TCutG12    = new TH1D("Pi_mm_IN_TCutG12","Pion Missing Mass b/w 1st & 2nd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *Pi_mm_OUT_TCutG2    = new TH1D("Pi_mm_OUT_TCutG2","Pion Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *Pi_mm_IN_TCutG23    = new TH1D("Pi_mm_OUT_TCutG23","Pion Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *Pi_mm_OUT_TCutG3    = new TH1D("Pi_mm_OUT_TCutG3","Pion Missing Mass outside 3rd Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
 
-  TH1D *h1_CTime_ePion_OUT_TCutG2        = new TH1D("h1_CTime_ePion_OUT_TCutG2","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
-  TH1D *h1_RF_tdc_Time_OUT_TCutG2        = new TH1D("h1_RF_tdc_Time_OUT_TCutG2","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2, 6); 
+  TH1D *h1_CTime_ePion_OUT_TCutG3        = new TH1D("h1_CTime_ePion_OUT_TCutG3","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
+  TH1D *h1_RF_tdc_Time_OUT_TCutG3        = new TH1D("h1_RF_tdc_Time_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2, 6); 
 
+  // Pion misssing mass inside 1st region
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     if(P_hgcer_npeSum <1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
     Pi_mm_IN_TCutG1->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
   }
-  
-  //Fill entry outside the TCutG2
-  
+
+  // Pion misssing mass b/w 1st & 2nd regions     
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    if(P_hgcer_npeSum < 3.5 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
-    Pi_mm_OUT_TCutG2->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
-    h1_CTime_ePion_OUT_TCutG2->Fill(P_CTime_ePion);
-    h1_RF_tdc_Time_OUT_TCutG2->Fill(P_RF_time);
-  }  
- 
-  //Fill entry between TCutG1 & 2
-  
-  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
-    SHMS_EVENTS->GetEntry(i);
-    if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;   
-    if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
     if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
     Pi_mm_IN_TCutG12->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
-
   }
 
- // For Kaon
+  // Pion misssing mass b/w 2nd & 3rd regions
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Pi_mm_IN_TCutG23->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+  }
+
+  // Pion misssing mass outside 3rd region  
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 3.5 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    h1_CTime_ePion_OUT_TCutG3->Fill(P_CTime_ePion);
+    h1_RF_tdc_Time_OUT_TCutG3->Fill(P_RF_time);
+  }  
+
+  // For Kaon
 
   TH1D *K_mm_IN_TCutG1        = new TH1D("K_mm_IN_TCutG1","Kaon Missing Mass Inside 1st Region; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
   TH1D *K_mm_IN_TCutG12       = new TH1D("K_mm_IN_TCutG12","Kaon Missing Mass b/w 1st & 2nd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
-  TH1D *K_mm_OUT_TCutG2       = new TH1D("K_mm_OUT_TCutG2","Kaon Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *K_mm_IN_TCutG23       = new TH1D("K_mm_IN_TCutG23","Kaon Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
+  TH1D *K_mm_OUT_TCutG3       = new TH1D("K_mm_OUT_TCutG3","Kaon Missing Mass outside 3rd Region; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
 
-  // Histograms for Timing Info                                                                                                                                                                       
-  TH1D *h1_CTime_eKaon_OUT_TCutG2        = new TH1D("h1_CTime_eKaon_OUT_TCutG2","Electron-Kaon Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
-  TH1D *h1_RF_tdc_TimeK_OUT_TCutG2       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG2","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
-  
+  TH1D *h1_CTime_eKaon_OUT_TCutG3        = new TH1D("h1_CTime_eKaon_OUT_TCutG3","Electron-Kaon Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
+  TH1D *h1_RF_tdc_TimeK_OUT_TCutG3       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
+
+  // Kaon missing mass inside 1st region  
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     if(P_hgcer_npeSum > 1.0 || P_aero_npeSum < 1.0 || P_aero_yAtCer >31) continue;
     K_mm_IN_TCutG1->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
   }
+  //Kaon missing mass b/w 1st & 2nd regions
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    if(P_hgcer_npeSum > 1.5 || P_aero_npeSum < 1.0 || P_aero_yAtCer >31) continue;
-    K_mm_OUT_TCutG2->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
-    h1_CTime_eKaon_OUT_TCutG2->Fill(P_CTime_eKaon);
-    h1_RF_tdc_TimeK_OUT_TCutG2->Fill(P_RF_time);
-
-  }
-
-  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
-    SHMS_EVENTS->GetEntry(i);
-    if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))|| (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;
     if(P_hgcer_npeSum > 1.0 || P_aero_npeSum < 1.0 || P_aero_yAtCer >31) continue;
     K_mm_IN_TCutG12->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
-
   }
 
- // For Proton
+  //Kaon missing mass b/w 2nd & 3rd regions
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))|| (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;
+    if(P_hgcer_npeSum > 1.0 || P_aero_npeSum < 1.0 || P_aero_yAtCer >31) continue;
+    K_mm_IN_TCutG23->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
 
-  // Histograms for Missing Mass
+  }
+  //Kaon missing mass outside 3rd region
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum > 1.5 || P_aero_npeSum < 1.0 || P_aero_yAtCer >31) continue;
+    K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+    h1_CTime_eKaon_OUT_TCutG3->Fill(P_CTime_eKaon);
+    h1_RF_tdc_TimeK_OUT_TCutG3->Fill(P_RF_time);
+  }
+
+  // For Proton
+
   TH1D *P_mm_IN_TCutG1        = new TH1D("P_mm_IN_TCutG1","Proton Missing Mass Inside 1st Region; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
   TH1D *P_mm_IN_TCutG12       = new TH1D("P_mm_IN_TCutG12 ","Proton Missing Mass b/w 1st & 2nd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
-  TH1D *P_mm_OUT_TCutG2       = new TH1D("P_mm_OUT_TCutG2","Proton Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+  TH1D *P_mm_IN_TCutG23       = new TH1D("P_mm_IN_TCutG23","Proton Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+  TH1D *P_mm_OUT_TCutG3       = new TH1D("P_mm_OUT_TCutG3","Proton Missing Mass outside 3rd Region; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
 
-  // Histograms for Timing Info
-  TH1D *h1_CTime_eProton_OUT_TCutG2        = new TH1D("h1_CTime_eProton_OUT_TCutG2","Electron-Proton Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
-  TH1D *h1_RF_tdc_TimeP_OUT_TCutG2          = new TH1D("h1_RF_tdc_TimeP_OUT_TCutG2","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2,6); 
+  TH1D *h1_CTime_eProton_OUT_TCutG3        = new TH1D("h1_CTime_eProton_OUT_TCutG3","Electron-Proton Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
+  TH1D *h1_RF_tdc_TimeP_OUT_TCutG3         = new TH1D("h1_RF_tdc_TimeP_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2,6); 
 
+  // Proton missing mass inside 1st region
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 1.0 || P_aero_yAtCer >31) continue;
     P_mm_IN_TCutG1->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
   }
+  
+  //Proton missing mass b/w 1st & 2nd regions
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 2.0 || P_aero_yAtCer >31) continue;
-    P_mm_OUT_TCutG2->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
-    h1_CTime_eProton_OUT_TCutG2->Fill(P_CTime_eProton);
-    h1_RF_tdc_TimeP_OUT_TCutG2->Fill(P_RF_time);
-
-  }
-  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
-    SHMS_EVENTS->GetEntry(i);
-    if(!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;   
-    if (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;  
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
     if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 2.0 ||P_aero_yAtCer >31) continue;
     P_mm_IN_TCutG12->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+  }
+  //Proton missing mass b/w 2nd & 3rd regions
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 2.0 ||P_aero_yAtCer >31) continue;
+    P_mm_IN_TCutG23->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+  }
+
+  //Proton missing mass outside 3rd region
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 2.0 || P_aero_yAtCer >31) continue;
+    P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    h1_CTime_eProton_OUT_TCutG3->Fill(P_CTime_eProton);
+    h1_RF_tdc_TimeP_OUT_TCutG3->Fill(P_RF_time);
   }
 
  
@@ -446,45 +452,47 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TFile *OutHisto_file = new TFile(foutname,"RECREATE");
   TDirectory *TCutG_Plots = OutHisto_file->mkdir("TCutG_Plots");
   TCutG_Plots->cd();
-  h2_XYAtCer->GetListOfFunctions()->Add(cutg1,"L"); 
-  h2_XYAtCer->Write();
-  h2_XYAtCer->GetListOfFunctions()->Clear("L"); 
+  h2_XYAtCer1->GetListOfFunctions()->Add(cutg1,"L"); 
+  h2_XYAtCer1->Write();
+  h2_XYAtCer1->GetListOfFunctions()->Clear("L"); 
   h2_XYAtCer2->GetListOfFunctions()->Add(cutg2,"L"); 
   h2_XYAtCer2->Write();
   h2_XYAtCer2->GetListOfFunctions()->Clear("L"); 
-  h3_XYAtCer_npeSum_pyx->GetListOfFunctions()->Add(cutg1,"L"); 
-  h3_XYAtCer_npeSum_pyx->Write();
+  h3_XYAtCer_npeSum1_pyx->GetListOfFunctions()->Add(cutg1,"L"); 
+  h3_XYAtCer_npeSum1_pyx->Write();
   h3_XYAtCer_npeSum2_pyx->GetListOfFunctions()->Add(cutg2,"L"); 
   h3_XYAtCer_npeSum2_pyx->Write();
   h3_XYAtCer_npeSum3_pyx->GetListOfFunctions()->Add(cutg3,"L"); 
   h3_XYAtCer_npeSum3_pyx->Write();  
-  h2_npeSum_TCutG1_IN->Write();
-  h2_npeSum_TCutG1_OUT->Write();
-  h2_npeSum_TCutG2_IN->Write();
-  h2_npeSum_TCutG2_OUT->Write();
-  h2_npeSum_TCutG12_IN->Write();
+  h2_npeSum_IN_TCutG1->Write();
+  h2_npeSum_IN_TCutG12->Write();
+  h2_npeSum_IN_TCutG23->Write();
+  h2_npeSum_OUT_TCutG3->Write();
   h2_npeSum->Write();
   h3_aero_XYAtCer_nocut_npeSum_pyx->Write();  
   h3_aero_XYAtCer_npeSum_pyx->Write();
   TDirectory *Pi_mm_tim_Plots = OutHisto_file->mkdir("Pi_mm_tim_Plots");
   Pi_mm_tim_Plots->cd();
-  h1_CTime_ePion_OUT_TCutG2->Write(); 
-  h1_RF_tdc_Time_OUT_TCutG2->Write();
-  Pi_mm_OUT_TCutG2->Write();
+  h1_CTime_ePion_OUT_TCutG3->Write(); 
+  h1_RF_tdc_Time_OUT_TCutG3->Write();
+  Pi_mm_OUT_TCutG3->Write();
+  Pi_mm_IN_TCutG23->Write();
   Pi_mm_IN_TCutG12->Write();
   Pi_mm_IN_TCutG1->Write();
  TDirectory *K_mm_tim_Plots = OutHisto_file->mkdir("K_mm__tim_Plots");
   K_mm_tim_Plots->cd();
-  h1_CTime_eKaon_OUT_TCutG2->Write();
-  h1_RF_tdc_Time_OUT_TCutG2->Write(); 
-  K_mm_OUT_TCutG2->Write(); 
+  h1_CTime_eKaon_OUT_TCutG3->Write();
+  h1_RF_tdc_TimeK_OUT_TCutG3->Write(); 
+  K_mm_OUT_TCutG3->Write(); 
+  K_mm_IN_TCutG23->Write(); 
   K_mm_IN_TCutG12->Write(); 
   K_mm_IN_TCutG1->Write(); 
  TDirectory *P_mm_tim_Plots = OutHisto_file->mkdir("P_mm_tim_Plots");
   P_mm_tim_Plots->cd();
-  h1_CTime_eProton_OUT_TCutG2->Write();
-  h1_RF_tdc_TimeP_OUT_TCutG2->Write();
-  P_mm_OUT_TCutG2->Write();
+  h1_CTime_eProton_OUT_TCutG3->Write();
+  h1_RF_tdc_TimeP_OUT_TCutG3->Write();
+  P_mm_OUT_TCutG3->Write();
+  P_mm_IN_TCutG23->Write();
   P_mm_IN_TCutG12->Write();
   P_mm_IN_TCutG1->Write();
  TDirectory *Eff_Plots = OutHisto_file->mkdir("Eff_Plots");
