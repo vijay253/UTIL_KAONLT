@@ -127,7 +127,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TCutG *cutg3 = new TCutG("cutg3",25);
   cutg3->SetVarX("P_hgcer_yAtCer");
   cutg3->SetVarY("P_hgcer_xAtCer");  cutg3->SetPoint(0,-25,2);  cutg3->SetPoint(1,-8,2);  cutg3->SetPoint(2,-6,2);  cutg3->SetPoint(3,-4,2);  cutg3->SetPoint(4,-2,3);
-  cutg3->SetPoint(5,0,4);  cutg3->SetPoint(6,2,9);  cutg3->SetPoint(7,4,7);  cutg3->SetPoint(8,6,5);  cutg3->SetPoint(9,8,5);  cutg3->SetPoint(10,10,2);  cutg3->SetPoint(11,25,2);
+  cutg3->SetPoint(5,0,4);  cutg3->SetPoint(6,2,8.5);  cutg3->SetPoint(7,4,7);  cutg3->SetPoint(8,6,5);  cutg3->SetPoint(9,9,4);  cutg3->SetPoint(10,10,4);  cutg3->SetPoint(11,25,4);
   cutg3->SetPoint(12,25,-1);  cutg3->SetPoint(13,10,-1);  cutg3->SetPoint(14,8,-1);  cutg3->SetPoint(15,6,-1);  cutg3->SetPoint(16,4,-1);  cutg3->SetPoint(17,2,-4);  
   cutg3->SetPoint(18,1,-4.70);  cutg3->SetPoint(19,0,-4);  cutg3->SetPoint(20,-2,-1);  cutg3->SetPoint(21,-4,-1);  cutg3->SetPoint(22,-6,-1);   cutg3->SetPoint(23,-25,-1);
   cutg3->SetPoint(24,-25,2);  cutg3->SetLineColor(kRed);  cutg3->SetLineWidth(5);
@@ -155,13 +155,13 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH2D *h2_Eff_Pos2    = new TH2D("h2_Eff_Pos2","Efficiency vs Position; Y Position (cm); X Position (cm);", 300, -40, 40.0, 300, -40, 40.0 ); 
   TH2D *h2_Eff_Pos3    = new TH2D("h2_Eff_Pos3","Efficiency vs Position; Y Position (cm); X Position (cm);", 300, -40, 40.0, 300, -40, 40.0 ); 
 
-  TH1D *h1_Eff_Del1    = new TH1D("h1_Eff_Del1","Efficieny vs Delta; Delta (%); Efficiency (%);", 300, -10, 20.0); 
-  TH1D *h1_Eff_Del2    = new TH1D("h1_Eff_Del2","Efficiency vs Delta; Delta (%); Efficiency (%);", 300, -10, 20.0); 
-  TH1D *h1_Eff_Del3    = new TH1D("h1_Eff_Del3","Efficiency vs Delta; Delta (%); Efficiency (%);", 300, -10, 20.0); 
+  TH1D *h1_Eff_Del1    = new TH1D("h1_Eff_Del1","Efficieny vs Delta; Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *h1_Eff_Del2    = new TH1D("h1_Eff_Del2","Efficiency vs Delta; Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *h1_Eff_Del3    = new TH1D("h1_Eff_Del3","Efficiency vs Delta; Delta (%); Efficiency;", 60, -10, 20.0); 
 
-  TH1D *h1_Eff1_xAtCer    = new TH1D("h1_Eff1_xAtCer","xAtCer vs Efficiency; xAtCer; Efficiency (%);", 200, -40, 40.0); 
-  TH1D *h1_Eff2_xAtCer    = new TH1D("h1_Eff2_xAtCer","xAtCer vs Efficiency; xAtCer; Efficiency (%);", 200, -40, 40.0); 
-  TH1D *h1_Eff3_xAtCer    = new TH1D("h1_Eff3_xAtCer","xAtCer vs Efficiecny; xAtCer; Efficiency (%);", 200, -40, 40.0); 
+  TH1D *h1_Eff1_xAtCer    = new TH1D("h1_Eff1_xAtCer","xAtCer vs Efficiency; xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *h1_Eff2_xAtCer    = new TH1D("h1_Eff2_xAtCer","xAtCer vs Efficiency; xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *h1_Eff3_xAtCer    = new TH1D("h1_Eff3_xAtCer","xAtCer vs Efficiecny; xAtCer; Efficiency;", 80, -40, 40.0); 
 
   //##############################################################################
  
@@ -295,7 +295,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h1_Eff_Del3 = (TH1D*)h1_Eff_Del2->Clone();
   h1_Eff_Del3->Sumw2();
   h1_Eff_Del3->Divide(h1_Eff_Del1);
-  h1_Eff_Del3->GetYaxis()->SetRangeUser(0.0,2.0);
+  h1_Eff_Del3->GetYaxis()->SetRangeUser(0.6,1.4);
 
   // From xAtCer 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -317,6 +317,234 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
  //##############################################################################
 
+  // Histograms for efficieny in each region
+  
+  // Inside 1st region
+  TH1D *Eff1_Del_IN_TCutG1    = new TH1D("Eff1_Del_IN_TCutG1","Efficieny vs Delta (b/w 1st region);  Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff2_Del_IN_TCutG1    = new TH1D("Eff2_Del_IN_TCutG1","Efficiency vs Delta (b/w 1st region); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff3_Del_IN_TCutG1    = new TH1D("Eff3_Del_IN_TCutG1","Efficiency vs Delta (b/w 1st region); Delta (%); Efficiency;", 60, -10, 20.0); 
+
+  TH1D *Eff1_xAtCer_IN_TCutG1    = new TH1D("Eff1_xAtCer_IN_TCutG1","Efficieny vs  xAtCer (b/w 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff2_xAtCer_IN_TCutG1    = new TH1D("Eff2_xAtCer_IN_TCutG1","Efficiency vs xAtCer (b/w 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff3_xAtCer_IN_TCutG1    = new TH1D("Eff3_xAtCer_IN_TCutG1","Efficiency vs xAtCer (b/w 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum <0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_Del_IN_TCutG1->Fill(P_gtr_dp);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum <1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_Del_IN_TCutG1->Fill(P_gtr_dp);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_Del_IN_TCutG1 = (TH1D*)Eff2_Del_IN_TCutG1->Clone();
+  Eff3_Del_IN_TCutG1->Sumw2();
+  Eff3_Del_IN_TCutG1->Divide(Eff1_Del_IN_TCutG1);
+  Eff3_Del_IN_TCutG1->GetYaxis()->SetRangeUser(0.6,1.4);
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum <0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_xAtCer_IN_TCutG1->Fill(P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum <1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_xAtCer_IN_TCutG1->Fill(P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_xAtCer_IN_TCutG1 = (TH1D*)Eff2_xAtCer_IN_TCutG1->Clone();
+  Eff3_xAtCer_IN_TCutG1->Sumw2();
+  Eff3_xAtCer_IN_TCutG1->Divide(Eff1_xAtCer_IN_TCutG1);
+  Eff3_xAtCer_IN_TCutG1->GetYaxis()->SetRangeUser(0.6,1.4);
+  
+  // Inside 1st & 2nd regions
+  TH1D *Eff1_Del_IN_TCutG12      = new TH1D("Eff1_Del_IN_TCutG12","Efficieny vs Delta (b/w 1st & 2nd regions);  Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff2_Del_IN_TCutG12      = new TH1D("Eff2_Del_IN_TCutG12","Efficiency vs Delta (b/w 1st & 2nd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff3_Del_IN_TCutG12      = new TH1D("Eff3_Del_IN_TCutG12","Efficiency vs Delta (b/w 1st & 2nd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
+
+
+  TH1D *Eff1_xAtCer_IN_TCutG12   = new TH1D("Eff1_xAtCer_IN_TCutG12","Efficieny vs  xAtCer (b/w 1st & 2nd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff2_xAtCer_IN_TCutG12   = new TH1D("Eff2_xAtCer_IN_TCutG12","Efficiency vs xAtCer (b/w 1st & 2nd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff3_xAtCer_IN_TCutG12   = new TH1D("Eff3_xAtCer_IN_TCutG12","Efficiency vs xAtCer (b/w 1st & 2nd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_Del_IN_TCutG12->Fill(P_gtr_dp);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_Del_IN_TCutG12->Fill(P_gtr_dp);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_Del_IN_TCutG12 = (TH1D*)Eff2_Del_IN_TCutG12->Clone();
+  Eff3_Del_IN_TCutG12->Sumw2();
+  Eff3_Del_IN_TCutG12->Divide(Eff1_Del_IN_TCutG12);
+  Eff3_Del_IN_TCutG12->GetYaxis()->SetRangeUser(0.6,1.4);
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_xAtCer_IN_TCutG12->Fill(P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_xAtCer_IN_TCutG12->Fill(P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_xAtCer_IN_TCutG12 = (TH1D*)Eff2_xAtCer_IN_TCutG12->Clone();
+  Eff3_xAtCer_IN_TCutG12->Sumw2();
+  Eff3_xAtCer_IN_TCutG12->Divide(Eff1_xAtCer_IN_TCutG12);
+  Eff3_xAtCer_IN_TCutG12->GetYaxis()->SetRangeUser(0.6,1.4);
+  
+  // Inside 2nd & 3rd  regions
+  TH1D *Eff1_Del_IN_TCutG23    = new TH1D("Eff1_Del_IN_TCutG23","Efficieny vs Delta  (b/w 2nd & 3rd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff2_Del_IN_TCutG23    = new TH1D("Eff2_Del_IN_TCutG23","Efficiency vs Delta (b/w 2nd & 3rd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff3_Del_IN_TCutG23    = new TH1D("Eff3_Del_IN_TCutG23","Efficiency vs Delta (b/w 2nd & 3rd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
+
+  TH1D *Eff1_xAtCer_IN_TCutG23    = new TH1D("Eff1_xAtCer_IN_TCutG23","Efficieny vs  xAtCer (b/w 2nd & 3rd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff2_xAtCer_IN_TCutG23    = new TH1D("Eff2_xAtCer_IN_TCutG23","Efficiency vs xAtCer (b/w 2nd & 3rd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff3_xAtCer_IN_TCutG23    = new TH1D("Eff3_xAtCer_IN_TCutG23","Efficiency vs xAtCer (b/w 2nd & 3rd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_Del_IN_TCutG23->Fill(P_gtr_dp);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_Del_IN_TCutG23->Fill(P_gtr_dp);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_Del_IN_TCutG23 = (TH1D*)Eff2_Del_IN_TCutG23->Clone();
+  Eff3_Del_IN_TCutG23->Sumw2();
+  Eff3_Del_IN_TCutG23->Divide(Eff1_Del_IN_TCutG23);
+  Eff3_Del_IN_TCutG23->GetYaxis()->SetRangeUser(0.6,1.4);
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_xAtCer_IN_TCutG23->Fill(P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_xAtCer_IN_TCutG23->Fill(P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_xAtCer_IN_TCutG23 = (TH1D*)Eff2_xAtCer_IN_TCutG23->Clone();
+  Eff3_xAtCer_IN_TCutG23->Sumw2();
+  Eff3_xAtCer_IN_TCutG23->Divide(Eff1_xAtCer_IN_TCutG23);
+  Eff3_xAtCer_IN_TCutG23->GetYaxis()->SetRangeUser(0.6,1.4);
+ 
+
+  // Outside 3rd region
+  TH1D *Eff1_Del_OUT_TCutG3    = new TH1D("Eff1_Del_OUT_TCutG3","Efficieny vs Delta  (outside 3rd region); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff2_Del_OUT_TCutG3    = new TH1D("Eff2_Del_OUT_TCutG3","Efficiency vs Delta (outside 3rd region); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff3_Del_OUT_TCutG3    = new TH1D("Eff3_Del_OUT_TCutG3","Efficiency vs Delta (outside 3rd region); Delta (%); Efficiency;", 60, -10, 20.0); 
+
+  TH1D *Eff1_xAtCer_OUT_TCutG3    = new TH1D("Eff1_xAtCer_OUT_TCutG3","Efficieny vs  xAtCer (outside 3rd region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff2_xAtCer_OUT_TCutG3    = new TH1D("Eff2_xAtCer_OUT_TCutG3","Efficiency vs xAtCer (outside 3rd region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff3_xAtCer_OUT_TCutG3    = new TH1D("Eff3_xAtCer_OUT_TCutG3","Efficiency vs xAtCer (outside 3rd region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_Del_OUT_TCutG3->Fill(P_gtr_dp);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_Del_OUT_TCutG3->Fill(P_gtr_dp);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_Del_OUT_TCutG3 = (TH1D*)Eff2_Del_OUT_TCutG3->Clone("Eff3_Del_OUT_TCutG3");
+  Eff3_Del_OUT_TCutG3->Sumw2();
+  Eff3_Del_OUT_TCutG3->Divide(Eff1_Del_OUT_TCutG3);
+  Eff3_Del_OUT_TCutG3->GetYaxis()->SetRangeUser(0.6,1.4);
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_xAtCer_OUT_TCutG3->Fill(P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_xAtCer_OUT_TCutG3->Fill(P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_xAtCer_OUT_TCutG3 = (TH1D*)Eff2_xAtCer_OUT_TCutG3->Clone("Eff3_xAtCer_OUT_TCutG3");
+  Eff3_xAtCer_OUT_TCutG3->Sumw2();
+  Eff3_xAtCer_OUT_TCutG3->Divide(Eff1_xAtCer_OUT_TCutG3);
+  Eff3_xAtCer_OUT_TCutG3->GetYaxis()->SetRangeUser(0.6,1.4);
+
+  // Now sum of all four histograms in each case
+  TH1D *h1   = new TH1D("h1","Efficiency vs Delta (after adding all four hist); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *h2   = new TH1D("h2","Efficiency vs Delta (after adding all four hist); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff3_Del_All_TCutG  = new TH1D("Eff3_Del_All_TCutG","Efficiency vs Delta (after adding four regions); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *h4   = new TH1D("h4","Efficiency vs Delta (after adding all four hist); xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *h5   = new TH1D("h5","Efficiency vs Delta (after adding all four hist); xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff3_xAtCer_All_TCutG  = new TH1D("Eff3_xAtCer_All_TCutG","Efficiency vs xAtCer (after adding four regions); xAtCer; Efficiency;", 80, -40, 40.0); 
+
+  // For effi vs Delta 
+  (*h1) = (*Eff1_Del_IN_TCutG1) + (*Eff1_Del_IN_TCutG12) + (*Eff1_Del_IN_TCutG23) + (*Eff1_Del_OUT_TCutG3); 
+  (*h2) = (*Eff2_Del_IN_TCutG1) + (*Eff2_Del_IN_TCutG12) + (*Eff2_Del_IN_TCutG23) + (*Eff2_Del_OUT_TCutG3); 
+
+  Eff3_Del_All_TCutG = (TH1D*)h2->Clone("Eff3_Del_All_TCutG");
+  Eff3_Del_All_TCutG->Sumw2();
+  Eff3_Del_All_TCutG->Divide(h1);
+  Eff3_Del_All_TCutG->GetYaxis()->SetRangeUser(0.6,1.4);
+  Eff3_Del_All_TCutG->SetTitle("Efficiency vs Delta (after adding four regions)");
+  // For effi vs xAtCer
+  (*h4) = (*Eff1_xAtCer_IN_TCutG1) + (*Eff1_xAtCer_IN_TCutG12) + (*Eff1_xAtCer_IN_TCutG23) + (*Eff1_xAtCer_OUT_TCutG3); 
+  (*h5) = (*Eff2_xAtCer_IN_TCutG1) + (*Eff2_xAtCer_IN_TCutG12) + (*Eff2_xAtCer_IN_TCutG23) + (*Eff2_xAtCer_OUT_TCutG3); 
+
+  Eff3_xAtCer_All_TCutG = (TH1D*)h5->Clone("Eff3_xAtCer_All_TCutG");
+  Eff3_xAtCer_All_TCutG->Sumw2();
+  Eff3_xAtCer_All_TCutG->Divide(h4);
+  Eff3_xAtCer_All_TCutG->GetYaxis()->SetRangeUser(0.6,1.4);
+  Eff3_xAtCer_All_TCutG->SetTitle("Efficiency vs xAtCer (after adding four regions)");
+
+ //############################################################################
   // Missing mass calculations in each region
   // For Pion
   TH1D *Pi_mm_IN_TCutG1     = new TH1D("Pi_mm_IN_TCutG1","Pion Missing Mass Inside 1st Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0 ); 
@@ -326,8 +554,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   TH1D *h1_CTime_ePion_OUT_TCutG3        = new TH1D("h1_CTime_ePion_OUT_TCutG3","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_Time_OUT_TCutG3        = new TH1D("h1_RF_tdc_Time_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2, 6); 
-  TH2D *coin_Pi_mm_OUT_TCutG3            = new TH2D("coin_Pi_mm_OUT_TCutG3","Coin time vs Pion mm (outside 3rd region); CTime_ePiCoinTime_ROC1; Pion mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
-  TH2D *coin_Pi_beta_OUT_TCutG3             = new TH2D("coin_Pi_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_ePiCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
+  TH2D *coin_Pi_mm_OUT_TCutG3            = new TH2D("coin_Pi_mm_OUT_TCutG3","Coin time vs Pion mm (outside 3rd region); CTime_ePiCoinTime_ROC1; Pion mm", 300, 0.0, 100.0, 300, 0.1, 1.8); 
+  TH2D *RF_Pi_mm_OUT_TCutG3              = new TH2D("RF_Pi_mm_OUT_TCutG3","FRtime vs Pion mm (outside 3rd region); RFtime (ns); Pion mm", 300, -1.0, 4.5, 300, 0.8, 1.8); 
+  TH2D *coin_Pi_beta_OUT_TCutG3          = new TH2D("coin_Pi_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_ePiCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
 
   // Pion misssing mass inside 1st region
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -363,6 +592,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     h1_RF_tdc_Time_OUT_TCutG3->Fill(P_RF_time);
     coin_Pi_mm_OUT_TCutG3->Fill(P_CTime_ePion, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
     coin_Pi_beta_OUT_TCutG3->Fill(P_CTime_ePion, P_gtr_beta); 
+    RF_Pi_mm_OUT_TCutG3->Fill(P_RF_time, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
  }  
 
   // For Kaon
@@ -374,7 +604,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   TH1D *h1_CTime_eKaon_OUT_TCutG3        = new TH1D("h1_CTime_eKaon_OUT_TCutG3","Electron-Kaon Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
   TH1D *h1_RF_tdc_TimeK_OUT_TCutG3       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
-  TH2D *coin_K_mm_OUT_TCutG3             = new TH2D("coin_K_mm_OUT_TCutG3","Coin time vs Kaon mm (outside 3rd region); CTime_eKCoinTime_ROC1; Kaon mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
+  TH2D *coin_K_mm_OUT_TCutG3             = new TH2D("coin_K_mm_OUT_TCutG3","Coin time vs Kaon mm (outside 3rd region); CTime_eKCoinTime_ROC1; Kaon mm", 300, 0.0, 100.0, 300, 0.1, 1.8); 
+  TH2D *RF_K_mm_OUT_TCutG3               = new TH2D("RF_K_mm_OUT_TCutG3","RFtime vs Kaon mm (outside 3rd region); RFtime (ns); Kaon mm", 300, -1.0, 4.5, 300, 0.8, 1.8); 
   TH2D *coin_K_beta_OUT_TCutG3           = new TH2D("coin_K_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_eKCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
 
   // Kaon missing mass inside 1st region  
@@ -410,18 +641,20 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     h1_RF_tdc_TimeK_OUT_TCutG3->Fill(P_RF_time);
     coin_K_mm_OUT_TCutG3->Fill(P_CTime_eKaon, sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
     coin_K_beta_OUT_TCutG3->Fill(P_CTime_eKaon, P_gtr_beta);
-  }
+    RF_K_mm_OUT_TCutG3->Fill(P_RF_time, sqrt(abs(e_miss*e_miss - p_miss*p_miss)));  
+}
 
   // For Proton
 
-  TH1D *P_mm_IN_TCutG1        = new TH1D("P_mm_IN_TCutG1","Proton Missing Mass Inside 1st Region; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
-  TH1D *P_mm_IN_TCutG12       = new TH1D("P_mm_IN_TCutG12 ","Proton Missing Mass b/w 1st & 2nd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 ); 
-  TH1D *P_mm_IN_TCutG23       = new TH1D("P_mm_IN_TCutG23","Proton Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
-  TH1D *P_mm_OUT_TCutG3       = new TH1D("P_mm_OUT_TCutG3","Proton Missing Mass outside 3rd Region; Missing Mass (Proton); Events;", 300, 0.5, 2.0 );
+  TH1D *P_mm_IN_TCutG1        = new TH1D("P_mm_IN_TCutG1","Proton Missing Mass Inside 1st Region; Missing Mass (Proton); Events;", 300, 0.1, 2.0 ); 
+  TH1D *P_mm_IN_TCutG12       = new TH1D("P_mm_IN_TCutG12 ","Proton Missing Mass b/w 1st & 2nd Regions; Missing Mass (Proton); Events;", 300, 0.1, 2.0 ); 
+  TH1D *P_mm_IN_TCutG23       = new TH1D("P_mm_IN_TCutG23","Proton Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Proton); Events;", 300, 0.1, 2.0 );
+  TH1D *P_mm_OUT_TCutG3       = new TH1D("P_mm_OUT_TCutG3","Proton Missing Mass outside 3rd Region; Missing Mass (Proton); Events;", 300, 0.1, 2.0 );
 
   TH1D *h1_CTime_eProton_OUT_TCutG3        = new TH1D("h1_CTime_eProton_OUT_TCutG3","Electron-Proton Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_TimeP_OUT_TCutG3         = new TH1D("h1_RF_tdc_TimeP_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2,6); 
-  TH2D *coin_P_mm_OUT_TCutG3               = new TH2D("coin_P_mm_OUT_TCutG3","Coin time vs Proton mm (outside 3rd region); CTime_epCoinTime_ROC1; Proton mm", 300, 0.0, 100.0, 300, 0.8, 1.8); 
+  TH2D *coin_P_mm_OUT_TCutG3               = new TH2D("coin_P_mm_OUT_TCutG3","Coin time vs Proton mm (outside 3rd region); CTime_epCoinTime_ROC1; Proton mm", 300, 0.0, 100.0, 300, 0.1, 1.8); 
+  TH2D *RF_P_mm_OUT_TCutG3                 = new TH2D("RF_P_mm_OUT_TCutG3","RFtime vs Proton mm (outside 3rd region); RFtime (ns); Proton mm", 300,-1.0, 4.5, 300, 0.1, 1.8); 
   TH2D *coin_P_beta_OUT_TCutG3             = new TH2D("coin_P_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_epCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.6, 1.4); 
 
   // Proton missing mass inside 1st region
@@ -457,6 +690,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     h1_RF_tdc_TimeP_OUT_TCutG3->Fill(P_RF_time);
     coin_P_mm_OUT_TCutG3->Fill(P_CTime_eProton, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))); 
     coin_P_beta_OUT_TCutG3->Fill(P_CTime_eProton, P_gtr_beta);
+    RF_P_mm_OUT_TCutG3->Fill(P_RF_time, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
  }
 
  
@@ -489,6 +723,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h1_CTime_ePion_OUT_TCutG3->Write(); 
   h1_RF_tdc_Time_OUT_TCutG3->Write();
   coin_Pi_mm_OUT_TCutG3->Write();
+  RF_Pi_mm_OUT_TCutG3->Write();
   coin_Pi_beta_OUT_TCutG3->Write(); 
   Pi_mm_OUT_TCutG3->Write();
   Pi_mm_IN_TCutG23->Write();
@@ -499,6 +734,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h1_CTime_eKaon_OUT_TCutG3->Write();
   h1_RF_tdc_TimeK_OUT_TCutG3->Write();
   coin_K_mm_OUT_TCutG3->Write();
+  RF_K_mm_OUT_TCutG3->Write();
   coin_K_beta_OUT_TCutG3->Write();
   K_mm_OUT_TCutG3->Write(); 
   K_mm_IN_TCutG23->Write(); 
@@ -509,13 +745,24 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h1_CTime_eProton_OUT_TCutG3->Write();
   h1_RF_tdc_TimeP_OUT_TCutG3->Write();
   coin_P_mm_OUT_TCutG3->Write();
+  RF_P_mm_OUT_TCutG3->Write();
   coin_P_beta_OUT_TCutG3->Write();
   P_mm_OUT_TCutG3->Write();
   P_mm_IN_TCutG23->Write();
   P_mm_IN_TCutG12->Write();
   P_mm_IN_TCutG1->Write();
- TDirectory *Eff_Plots = OutHisto_file->mkdir("Eff_Plots");
+  TDirectory *Eff_Plots = OutHisto_file->mkdir("Eff_Plots");
   Eff_Plots->cd();
+  Eff3_Del_IN_TCutG1->Write(); 
+  Eff3_Del_IN_TCutG12->Write(); 
+  Eff3_Del_IN_TCutG23->Write(); 
+  Eff3_Del_OUT_TCutG3->Write();
+  Eff3_Del_All_TCutG->Write();
+  Eff3_xAtCer_IN_TCutG1->Write(); 
+  Eff3_xAtCer_IN_TCutG12->Write(); 
+  Eff3_xAtCer_IN_TCutG23->Write(); 
+  Eff3_xAtCer_OUT_TCutG3->Write();
+  Eff3_xAtCer_All_TCutG->Write(); 
   h2_Eff_Pos3->Write(); 
   h1_Eff_Del3->Write();
   h1_Eff3_xAtCer->Write();
