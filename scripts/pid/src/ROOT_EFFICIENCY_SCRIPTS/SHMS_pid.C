@@ -151,9 +151,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   //##############################################################################
 
   // Defined histograms for scanning efficiecny 
-  TH2D *h2_Eff_Pos1    = new TH2D("h2_Eff_Pos1","Efficiency vs Position; Y Position (cm); X Position (cm);", 300, -40, 40.0, 300, -40, 40.0 ); 
-  TH2D *h2_Eff_Pos2    = new TH2D("h2_Eff_Pos2","Efficiency vs Position; Y Position (cm); X Position (cm);", 300, -40, 40.0, 300, -40, 40.0 ); 
-  TH2D *h2_Eff_Pos3    = new TH2D("h2_Eff_Pos3","Efficiency vs Position; Y Position (cm); X Position (cm);", 300, -40, 40.0, 300, -40, 40.0 ); 
+  TH2D *h2_Eff_Pos1    = new TH2D("h2_Eff_Pos1","Efficiency vs Position; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *h2_Eff_Pos2    = new TH2D("h2_Eff_Pos2","Efficiency vs Position; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *h2_Eff_Pos3    = new TH2D("h2_Eff_Pos3","Efficiency vs Position; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
 
   TH1D *h1_Eff_Del1    = new TH1D("h1_Eff_Del1","Efficieny vs Delta; Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *h1_Eff_Del2    = new TH1D("h1_Eff_Del2","Efficiency vs Delta; Delta (%); Efficiency;", 60, -10, 20.0); 
@@ -274,7 +274,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   }
 
   // Take Efficiency scanning 
-  h2_Eff_Pos3 = (TH2D*)h2_Eff_Pos2->Clone();
+  h2_Eff_Pos3 = (TH2D*)h2_Eff_Pos2->Clone("h2_Eff_Pos3");
   h2_Eff_Pos3->Divide(h2_Eff_Pos1);
  
  // From delta variable
@@ -320,13 +320,18 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   // Histograms for efficieny in each region
   
   // Inside 1st region
-  TH1D *Eff1_Del_IN_TCutG1    = new TH1D("Eff1_Del_IN_TCutG1","Efficieny vs Delta (b/w 1st region);  Delta (%); Efficiency;", 60, -10, 20.0); 
-  TH1D *Eff2_Del_IN_TCutG1    = new TH1D("Eff2_Del_IN_TCutG1","Efficiency vs Delta (b/w 1st region); Delta (%); Efficiency;", 60, -10, 20.0); 
-  TH1D *Eff3_Del_IN_TCutG1    = new TH1D("Eff3_Del_IN_TCutG1","Efficiency vs Delta (b/w 1st region); Delta (%); Efficiency;", 60, -10, 20.0); 
-
-  TH1D *Eff1_xAtCer_IN_TCutG1    = new TH1D("Eff1_xAtCer_IN_TCutG1","Efficieny vs  xAtCer (b/w 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
-  TH1D *Eff2_xAtCer_IN_TCutG1    = new TH1D("Eff2_xAtCer_IN_TCutG1","Efficiency vs xAtCer (b/w 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
-  TH1D *Eff3_xAtCer_IN_TCutG1    = new TH1D("Eff3_xAtCer_IN_TCutG1","Efficiency vs xAtCer (b/w 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  //From Delta 1-D
+  TH1D *Eff1_Del_IN_TCutG1    = new TH1D("Eff1_Del_IN_TCutG1","Efficieny vs Delta (inside 1st region);  Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff2_Del_IN_TCutG1    = new TH1D("Eff2_Del_IN_TCutG1","Efficiency vs Delta (inside 1st region); Delta (%); Efficiency;", 60, -10, 20.0); 
+  TH1D *Eff3_Del_IN_TCutG1    = new TH1D("Eff3_Del_IN_TCutG1","Efficiency vs Delta (inside 1st region); Delta (%); Efficiency;", 60, -10, 20.0); 
+  //From postion 1-D
+  TH1D *Eff1_xAtCer_IN_TCutG1    = new TH1D("Eff1_xAtCer_IN_TCutG1","Efficieny vs  xAtCer (inside 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff2_xAtCer_IN_TCutG1    = new TH1D("Eff2_xAtCer_IN_TCutG1","Efficiency vs xAtCer (inside 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *Eff3_xAtCer_IN_TCutG1    = new TH1D("Eff3_xAtCer_IN_TCutG1","Efficiency vs xAtCer (inside 1st region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  //From positions 2-D
+  TH2D *Eff1_Pos_IN_TCutG1      = new TH2D("Eff1_Pos_IN_TCutG1","Efficiency vs Position (inside 1st region); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff2_Pos_IN_TCutG1      = new TH2D("Eff2_Pos_IN_TCutG1","Efficiency vs Position (inside 1st region); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff3_Pos_IN_TCutG1      = new TH2D("Eff3_Pos_IN_TCutG1","Efficiency vs Position (inside 1st region); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
@@ -367,16 +372,41 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Eff3_xAtCer_IN_TCutG1->Sumw2();
   Eff3_xAtCer_IN_TCutG1->Divide(Eff1_xAtCer_IN_TCutG1);
   Eff3_xAtCer_IN_TCutG1->GetYaxis()->SetRangeUser(0.6,1.4);
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum <0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_Pos_IN_TCutG1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum <1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_Pos_IN_TCutG1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_Pos_IN_TCutG1 = (TH2D*)Eff2_Pos_IN_TCutG1->Clone("Eff3_Pos_IN_TCutG1");
+  Eff3_Pos_IN_TCutG1->Sumw2();
+  Eff3_Pos_IN_TCutG1->Divide(Eff1_Pos_IN_TCutG1);
+
   
   // Inside 1st & 2nd regions
+  //From Delta 1 -D
   TH1D *Eff1_Del_IN_TCutG12      = new TH1D("Eff1_Del_IN_TCutG12","Efficieny vs Delta (b/w 1st & 2nd regions);  Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *Eff2_Del_IN_TCutG12      = new TH1D("Eff2_Del_IN_TCutG12","Efficiency vs Delta (b/w 1st & 2nd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *Eff3_Del_IN_TCutG12      = new TH1D("Eff3_Del_IN_TCutG12","Efficiency vs Delta (b/w 1st & 2nd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
-
-
+  //From position 1 -D
   TH1D *Eff1_xAtCer_IN_TCutG12   = new TH1D("Eff1_xAtCer_IN_TCutG12","Efficieny vs  xAtCer (b/w 1st & 2nd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
   TH1D *Eff2_xAtCer_IN_TCutG12   = new TH1D("Eff2_xAtCer_IN_TCutG12","Efficiency vs xAtCer (b/w 1st & 2nd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
   TH1D *Eff3_xAtCer_IN_TCutG12   = new TH1D("Eff3_xAtCer_IN_TCutG12","Efficiency vs xAtCer (b/w 1st & 2nd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  //From positions 2 -D
+  TH2D *Eff1_Pos_IN_TCutG12      = new TH2D("Eff1_Pos_IN_TCutG12","Efficiency vs Position (b/w 1st & 2nd regions); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff2_Pos_IN_TCutG12      = new TH2D("Eff2_Pos_IN_TCutG12","Efficiency vs Position (b/w 1st & 2nd regions); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff3_Pos_IN_TCutG12      = new TH2D("Eff3_Pos_IN_TCutG12","Efficiency vs Position (b/w 1st & 2nd regions); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
@@ -418,14 +448,38 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Eff3_xAtCer_IN_TCutG12->Divide(Eff1_xAtCer_IN_TCutG12);
   Eff3_xAtCer_IN_TCutG12->GetYaxis()->SetRangeUser(0.6,1.4);
   
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_Pos_IN_TCutG12->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_Pos_IN_TCutG12->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_Pos_IN_TCutG12 = (TH2D*)Eff2_Pos_IN_TCutG12->Clone("Eff3_Pos_IN_TCutG12");
+  Eff3_Pos_IN_TCutG12->Sumw2();
+  Eff3_Pos_IN_TCutG12->Divide(Eff1_Pos_IN_TCutG12);
+
   // Inside 2nd & 3rd  regions
+  //From Delat 1- D
   TH1D *Eff1_Del_IN_TCutG23    = new TH1D("Eff1_Del_IN_TCutG23","Efficieny vs Delta  (b/w 2nd & 3rd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *Eff2_Del_IN_TCutG23    = new TH1D("Eff2_Del_IN_TCutG23","Efficiency vs Delta (b/w 2nd & 3rd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *Eff3_Del_IN_TCutG23    = new TH1D("Eff3_Del_IN_TCutG23","Efficiency vs Delta (b/w 2nd & 3rd regions); Delta (%); Efficiency;", 60, -10, 20.0); 
-
+  //From postion 1- D
   TH1D *Eff1_xAtCer_IN_TCutG23    = new TH1D("Eff1_xAtCer_IN_TCutG23","Efficieny vs  xAtCer (b/w 2nd & 3rd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
   TH1D *Eff2_xAtCer_IN_TCutG23    = new TH1D("Eff2_xAtCer_IN_TCutG23","Efficiency vs xAtCer (b/w 2nd & 3rd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
   TH1D *Eff3_xAtCer_IN_TCutG23    = new TH1D("Eff3_xAtCer_IN_TCutG23","Efficiency vs xAtCer (b/w 2nd & 3rd regions);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  //From positions 2 -D
+  TH2D *Eff1_Pos_IN_TCutG23      = new TH2D("Eff1_Pos_IN_TCutG23","Efficiency vs Position (b/w 2nd & 3rd regions); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff2_Pos_IN_TCutG23      = new TH2D("Eff2_Pos_IN_TCutG23","Efficiency vs Position (b/w 2nd & 3rd regions); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff3_Pos_IN_TCutG23      = new TH2D("Eff3_Pos_IN_TCutG23","Efficiency vs Position (b/w 2nd & 3rd regions); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
@@ -467,15 +521,39 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Eff3_xAtCer_IN_TCutG23->Divide(Eff1_xAtCer_IN_TCutG23);
   Eff3_xAtCer_IN_TCutG23->GetYaxis()->SetRangeUser(0.6,1.4);
  
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_Pos_IN_TCutG23->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer))) continue;   
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_Pos_IN_TCutG23->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_Pos_IN_TCutG23 = (TH2D*)Eff2_Pos_IN_TCutG23->Clone("Eff3_Pos_IN_TCutG23");
+  Eff3_Pos_IN_TCutG23->Sumw2(); 
+  Eff3_Pos_IN_TCutG23->Divide(Eff1_Pos_IN_TCutG23);
+
 
   // Outside 3rd region
+  //From Delta 1 -D
   TH1D *Eff1_Del_OUT_TCutG3    = new TH1D("Eff1_Del_OUT_TCutG3","Efficieny vs Delta  (outside 3rd region); Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *Eff2_Del_OUT_TCutG3    = new TH1D("Eff2_Del_OUT_TCutG3","Efficiency vs Delta (outside 3rd region); Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *Eff3_Del_OUT_TCutG3    = new TH1D("Eff3_Del_OUT_TCutG3","Efficiency vs Delta (outside 3rd region); Delta (%); Efficiency;", 60, -10, 20.0); 
-
+  //From position 1 -D
   TH1D *Eff1_xAtCer_OUT_TCutG3    = new TH1D("Eff1_xAtCer_OUT_TCutG3","Efficieny vs  xAtCer (outside 3rd region);  xAtCer; Efficiency;", 80, -40, 40.0); 
   TH1D *Eff2_xAtCer_OUT_TCutG3    = new TH1D("Eff2_xAtCer_OUT_TCutG3","Efficiency vs xAtCer (outside 3rd region);  xAtCer; Efficiency;", 80, -40, 40.0); 
   TH1D *Eff3_xAtCer_OUT_TCutG3    = new TH1D("Eff3_xAtCer_OUT_TCutG3","Efficiency vs xAtCer (outside 3rd region);  xAtCer; Efficiency;", 80, -40, 40.0); 
+  //From positions 2 -D
+  TH2D *Eff1_Pos_OUT_TCutG3      = new TH2D("Eff1_Pos_OUT_TCutG3","Efficiency vs Position (outside 3rd region); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff2_Pos_OUT_TCutG3      = new TH2D("Eff2_Pos_OUT_TCutG3","Efficiency vs Position (outside 3rd region); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff3_Pos_OUT_TCutG3      = new TH2D("Eff3_Pos_OUT_TCutG3","Efficiency vs Position (outside 3rd region); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
@@ -517,13 +595,42 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Eff3_xAtCer_OUT_TCutG3->Divide(Eff1_xAtCer_OUT_TCutG3);
   Eff3_xAtCer_OUT_TCutG3->GetYaxis()->SetRangeUser(0.6,1.4);
 
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 0.1 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff1_Pos_OUT_TCutG3->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
+    if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
+    Eff2_Pos_OUT_TCutG3->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+  }
+
+  // Take Efficiency scanning 
+  Eff3_Pos_OUT_TCutG3 = (TH2D*)Eff2_Pos_OUT_TCutG3->Clone("Eff3_Pos_OUT_TCutG3");
+  Eff3_Pos_OUT_TCutG3->Sumw2();
+  Eff3_Pos_OUT_TCutG3->Divide(Eff1_Pos_OUT_TCutG3);
+
   // Now sum of all four histograms in each case
+  //For Delta
   TH1D *h1   = new TH1D("h1","Efficiency vs Delta (after adding all four hist); Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *h2   = new TH1D("h2","Efficiency vs Delta (after adding all four hist); Delta (%); Efficiency;", 60, -10, 20.0); 
   TH1D *Eff3_Del_All_TCutG  = new TH1D("Eff3_Del_All_TCutG","Efficiency vs Delta (after adding four regions); Delta (%); Efficiency;", 60, -10, 20.0); 
-  TH1D *h4   = new TH1D("h4","Efficiency vs Delta (after adding all four hist); xAtCer; Efficiency;", 80, -40, 40.0); 
-  TH1D *h5   = new TH1D("h5","Efficiency vs Delta (after adding all four hist); xAtCer; Efficiency;", 80, -40, 40.0); 
+  //For position 1 -D
+  TH1D *h4   = new TH1D("h4","Efficiency vs xAtCer (after adding all four hist); xAtCer; Efficiency;", 80, -40, 40.0); 
+  TH1D *h5   = new TH1D("h5","Efficiency vs xAtCer (after adding all four hist); xAtCer; Efficiency;", 80, -40, 40.0); 
   TH1D *Eff3_xAtCer_All_TCutG  = new TH1D("Eff3_xAtCer_All_TCutG","Efficiency vs xAtCer (after adding four regions); xAtCer; Efficiency;", 80, -40, 40.0); 
+  //For positions 2 -D
+  TH2D * h6  = new TH2D("h6","Efficiency (after adding all four hist); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D * h3  = new TH2D("h3","Efficiency (after adding all four hist); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D * h7  = new TH2D("h7","Efficiency (after adding all four hist); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D * h8  = new TH2D("h8","Efficiency (after adding all four hist); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D * h9  = new TH2D("h9","Efficiency (after adding all four hist); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D * h10  = new TH2D("h10","Efficiency (after adding all four hist); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *Eff3_Pos_All_TCutG  = new TH2D("Eff3_Pos_All_TCutG","Efficiency (after adding all four hist); Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
 
   // For effi vs Delta 
   (*h1) = (*Eff1_Del_IN_TCutG1) + (*Eff1_Del_IN_TCutG12) + (*Eff1_Del_IN_TCutG23) + (*Eff1_Del_OUT_TCutG3); 
@@ -543,6 +650,14 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Eff3_xAtCer_All_TCutG->Divide(h4);
   Eff3_xAtCer_All_TCutG->GetYaxis()->SetRangeUser(0.6,1.4);
   Eff3_xAtCer_All_TCutG->SetTitle("Efficiency vs xAtCer (after adding four regions)");
+  //For eff positions 2 -D
+  (*h6) =  (*Eff1_Pos_IN_TCutG1) + (*Eff1_Pos_IN_TCutG12);  (*h3) =  (*Eff1_Pos_IN_TCutG23) + (*Eff1_Pos_OUT_TCutG3); (*h9) = (*h6) + (*h3);
+  (*h7) = (*Eff2_Pos_IN_TCutG1) + (*Eff2_Pos_IN_TCutG12);   (*h8) =  (*Eff2_Pos_IN_TCutG23) + (*Eff2_Pos_OUT_TCutG3); (*h10) = (*h7) + (*h8);
+
+  Eff3_Pos_All_TCutG = (TH2D*)h10->Clone("Eff3_Pos_All_TCutG");
+  Eff3_Pos_All_TCutG->Sumw2();
+  Eff3_Pos_All_TCutG->Divide(h9);
+
 
  //############################################################################
   // Missing mass calculations in each region
@@ -763,6 +878,11 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Eff3_xAtCer_IN_TCutG23->Write(); 
   Eff3_xAtCer_OUT_TCutG3->Write();
   Eff3_xAtCer_All_TCutG->Write(); 
+  Eff3_Pos_IN_TCutG1->Write();
+  Eff3_Pos_IN_TCutG12->Write();
+  Eff3_Pos_IN_TCutG23->Write();
+  Eff3_Pos_OUT_TCutG3->Write();
+  Eff3_Pos_All_TCutG->Write();
   h2_Eff_Pos3->Write(); 
   h1_Eff_Del3->Write();
   h1_Eff3_xAtCer->Write();
