@@ -68,6 +68,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TString TOutFilename = OutFilename;
   // Establish the names of our output files quickly
   TString foutname = Outpath1+"/" + TOutFilename + ".root";
+  TString fouttxt  = Outpath1+"/" + TOutFilename + ".txt";
   TString foutpdf = Outpath1+"/" + TOutFilename + ".pdf";
 
 
@@ -657,6 +658,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Eff3_Pos_All_TCutG = (TH2D*)h10->Clone("Eff3_Pos_All_TCutG");
   Eff3_Pos_All_TCutG->Sumw2();
   Eff3_Pos_All_TCutG->Divide(h9);
+  Eff3_Pos_All_TCutG->SetTitle("Efficiency vs Positions(after adding four regions)");
 
 
  //############################################################################
@@ -887,8 +889,10 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h1_Eff_Del3->Write();
   h1_Eff3_xAtCer->Write();
   OutHisto_file->Close();
-  // TFile g("cutg1.root","recreate");
-  //  cutg1->Write();
+  TFile TCutG_write("fouttxt","RECREATE");
+  cutg1->SaveAs("fouttxt");
+  TCutG_write.Close();
+
   //  cutg1->SaveAs("cutg1.root");
   // TString RunNumStr = TInFilename(0,4); Int_t RunNum=(RunNumStr.Atoi());
   //TString OutputStr = Form("%i,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f", RunNum, PionFit->GetParameter(1), PionFit->GetParError(1), PionFWHM, PionFWHMErr, KaonFit->GetParameter(1), KaonFit->GetParError(1), KaonFWHM, KaonFWHMErr, ProtonFit->GetParameter(1), ProtonFit->GetParError(1), ProtonFWHM, ProtonFWHMErr);
