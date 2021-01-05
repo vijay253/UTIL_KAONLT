@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # Description:
 # ================================================================
-# Time-stamp: "2020-12-09 12:06:34 trottar"
+# Time-stamp: "2020-12-21 12:01:21 trottar"
 # ================================================================
 #
 # Author:  Richard L. Trotta III <trotta@cua.edu>
@@ -32,8 +32,6 @@ elif ("lark" in HOST[1]):
     REPLAYPATH = "/home/%s/work/JLab/hallc_replay_lt" % USER[1]
 elif ("trottar" in HOST[1]):
     REPLAYPATH = "/home/trottar/Analysis/hallc_replay_lt"
-elif ("skynet" in HOST[1]):
-    REPLAYPATH = "/home/sjdkay/Work/JLab/hallc_replay_lt"
 
 print("Running as %s on %s, hallc_replay_lt path assumed as %s" % (USER[1], HOST[1], REPLAYPATH))
 
@@ -43,6 +41,7 @@ rootName = "%s/UTIL_KAONLT/ROOTfiles/coin_replay_Full_Lumi_%s_%s.root" % (REPLAY
 report = "%s/UTIL_KAONLT/REPORT_OUTPUT/replay_coin_Lumi_%s_%s.report" % (REPLAYPATH,runNum,MaxEvent)
 
 thres_curr = 2.5
+# thres_curr = 10.0
 
 f = open(report)
 
@@ -50,7 +49,6 @@ psList = ['Ps1_factor','Ps3_factor','Ps5_factor']
 
 psActual = [-1,1,2,3,5,9,17,33,65,129,257,513,1025,2049,4097,8193,16385,32769]
 psValue = [-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-
 
 for line in f:
     data = line.split('=')
@@ -450,7 +448,7 @@ EvtType = tree.array("fEvtHdr.fEvtType")
 fout = REPLAYPATH+'/UTIL_KAONLT/DB/CUTS/run_type/lumi.cuts'
 
 # read in cuts file and make dictionary
-c = klt.pyPlot(REPLAYPATH,DEBUG=True)
+c = klt.pyPlot(REPLAYPATH)
 # apply RF cuts to timing cuts file
 c.cut_RF(runNum,MaxEvent)
 readDict = c.read_dict(fout,runNum)
@@ -466,8 +464,8 @@ def make_cutDict(cut,inputDict=None):
 
     c = klt.pyPlot(REPLAYPATH,readDict)
     x = c.w_dict(cut)
-    print("%s" % cut)
-    print("x ", x)
+    # print("%s" % cut)
+    # print("x ", x)
     
     if inputDict == None:
         inputDict = {}

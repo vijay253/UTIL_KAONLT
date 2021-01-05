@@ -66,7 +66,7 @@ r = klt.pyRoot()
 # Specify the file which contains the cuts we want to use
 fout = '%s/UTIL_KAONLT/DB/CUTS/run_type/demo.cuts' % REPLAYPATH
 # read in cuts file and make dictionary
-c = klt.pyPlot(REPLAYPATH)
+c = klt.pyPlot(REPLAYPATH,DEBUG=False) # Switch False to True to enable DEBUG mode
 readDict = c.read_dict(fout,runNum)
 # This method calls several methods in kaonlt package. It is required to create properly formated
 # dictionaries. The evaluation must be in the analysis script because the analysis variables (i.e. the
