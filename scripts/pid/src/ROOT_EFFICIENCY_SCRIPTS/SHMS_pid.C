@@ -125,13 +125,11 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   // ######################### Third set of Geometrical Cuts #################### 
 
-  TCutG *cutg3 = new TCutG("cutg3",25);
+  TCutG *cutg3 = new TCutG("cutg3",14);
   cutg3->SetVarX("P_hgcer_yAtCer");
-  cutg3->SetVarY("P_hgcer_xAtCer");  cutg3->SetPoint(0,-25,2);  cutg3->SetPoint(1,-8,2);  cutg3->SetPoint(2,-6,2);  cutg3->SetPoint(3,-4,2);  cutg3->SetPoint(4,-2,3);
-  cutg3->SetPoint(5,0,4);  cutg3->SetPoint(6,2,8.5);  cutg3->SetPoint(7,4,7);  cutg3->SetPoint(8,6,5);  cutg3->SetPoint(9,9,4);  cutg3->SetPoint(10,10,4);  cutg3->SetPoint(11,25,4);
-  cutg3->SetPoint(12,25,-1);  cutg3->SetPoint(13,10,-1);  cutg3->SetPoint(14,8,-1);  cutg3->SetPoint(15,6,-1);  cutg3->SetPoint(16,4,-1);  cutg3->SetPoint(17,2,-4);  
-  cutg3->SetPoint(18,1,-4.70);  cutg3->SetPoint(19,0,-4);  cutg3->SetPoint(20,-2,-1);  cutg3->SetPoint(21,-4,-1);  cutg3->SetPoint(22,-6,-1);   cutg3->SetPoint(23,-25,-1);
-  cutg3->SetPoint(24,-25,2);  cutg3->SetLineColor(kRed);  cutg3->SetLineWidth(5);
+  cutg3->SetVarY("P_hgcer_xAtCer");  cutg3->SetPoint(0,-20,3);  cutg3->SetPoint(1,-3,3);  cutg3->SetPoint(2,-1,4);  cutg3->SetPoint(3,2,5);  cutg3->SetPoint(4,4,3);
+  cutg3->SetPoint(5,20,3);  cutg3->SetPoint(6,20,1.70);  cutg3->SetPoint(7,6,1.70);  cutg3->SetPoint(8,3.75,0);  cutg3->SetPoint(9,2,-2.1);  cutg3->SetPoint(10,-1,0);  cutg3->SetPoint(11,-3,1.70);
+  cutg3->SetPoint(12,-20,1.70);  cutg3->SetPoint(13,-20,3);  cutg3->SetLineColor(kRed);  cutg3->SetLineWidth(5);
   
   //##############################################################################
 
@@ -146,8 +144,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH2D *h2_npeSum_IN_TCutG1            = new TH2D("h2_npeSum_IN_TCutG1","HGC, Entries Inside 1st Region; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
   TH2D *h2_npeSum_IN_TCutG12           = new TH2D("h2_npeSum_IN_TCutG12","HGC, Entries b/w 1st & 2nd Regions; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
   TH2D *h2_npeSum_IN_TCutG23           = new TH2D("h2_npeSum_IN_TCutG23","HGC, Entries b/w 2nd & 3rd Regions; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
-  TH2D *h2_npeSum_OUT_TCutG3           = new TH2D("h2_npeSum_OUT_TCutG3","HGC, Entries outside 3rd Region; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
-  TH2D *h2_npeSum                      = new TH2D("h2_npeSum","HGC, All Entries ; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
+  TH2D *h2_npeSum_OUT_TCutG3           = new TH2D("h2_npeSum_OUT_TCutG3","HGC, Entries outside 3rd Region; HGC NPE; Aerogel NPE;", 300, 0.0, 40, 300, 0.0, 30);
+  TH2D *h2_npeSum                      = new TH2D("h2_npeSum","HGC vs Aero ; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
 
   //##############################################################################
 
@@ -719,7 +717,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH1D *K_mm_IN_TCutG23       = new TH1D("K_mm_IN_TCutG23","Kaon Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
   TH1D *K_mm_OUT_TCutG3       = new TH1D("K_mm_OUT_TCutG3","Kaon Missing Mass outside 3rd Region; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
 
-  TH1D *h1_CTime_eKaon_OUT_TCutG3        = new TH1D("h1_CTime_eKaon_OUT_TCutG3","Electron-Kaon Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
+  TH1D *h1_CTime_eKaon_OUT_TCutG3        = new TH1D("h1_CTime_eKaon_OUT_TCutG3","Electron-Kaon Coin Time; CTime_eKCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
   TH1D *h1_RF_tdc_TimeK_OUT_TCutG3       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
   TH2D *coin_K_mm_OUT_TCutG3             = new TH2D("coin_K_mm_OUT_TCutG3","Coin time vs Kaon mm (outside 3rd region); CTime_eKCoinTime_ROC1; Kaon mm", 300, 0.0, 100.0, 300, 0.1, 1.8); 
   TH2D *RF_K_mm_OUT_TCutG3               = new TH2D("RF_K_mm_OUT_TCutG3","RFtime vs Kaon mm (outside 3rd region); RFtime (ns); Kaon mm", 300, -1.0, 4.5, 300, 0.8, 1.8); 
@@ -768,7 +766,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH1D *P_mm_IN_TCutG23       = new TH1D("P_mm_IN_TCutG23","Proton Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Proton); Events;", 300, 0.1, 2.0 );
   TH1D *P_mm_OUT_TCutG3       = new TH1D("P_mm_OUT_TCutG3","Proton Missing Mass outside 3rd Region; Missing Mass (Proton); Events;", 300, 0.1, 2.0 );
 
-  TH1D *h1_CTime_eProton_OUT_TCutG3        = new TH1D("h1_CTime_eProton_OUT_TCutG3","Electron-Proton Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
+  TH1D *h1_CTime_eProton_OUT_TCutG3        = new TH1D("h1_CTime_eProton_OUT_TCutG3","Electron-Proton Coin Time; CTime_epCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_TimeP_OUT_TCutG3         = new TH1D("h1_RF_tdc_TimeP_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2,6); 
   TH2D *coin_P_mm_OUT_TCutG3               = new TH2D("coin_P_mm_OUT_TCutG3","Coin time vs Proton mm (outside 3rd region); CTime_epCoinTime_ROC1; Proton mm", 300, 0.0, 100.0, 300, 0.1, 1.8); 
   TH2D *RF_P_mm_OUT_TCutG3                 = new TH2D("RF_P_mm_OUT_TCutG3","RFtime vs Proton mm (outside 3rd region); RFtime (ns); Proton mm", 300,-1.0, 4.5, 300, 0.1, 1.8); 
@@ -889,11 +887,11 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h1_Eff_Del3->Write();
   h1_Eff3_xAtCer->Write();
   OutHisto_file->Close();
-  TFile TCutG_write("fouttxt","RECREATE");
-  cutg1->SaveAs("fouttxt");
-  TCutG_write.Close();
-
-  //  cutg1->SaveAs("cutg1.root");
+  //Save the TCutGs open this when needed 
+  /*  cutg1->SaveAs(Outpath1+"/" + "TCutG1_" + TOutFilename  +".txt");
+  cutg2->SaveAs(Outpath1+"/" + "TCutG2_" + TOutFilename  +".txt");
+  cutg3->SaveAs(Outpath1+"/" + "TCutG3_" + TOutFilename  +".txt");
+  */
   // TString RunNumStr = TInFilename(0,4); Int_t RunNum=(RunNumStr.Atoi());
   //TString OutputStr = Form("%i,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f,%3.3f", RunNum, PionFit->GetParameter(1), PionFit->GetParError(1), PionFWHM, PionFWHMErr, KaonFit->GetParameter(1), KaonFit->GetParError(1), KaonFWHM, KaonFWHMErr, ProtonFit->GetParameter(1), ProtonFit->GetParError(1), ProtonFWHM, ProtonFWHMErr);
     //cout << OutputStr << endl;
