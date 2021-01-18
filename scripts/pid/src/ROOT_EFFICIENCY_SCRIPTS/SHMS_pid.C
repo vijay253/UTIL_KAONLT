@@ -710,7 +710,10 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     if(P_hgcer_npeSum < 3.5 || P_aero_npeSum <1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
-    Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+    if(P_CTime_ePion > 42 && P_CTime_ePion < 46) // select promt peak
+      {
+	Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+      }   
     if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))
       {
 	Pi_mm_random_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
@@ -770,8 +773,11 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     if(P_hgcer_npeSum > 1.5 || P_aero_npeSum < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
-    K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
-    if((P_CTime_eKaon > 30 && P_CTime_eKaon < 38) || (P_CTime_eKaon > 50 && P_CTime_eKaon < 66))
+    if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak
+     { 
+       K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+     }
+   if((P_CTime_eKaon > 30 && P_CTime_eKaon < 38) || (P_CTime_eKaon > 50 && P_CTime_eKaon < 66))
       {
 	K_mm_random_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));	
       }
@@ -829,8 +835,11 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     if (P_hgcer_npeSum > 1.5 || P_aero_npeSum > 2.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
-    P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
-    if((P_CTime_eProton > 30 && P_CTime_eProton < 38) || (P_CTime_eProton > 50 && P_CTime_eProton < 66))
+    if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  //select promt peak 
+     { 
+       P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+     }  
+  if((P_CTime_eProton > 30 && P_CTime_eProton < 38) || (P_CTime_eProton > 50 && P_CTime_eProton < 66))
       {
 	P_mm_random_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
       }
