@@ -713,8 +713,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     if(P_CTime_ePion > 42 && P_CTime_ePion < 46) // select promt peak
       {
 	Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
-      }   
-    if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))
+      }
+    
+    if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))  // select random bunches
       {
 	Pi_mm_random_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
       }
@@ -723,13 +724,29 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     coin_Pi_mm_OUT_TCutG3->Fill(P_CTime_ePion, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
     coin_Pi_beta_OUT_TCutG3->Fill(P_CTime_ePion, P_gtr_beta); 
     RF_Pi_mm_OUT_TCutG3->Fill(P_RF_time, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
- }  
+  }  
+  
   Double_t pi_scale;
   pi_scale = 1.0/6.0;  // No of background peaks selected to remove the random background
   Pi_mm_random_OUT_TCutG3->Scale(pi_scale); 
   Pi_mm_norandom_OUT_TCutG3 = (TH1D*)Pi_mm_OUT_TCutG3->Clone("Pi_mm_norandom_OUT_TCutG3");
   Pi_mm_norandom_OUT_TCutG3->Add(Pi_mm_random_OUT_TCutG3, -1); // Substraction of random background from prompt peak
-
+  /*
+  TCanvas *c1;
+  c1 = new TCanvas("c1", "Pion missing mass", 700, 500);
+  Pi_mm_norandom_OUT_TCutG3->Draw("HIST SAME C 9");  // 9 is used for high resolution plot
+  Pi_mm_norandom_OUT_TCutG3->SetStats(0);
+  Pi_mm_norandom_OUT_TCutG3->SetFillColor(kRed);
+  c1->SaveAs("pi_mm.png");  // This will save in python output directory 
+  c1->Print(foutpdf + '(');
+  TCanvas *c2;
+  c2 = new TCanvas("c2", "Coin time", 700, 500);
+  h1_CTime_ePion_OUT_TCutG3->Draw("COLZ 9");  // 9 is used for high resolution plot
+  h1_CTime_ePion_OUT_TCutG3->SetStats(0);
+  h1_CTime_ePion_OUT_TCutG3->SetFillColor(kRed);
+  c2->SaveAs("coin.png"); // This will save in python output directory 
+  c2->Print(foutpdf + ')');
+  */
   // For Kaon
 
   TH1D *K_mm_IN_TCutG1        = new TH1D("K_mm_IN_TCutG1","Kaon Missing Mass Inside 1st Region; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
@@ -772,12 +789,12 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    if(P_hgcer_npeSum > 1.5 || P_aero_npeSum < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
-    if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak
+    if(P_hgcer_npeSum > 0.1 || P_aero_npeSum < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
+    if(P_CTime_ePion > 42.0 && P_CTime_ePion < 46.0)  // select promt peak
      { 
        K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
      }
-   if((P_CTime_eKaon > 30 && P_CTime_eKaon < 38) || (P_CTime_eKaon > 50 && P_CTime_eKaon < 66))
+    if((P_CTime_eKaon > 30 && P_CTime_eKaon < 38) || (P_CTime_eKaon > 50 && P_CTime_eKaon < 66) || (P_RF_time > 0.0 && P_RF_time < 0.2))
       {
 	K_mm_random_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));	
       }
