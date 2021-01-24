@@ -246,7 +246,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   //Fill entries outside 3nd Region      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer) || ( P_hgcer_npeSum < 0.1 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31)) continue;
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer) || (P_aero_yAtCer < -30 || P_aero_yAtCer > 31)) continue;   //|| ( P_hgcer_npeSum < 0.1 has been removed
     h2_npeSum_OUT_TCutG3->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
 
@@ -670,12 +670,12 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   // For Pion
   TH1D *Pi_mm_IN_TCutG1     = new TH1D("Pi_mm_IN_TCutG1","Pion Missing Mass Inside 1st Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0 ); 
   TH1D *Pi_mm_IN_TCutG12    = new TH1D("Pi_mm_IN_TCutG12","Pion Missing Mass b/w 1st & 2nd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *Pi_mm_IN_TCutG23    = new TH1D("Pi_mm_OUT_TCutG23","Pion Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *Pi_mm_OUT_TCutG3    = new TH1D("Pi_mm_OUT_TCutG3","Pion Missing Mass outside 3rd Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *Pi_mm_random_OUT_TCutG3    = new TH1D("Pi_mm_random_OUT_TCutG3","Pion Missing Mass outside 3rd Region (Random); Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
-  TH1D *Pi_mm_norandom_OUT_TCutG3    = new TH1D("Pi_mm_norandom_OUT_TCutG3","Pion Missing Mass outside 3rd Region (No Random); Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
+  TH1D *Pi_mm_IN_TCutG23    = new TH1D("Pi_mm_OUT_TCutG23","Pion Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0);   // old ramge 0.5 to 2.0
+  TH1D *Pi_mm_OUT_TCutG3    = new TH1D("Pi_mm_OUT_TCutG3","Pion Missing Mass outside 3rd Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0);
+  TH1D *Pi_mm_random_OUT_TCutG3    = new TH1D("Pi_mm_random_OUT_TCutG3","Pion Missing Mass outside 3rd Region (Random); Missing Mass (Pion); Events;", 300, 0.5, 2.0);
+  TH1D *Pi_mm_norandom_OUT_TCutG3    = new TH1D("Pi_mm_norandom_OUT_TCutG3","Pion Missing Mass outside 3rd Region (No Random); Missing Mass (Pion); Events;", 300, 0.5, 2.0);
 
-  TH1D *h1_CTime_ePion_OUT_TCutG3        = new TH1D("h1_CTime_ePion_OUT_TCutG3","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
+  TH1D *h1_CTime_ePion_OUT_TCutG3        = new TH1D("h1_CTime_ePion_OUT_TCutG3","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 25.0, 75.0 ); 
   TH1D *h1_RF_tdc_Time_OUT_TCutG3        = new TH1D("h1_RF_tdc_Time_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2, 6); 
   TH2D *coin_Pi_mm_OUT_TCutG3            = new TH2D("coin_Pi_mm_OUT_TCutG3","Coin time vs Pion mm (outside 3rd region); CTime_ePiCoinTime_ROC1; Pion mm", 300, 0.0, 100.0, 300, 0.1, 1.8); 
   TH2D *RF_Pi_mm_OUT_TCutG3              = new TH2D("RF_Pi_mm_OUT_TCutG3","FRtime vs Pion mm (outside 3rd region); RFtime (ns); Pion mm", 300, -1.0, 4.5, 300, 0.8, 1.8); 
@@ -731,7 +731,19 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Pi_mm_random_OUT_TCutG3->Scale(pi_scale); 
   Pi_mm_norandom_OUT_TCutG3 = (TH1D*)Pi_mm_OUT_TCutG3->Clone("Pi_mm_norandom_OUT_TCutG3");
   Pi_mm_norandom_OUT_TCutG3->Add(Pi_mm_random_OUT_TCutG3, -1); // Substraction of random background from prompt peak
-  /*
+
+  /*  TAxis *MMAxis = Pi_mm_norandom_OUT_TCutG3->GetXaxis();
+  Int_t BinLow = MMAxis->FindBin(1.1);
+  Int_t BinHigh = MMAxis->FindBin(1.15);
+  Double_t BinIntegral = Pi_mm_norandom_OUT_TCutG3->Integral(BinLow, BinHigh);
+  TH1F* Pi_mm_norandom_OUT_TCutG3_Colour = (TH1F*)Pi_mm_norandom_OUT_TCutG3->Clone();
+  Pi_mm_norandom_OUT_TCutG3_Colour->SetFillColor(2); Pi_mm_norandom_OUT_TCutG3_Colour->SetFillStyle(3014); Pi_mm_norandom_OUT_TCutG3_Colour->GetXaxis()->SetRange(BinLow, BinHigh);
+  TCanvas *c1;
+  c1 = new TCanvas("c1", "Pion missing mass", 700, 500);
+  Pi_mm_norandom_OUT_TCutG3->Draw();
+  Pi_mm_norandom_OUT_TCutG3_Colour->Draw("HIST SAME C");  // 9 is used for high resolution plot
+  c1->Print(foutpdf);
+    
   TCanvas *c1;
   c1 = new TCanvas("c1", "Pion missing mass", 700, 500);
   Pi_mm_norandom_OUT_TCutG3->Draw("HIST SAME C 9");  // 9 is used for high resolution plot
@@ -747,8 +759,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   c2->SaveAs("coin.png"); // This will save in python output directory 
   c2->Print(foutpdf + ')');
   */
-  // For Kaon
 
+  // For Kaon
   TH1D *K_mm_IN_TCutG1        = new TH1D("K_mm_IN_TCutG1","Kaon Missing Mass Inside 1st Region; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
   TH1D *K_mm_IN_TCutG12       = new TH1D("K_mm_IN_TCutG12","Kaon Missing Mass b/w 1st & 2nd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
   TH1D *K_mm_IN_TCutG23       = new TH1D("K_mm_IN_TCutG23","Kaon Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
@@ -789,7 +801,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    if(P_hgcer_npeSum > 0.1 || P_aero_npeSum < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
+    if(P_hgcer_npeSum > 0.5 || P_aero_npeSum < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
     if(P_CTime_ePion > 42.0 && P_CTime_ePion < 46.0)  // select promt peak
      { 
        K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
@@ -809,6 +821,30 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   K_mm_random_OUT_TCutG3->Scale(K_scale);
   K_mm_norandom_OUT_TCutG3 = (TH1D*)K_mm_OUT_TCutG3->Clone("K_mm_norandom_OUT_TCutG3");
   K_mm_norandom_OUT_TCutG3->Add(K_mm_random_OUT_TCutG3, -1);
+
+  TAxis *MMAxis = K_mm_norandom_OUT_TCutG3->GetXaxis();
+  Int_t BinLowK   = MMAxis->FindBin(1.1);    // select Kaon peak
+  Int_t BinHighK  = MMAxis->FindBin(1.15);
+  Int_t BinLowPi  = MMAxis->FindBin(0.91);   // select pion peak
+  Int_t BinHighPi = MMAxis->FindBin(0.95);
+  Double_t BinIntegralK = K_mm_norandom_OUT_TCutG3->Integral(BinLowK, BinHighK);
+  Double_t BinIntegralPi = K_mm_norandom_OUT_TCutG3->Integral(BinLowPi, BinHighPi);
+  TH1F* K_mm_norandom_OUT_TCutG3_ColourK = (TH1F*)K_mm_norandom_OUT_TCutG3->Clone();
+  K_mm_norandom_OUT_TCutG3_ColourK->SetFillColor(2); K_mm_norandom_OUT_TCutG3_ColourK->SetFillStyle(3014); K_mm_norandom_OUT_TCutG3_ColourK->GetXaxis()->SetRange(BinLowK, BinHighK);
+  TH1F* K_mm_norandom_OUT_TCutG3_ColourPi = (TH1F*)K_mm_norandom_OUT_TCutG3->Clone();
+  K_mm_norandom_OUT_TCutG3_ColourPi->SetFillColor(2); K_mm_norandom_OUT_TCutG3_ColourPi->SetFillStyle(3014); K_mm_norandom_OUT_TCutG3_ColourPi->GetXaxis()->SetRange(BinLowPi, BinHighPi);
+ 
+  TPaveText *NoKaonEvt = new TPaveText(0.48934,0.615354,0.85,0.71576,"NDC");
+  NoKaonEvt->AddText(Form("No of Kaon: %.0f", BinIntegralK)); 
+  NoKaonEvt->AddText(Form("No of Pion: %.0f", BinIntegralPi)); 
+  TCanvas *c1;
+  c1 = new TCanvas("c1", "Kaon missing mass", 700, 500);
+  K_mm_norandom_OUT_TCutG3->Draw();
+  K_mm_norandom_OUT_TCutG3_ColourPi->Draw("HIST SAME C");
+  K_mm_norandom_OUT_TCutG3_ColourK->Draw("HIST SAME C");  // 9 is used for high resolution plot
+  NoKaonEvt->Draw("same"); 
+  c1->Print(foutpdf);
+  
   // For Proton
 
   TH1D *P_mm_IN_TCutG1        = new TH1D("P_mm_IN_TCutG1","Proton Missing Mass Inside 1st Region; Missing Mass (Proton); Events;", 300, 0.1, 2.0 ); 
@@ -872,7 +908,6 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   P_mm_random_OUT_TCutG3->Scale(P_scale);
   P_mm_norandom_OUT_TCutG3 = (TH1D*)P_mm_OUT_TCutG3->Clone("P_mm_norandom_OUT_TCutG3");
   P_mm_norandom_OUT_TCutG3->Add(P_mm_random_OUT_TCutG3, -1);
-
  
   //Write the info in the root format
 
@@ -920,7 +955,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   coin_K_beta_OUT_TCutG3->Write();
   K_mm_OUT_TCutG3->Write();
   K_mm_random_OUT_TCutG3->Write(); 
-  K_mm_norandom_OUT_TCutG3->Write(); 
+  K_mm_norandom_OUT_TCutG3->Write();
   K_mm_IN_TCutG23->Write(); 
   K_mm_IN_TCutG12->Write(); 
   K_mm_IN_TCutG1->Write(); 
