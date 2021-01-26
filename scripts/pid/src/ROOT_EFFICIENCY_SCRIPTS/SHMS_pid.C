@@ -112,7 +112,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   cutg1->SetPoint(0,-25,2); cutg1->SetPoint(1,-2,2);  cutg1->SetPoint(2,-1,2.5); cutg1->SetPoint(3,0,3); cutg1->SetPoint(4,1,3); cutg1->SetPoint(5,2,3.3);
   cutg1->SetPoint(6,3,3.0); cutg1->SetPoint(7,4,2.5); cutg1->SetPoint(8,5,2); cutg1->SetPoint(9,25,2); cutg1->SetPoint(10,25,0.5); cutg1->SetPoint(11,5,0.5);
   cutg1->SetPoint(12,4,1); cutg1->SetPoint(13,3,-1); cutg1->SetPoint(14,2,-2); cutg1->SetPoint(15,1,-2.3); cutg1->SetPoint(16,0,-1.5); cutg1->SetPoint(17,-1,-1);
-  cutg1->SetPoint(18,-2,0.5); cutg1->SetPoint(19,-25,0.5); cutg1->SetPoint(20,-25,2); cutg1->SetLineColor(kRed); cutg1->SetLineWidth(5);
+  cutg1->SetPoint(18,-2,0.5); cutg1->SetPoint(19,-25,0.5); cutg1->SetPoint(20,-25,2); cutg1->SetLineColor(kRed); cutg1->SetLineWidth(3);
 
   // ######################### Second set of Geometrical Cuts #################### 
 
@@ -121,15 +121,14 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   cutg2->SetVarY("P_hgcer_xAtCer");  cutg2->SetPoint(0,-25,2);  cutg2->SetPoint(1,-2,2);  cutg2->SetPoint(2,0,3.5);  cutg2->SetPoint(3,2,5.5);  cutg2->SetPoint(4,4,5);
   cutg2->SetPoint(5,6,4.5);  cutg2->SetPoint(6,8,4);  cutg2->SetPoint(7,10,2);  cutg2->SetPoint(8,25,2);  cutg2->SetPoint(9,25,0.5);  cutg2->SetPoint(10,6,0.5);
   cutg2->SetPoint(11,4,-1);  cutg2->SetPoint(12,2,-3);  cutg2->SetPoint(13,0,-3.5);  cutg2->SetPoint(14,-2,-2);  cutg2->SetPoint(15,-4,-0.75);  cutg2->SetPoint(16,-6,-0.5);
-  cutg2->SetPoint(17,-25,0.5);  cutg2->SetPoint(18,-25,2);  cutg2->SetLineColor(kRed);  cutg2->SetLineWidth(5);
+  cutg2->SetPoint(17,-25,0.5);  cutg2->SetPoint(18,-25,2);  cutg2->SetLineColor(kRed);  cutg2->SetLineWidth(3);
 
   // ######################### Third set of Geometrical Cuts #################### 
-
   TCutG *cutg3 = new TCutG("cutg3",14);
   cutg3->SetVarX("P_hgcer_yAtCer");
   cutg3->SetVarY("P_hgcer_xAtCer");  cutg3->SetPoint(0,-20,3);  cutg3->SetPoint(1,-3,3);  cutg3->SetPoint(2,-1,4);  cutg3->SetPoint(3,2,5);  cutg3->SetPoint(4,4,3);
   cutg3->SetPoint(5,20,3);  cutg3->SetPoint(6,20,1.70);  cutg3->SetPoint(7,6,1.70);  cutg3->SetPoint(8,3.75,0);  cutg3->SetPoint(9,2,-2.1);  cutg3->SetPoint(10,-1,0);  cutg3->SetPoint(11,-3,1.70);
-  cutg3->SetPoint(12,-20,1.70);  cutg3->SetPoint(13,-20,3);  cutg3->SetLineColor(kRed);  cutg3->SetLineWidth(5);
+  cutg3->SetPoint(12,-20,1.70);  cutg3->SetPoint(13,-20,3);  cutg3->SetLineColor(kRed);  cutg3->SetLineWidth(3);
   
   //##############################################################################
 
@@ -145,6 +144,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH2D *h2_npeSum_IN_TCutG12           = new TH2D("h2_npeSum_IN_TCutG12","HGC, Entries b/w 1st & 2nd Regions; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
   TH2D *h2_npeSum_IN_TCutG23           = new TH2D("h2_npeSum_IN_TCutG23","HGC, Entries b/w 2nd & 3rd Regions; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
   TH2D *h2_npeSum_OUT_TCutG3           = new TH2D("h2_npeSum_OUT_TCutG3","HGC, Entries outside 3rd Region; HGC NPE; Aerogel NPE;", 300, 0.0, 40, 300, 0.0, 30);
+  TH2D *h2_npeSum_OUT1_TCutG3           = new TH2D("h2_npeSum_OUT1_TCutG3","HGC, Entries outside 3rd Region; HGC NPE; Aerogel NPE;", 300, 0.0, 0.1, 300, 0.0, 0.1);
   TH2D *h2_npeSum                      = new TH2D("h2_npeSum","HGC vs Aero ; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
 
   //##############################################################################
@@ -182,19 +182,19 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 1.5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;
+    if(P_hgcer_npeSum < 1.5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;   //P_hgcer_npeSum < 1.5 || removed
     h3_XYAtCer_npeSum1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;
+    if(P_hgcer_npeSum < 5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;    // P_hgcer_npeSum < 5 || removed
     h3_XYAtCer_npeSum2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 7 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;
+    if(P_hgcer_npeSum < 7 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;   // P_hgcer_npeSum < 7 || removed
     h3_XYAtCer_npeSum3->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
@@ -248,6 +248,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer) || (P_aero_yAtCer < -30 || P_aero_yAtCer > 31)) continue;   //|| ( P_hgcer_npeSum < 0.1 has been removed
     h2_npeSum_OUT_TCutG3->Fill(P_hgcer_npeSum, P_aero_npeSum);
+    h2_npeSum_OUT1_TCutG3->Fill(P_hgcer_npeSum, P_aero_npeSum); 
   }
 
   /* TCanvas *c;
@@ -930,6 +931,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h2_npeSum_IN_TCutG12->Write();
   h2_npeSum_IN_TCutG23->Write();
   h2_npeSum_OUT_TCutG3->Write();
+  h2_npeSum_OUT1_TCutG3->Write();
   h2_npeSum->Write();
   h3_aero_XYAtCer_nocut_npeSum_pyx->Write();  
   h3_aero_XYAtCer_npeSum_pyx->Write();
