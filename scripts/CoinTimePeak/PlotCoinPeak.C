@@ -116,6 +116,20 @@ void PlotCoinPeak(string InFilename = "", string OutFilename = "")
   h1_CT_Pions->Fit("PionFit", "RMQ");
   h1_CT_Kaons->Fit("KaonFit", "RMQ");
   h1_CT_Protons->Fit("ProtonFit", "RMQ");
+
+  // 26/01/21 - New small loop to check correct peak is being identified
+  // In some cases (low energy runs), PID cuts leave a lot of proton leakage in kaon spectrum, p/K peaks are also very separated
+  // Kaon peak can be misidentified as proton one
+  // Check if Kaon and Pion peak positions look significantly different but kaon/proton peaks are close
+  if((abs((PionFit->GetParameter(1))-(KaonFit->GetParameter(1)))) > 1 && (abs((ProtonFit->GetParameter(1))-(KaonFit->GetParameter(1)))) < 0.5){
+    // Set parameter limit for kaon fit mean to match the pion fit more closely
+    KaonFit->SetParLimits(1, (PionFit->GetParameter(1))-0.5, (PionFit->GetParameter(1))+0.5);
+    KaonFit->SetParameter(1, PionFit->GetParameter(1));
+    KaonFit->SetRange(PionMaxVal-1, PionMaxVal+1); 
+    // Refit Kaon spectrum with modified fit
+    h1_CT_Kaons->Fit("KaonFit", "RMQ"); 
+  }
+
   Double_t PionFWHM=abs(2.355*(PionFit->GetParameter(2))); Double_t PionFWHMErr = abs(2.355*(PionFit->GetParError(2)));
   Double_t KaonFWHM=abs(2.355*(KaonFit->GetParameter(2))); Double_t KaonFWHMErr = abs(2.355*(KaonFit->GetParError(2)));
   Double_t ProtonFWHM=abs(2.355*(ProtonFit->GetParameter(2))); Double_t ProtonFWHMErr = abs(2.355*(ProtonFit->GetParError(2)));

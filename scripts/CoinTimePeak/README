@@ -148,7 +148,7 @@ Timing_Parameters.csv is just a soft (symbolic) link to a .csv file containing t
 For the physics analysis of production data, accurate prompt/random windows are needed, to get these to be as accurate as possible, a run by run determination of the CTpeak is preferable. Luckily, we just produced all of this above!
 The Paramfile.py script is a short Python script which will construct a new parameter file for use in further physics analysis. It is executed via
 
-Paramfile.py KINEMATICS_LIST OLD_PARAM_FILE
+python3 Paramfile.py KINEMATICS_LIST OLD_PARAM_FILE
 
 KINEMATICS_LIST - This is just a list of all of the kinematics for which we want to make a new param file, again, this is just a text file in OUTPUT where each line is a kinematic/setting, the produced param file will be based upon the
 name of this list, e.g. if we specified TEST_LIST as our Kinematics list we would produce TEST_LIST_TimingParamFile.csv as an output.
