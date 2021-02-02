@@ -19,6 +19,9 @@
 #include <TTree.h>
 #include <TArc.h>
 #include <TCutG.h>
+#include <TH3.h>
+#include <TH2.h>
+#include <TH1.h>
 
 // Input should be the input root file name (including suffix) and an output file name string (without any suffix)
 void Cherenkov_plots(string InFilename = "", string OutFilename = "")
@@ -67,7 +70,7 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
   TString TOutFilename = OutFilename;
   // Establish the names of our output files quickly
   TString foutname = Outpath1+"/" + TOutFilename + ".root";
-  TString foutpdf = Outpath1+"/" + TOutFilename + ".png";
+  TString foutpdf = Outpath1+"/" + TOutFilename + ".pdf";
 
   // Particles information with HGC cuts
   
@@ -100,23 +103,64 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
 
   // Defined Geomatrical cuts
 
-  TCutG *cutg = new TCutG("cutg",11);
-  cutg->SetVarX("P_hgcer_npeSum");
-  cutg->SetVarY("P_aero_npeSum");
-  cutg->SetPoint(0,3,13);
-  cutg->SetPoint(1,4,15);
-  cutg->SetPoint(2,5,15);
-  cutg->SetPoint(3,6,15);
-  cutg->SetPoint(4,7,15);
-  cutg->SetPoint(5,8,13);
-  cutg->SetPoint(6,8,9);
-  cutg->SetPoint(7,7,5);
-  cutg->SetPoint(8,4,5);
-  cutg->SetPoint(9,3,8);
-  cutg->SetPoint(10,3,13);
-  
+  TCutG *cutg = new TCutG("cutg",21);
+  cutg->SetVarX("P_hgcer_yAtCer");
+  cutg->SetVarY("P_hgcer_xAtCer");
+  cutg->SetPoint(0,-25,2);
+  cutg->SetPoint(1,-2,2);
+  cutg->SetPoint(2,-1,2.5);
+  cutg->SetPoint(3,0,3);
+  cutg->SetPoint(4,1,3);
+  cutg->SetPoint(5,2,3.3);
+  cutg->SetPoint(6,3,3.0);
+  cutg->SetPoint(7,4,2.5);
+  cutg->SetPoint(8,5,2);
+  cutg->SetPoint(9,25,2);
+  cutg->SetPoint(10,25,0.5);
+  cutg->SetPoint(11,5,0.5);
+  cutg->SetPoint(12,4,1);
+  cutg->SetPoint(13,3,-1);
+  cutg->SetPoint(14,2,-2);
+  cutg->SetPoint(15,1,-2.3);
+  cutg->SetPoint(16,0,-1.5);
+  cutg->SetPoint(17,-1,-1);
+  cutg->SetPoint(18,-2,0.5);
+  cutg->SetPoint(19,-25,0.5);
+  cutg->SetPoint(20,-25,2);
+
    cutg->SetLineColor(kRed);
   cutg->SetLineWidth(5);
+  // cut for npe
+
+  TCutG *cutg1 = new TCutG("cutg1",21);
+  cutg1->SetVarX("P_hgcer_npeSum");
+  cutg1->SetVarY("P_aero_npeSum");
+  cutg1->SetPoint(0,-10,2);
+  cutg1->SetPoint(1,-2,2);
+  cutg1->SetPoint(2,-1,2.5);
+  cutg1->SetPoint(3,0,3);
+  cutg1->SetPoint(4,1,3);
+  cutg1->SetPoint(5,2,3.3);
+  cutg1->SetPoint(6,3,3.0);
+  cutg1->SetPoint(7,4,2.5);
+  cutg1->SetPoint(8,5,2);
+  cutg1->SetPoint(9,10,2);
+  cutg1->SetPoint(10,10,1);
+  cutg1->SetPoint(11,5,1);
+  cutg1->SetPoint(12,4,1);
+  cutg1->SetPoint(13,3,-1);
+  cutg1->SetPoint(14,2,-2);
+  cutg1->SetPoint(15,1,-2.3);
+  cutg1->SetPoint(16,0,-1.5);
+  cutg1->SetPoint(17,-1,-1);
+  cutg1->SetPoint(18,-2,1);
+  cutg1->SetPoint(19,-10,1);
+  cutg1->SetPoint(20,-10,2);
+
+   cutg1->SetLineColor(kRed);
+  cutg1->SetLineWidth(5);
+
+
   // Set branch address for no cuts
  
   Double_t XAtCer; SHMS_Events->SetBranchAddress("P_hgcer_xAtCer", &XAtCer);
@@ -142,8 +186,42 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
 
  // Set branch address for no cal, hgc and aero cuts
   Double_t P_no_cal_hgc_aero_cuts_hgcer_npeSum; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_hgcer_npeSum", &P_no_cal_hgc_aero_cuts_hgcer_npeSum);
+  Double_t P_no_cal_hgc_aero_cuts_etot; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_cal_etotnorm", &P_no_cal_hgc_aero_cuts_etot);
   Double_t P_no_cal_hgc_aero_cuts_aero_npeSum; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_aero_npeSum", &P_no_cal_hgc_aero_cuts_aero_npeSum);
+  Double_t P_no_cal_hgc_aero_cuts_aero_xAtCer; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_aero_xAtCer", &P_no_cal_hgc_aero_cuts_aero_xAtCer);
+  Double_t P_no_cal_hgc_aero_cuts_aero_yAtCer; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_aero_yAtCer", &P_no_cal_hgc_aero_cuts_aero_yAtCer);
+  Double_t P_no_cal_hgc_aero_cuts_hgcer_xAtCer; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_hgcer_xAtCer", &P_no_cal_hgc_aero_cuts_hgcer_xAtCer);
+  Double_t P_no_cal_hgc_aero_cuts_hgcer_yAtCer; Events_no_cal_hgc_aero_cuts->SetBranchAddress("P_hgcer_yAtCer", &P_no_cal_hgc_aero_cuts_hgcer_yAtCer);
  
+  TCutG *cutg2 = new TCutG("cutg2",21);
+  cutg2->SetVarX("P_no_cal_hgc_aero_cuts_hgcer_yAtCer");
+  cutg2->SetVarY("P_no_cal_hgc_aero_cuts_hgcer_XAtCer");
+  cutg2->SetPoint(0,-25,2);
+  cutg2->SetPoint(1,-2,2);
+  cutg2->SetPoint(2,-1,2.5);
+  cutg2->SetPoint(3,0,3);
+  cutg2->SetPoint(4,1,3);
+  cutg2->SetPoint(5,2,3.3);
+  cutg2->SetPoint(6,3,3.0);
+  cutg2->SetPoint(7,4,2.5);
+  cutg2->SetPoint(8,5,2);
+  cutg2->SetPoint(9,25,2);
+  cutg2->SetPoint(10,25,0.5);
+  cutg2->SetPoint(11,5,0.5);
+  cutg2->SetPoint(12,4,1);
+  cutg2->SetPoint(13,3,-1);
+  cutg2->SetPoint(14,2,-2);
+  cutg2->SetPoint(15,1,-2.3);
+  cutg2->SetPoint(16,0,-1.5);
+  cutg2->SetPoint(17,-1,-1);
+  cutg2->SetPoint(18,-2,0.5);
+  cutg2->SetPoint(19,-25,0.5);
+  cutg2->SetPoint(20,-25,2);
+
+  cutg2->SetLineColor(kRed);
+  cutg2->SetLineWidth(5);
+
+
  
  // Set branch address for Pions with HGC cuts
 
@@ -338,10 +416,15 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     }
 
     TH2D *h2_events_no_cal_hgc_aero_cuts = new TH2D("h2_events_no_cal_hgc_aero_cuts","HGC vs Aero; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 30.0, 300, 0.0, 30.0);
+    TH2D *h2_events_no_cal_aero_cuts = new TH2D("h2_events_no_cal_aero_cuts","Calorimeter VS Aero; P_cal_etotnorm; P_aero_npeSum;", 300, 0.0, 3.0, 300, 0.0, 30.0);
+    TH3D *h3_events_no_cal_aero_cuts = new TH3D("h3_events_no_cal_aero_cuts","Aero; P_aero_xAtCer; P_aero_yAtCer;  P_aero_npeSum;", 300, -50, 50, 300, -50, 50, 300, 0, 30);
     for(Long64_t i = 0; i < nEntries_Events_no_cal_hgc_aero_cuts; i++){
       Events_no_cal_hgc_aero_cuts->GetEntry(i);
       h2_events_no_cal_hgc_aero_cuts->Fill(P_no_cal_hgc_aero_cuts_hgcer_npeSum, P_no_cal_hgc_aero_cuts_aero_npeSum);
-    }
+      h2_events_no_cal_aero_cuts->Fill(P_no_cal_hgc_aero_cuts_etot, P_no_cal_hgc_aero_cuts_aero_npeSum);
+      h3_events_no_cal_aero_cuts->Fill(P_no_cal_hgc_aero_cuts_aero_xAtCer, P_no_cal_hgc_aero_cuts_aero_yAtCer, P_no_cal_hgc_aero_cuts_aero_npeSum);   
+
+ }
 
 
 
@@ -365,17 +448,20 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     TH1D *h1_Pions_aero_npeSum = new TH1D("h1_Pions_aero_npeSum","Aero; P_aero_npeSum; Events;", 300, 0.0, 40);
 
      //2-D Histograms
+    TH3D *h3_Pions_XYAtCer_NPE = new TH3D("h3_Pions_XYAtCer_NPE","HGC; P_hgcer_xAtCer; P_hgcer_yAtCer; P_hgcer_npeSum", 300, -40, 40, 300, -40, 40, 300, 0.0, 30);
     TH2D *h2_Pions_XYAtCer = new TH2D("h2_Pions_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40);
     TH2D *h2_Pions_Cal_Showers = new TH2D("h2_Pions_Cal_Showers","Calorimeter; P_cal_fly_earray; P_cal_pr_eplane;", 250, 0.0, 0.8, 250, 0.0, 0.7);
     TH2D *h2_Pions_XYgtr = new TH2D("h2_Pions_XYgtr","HGC; P_gtr_x ; P_gtr_y;", 250, -0.5, 0.8, 250, -2.5, 2.5);
+    TH2D *h2_Pions_npeSum = new TH2D("h2_Pions_npeSum","HGC vs Aero; P_hgcer_npeSum ; P_aero_Sum;", 300, 0, 40, 300, 0, 40);
   
     for(Long64_t i = 0; i < nEntries_Pions; i++){
       Pions->GetEntry(i);
       //2-D Histograms
-      h2_Pions_XYAtCer->Fill(Pions_YAtCer, Pions_XAtCer);
+      h3_Pions_XYAtCer_NPE->Fill(Pions_XAtCer, Pions_YAtCer, Pions_SHMS_hgcer_npeSum);
       h2_Pions_Cal_Showers->Fill(Pions_Cal_Shower/Pions_gtr_p, Pions_Cal_Pr_Shower/Pions_gtr_p);
       h2_Pions_XYgtr->Fill(Pions_SHMS_gtr_x, Pions_SHMS_gtr_y);
-
+      h2_Pions_XYAtCer->Fill(Pions_YAtCer, Pions_XAtCer);
+      h2_Pions_npeSum->Fill(Pions_SHMS_hgcer_npeSum, Pions_SHMS_aero_npeSum);
       // 1-D Histograms
       h1_Pions_hgcer_npeSum->Fill(Pions_SHMS_hgcer_npeSum);
       h1_Pions_aero_npeSum->Fill(Pions_SHMS_aero_npeSum);     
@@ -495,6 +581,7 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     TH1D *h1_Pi_aero_npeSum = new TH1D("h1_Pi_aero_npeSum","Aero; P_aero_npeSum; Events;", 300, 0.0, 40);
 
      //2-D Histograms
+    TH3D *h3_Pi_XYAtCer_NPE = new TH3D("h3_Pi_XYAtCer_NPE","HGC; P_hgcer_xAtCer; P_hgcer_yAtCer; P_hgcer_npeSum", 300, -40, 40, 300, -40, 40, 300, 0.0, 30);    
     TH2D *h2_Pi_XYAtCer = new TH2D("h2_Pi_XYAtCer","HGC; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40);
     TH2D *h2_Pi_Cal_Showers = new TH2D("h2_Pi_Cal_Showers","Calorimeter; P_cal_fly_earray; P_cal_pr_eplane;", 250, 0.0, 0.8, 250, 0.0, 0.7);
     TH2D *h2_Pi_XYgtr = new TH2D("h2_Pi_XYgtr","HGC; P_gtr_x ; P_gtr_y;", 250, -0.5, 0.8, 250, -2.5, 2.5);
@@ -502,10 +589,10 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     for(Long64_t i = 0; i < nEntries_Pions_No_HGC_Cuts; i++){
       Pions_No_HGC_Cuts->GetEntry(i);
       //2-D Histograms
-      h2_Pi_XYAtCer->Fill(Pions_No_HGC_Cuts_YAtCer, Pions_No_HGC_Cuts_XAtCer);
+      h3_Pi_XYAtCer_NPE->Fill(Pions_No_HGC_Cuts_XAtCer, Pions_No_HGC_Cuts_YAtCer,  Pions_No_HGC_Cuts_SHMS_hgcer_npeSum);
       h2_Pi_Cal_Showers->Fill(Pions_No_HGC_Cuts_Cal_Shower/Pions_No_HGC_Cuts_gtr_p, Pions_No_HGC_Cuts_Cal_Pr_Shower/Pions_No_HGC_Cuts_gtr_p);
       h2_Pi_XYgtr->Fill(Pions_No_HGC_Cuts_SHMS_gtr_x, Pions_No_HGC_Cuts_SHMS_gtr_y);
-
+      h2_Pi_XYAtCer->Fill(Pions_No_HGC_Cuts_YAtCer, Pions_No_HGC_Cuts_XAtCer);
       // 1-D Histograms
       h1_Pi_hgcer_npeSum->Fill(Pions_No_HGC_Cuts_SHMS_hgcer_npeSum);
       h1_Pi_aero_npeSum->Fill(Pions_No_HGC_Cuts_SHMS_aero_npeSum);     
@@ -600,26 +687,69 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
       h1_Protons_No_HGC_Cuts_hgcer_npeSum->Fill(Kaons_No_HGC_Cuts_SHMS_hgcer_npeSum);
 
     }
-
-
-    TCanvas *c_CT = new TCanvas("c_CT", "HGC vs Aero (with TCutG)");  
-    c_CT->Divide(2);   
+    TH2D *h = new TH2D("h","XY gtr; X gtr ; Y gtr;", 300, 0.0, 30.0, 300, 0, 30);
+    for(Long64_t i = 0; i < nEntries_Events_no_cal_hgc_aero_cuts; i++){
+      Events_no_cal_hgc_aero_cuts->GetEntry(i);
+      if (!cutg2->IsInside(P_no_cal_hgc_aero_cuts_hgcer_yAtCer, P_no_cal_hgc_aero_cuts_hgcer_xAtCer)) continue;
+      h->Fill(P_no_cal_hgc_aero_cuts_hgcer_npeSum, P_no_cal_hgc_aero_cuts_aero_npeSum);
+    }
+      
+    TCanvas *c_CT = new TCanvas("c_CT", "HGC (with TCutG)");  
+    c_CT->Divide(2,2);   
     c_CT->cd(1);
-    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum:P_aero_npeSum>>h1(300,0,30,300,0,30)", "cutg",  "colz");
+    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum:P_aero_npeSum>>h1(300,0.0,30,300,0,30)", "cutg",  "col");
     //c_CT->Print(foutpdf);
     // c_CT->SaveAs("hgc_aer_TCutG.png");
     c_CT->cd(2);
-    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum:P_aero_npeSum>>h2(300,0,30,300,0,30)", "!cutg",  "colz"); 
-    
+    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum>>h2(300,0.3,30)", "cutg",  "col");
+    //c_CT->Print(foutpdf);
+    c_CT->cd(3);
+    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum:P_aero_npeSum>>h3(300,0,30, 300, 0, 30)", "!cutg",  "colz"); 
+    // c_CT->Print(foutpdf);
+    c_CT->cd(4);
+    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum>>h4(300,0.3,30)", "!cutg",  "colz"); 
+    c_CT->Print(foutpdf + '(');
+
+    TCanvas *c = new TCanvas("c", "Aero (with TCutG)");  
+    c->Divide(2,2);   
+    c->cd(1);
+    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum:P_aero_npeSum>>h1(300,0.0,30,300,0,30)", "cutg",  "colz");
+    c->cd(2);
+    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum>>h2(300,0.3,30)", "cutg",  "colz");
+    c->cd(3);
+    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum:P_aero_npeSum>>h3(300,0,30, 300, 0, 30)", "!cutg",  "colz"); 
+    c->cd(4);
+    Events_no_cal_hgc_aero_cuts->Draw("P_hgcer_npeSum>>h4(300,0.3,30)", "!cutg",  "colz"); 
+    c->Print(foutpdf + ')');
+
+
+    //  TProfile2D h3_Pions_XYAtCer_NPE = Project3DProfile("xy") 
     TFile *OutHisto_file = new TFile(foutname,"RECREATE");
     TDirectory *Pions_info = OutHisto_file->mkdir("Pions_info");
-
     Pions_info->cd();
+
+    // TH3D *Pions_XYAtCer_NPE;
+    // Pions_XYAtCer_NPE = dynamic_cast<TH3D*> (GetOutputList()->FindObject("h3_Pions_XYAtCer_NPE"));
+    TProfile2D *h3_Pions_XYAtCer_NPE_pxy = new TProfile2D("h3_Pions_XYAtCer_NPE_pxy","NPE vs X vs Y; X ; Y ",300,-40,40, 300,-40,40,0.0,40);
+    h3_Pions_XYAtCer_NPE->Project3DProfile("xy");
+    
+    TProfile2D *h3_Pi_XYAtCer_NPE_pxy = new TProfile2D("h3_Pi_XYAtCer_NPE_pxy","NPE vs X vs Y; X ; Y ",300,-40,40, 300,-40,40,0.0,40);
+    h3_Pi_XYAtCer_NPE->Project3DProfile("xy");
+   
+    TProfile2D *h3_events_no_cal_aero_cuts_pxy = new TProfile2D("h3_events_no_cal_aero_cuts_pxy","NPE vs X vs Y; X ; Y ",300,-50,50, 300,-50,50,0.0,30);
+    h3_events_no_cal_aero_cuts->Project3DProfile("xy");
+
     //2-D Histograms
-    h2_Pions_XYAtCer->Write();
+    h3_Pions_XYAtCer_NPE_pxy->GetListOfFunctions()->Add(cutg,"L"); 
+    h3_Pions_XYAtCer_NPE_pxy->Write();
+    //Pions_XYAtCer_NPE->Write();
+    // h3_Pions_XYAtCer_NPE->Write();
     h2_Pions_Cal_Showers->Write();
     h2_Pions_XYgtr->Write();
-
+    h2_Pions_XYAtCer->GetListOfFunctions()->Add(cutg,"L"); 
+    h2_Pions_XYAtCer->Write();
+    //    h2_Pions_npeSum->GetListOfFunctions()->Add(cutg1,"L");
+    h2_Pions_npeSum->Write();
     //1-D Histograms
     h1_Pions_hgcer_npeSum->Write();
     h1_Pions_aero_npeSum->Write();   
@@ -684,10 +814,12 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
     Pions_No_HGC_Cuts_info->cd();
 
     //2-D Histograms
-    h2_Pi_XYAtCer->Write();
+    h3_Pi_XYAtCer_NPE_pxy->GetListOfFunctions()->Add(cutg,"L");       
+    h3_Pi_XYAtCer_NPE_pxy->Write();
     h2_Pi_Cal_Showers->Write();
     h2_Pi_XYgtr->Write();
-
+    h2_Pi_XYAtCer->GetListOfFunctions()->Add(cutg,"L"); 
+    h2_Pi_XYAtCer->Write();
     //1-D Histograms
     h1_Pi_hgcer_npeSum->Write();
     h1_Pi_aero_npeSum->Write();   
@@ -773,13 +905,16 @@ void Cherenkov_plots(string InFilename = "", string OutFilename = "")
      
     h1_aero_npeSum->Write();
 
-    TDirectory *SHMS_Events_No_Cal_Cuts = OutHisto_file->mkdir("SHMS_Events_No_Cal_Cuts");
-    SHMS_Events_No_Cal_Cuts->cd();
+    TDirectory *SHMS_Events_No_Cal_HGC_Aero_Cuts = OutHisto_file->mkdir("SHMS_Events_No_Cal_HGC_Aero_Cuts");
+    SHMS_Events_No_Cal_HGC_Aero_Cuts->cd();
      
     h1_cal_etot->Write();
     h2_events_no_cal_hgc_cuts->Write();
-    h2_events_no_cal_hgc_aero_cuts->GetListOfFunctions()->Add(cutg,"L"); 
-    h2_events_no_cal_hgc_aero_cuts->Write();
+    // h2_events_no_cal_hgc_aero_cuts->GetListOfFunctions()->Add(cutg,"L"); 
+    //h2_events_no_cal_hgc_aero_cuts->Write();
+    h2_events_no_cal_aero_cuts->Write();
+    h3_events_no_cal_aero_cuts_pxy->Write();
+    h->Write(); 
     OutHisto_file->Close();
 
     /* TCanvas *c_CT = new TCanvas("c_CT", "HGC vs Aero (with TCutG)");  

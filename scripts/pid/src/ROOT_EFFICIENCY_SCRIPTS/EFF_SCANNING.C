@@ -131,18 +131,19 @@ void EFF_SCANNING(string InFilename = "", string OutFilename = "")
 
   // Take Efficiency scanning 
   h1_Eff_Del3 = (TH1D*)h1_Eff_Del2->Clone();
+  h1_Eff_Del3->Sumw2();
   h1_Eff_Del3->Divide(h1_Eff_Del1);
-  h1_Eff_Del3->GetYaxis()->SetRangeUser(0.8,1.02);
+  h1_Eff_Del3->GetYaxis()->SetRangeUser(0.0,2.0);
 
   //Efficieny vs xAtCer plot  
-
-  TH1D *h1_Eff1_xAtCer    = new TH1D("h1_Eff1_xAtCer","xAtCer vs Efficiency; xAtCer; Efficiency (%);", 300, -40, 40.0); 
-  TH1D *h1_Eff2_xAtCer    = new TH1D("h1_Eff2_xAtCer","xAtCer vs Efficiecny; xAtCer; Efficiency (%);", 300, -40, 40.0); 
-  TH1D *h1_Eff3_xAtCer    = new TH1D("h1_Eff3_xAtCer","xAtCer vs Efficiecny; xAtCer; Efficiency (%);", 300, -40, 40.0); 
+  
+  TH1D *h1_Eff1_xAtCer    = new TH1D("h1_Eff1_xAtCer","xAtCer vs Efficiency; xAtCer; Efficiency (%);", 200, -40, 40.0); 
+  TH1D *h1_Eff2_xAtCer    = new TH1D("h1_Eff2_xAtCer","xAtCer vs Efficiency; xAtCer; Efficiency (%);", 200, -40, 40.0); 
+  TH1D *h1_Eff3_xAtCer    = new TH1D("h1_Eff3_xAtCer","xAtCer vs Efficiecny; xAtCer; Efficiency (%);", 200, -40, 40.0); 
  
   //Fill entries for efficiency scanning
 
-    for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
+  for(Long64_t i = 0; i < nEntries_Pion_No_HGC_Cut; i++){
     Pion_No_HGC_Cut->GetEntry(i);
     if(Pion_npeSum < 0.1 || Pion_aero_npeSum <1.0 || P_aero_yAtCer >31) continue;
     h1_Eff1_xAtCer->Fill(P_hgcer_xAtCer);
@@ -156,11 +157,13 @@ void EFF_SCANNING(string InFilename = "", string OutFilename = "")
 
   // Take Efficiency scanning 
   h1_Eff3_xAtCer = (TH1D*)h1_Eff2_xAtCer->Clone();
+  h1_Eff3_xAtCer->Sumw2();
   h1_Eff3_xAtCer->Divide(h1_Eff1_xAtCer);
-  h1_Eff3_xAtCer->GetYaxis()->SetRangeUser(0.5,1.02);
-  
+  Double_t error = h1_Eff3_xAtCer->GetBinError(80);
+  cout<<"error" <<error<<endl;
+  //h1_Eff3_xAtCer->GetYaxis()->SetRangeUser(0.5,1.02);
+  //  h1_Eff3_xAtCer->Draw("E");
   //Write the info in the root format
-
   TFile *OutHisto_file = new TFile(foutname,"RECREATE");
   TDirectory *EFF_SCA = OutHisto_file->mkdir("EFF_SCA");
   EFF_SCA->cd();

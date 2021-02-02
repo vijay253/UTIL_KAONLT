@@ -66,8 +66,12 @@ P_aero_npeSum                   = e_tree.array("P.aero.npeSum")
 P_hgcer_npeSum                  = e_tree.array("P.hgcer.npeSum")
 P_hgcer_xAtCer                  = e_tree.array("P.hgcer.xAtCer")
 P_hgcer_yAtCer                  = e_tree.array("P.hgcer.yAtCer")
+P_aero_xAtCer                   = e_tree.array("P.aero.xAtAero")
+P_aero_yAtCer                   = e_tree.array("P.aero.yAtAero")
 P_gtr_x                         = e_tree.array("P.gtr.x")
 P_gtr_y                         = e_tree.array("P.gtr.y")
+emiss                           = e_tree.array("P.kin.secondary.emiss") 
+pmiss                           = e_tree.array("P.kin.secondary.pmiss")
 
 r = klt.pyRoot()
 # Specify the file which contains the cuts we want to use
@@ -128,8 +132,8 @@ c = klt.pyPlot(cutDict)
 # Define a function to return a dictionary of the events we want
 # Arrays we generate in our dict should all be of the same length (in terms of # elements in the array) to keep things simple
 def SHMS_events(): 
-    NoCut_Events_SHMS = [CTime_eKCoinTime_ROC1, CTime_ePiCoinTime_ROC1, CTime_epCoinTime_ROC1, H_cal_etotnorm, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer, P_cal_fly_earray, P_cal_pr_eplane, P_gtr_x, P_gtr_y]
-    SHMS_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*NoCut_Events_SHMS)]
+    NoCut_Events_SHMS = [CTime_eKCoinTime_ROC1, CTime_ePiCoinTime_ROC1, CTime_epCoinTime_ROC1, H_cal_etotnorm, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer,  P_aero_xAtCer, P_aero_yAtCer, P_cal_fly_earray, P_cal_pr_eplane, P_gtr_x, P_gtr_y, emiss, pmiss]
+    SHMS_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*NoCut_Events_SHMS)]
 
     # Create (currently empty) arrays of our SHMS events for Cut1 and Cut2, we also have a temp array of our uncut data
     Cut_Events_SHMS_tmp = NoCut_Events_SHMS
@@ -163,18 +167,18 @@ def SHMS_events():
 
         
         # Again, strictly force this to be an array and NOT a list
-    Pion_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Pion_Cut_wHGC_Events)]
-    Pion_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Pion_Cut_noHGC_Events)]
-    Positron_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Positron_Cut_wHGC_Events)]
-    Positron_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Positron_Cut_noHGC_Events)]
-    Pion_Aero_Cut_noAero_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Pion_Aero_Cut_noAero_Events)]
-    Pion_Cal_Cut_noCal_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Pion_Cal_Cut_noCal_Events)]
-    Kaon_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Kaon_Cut_wHGC_Events)]
-    Kaon_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*Kaon_Cut_noHGC_Events)]
-    P_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*P_Cut_wHGC_Events)]
-    P_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*P_Cut_noHGC_Events)]
-    P_Cut_no_Cal_HGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*P_Cut_no_Cal_HGC_Events)]
-    P_Cut_no_Cal_HGC_Aero_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Pfly, Ppr, Pxtr, Pytr) in zip(*P_Cut_no_Cal_HGC_Aero_Events)]
+    Pion_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*Pion_Cut_wHGC_Events)]
+    Pion_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*Pion_Cut_noHGC_Events)]
+    Positron_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*Positron_Cut_wHGC_Events)]
+    Positron_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*Positron_Cut_noHGC_Events)]
+    Pion_Aero_Cut_noAero_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*Pion_Aero_Cut_noAero_Events)]
+    Pion_Cal_Cut_noCal_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*Pion_Cal_Cut_noCal_Events)]
+    Kaon_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*Kaon_Cut_wHGC_Events)]
+    Kaon_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*Kaon_Cut_noHGC_Events)]
+    P_Cut_wHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*P_Cut_wHGC_Events)]
+    P_Cut_noHGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*P_Cut_noHGC_Events)]
+    P_Cut_no_Cal_HGC_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*P_Cut_no_Cal_HGC_Events)]
+    P_Cut_no_Cal_HGC_Aero_Events_Info = [(CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*P_Cut_no_Cal_HGC_Aero_Events)]
     SHMS_Events = {
         "SHMS_Events": SHMS_Events_Info,
         "SHMS_Pions": Pion_Cut_wHGC_Events_Info,
@@ -200,7 +204,7 @@ def main():
     # This is just the list of branches we use from the initial root file for each dict
     # They're the "headers" of the data frame we create - i.e. they're going to be the branches in our new root file
     # Note - I don't like re-defining this here as it's very prone to errors if you included (or removed something) earlier but didn't modify it here
-    SHMS_Data_Header = ["CTime_eKCoinTime_ROC1","CTime_ePiCoinTime_ROC1","CTime_epCoinTime_ROC1","H_cal_etotnorm", "P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm", "P_aero_npeSum", "P_hgcer_npeSum", "P_hgcer_xAtCer", "P_hgcer_yAtCer", "P_cal_fly_earray", "P_cal_pr_eplane", "P_gtr_x", "P_gtr_y"]
+    SHMS_Data_Header = ["CTime_eKCoinTime_ROC1","CTime_ePiCoinTime_ROC1","CTime_epCoinTime_ROC1","H_cal_etotnorm", "P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm", "P_aero_npeSum", "P_hgcer_npeSum", "P_hgcer_xAtCer", "P_hgcer_yAtCer", "P_aero_xAtCer", "P_aero_yAtCer","P_cal_fly_earray", "P_cal_pr_eplane", "P_gtr_x", "P_gtr_y", "emiss", "pmiss"]
     data = {} # Create an empty dictionary
 
     d = SHMS_Events_Data  

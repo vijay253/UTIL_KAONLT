@@ -70,12 +70,6 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   TString foutname = Outpath1+"/" + TOutFilename + ".root";
   TString foutpdf = Outpath1+"/" + TOutFilename + ".pdf";
 
-  // Defined masses of particles for the calcualtions of massing masses
-  //................................................................... 
-  Double_t Mp    = 0.93828; 
-  Double_t MPi   = 0.13957018;
-  Double_t MK    = 0.493677;
-  //...................................................................
   // Particles information with acceptnce cuts ONLY... 
   
   TTree* SHMS_EVENTS  = (TTree*)InFile->Get("SHMS_cut_no_Cal_HGC_Aero"); Long64_t nEntries_SHMS_EVENTS  = (Long64_t)SHMS_EVENTS->GetEntries();
@@ -147,6 +141,38 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   cutg2->SetPoint(18,-25,2);
   cutg2->SetLineColor(kRed);
   cutg2->SetLineWidth(5);
+
+  // Defined Geometrical Cuts3
+  TCutG *cutg3 = new TCutG("cutg3",25);
+  cutg3->SetVarX("P_hgcer_yAtCer");
+  cutg3->SetVarY("P_hgcer_xAtCer");
+  cutg3->SetPoint(0,-25,2);
+  cutg3->SetPoint(1,-8,2);
+  cutg3->SetPoint(2,-6,2);
+  cutg3->SetPoint(3,-4,2);
+  cutg3->SetPoint(4,-2,3);
+  cutg3->SetPoint(5,0,4);
+  cutg3->SetPoint(6,2,9);
+  cutg3->SetPoint(7,4,7);
+  cutg3->SetPoint(8,6,5);
+  cutg3->SetPoint(9,8,5);
+  cutg3->SetPoint(10,10,2);
+  cutg3->SetPoint(11,25,2);
+  cutg3->SetPoint(12,25,-1);
+  cutg3->SetPoint(13,10,-1);
+  cutg3->SetPoint(14,8,-1);
+  cutg3->SetPoint(15,6,-1);
+  cutg3->SetPoint(16,4,-1);
+  cutg3->SetPoint(17,2,-4);
+  cutg3->SetPoint(18,1,-4.70);
+  cutg3->SetPoint(19,0,-4);
+  cutg3->SetPoint(20,-2,-1);
+  cutg3->SetPoint(21,-4,-1);
+  cutg3->SetPoint(22,-6,-1);
+  cutg3->SetPoint(23,-25,-1);
+  cutg3->SetPoint(24,-25,2);
+  cutg3->SetLineColor(kRed);
+  cutg3->SetLineWidth(5);
   
   TH2D *h2_XYAtCer                     = new TH2D("h2_XYAtCer","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
   TH2D *h2_XYAtCer2                    = new TH2D("h2_XYAtCer2","HGC, P_hgcer_npeSum => 5.0; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
@@ -154,6 +180,7 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   TH3D *h3_aero_XYAtCer_nocut_npeSum   = new TH3D("h3_aero_XYAtCer_nocut_npeSum","Aero; P_aero_yAtAero; P_aero_xAtAero; P_aero_npeSum", 300, -50, 50, 300, -50, 50, 300, 0, 30);
   TH3D *h3_XYAtCer_npeSum              = new TH3D("h3_XYAtCer_npeSum","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
   TH3D *h3_XYAtCer_npeSum2             = new TH3D("h3_XYAtCer_npeSum2","HGC, P_hgcer_npeSum => 5.0; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
+  TH3D *h3_XYAtCer_npeSum3             = new TH3D("h3_XYAtCer_npeSum3","HGC, P_hgcer_npeSum => 7.0; P_hgcer_yAtCer; P_hgcer_xAtCer; P_hgcer_npeSum;", 300, -40, 40, 300, -40, 40, 300, 0, 30);
   TH2D *h2_npeSum                      = new TH2D("h2_npeSum","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
   TH2D *h2_npeSum_TCutG1_IN            = new TH2D("h2_npeSum_TCutG1_IN","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
   TH2D *h2_npeSum_TCutG1_OUT           = new TH2D("h2_npeSum_TCutG1_OUT","HGC; P_hgcer_npeSum; P_aero_npeSum;", 300, 0.0, 40, 300, 0.0, 30);
@@ -180,16 +207,20 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 1.5) continue; 
-    if (P_aero_yAtCer > 31) continue;
+    if(P_hgcer_npeSum < 1.5 || P_aero_yAtCer > 31) continue;
     h3_XYAtCer_npeSum->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 5) continue; 
-    if (P_aero_yAtCer > 31) continue;
+    if(P_hgcer_npeSum < 5 || P_aero_yAtCer > 31) continue;
     h3_XYAtCer_npeSum2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
+  }
+
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
+    SHMS_EVENTS->GetEntry(i);
+    if(P_hgcer_npeSum < 7 || P_aero_yAtCer > 31) continue;
+    h3_XYAtCer_npeSum3->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
   //Fill entry for Aero
@@ -214,6 +245,8 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
 
   TProfile2D *h3_XYAtCer_npeSum2_pyx = new TProfile2D("h3_XYAtCer_npeSum2_pyx","HGC, P_hgcer_npeSum => 5.0; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
   h3_XYAtCer_npeSum2->Project3DProfile("yx");
+  TProfile2D *h3_XYAtCer_npeSum3_pyx = new TProfile2D("h3_XYAtCer_npeSum3_pyx","HGC, P_hgcer_npeSum => 7.0; P_hgcer_yAtCer; P_hgcer_xAtCer ",300,-40,40, 300,-40,40, 0, 30);
+  h3_XYAtCer_npeSum3->Project3DProfile("yx");
 
   //Fill NPE entry inside the TCutG1      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
@@ -280,6 +313,8 @@ void HGC_TCutG(string InFilename = "", string OutFilename = "")
   h3_XYAtCer_npeSum_pyx->Write();
   h3_XYAtCer_npeSum2_pyx->GetListOfFunctions()->Add(cutg2,"L"); 
   h3_XYAtCer_npeSum2_pyx->Write();
+  h3_XYAtCer_npeSum3_pyx->GetListOfFunctions()->Add(cutg3,"L"); 
+  h3_XYAtCer_npeSum3_pyx->Write();  
   h2_npeSum_TCutG1_IN->Write();
   h2_npeSum_TCutG1_OUT->Write();
   h2_npeSum_TCutG2_IN->Write();
