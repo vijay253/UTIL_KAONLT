@@ -63,29 +63,27 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   if (gSystem->AccessPathName(rootFile) == kTRUE){
     cerr << "!!!!! ERROR !!!!! " << endl << rootFile <<  " not found" << endl <<  "!!!!! ERRROR !!!!!" << endl;
     exit;
-  }
+    }
   TFile *InFile = new TFile(rootFile, "READ");
   TString TOutFilename = OutFilename;
   // Establish the names of our output files quickly
   TString foutname = Outpath1+"/" + TOutFilename + ".root";
   TString fouttxt  = Outpath1+"/" + TOutFilename + ".txt";
   TString foutpdf = Outpath1+"/" + TOutFilename + ".pdf";
-
-
+  
+  
   
 //#################################################################### 
-
+  
   Double_t Mp    = 0.93828;      // Mass of Proton
   Double_t MPi   = 0.13957018;  // Mass of Pion
   Double_t MK    = 0.493677;   // Mass of Kaon
-
-//#################################################################### 
-
-
-
-  // Particles information with acceptnce cuts ONLY... 
   
-  TTree* SHMS_EVENTS  = (TTree*)InFile->Get("SHMS_Events_wCuts"); Long64_t nEntries_SHMS_EVENTS  = (Long64_t)SHMS_EVENTS->GetEntries();
+  //#################################################################### 
+  
+  // Particles information with acceptnce cuts ONLY...
+  
+  TTree* SHMS_EVENTS  = (TTree*)InFile->Get("SHMS_Events_wCuts"); Long64_t nEntries_SHMS_EVENTS  = (Long64_t)SHMS_EVENTS->GetEntries();   // InFile
 
   Double_t P_hgcer_npeSum;SHMS_EVENTS->SetBranchAddress("P_hgcer_npeSum", &P_hgcer_npeSum);
   Double_t P_aero_npeSum; SHMS_EVENTS->SetBranchAddress("P_aero_npeSum", &P_aero_npeSum);
@@ -722,7 +720,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     h1_CTime_ePion_OUT_TCutG3->Fill(P_CTime_ePion);
     coin_Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_CTime_ePion);
     coin_Pi_beta_OUT_TCutG3->Fill(P_CTime_ePion, P_gtr_beta); 
-    
+    // h1_RF_tdc_Time_OUT_TCutG3->Fill(P_RF_time);     	
+ 
+   
   }  
   
   Double_t pi_scale;
@@ -815,7 +815,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     h1_CTime_eKaon_OUT_TCutG3->Fill(P_CTime_eKaon);
     coin_K_mm_OUT_TCutG3->Fill(P_CTime_eKaon, sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
     coin_K_beta_OUT_TCutG3->Fill(P_CTime_eKaon, P_gtr_beta);
-    
+    // h1_RF_tdc_TimeK_OUT_TCutG3->Fill(P_RF_time);             
   }
   Double_t K_scale;
   K_scale = 1.0/6.0;
@@ -846,14 +846,14 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   NoKaonEvt->Draw("same"); 
   c1->Print(foutpdf);
   */
-  TCanvas *c1;
+  /* TCanvas *c1;
   c1 = new TCanvas("c1", " Kaon missing mass", 700, 500);
   K_mm_norandom_OUT_TCutG3->Draw("HIST SAME C 9");  // 9 is used for high resolution plot
   K_mm_norandom_OUT_TCutG3->SetStats(0);
   //  K_mm_norandom_OUT_TCutG3->SetFillColor(kRed);
   // c1->SaveAs("pi_mm.png");  // This will save in python output directory 
   c1->Print(foutpdf);
-
+  */
  
   // For Proton
 
@@ -914,7 +914,8 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     h1_CTime_eProton_OUT_TCutG3->Fill(P_CTime_eProton);
     coin_P_mm_OUT_TCutG3->Fill(P_CTime_eProton, sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))); 
     coin_P_beta_OUT_TCutG3->Fill(P_CTime_eProton, P_gtr_beta);
-    
+    //  h1_RF_tdc_TimeP_OUT_TCutG3->Fill(P_RF_time);
+  
   }
 
   Double_t P_scale;
