@@ -39,6 +39,7 @@ void chain_files(string RunPrefix = "", Int_t NumEvents = 0, Int_t nRuns = 0, In
       cout << "\nNumber of Events to analyze for all runs: ";
       cin >> NumEvents;
     }
+  
   if(nRuns == 0)
     {
       cout << "Enter the number of runs to chain (1 to 10): ";
@@ -146,7 +147,7 @@ void chain_files(string RunPrefix = "", Int_t NumEvents = 0, Int_t nRuns = 0, In
   // Change or add your own paths as needed!
   if(Hostname.Contains("farm"))
     { 
-      Rootpath = "/group/c-kaonlt/USERS/"+User+"/hallc_replay_lt/ROOTfilesMKJTest/";
+      Rootpath = "/group/c-kaonlt/USERS/"+User+"/hallc_replay_lt/UTIL_KAONLT/scripts/pid/src/PYTHON_EFFICIENCY_SCRIPTS/OUTPUT/";  // path for the root files
     }
   else if(Hostname.Contains("qcd"))
     {
@@ -242,8 +243,8 @@ void chain_files(string RunPrefix = "", Int_t NumEvents = 0, Int_t nRuns = 0, In
 		  return; 
 		}
 	    }
-    
-  TChain ch("T");
+  // start chaining process
+  TChain ch("SHMS_Events_wCuts");
   ch.Add(rootFileNameString1);
   if(nRuns >1)
     {
@@ -287,53 +288,55 @@ void chain_files(string RunPrefix = "", Int_t NumEvents = 0, Int_t nRuns = 0, In
       ch.Add(rootFileNameString10);
     }  
  
-  TProof *proof = TProof::Open("workers=4");
+   TProof *proof = TProof::Open("workers=4");
   TString option;
   if (nRuns==1)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber1);
+      option = Form("%i_%i", RunNumber1, RunNumber1);
     }
   else if (nRuns == 2)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber2);
+      option = Form("%i_%i", RunNumber1, RunNumber2);
     }
   else if (nRuns == 3)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber3);
+      option = Form("%i_%i", RunNumber1, RunNumber3);
     }
   else if (nRuns == 4)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber4);
+      option = Form("%i_%i", RunNumber1, RunNumber4);
     }
   else if (nRuns == 5)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber5);
+      option = Form("%i_%i", RunNumber1, RunNumber5);
     }
   else if (nRuns == 6)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber6);
+      option = Form("%i_%i", RunNumber1, RunNumber6);
     }
   else if (nRuns == 7)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber7);
+      option = Form("%i_%i", RunNumber1, RunNumber7);
     }
   else if (nRuns == 8)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber8);
+      option = Form("%i_%i", RunNumber1, RunNumber8);
     }
   else if (nRuns == 9)
     {
-      option = Form("%i,%i", RunNumber1, RunNumber9);
+      option = Form("%i_%i", RunNumber1, RunNumber9);
     }
   else if (nRuns == 10)
     {
-    option = Form("%i,%i", RunNumber1, RunNumber10);
+    option = Form("%i_%i", RunNumber1, RunNumber10);
     }
+  
+  // proof->SetProgressDialog(0);  
+  // ch.SetProof();
+  // Save the output root file
+  TString PID_;
+  TString foutname = Rootpath+"/" + "PID_" + option + ".root";   
+  ch.Merge(foutname);
 
-
-  proof->SetProgressDialog(0);  
-  ch.SetProof();
-  //Start calibration process
-  ch.Process("calibration.C",option);
-
+  // ch.Process("SHMS_pid.C");  //(\"pid_${RUNNUMBER}_${MAXEVENTS}.root\", \"pid_out_${RUNNUMBER}_${MAXEVENTS}\") 
 }
