@@ -1,14 +1,12 @@
-// Vijay Kumar, Univerity of Regina - 24/07/20
+// ............. CODE TO CHAIN THE ROOT FILES................
+// Vijay Kumar, UofR, Regina, Canada
+// Feb 6 2021
 // vijay36361@gmail.com
 
 #include <TProof.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-// ............. CODE TO CHAIN THE ROOT FILES................
-// AUTHOR: Vijay
-// Created Dated: Feb 6 2021
-
 #include <stdio.h>
 
 void chain_files()
