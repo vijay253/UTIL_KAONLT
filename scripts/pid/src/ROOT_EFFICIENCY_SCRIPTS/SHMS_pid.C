@@ -801,7 +801,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
     if(P_hgcer_npeSum > 0.5 || P_aero_npeSum < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
-    if(P_CTime_ePion > 42.0 && P_CTime_ePion < 46.0)  // select promt peak
+    if(P_CTime_ePion > 42.0 && P_CTime_ePion < 46.0)  // select promt peak 
      { 
        K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
        h1_RF_tdc_TimeK_OUT_TCutG3->Fill(P_RF_time);      
