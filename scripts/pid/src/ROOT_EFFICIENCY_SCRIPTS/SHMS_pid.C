@@ -102,8 +102,6 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   Double_t P_CTime_eProton;SHMS_EVENTS->SetBranchAddress("CTime_epCoinTime_ROC1",&P_CTime_eProton);
   Double_t P_RF_time;SHMS_EVENTS->SetBranchAddress("RF_time", &P_RF_time);
 
-  //  Double_t K_mm = sqrt(abs(e_miss*e_miss - p_miss*p_miss));
-
   // ######################### First set of Geometrical Cuts #################### 
   TCutG *cutg1 = new TCutG("cutg1",21);
   cutg1->SetVarX("P_hgcer_yAtCer");
@@ -129,11 +127,12 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   cutg3->SetPoint(5,20,3);  cutg3->SetPoint(6,20,1.70);  cutg3->SetPoint(7,6,1.70);  cutg3->SetPoint(8,3.75,0);  cutg3->SetPoint(9,2,-2.1);  cutg3->SetPoint(10,-1,0);  cutg3->SetPoint(11,-3,1.70);
   cutg3->SetPoint(12,-20,1.70);  cutg3->SetPoint(13,-20,3);  cutg3->SetLineColor(kRed);  cutg3->SetLineWidth(3);
 
+  // ######################### Geometrical Cuts for selecting Pion  #################### 
+  TCutG *Pion_cutg = new TCutG("Pion_cutg",5);
+
   // ######################### Geometrical Cuts for selecting Kaon  #################### 
   TCutG *Kaon_cutg = new TCutG("Kaon_cutg",5);
-  /*Kaon_cutg->SetVarX("sqrt(abs(e_miss*e_miss - p_miss*p_miss))");
-  Kaon_cutg->SetVarY("P_RF_time");  Kaon_cutg->SetPoint(0,0.77,1.50);  Kaon_cutg->SetPoint(1,1.019,1.50);  Kaon_cutg->SetPoint(2,1.019,3.033);  Kaon_cutg->SetPoint(3,0.77,3.033); Kaon_cutg->SetPoint(4,0.77,1.50); Kaon_cutg->SetLineColor(kRed);  Kaon_cutg->SetLineWidth(3);
-  */
+
   
   //##############################################################################
 
@@ -675,9 +674,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH1D *Pi_mm_IN_TCutG1     = new TH1D("Pi_mm_IN_TCutG1","Pion Missing Mass Inside 1st Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0 ); 
   TH1D *Pi_mm_IN_TCutG12    = new TH1D("Pi_mm_IN_TCutG12","Pion Missing Mass b/w 1st & 2nd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0 );
   TH1D *Pi_mm_IN_TCutG23    = new TH1D("Pi_mm_OUT_TCutG23","Pion Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Pion); Events;", 300, 0.5, 2.0);   // old ramge 0.5 to 2.0
-  TH1D *Pi_mm_OUT_TCutG3    = new TH1D("Pi_mm_OUT_TCutG3","Pion Missing Mass outside 3rd Region; Missing Mass (Pion); Events;", 300, 0.5, 2.0);  // old value 0.5 to 2.0
-  TH1D *Pi_mm_random_OUT_TCutG3    = new TH1D("Pi_mm_random_OUT_TCutG3","Pion Missing Mass outside 3rd Region (Random); Missing Mass (Pion); Events;", 300, 0.5, 2.0);
-  TH1D *Pi_mm_norandom_OUT_TCutG3    = new TH1D("Pi_mm_norandom_OUT_TCutG3","Pion Missing Mass outside 3rd Region (No Random); Missing Mass (Pion); Events;", 300, 0.5, 2.0);
+  TH1D *Pi_mm_OUT_TCutG3    = new TH1D("Pi_mm_OUT_TCutG3","Pion Missing Mass outside 3rd Region; Missing Mass (Pion); Events;", 300, 0.901, 1.3);  // old value 0.5 to 2.0
+  TH1D *Pi_mm_random_OUT_TCutG3    = new TH1D("Pi_mm_random_OUT_TCutG3","Pion Missing Mass outside 3rd Region (Random); Missing Mass (Pion); Events;", 300, 0.901, 1.3);
+  TH1D *Pi_mm_norandom_OUT_TCutG3    = new TH1D("Pi_mm_norandom_OUT_TCutG3","Pion Missing Mass outside 3rd Region (No Random); Missing Mass (Pion); Events;", 300, 0.901, 1.3);
 
   TH1D *h1_CTime_ePion_OUT_TCutG3        = new TH1D("h1_CTime_ePion_OUT_TCutG3","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_Time_OUT_TCutG3        = new TH1D("h1_RF_tdc_Time_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2, 6); 
@@ -715,14 +714,23 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer) || P_hgcer_npeSum < 3.0 || P_aero_npeSum  < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
     if(P_CTime_ePion > 42 && P_CTime_ePion < 46) // select promt peak
       {
-	Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	//Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
 	RF_Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time);
 	h1_RF_tdc_Time_OUT_TCutG3->Fill(P_RF_time);     	
+	Pion_cutg->SetVarX("sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))");
+	Pion_cutg->SetVarY("P_RF_time");  Pion_cutg->SetPoint(0,0.901,1.469);  Pion_cutg->SetPoint(1,1.054,1.469);  Pion_cutg->SetPoint(2,1.054,2.603);  Pion_cutg->SetPoint(3,0.901,2.603); Pion_cutg->SetPoint(4,0.901,1.469); Pion_cutg->SetLineColor(kRed);  Pion_cutg->SetLineWidth(3);
+      }
+    if (Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time))    // select Pion
+      {
+	Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
       }
     
     if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))  // select random bunches
       {
-	Pi_mm_random_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	if (Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time))    // select Pion
+	  {
+	    Pi_mm_random_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	  }    
       }
     h1_CTime_ePion_OUT_TCutG3->Fill(P_CTime_ePion);
     coin_Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_CTime_ePion);
@@ -771,9 +779,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH1D *K_mm_IN_TCutG1        = new TH1D("K_mm_IN_TCutG1","Kaon Missing Mass Inside 1st Region; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
   TH1D *K_mm_IN_TCutG12       = new TH1D("K_mm_IN_TCutG12","Kaon Missing Mass b/w 1st & 2nd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
   TH1D *K_mm_IN_TCutG23       = new TH1D("K_mm_IN_TCutG23","Kaon Missing Mass b/w 2nd & 3rd Regions; Missing Mass (Kaon); Events;", 300, 0.5, 2.0 );
-  TH1D *K_mm_OUT_TCutG3       = new TH1D("K_mm_OUT_TCutG3","Kaon Missing Mass outside 3rd Region; Missing Mass (Kaon); Events;", 300, 0.5, 2.0);  // old 0.5 to 2.0
-  TH1D *K_mm_random_OUT_TCutG3       = new TH1D("K_mm_random_OUT_TCutG3","Kaon Missing Mass outside 3rd Region (Random); Missing Mass (Kaon); Events;", 300, 0.5, 2.0);
-  TH1D *K_mm_norandom_OUT_TCutG3       = new TH1D("K_mm_norandom_OUT_TCutG3","Kaon Missing Mass outside 3rd Region (No Random); Missing Mass (Kaon); Events;", 300, 0.5, 2.0);
+  TH1D *K_mm_OUT_TCutG3       = new TH1D("K_mm_OUT_TCutG3","Kaon Missing Mass outside 3rd Region; Missing Mass (Kaon); Events;", 300, 1.05, 1.26);  // old 0.5 to 2.0
+  TH1D *K_mm_random_OUT_TCutG3       = new TH1D("K_mm_random_OUT_TCutG3","Kaon Missing Mass outside 3rd Region (Random); Missing Mass (Kaon); Events;", 300, 1.05, 1.26);
+  TH1D *K_mm_norandom_OUT_TCutG3       = new TH1D("K_mm_norandom_OUT_TCutG3","Kaon Missing Mass outside 3rd Region (No Random); Missing Mass (Kaon); Events;", 300, 1.05, 1.26);
 
   TH1D *h1_CTime_eKaon_OUT_TCutG3        = new TH1D("h1_CTime_eKaon_OUT_TCutG3","Electron-Kaon Coin Time; CTime_eKCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
   TH1D *h1_RF_tdc_TimeK_OUT_TCutG3       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
@@ -811,24 +819,27 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     if(P_hgcer_npeSum > 1.5 || P_aero_npeSum < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
     if(P_CTime_ePion > 42.0 && P_CTime_ePion < 46.0)  // select promt peak 
       { 
-       K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
+	// K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
        h1_RF_tdc_TimeK_OUT_TCutG3->Fill(P_RF_time); 
-       //  TCutG *Kaon_cutg = new TCutG("Kaon_cutg",5);
        Kaon_cutg->SetVarX("sqrt(abs(e_miss*e_miss - p_miss*p_miss))");
-       Kaon_cutg->SetVarY("P_RF_time");  Kaon_cutg->SetPoint(0,0.77,1.50);  Kaon_cutg->SetPoint(1,1.019,1.50);  Kaon_cutg->SetPoint(2,1.019,3.033);  Kaon_cutg->SetPoint(3,0.77,3.033); Kaon_cutg->SetPoint(4,0.77,1.50); Kaon_cutg->SetLineColor(kRed);  Kaon_cutg->SetLineWidth(3);
+       Kaon_cutg->SetVarY("P_RF_time");  Kaon_cutg->SetPoint(0,1.05,1.27);  Kaon_cutg->SetPoint(1,1.26,1.27);  Kaon_cutg->SetPoint(2,1.26,2.54);  Kaon_cutg->SetPoint(3,1.05,2.54); Kaon_cutg->SetPoint(4,1.05,1.27); Kaon_cutg->SetLineColor(kRed);  Kaon_cutg->SetLineWidth(3);
        RF_K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)), P_RF_time);         
        
-       if (!Kaon_cutg->IsInside(sqrt(abs(e_miss*e_miss - p_miss*p_miss)), P_RF_time))   // select Kaon
+       if (Kaon_cutg->IsInside(sqrt(abs(e_miss*e_miss - p_miss*p_miss)), P_RF_time))    // select Kaon
 	 {
 	   K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));
 	 }  
-       // RF_K_mm_OUT_TCutG3->Fill(K_mm, P_RF_time);         
       }
     
     if((P_CTime_eKaon > 30 && P_CTime_eKaon < 38) || (P_CTime_eKaon > 50 && P_CTime_eKaon < 66) || (P_RF_time > 0.0 && P_RF_time < 0.2))  //select random bunches
       {
-	K_mm_random_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));	
+	
+	if (Kaon_cutg->IsInside(sqrt(abs(e_miss*e_miss - p_miss*p_miss)), P_RF_time))    // select Kaon
+	  {
+	    K_mm_random_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)));	
+	  }     
       }
+
     h1_CTime_eKaon_OUT_TCutG3->Fill(P_CTime_eKaon);
     coin_K_mm_OUT_TCutG3->Fill(sqrt(abs(e_miss*e_miss - p_miss*p_miss)), P_CTime_eKaon);
     coin_K_beta_OUT_TCutG3->Fill(P_CTime_eKaon, P_gtr_beta);
@@ -916,19 +927,29 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) continue;
-    if (P_hgcer_npeSum > 1.34 || P_aero_npeSum > 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31 || P_RF_time >1.6) continue;
+    if (P_hgcer_npeSum > 1.34 || P_aero_npeSum > 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
     if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  //select promt peak 
-     { 
-       P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
-       h1_RF_tdc_TimeP_OUT_TCutG3->Fill(P_RF_time);
-       RF_P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time);       
-     } 
+      { 
+	P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	/*	Proton_cutg->SetVarX("sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))");
+		Proton_cutg->SetVarY("P_RF_time");  Proton_cutg->SetPoint(0,0.841,0.845);  Proton_cutg->SetPoint(1,0.970,0.845);  Proton_cutg->SetPoint(2,0.970,2.636);  Proton_cutg->SetPoint(3,0.841,2.636); Proton_cutg->SetPoint(4,0.841,0.845); Proton_cutg->SetLineColor(kRed);  Proton_cutg->SetLineWidth(3);
+	*/	
+	h1_RF_tdc_TimeP_OUT_TCutG3->Fill(P_RF_time);
+	RF_P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time);       
+      } 
+    /*   if (!Proton_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time))    // select Proton
+	 {
+	 P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	 }*/
     
     if((P_CTime_eProton > 30 && P_CTime_eProton < 38) || (P_CTime_eProton > 50 && P_CTime_eProton < 66))  // select random bunches
-       {
-	 P_mm_random_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
-       }
-
+      {
+	//if (!Proton_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time))    // select Proton
+	// {
+	P_mm_random_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	// }     
+      }
+    
     h1_CTime_eProton_OUT_TCutG3->Fill(P_CTime_eProton);
     coin_P_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_CTime_eProton); 
     coin_P_beta_OUT_TCutG3->Fill(P_CTime_eProton, P_gtr_beta);
@@ -936,7 +957,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   
   }
 		       
-		       Double_t P_scale;
+  Double_t P_scale;
   P_scale = 1.0/6.0;
   P_mm_random_OUT_TCutG3->Scale(P_scale);
   P_mm_norandom_OUT_TCutG3 = (TH1D*)P_mm_OUT_TCutG3->Clone("P_mm_norandom_OUT_TCutG3");
@@ -980,7 +1001,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   h1_CTime_ePion_OUT_TCutG3->Write();
   h1_RF_tdc_Time_OUT_TCutG3->Write();
   coin_Pi_mm_OUT_TCutG3->Write();
+  RF_Pi_mm_OUT_TCutG3->GetListOfFunctions()->Add(Pion_cutg,"L");
   RF_Pi_mm_OUT_TCutG3->Write();
+  RF_Pi_mm_OUT_TCutG3->GetListOfFunctions()->Clear("L");
   coin_Pi_beta_OUT_TCutG3->Write(); 
   Pi_mm_OUT_TCutG3->Write();
   Pi_mm_random_OUT_TCutG3->Write();
