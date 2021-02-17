@@ -166,9 +166,43 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH1D *h1_Eff3_xAtCer    = new TH1D("h1_Eff3_xAtCer","xAtCer vs Efficiecny; xAtCer; Efficiency;", 80, -40, 40.0); 
 
   //##############################################################################
+  
+  //.................................................................................................. 
+  // Efficiency calculations of the HGC and Aerogel detectors for Pion, Kaon and Proton candidates
+  //..................................................................................................  
+  
+  //.... First HGC detector...........................................................................
+  //...Sample of the each particle selected without HGC detector......................................
+  
+  
+
+  //...Sample of the each particle selected with HGC detector.........................................
+  
+  
+
+  //... Efficiecny ...................................................................................
+  
+
+  
+  //.... Now  Aerogel detector...........................................................................
+  //...Sample of the each particle selected without Aerogel detector......................................
+
+  
+  
+  //...Sample of the each particle selected with Aerogel detector.........................................
+  
+
+  
+  //... Efficiecny .......................................................................................
+  
  
+  //.......................................................................................................
+  //...Work on identified the cuts for the PID study  using the plots
+  
+  //....................................................................................................... 
+  
   //Fill xyAtCer entry
-      
+  
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if(P_hgcer_npeSum < 1.5) continue;
