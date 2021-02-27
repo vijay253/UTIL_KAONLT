@@ -129,12 +129,90 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   // ######################### Geometrical Cuts for selecting Pion  #################### 
   TCutG *Pion_cutg = new TCutG("Pion_cutg",5);
-
+  Pion_cutg->SetVarX("sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))");
+  Pion_cutg->SetVarY("P_RF_time");  Pion_cutg->SetPoint(0,0.901,1.469);  Pion_cutg->SetPoint(1,1.054,1.469);  Pion_cutg->SetPoint(2,1.054,2.603);  Pion_cutg->SetPoint(3,0.901,2.603); Pion_cutg->SetPoint(4,0.901,1.469); Pion_cutg->SetLineColor(kRed);  Pion_cutg->SetLineWidth(3);
+  
   // ######################### Geometrical Cuts for selecting Kaon  #################### 
   TCutG *Kaon_cutg = new TCutG("Kaon_cutg",5);
-
   
   //##############################################################################
+
+  //.................................................................................................. 
+  // Efficiency calculations of the HGC and Aerogel detectors for Pion, Kaon and Proton candidates
+  //..................................................................................................  
+  
+  //.... First HGC detector...........................................................................
+  //...Sample of the each particle selected without HGC detector......................................
+  TH1D *h1_npeSum_nohgc_cuts    = new TH1D("h1_npeSum_nohgc_cuts","HGC NPE NO HGC CUTS; HGC NPE;", 300, 0.0, 40);
+  TH2D *h2_efficiency1          = new TH2D("h2_efficiency1","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH1D *h1_pion_mm              = new TH1D("h1_pion_mm","Pion missing mass; Pion mm;", 300, 0.901, 1.054);
+  TH1D *h1_pion_mm_random       = new TH1D("h1_pion_mm_random","Pion missing mass(random); Pion mm (random);", 300, 0.901, 1.054);
+  TH1D *h1_pion_mm_norandom     = new TH1D("h1_pion_mm_norandom","Pion missing mass(random subtracted); Pion mm;", 300, 0.901, 1.054);
+  
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++)
+    {
+      SHMS_EVENTS->GetEntry(i);
+      if(P_hgcer_npeSum < 0.2 || P_aero_npeSum  < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue;   // P_hgcer_npeSum < 0.2 ||
+      
+      if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak. This included the random as well
+	{
+	  h1_npeSum_nohgc_cuts->Fill(P_hgcer_npeSum);
+	  h2_efficiency1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+	  h1_pion_mm->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	}
+    
+      if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))  // select random bunches
+	{
+	  h1_pion_mm_random->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));	
+	}
+      
+    }//I am here
+  Double_t pi_sc;
+  pi_sc = 1.0/6.0;  // No. of background peaks selected to remove the random background
+  h1_pion_mm_random->Scale(pi_sc); 
+  h1_pion_mm_norandom = (TH1D*)h1_pion_mm->Clone("h1_pion_mm_norandom");
+  h1_pion_mm_norandom->Add(h1_pion_mm_random, -1); // Subtraction of random background from prompt peak
+  
+
+  //...Sample of the each particle selected with HGC detector.........................................
+  TH1D *h1_npeSum_hgc_cuts    = new TH1D("h1_npeSum_hgc_cuts","HGC NPE WITH HGC CUTS; HGC NPE;", 300, 0.0, 40);
+  TH2D *h2_efficiency2        = new TH2D("h2_efficiency2","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
+  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++)
+    {
+      SHMS_EVENTS->GetEntry(i);
+      // Pion_cutg->SetVarX("sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))");
+      //Pion_cutg->SetVarY("P_RF_time");  Pion_cutg->SetPoint(0,0.901,1.469);  Pion_cutg->SetPoint(1,1.054,1.469);  Pion_cutg->SetPoint(2,1.054,2.603);  Pion_cutg->SetPoint(3,0.901,2.603); Pion_cutg->SetPoint(4,0.901,1.469); Pion_cutg->SetLineColor(kRed);  Pion_cutg->SetLineWidth(3); 
+      
+      if(P_hgcer_npeSum < 4.0 || P_aero_npeSum  < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue; 
+      
+      if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak
+	{	
+	  h1_npeSum_hgc_cuts->Fill(P_hgcer_npeSum);
+	  h2_efficiency2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+	}
+    }
+  
+  //... Efficiecny ...................................................................................
+  TH2D *h2_efficiency     = new TH2D("h2_efficiency","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
+  h2_efficiency    = (TH2D*)h2_efficiency2->Clone("h2_efficiency");
+  h2_efficiency->Sumw2();
+  h2_efficiency->Divide(h2_efficiency1);
+  //  h2_efficiency->GetYaxis()->SetRangeUser(0.6,1.4);
+
+  //.... Now  Aerogel detector...........................................................................
+  //...Sample of the each particle selected without Aerogel detector......................................
+
+  
+
+  //...Sample of the each particle selected with Aerogel detector.........................................
+
+
+
+  //... Efficiecny .......................................................................................
+
+ 
+  //.......................................................................................................
+
 
   // Defined histograms for TCutGs
   TH2D *h2_XYAtCer1                    = new TH2D("h2_XYAtCer1","HGC, P_hgcer_npeSum => 1.5; P_hgcer_yAtCer; P_hgcer_xAtCer;", 300, -40, 40, 300, -40, 40 );
@@ -167,36 +245,6 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   //##############################################################################
   
-  //.................................................................................................. 
-  // Efficiency calculations of the HGC and Aerogel detectors for Pion, Kaon and Proton candidates
-  //..................................................................................................  
-  
-  //.... First HGC detector...........................................................................
-  //...Sample of the each particle selected without HGC detector......................................
-  
-  
-
-  //...Sample of the each particle selected with HGC detector.........................................
-  
-  
-
-  //... Efficiecny ...................................................................................
-  
-
-  
-  //.... Now  Aerogel detector...........................................................................
-  //...Sample of the each particle selected without Aerogel detector......................................
-
-  
-  
-  //...Sample of the each particle selected with Aerogel detector.........................................
-  
-
-  
-  //... Efficiecny .......................................................................................
-  
- 
-  //.......................................................................................................
   //...Work on identified the cuts for the PID study  using the plots
   
   //....................................................................................................... 
@@ -742,22 +790,20 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
     if(P_hgcer_npeSum < 1.0 || P_aero_npeSum <1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
     Pi_mm_IN_TCutG23->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
   }
-
+  
   // Pion misssing mass outside 3rd region  
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer) || P_hgcer_npeSum < 3.0 || P_aero_npeSum  < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer >31) continue;
     if(P_CTime_ePion > 42 && P_CTime_ePion < 46) // select promt peak
       {
-	//Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
 	RF_Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time);
 	h1_RF_tdc_Time_OUT_TCutG3->Fill(P_RF_time);     	
-	Pion_cutg->SetVarX("sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))");
-	Pion_cutg->SetVarY("P_RF_time");  Pion_cutg->SetPoint(0,0.901,1.469);  Pion_cutg->SetPoint(1,1.054,1.469);  Pion_cutg->SetPoint(2,1.054,2.603);  Pion_cutg->SetPoint(3,0.901,2.603); Pion_cutg->SetPoint(4,0.901,1.469); Pion_cutg->SetLineColor(kRed);  Pion_cutg->SetLineWidth(3);
-      }
-    if (Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time))    // select Pion
-      {
-	Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	
+	if (Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time))    // select Pion
+	  { 
+	    Pi_mm_OUT_TCutG3->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	  }     
       }
     
     if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))  // select random bunches
@@ -1078,6 +1124,11 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   P_mm_IN_TCutG1->Write();
   TDirectory *Eff_Plots = OutHisto_file->mkdir("Eff_Plots");
   Eff_Plots->cd();
+  h1_npeSum_nohgc_cuts->Write();
+  h1_npeSum_hgc_cuts->Write();
+  h1_pion_mm->Write();
+  h1_pion_mm_norandom->Write();
+  h2_efficiency->Write();
   Eff3_Del_IN_TCutG1->Write(); 
   Eff3_Del_IN_TCutG12->Write(); 
   Eff3_Del_IN_TCutG23->Write(); 
