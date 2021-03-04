@@ -28,22 +28,22 @@ MaxEvent = sys.argv[3]
 USER = subprocess.getstatusoutput("whoami") # Grab user info for file finding
 HOST = subprocess.getstatusoutput("hostname")
 if ("farm" in HOST[1]):
-    REPLAYPATH = "/group/c-kaonlt/USERS/%s/hallc_replay_lt" % USER[1]
+    REPLAYPATH = "/group/c-pionlt/USERS/%s/hallc_replay_lt" % USER[1]
 elif ("qcd" in HOST[1]):
-    REPLAYPATH = "/group/c-kaonlt/USERS/%s/hallc_replay_lt" % USER[1]
+    REPLAYPATH = "/group/c-pionlt/USERS/%s/hallc_replay_lt" % USER[1]
 elif ("phys.uregina" in HOST[1]):
     REPLAYPATH = "/home/%s/work/JLab/hallc_replay_lt" % USER[1]
 elif("skynet" in HOST[1]):
     REPLAYPATH = "/home/%s/Work/JLab/hallc_replay_lt" % USER[1]
     
 # Add more path setting as needed in a similar manner
-OUTPATH = "%s/UTIL_KAONLT/scripts/CoinTimePeak/OUTPUT" % REPLAYPATH
+OUTPATH = "%s/UTIL_KAONLT/OUTPUT/Analysis/KaonLT" % REPLAYPATH
 CUTPATH = "%s/UTIL_KAONLT/DB/CUTS" % REPLAYPATH
 sys.path.insert(0, '%s/UTIL_KAONLT/bin/python/' % REPLAYPATH)
 import kaonlt as klt
 
 print("Running as %s on %s, hallc_replay_lt path assumed as %s" % (USER[1], HOST[1], REPLAYPATH))
-rootName = "%s/UTIL_KAONLT/ROOTfiles/%s_%s_%s.root" % (REPLAYPATH, ROOTPrefix, runNum, MaxEvent)
+rootName = "%s/UTIL_KAONLT/ROOTfiles/Analysis/KaonLT/%s_%s_%s.root" % (REPLAYPATH, ROOTPrefix, runNum, MaxEvent)
 if os.path.exists(OUTPATH):
     if os.path.islink(OUTPATH):
         pass
@@ -53,7 +53,7 @@ if os.path.exists(OUTPATH):
         print ("%s exists but is not a directory or sym link, check your directory/link and try again" % (OUTPATH))
         sys.exit(2)
 else:
-    print("Output path not found, please make a sym link or directory called OUTPUT in UTIL_KAONLT/scripts/demo to store output")
+    print("Output path not found, please make a sym link or directory called OUTPUT in UTIL_KAONLT/Analysis/KaonLT to store output")
     sys.exit(3)
 print ("Attempting to process %s" %(rootName))
 if os.path.isfile(rootName):
@@ -61,6 +61,7 @@ if os.path.isfile(rootName):
 else:
     print ("%s not found - do you have the correct sym link/folder set up?" % (rootName))
     sys.exit(4)
+print("Output path checks out, outputting to %s" % (OUTPATH))
 # Read stuff from the main event tree
 e_tree = up.open(rootName)["T"]
 # Timing info
