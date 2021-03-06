@@ -1,0 +1,4 @@
+##############
+# In this cut file, only acceptance, beta and calorimeter cuts added #
+##############
+Acceptance_beta_cuts = pid.p_picut+accept.delta-accept.delta.H_gtr_dp+accept.p_pfp-pid.p_picut.P_hgcer_npeSum-pid.p_picut.P_aero_npeSum-pid.p_picut.P_cal_etotnorm
