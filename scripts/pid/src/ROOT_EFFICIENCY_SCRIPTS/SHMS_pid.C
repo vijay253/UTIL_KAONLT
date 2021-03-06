@@ -87,6 +87,9 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
 
   Double_t P_hgcer_npeSum;SHMS_EVENTS->SetBranchAddress("P_hgcer_npeSum", &P_hgcer_npeSum);
   Double_t P_aero_npeSum; SHMS_EVENTS->SetBranchAddress("P_aero_npeSum", &P_aero_npeSum);
+  Double_t P_hod_goodscinhit; SHMS_EVENTS->SetBranchAddress("P_hod_goodscinhit", &P_hod_goodscinhit);
+  Double_t P_hod_betanotrack; SHMS_EVENTS->SetBranchAddress("P_hod_betanotrack", &P_hod_betanotrack);
+  Double_t P_hod_goodstarttime; SHMS_EVENTS->SetBranchAddress("P_hod_goodstarttime", &P_hod_goodstarttime);
   Double_t P_hgcer_xAtCer; SHMS_EVENTS->SetBranchAddress("P_hgcer_xAtCer", &P_hgcer_xAtCer);
   Double_t P_hgcer_yAtCer; SHMS_EVENTS->SetBranchAddress("P_hgcer_yAtCer", &P_hgcer_yAtCer);
   Double_t P_aero_xAtCer; SHMS_EVENTS->SetBranchAddress("P_aero_xAtCer", &P_aero_xAtCer);
@@ -152,45 +155,47 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++)
     {
       SHMS_EVENTS->GetEntry(i);
-      if(P_hgcer_npeSum < 0.2 || P_aero_npeSum  < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue;   // P_hgcer_npeSum < 0.2 ||
+      if(P_aero_npeSum  < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4) || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue;   // P_hgcer_npeSum < 0.2 ||
       
       if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak. This included the random as well
 	{
 	  h1_npeSum_nohgc_cuts->Fill(P_hgcer_npeSum);
 	  h2_efficiency1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
-	  h1_pion_mm->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
-	}
-    
-      if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))  // select random bunches
-	{
-	  h1_pion_mm_random->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));	
-	}
-      
-    }//I am here
-  Double_t pi_sc;
-  pi_sc = 1.0/6.0;  // No. of background peaks selected to remove the random background
-  h1_pion_mm_random->Scale(pi_sc); 
-  h1_pion_mm_norandom = (TH1D*)h1_pion_mm->Clone("h1_pion_mm_norandom");
-  h1_pion_mm_norandom->Add(h1_pion_mm_random, -1); // Subtraction of random background from prompt peak
+	}      
+    }
+  //I am here
   
-
   //...Sample of the each particle selected with HGC detector.........................................
   TH1D *h1_npeSum_hgc_cuts    = new TH1D("h1_npeSum_hgc_cuts","HGC NPE WITH HGC CUTS; HGC NPE;", 300, 0.0, 40);
   TH2D *h2_efficiency2        = new TH2D("h2_efficiency2","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++)
     {
       SHMS_EVENTS->GetEntry(i);
-      // Pion_cutg->SetVarX("sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))");
-      //Pion_cutg->SetVarY("P_RF_time");  Pion_cutg->SetPoint(0,0.901,1.469);  Pion_cutg->SetPoint(1,1.054,1.469);  Pion_cutg->SetPoint(2,1.054,2.603);  Pion_cutg->SetPoint(3,0.901,2.603); Pion_cutg->SetPoint(4,0.901,1.469); Pion_cutg->SetLineColor(kRed);  Pion_cutg->SetLineWidth(3); 
-      
-      if(P_hgcer_npeSum < 4.0 || P_aero_npeSum  < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue; 
+      if(P_hgcer_npeSum  < 2.5 || P_aero_npeSum  < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4) || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue; 
       
       if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak
 	{	
 	  h1_npeSum_hgc_cuts->Fill(P_hgcer_npeSum);
 	  h2_efficiency2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+	  h1_pion_mm->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
+	}
+      if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))  // select random bunches
+	{
+	  h1_pion_mm_random->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));	
 	}
     }
+  Double_t pi_sc;
+  pi_sc = 1.0/6.0;  // No. of background peaks selected to remove the random background
+  h1_pion_mm_random->Scale(pi_sc); 
+  h1_pion_mm_norandom = (TH1D*)h1_pion_mm->Clone("h1_pion_mm_norandom");
+  h1_pion_mm_norandom->Add(h1_pion_mm_random, -1); // Subtraction of random background from prompt peak
+  
+  // Integrate the selected range to get the pions inside the pion peak
+  TAxis *MMAxis = h1_pion_mm_norandom->GetXaxis();
+  Int_t Lowx   = MMAxis->FindBin(0.935);    // select pion peak
+  Int_t Highx  = MMAxis->FindBin(0.963);
+  Double_t Pi_mm_BinIntegral = h1_pion_mm_norandom->Integral(Lowx, Highx);
+  cout<<" Number of Pions = "<<Pi_mm_BinIntegral<<endl;
   
   //... Efficiecny ...................................................................................
   TH2D *h2_efficiency     = new TH2D("h2_efficiency","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
