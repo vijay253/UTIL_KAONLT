@@ -258,33 +258,33 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 1.5) continue;
-    if (P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;
+    // if(P_hgcer_npeSum < 1.5) continue;
+    if (P_hgcer_npeSum < 1.5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;
     h2_XYAtCer1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
   }
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 5) continue;
-    if (P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;
+    // if(P_hgcer_npeSum < 5) continue;
+    if (P_hgcer_npeSum < 5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;
     h2_XYAtCer2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
   }
   //Fill entry for 3D
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 1.5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;   //P_hgcer_npeSum < 1.5 || removed
+    if(P_hgcer_npeSum < 1.5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;   //P_hgcer_npeSum < 1.5 || removed
     h3_XYAtCer_npeSum1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;    // P_hgcer_npeSum < 5 || removed
+    if(P_hgcer_npeSum < 5 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;    // P_hgcer_npeSum < 5 || removed
     h3_XYAtCer_npeSum2->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 7 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;   // P_hgcer_npeSum < 7 || removed
+    if(P_hgcer_npeSum < 7 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;   // P_hgcer_npeSum < 7 || removed
     h3_XYAtCer_npeSum3->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer,P_hgcer_npeSum);
   }
 
@@ -293,7 +293,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
     h3_aero_XYAtCer_nocut_npeSum->Fill(P_aero_yAtCer, P_aero_xAtCer, P_aero_npeSum);
-    if(P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;
+    if(P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;
     h3_aero_XYAtCer_npeSum->Fill(P_aero_yAtCer, P_aero_xAtCer, P_aero_npeSum);
   }
 
@@ -316,27 +316,27 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   //Fill NPEs entries which are inside 1st Region      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if ((!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31)) continue;
+    if ((!cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;
     h2_npeSum_IN_TCutG1->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
   //Fill entries b/w 1st & 2nd Regions      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if ((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) ||(cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31)) continue;
+    if ((!cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) ||(cutg1->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;
     h2_npeSum_IN_TCutG12->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
 
   //Fill entries b/w 2st & 3nd Regions      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if ((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31))  continue;
+    if ((!cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (cutg2->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer)) || (P_hgcer_npeSum < 0.1 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4))  continue;
     h2_npeSum_IN_TCutG23->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
 
   //Fill entries outside 3nd Region      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer) || P_hgcer_npeSum < 0.13 || P_aero_npeSum < 0.10 || (P_aero_yAtCer < -30 || P_aero_yAtCer > 31)) continue;  
+    if (cutg3->IsInside(P_hgcer_yAtCer, P_hgcer_xAtCer) || P_hgcer_npeSum < 0.13 || P_aero_npeSum < 0.10 || (P_aero_yAtCer < -30 || P_aero_yAtCer > 31) || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4)) continue;  
     h2_npeSum_OUT_TCutG3->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
 
@@ -349,7 +349,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   //Fill all entries      
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++){
     SHMS_EVENTS->GetEntry(i);
-    if(P_hgcer_npeSum < 0.13 || P_aero_npeSum < 0.10 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31) continue;
+    if(P_hgcer_npeSum < 0.13 || P_aero_npeSum < 0.10 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31)  continue;
     h2_npeSum->Fill(P_hgcer_npeSum, P_aero_npeSum);
   }
 
@@ -768,7 +768,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH1D *h1_CTime_ePion_OUT_TCutG3        = new TH1D("h1_CTime_ePion_OUT_TCutG3","Electron-Pion Coin Time; CTime_ePiCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_Time_OUT_TCutG3        = new TH1D("h1_RF_tdc_Time_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2, 6); 
   TH2D *coin_Pi_mm_OUT_TCutG3            = new TH2D("coin_Pi_mm_OUT_TCutG3","Pion mm vs Coin time (outside 3rd region); Pion mm; CTime_ePiCoinTime_ROC1", 300, 0.5, 2.0, 300, 0.0, 100); 
-  TH2D *Pi_RF_time_delta_OUT_TCutG3            = new TH2D("Pi_RF_time_delta_OUT_TCutG3","RF time vs Delta (outside 3rd region); RF time; P_gtr_dp", 300, 0.0, 4.0, 300, -20, 20); 
+  TH2D *Pi_RF_time_delta_OUT_TCutG3            = new TH2D("Pi_RF_time_delta_OUT_TCutG3","RF time vs Delta (outside 3rd region); RF time; P_gtr_dp", 300, 0.0, 4.0, 300, -25, 20); 
   TH2D *RF_Pi_mm_OUT_TCutG3              = new TH2D("RF_Pi_mm_OUT_TCutG3","Pion mm (outside 3rd region) vs FRtime; Pion mm; RFtime (ns)", 300, 0.0, 2.0, 300, 0.0, 4.0); 
   TH2D *coin_Pi_beta_OUT_TCutG3          = new TH2D("coin_Pi_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_ePiCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.7, 1.3); 
 
@@ -870,7 +870,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH1D *h1_CTime_eKaon_OUT_TCutG3        = new TH1D("h1_CTime_eKaon_OUT_TCutG3","Electron-Kaon Coin Time; CTime_eKCoinTime_ROC1; Events;", 300, 0.0, 100.0 );
   TH1D *h1_RF_tdc_TimeK_OUT_TCutG3       = new TH1D("h1_RF_tdc_TimeK_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 100, -2, 6);
   TH2D *coin_K_mm_OUT_TCutG3             = new TH2D("coin_K_mm_OUT_TCutG3","Kaon mm vs Coin time (outside 3rd region); Kaon mm; CTime_eKCoinTime_ROC1", 300, 0.5, 2.0, 300, 0.0, 100.0); 
-  TH2D *K_RF_time_delta_OUT_TCutG3            = new TH2D("K_RF_time_delta_OUT_TCutG3","RF time vs Delta (outside 3rd region); RF time; P_gtr_dp", 300, 0.0, 4.0, 300, -20, 20); 
+  TH2D *K_RF_time_delta_OUT_TCutG3            = new TH2D("K_RF_time_delta_OUT_TCutG3","RF time vs Delta (outside 3rd region); RF time; P_gtr_dp", 300, 0.0, 4.0, 300, -25, 20); 
   TH2D *RF_K_mm_OUT_TCutG3               = new TH2D("RF_K_mm_OUT_TCutG3","Kaon mm (outside 3rd region) vs FRtime; Kaon mm; RFtime (ns)", 300, 0.0, 2.0, 300, 0.0, 4.0); 
   TH2D *coin_K_beta_OUT_TCutG3           = new TH2D("coin_K_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_eKCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.7, 1.3); 
 
@@ -981,7 +981,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   TH1D *h1_CTime_eProton_OUT_TCutG3        = new TH1D("h1_CTime_eProton_OUT_TCutG3","Electron-Proton Coin Time; CTime_epCoinTime_ROC1; Events;", 300, 0.0, 100.0 ); 
   TH1D *h1_RF_tdc_TimeP_OUT_TCutG3         = new TH1D("h1_RF_tdc_TimeP_OUT_TCutG3","RFtime = (P_RF_tdcTime-P_hod_fpHitsTime+RF_Offset)%(BunchSpacing); RFtime (ns); Events;", 300, -2,6); 
   TH2D *coin_P_mm_OUT_TCutG3               = new TH2D("coin_P_mm_OUT_TCutG3","Proton mm vs Coin time (outside 3rd region); Proton mm; CTime_epCoinTime_ROC1", 300, 0.5, 2.0, 300, 0.0, 100.0); 
-  TH2D *P_RF_time_delta_OUT_TCutG3            = new TH2D("P_RF_time_delta_OUT_TCutG3","RF time vs Delta (outside 3rd region); RF time; P_gtr_dp", 300, 0.0, 4.0, 300, -20, 20); 
+  TH2D *P_RF_time_delta_OUT_TCutG3            = new TH2D("P_RF_time_delta_OUT_TCutG3","RF time vs Delta (outside 3rd region); RF time; P_gtr_dp", 300, 0.0, 4.0, 300, -25, 20); 
   TH2D *RF_P_mm_OUT_TCutG3                 = new TH2D("RF_P_mm_OUT_TCutG3","Proton mm (outside 3rd region) vs FRtime; Proton mm; RFtime (ns)", 300, 0.0, 2.0, 300, 0.0, 4.0); 
   TH2D *coin_P_beta_OUT_TCutG3             = new TH2D("coin_P_beta_OUT_TCutG3","Coin time vs Beta (outside 3rd region); CTime_epCoinTime_ROC1; P_gtr_beta", 300, 0.0, 100.0,  300, 0.7, 1.3); 
 
