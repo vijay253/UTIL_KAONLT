@@ -147,7 +147,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   //.... First HGC detector...........................................................................
   //...Sample of the each particle selected without HGC detector......................................
   TH1D *h1_npeSum_nohgc_cuts    = new TH1D("h1_npeSum_nohgc_cuts","HGC NPE NO HGC CUTS; HGC NPE;", 300, 0.0, 40);
-  TH2D *h2_efficiency1          = new TH2D("h2_efficiency1","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
+  TH2D *h2_efficiency1          = new TH2D("h2_efficiency1","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, 40, -40.0 ); 
   TH1D *h1_pion_mm              = new TH1D("h1_pion_mm","Pion missing mass; Pion mm;", 300, 0.901, 1.054);
   TH1D *h1_pion_mm_random       = new TH1D("h1_pion_mm_random","Pion missing mass(random); Pion mm (random);", 300, 0.901, 1.054);
   TH1D *h1_pion_mm_norandom     = new TH1D("h1_pion_mm_norandom","Pion missing mass(random subtracted); Pion mm;", 300, 0.901, 1.054);
@@ -167,11 +167,11 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   
   //...Sample of the each particle selected with HGC detector.........................................
   TH1D *h1_npeSum_hgc_cuts    = new TH1D("h1_npeSum_hgc_cuts","HGC NPE WITH HGC CUTS; HGC NPE;", 300, 0.0, 40);
-  TH2D *h2_efficiency2        = new TH2D("h2_efficiency2","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
+  TH2D *h2_efficiency2        = new TH2D("h2_efficiency2","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, 40, -40.0 );   
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++)
     {
       SHMS_EVENTS->GetEntry(i);
-      if(P_hgcer_npeSum  < 2.5 || P_aero_npeSum  < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4) || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue; 
+      if(P_hgcer_npeSum  < 2.0 || P_aero_npeSum  < 3.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4) || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue; 
       
       if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak
 	{	
@@ -198,7 +198,7 @@ void SHMS_pid(string InFilename = "", string OutFilename = "")
   cout<<" Number of Pions = "<<Pi_mm_BinIntegral<<endl;
   
   //... Efficiecny ...................................................................................
-  TH2D *h2_efficiency     = new TH2D("h2_efficiency","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
+  TH2D *h2_efficiency     = new TH2D("h2_efficiency","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, 40, -40.0 );   
   h2_efficiency    = (TH2D*)h2_efficiency2->Clone("h2_efficiency");
   h2_efficiency->Sumw2();
   h2_efficiency->Divide(h2_efficiency1);
