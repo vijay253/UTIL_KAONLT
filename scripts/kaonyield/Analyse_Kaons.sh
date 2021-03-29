@@ -40,7 +40,7 @@ elif [[ "${HOSTNAME}" = *"phys.uregina.ca"* ]]; then
 fi
 UTILPATH="${REPLAYPATH}/UTIL_KAONLT"
 cd "${UTILPATH}/scripts"
-q
+
 if [ ! -f "${UTILPATH}/OUTPUT/Analysis/KaonLT/${RUNNUMBER}_${MAXEVENTS}_Analysed_Data.root" ]; then
     python3 ${UTILPATH}/scripts/kaonyield/src/Kaonyield.py ${RUNPREFIX} ${RUNNUMBER} ${MAXEVENTS}
 else echo "Analysed root file already found in ${UTILPATH}/OUTPUT/Analysis/KaonLT/ - Skipped python script step"
