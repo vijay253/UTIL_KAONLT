@@ -96,6 +96,7 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
   Double_t P_aero_xAtCer; SHMS_EVENTS->SetBranchAddress("P_aero_xAtCer", &P_aero_xAtCer);
   Double_t P_aero_yAtCer; SHMS_EVENTS->SetBranchAddress("P_aero_yAtCer", &P_aero_yAtCer);
   Double_t P_cal_etotnorm; SHMS_EVENTS->SetBranchAddress("P_cal_etotnorm", &P_cal_etotnorm);
+  Double_t P_cal_etottracknorm; SHMS_EVENTS->SetBranchAddress("P_cal_etottracknorm", &P_cal_etottracknorm);
   Double_t P_gtr_beta; SHMS_EVENTS->SetBranchAddress("P_gtr_beta", &P_gtr_beta);
   Double_t P_gtr_p; SHMS_EVENTS->SetBranchAddress("P_gtr_p", &P_gtr_p);
   Double_t P_gtr_dp; SHMS_EVENTS->SetBranchAddress("P_gtr_dp", &P_gtr_dp);
@@ -106,6 +107,7 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
   Double_t P_CTime_eProton;SHMS_EVENTS->SetBranchAddress("CTime_epCoinTime_ROC1",&P_CTime_eProton);
   Double_t P_RF_time;SHMS_EVENTS->SetBranchAddress("RF_time", &P_RF_time);
 
+ 
   // ######################### First set of Geometrical Cuts #################### 
   TCutG *cutg1 = new TCutG("cutg1",21);
   cutg1->SetVarX("P_hgcer_yAtCer");
@@ -133,9 +135,16 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
 
   // ######################### Geometrical Cuts for selecting Pion  #################### 
   TCutG *Pion_cutg = new TCutG("Pion_cutg",5);
+  Double_t PI_X_VARIABLE = sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss));
+  Double_t PI_Y_VARIABLE  = P_RF_time;
+
+  Pion_cutg->SetVarX("PI_X_VARIABLE");
+  Pion_cutg->SetVarY("PI_Y_VARIABLE");  Pion_cutg->SetPoint(0,0.901,1.469);  Pion_cutg->SetPoint(1,1.054,1.469);  Pion_cutg->SetPoint(2,1.054,2.603);  Pion_cutg->SetPoint(3,0.901,2.603); Pion_cutg->SetPoint(4,0.901,1.469); Pion_cutg->SetLineColor(kRed);  Pion_cutg->SetLineWidth(3);
+  /*  
   Pion_cutg->SetVarX("sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss))");
   Pion_cutg->SetVarY("P_RF_time");  Pion_cutg->SetPoint(0,0.901,1.469);  Pion_cutg->SetPoint(1,1.054,1.469);  Pion_cutg->SetPoint(2,1.054,2.603);  Pion_cutg->SetPoint(3,0.901,2.603); Pion_cutg->SetPoint(4,0.901,1.469); Pion_cutg->SetLineColor(kRed);  Pion_cutg->SetLineWidth(3);
-  
+  */
+
   // ######################### Geometrical Cuts for selecting Kaon  #################### 
   TCutG *Kaon_cutg = new TCutG("Kaon_cutg",5);
   
@@ -149,43 +158,56 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
   //...Sample of the each particle selected without HGC detector......................................
   TH1D *h1_npeSum_nohgc_cuts    = new TH1D("h1_npeSum_nohgc_cuts","HGC NPE NO HGC CUTS; HGC NPE;", 300, 0.0, 40);
   TH2D *h2_XY_cherenkov_DENO     = new TH2D("h2_XY_cherenkov_DENO","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 ); 
-  TH1D *h1_pion_mm              = new TH1D("h1_pion_mm","Pion missing mass; Pion mm;", 300, 0.901, 1.054);
-  TH1D *h1_pion_mm_random       = new TH1D("h1_pion_mm_random","Pion missing mass(random); Pion mm (random);", 300, 0.901, 1.054);
-  TH1D *h1_pion_mm_norandom     = new TH1D("h1_pion_mm_norandom","Pion missing mass(random subtracted); Pion mm;", 300, 0.901, 1.054);
+  TH1D *h1_NPE_1_CUT        = new TH1D("h1_NPE_1_CUT","HGC CUT = > 1.5; HGC NPE;", 300, 0.0, 40);
+  TH2D *h2_XY_cherenkov_NUM        = new TH2D("h2_XY_cherenkov_NUM","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
+  TH1D *h1_P_cal_etottracknorm = new TH1D("h1_P_cal_etottracknorm","P_cal_etottracknorm; P_cal_etottracknorm;", 300, 0.0, 2.0);
+
+  Double_t PI_DENO_HGC;
+  Double_t PI_NUM_HGC;
   
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++)
     {
       SHMS_EVENTS->GetEntry(i);
-      if(P_aero_npeSum  < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || P_dc_InsideDipoleExit == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4) || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue;   // P_hgcer_npeSum < 0.2 ||  P_dc_InsideDipoleExit == 0 ||
-      
-      if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak. This included the random as well
+      //CUTS      
+      Double_t HGC_CUT1;              // FIXED VARIABLES
+      Double_t HGC_CUT2;             // COIN TIME AND CAL CUTS      
+      Double_t HGC_CUT3;            // RFTIME & PION MM CUTS
+      Double_t HGC_CUT4;           // CHERENKOV CUTS
+      Double_t HGC_CUT5;          // AEROGEL POSITON CUTS
+
+      Double_t Pi_mm = sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss));
+  
+      HGC_CUT1 = P_hod_goodscinhit == 1 && P_hod_goodstarttime == 1 && P_dc_InsideDipoleExit == 1;
+      HGC_CUT2 = P_CTime_ePion > 42 && P_CTime_ePion < 46 && P_cal_etottracknorm <0.7; 
+      HGC_CUT3 = P_RF_time > 1.469 && Pi_mm > 0.901 && P_RF_time < 2.603 && Pi_mm < 1.054;
+      HGC_CUT4 = P_hgcer_npeSum > pow(10,-6) && P_aero_npeSum  > 1.5;
+      HGC_CUT5 = P_aero_yAtCer > -30 && P_aero_yAtCer < 31;
+
+      PI_DENO_HGC = HGC_CUT1 && HGC_CUT2 && HGC_CUT3 && HGC_CUT4 && HGC_CUT5; 
+      PI_NUM_HGC  =  P_hgcer_npeSum > 1.5 && PI_DENO_HGC;
+
+      if(PI_DENO_HGC)
 	{
 	  h1_npeSum_nohgc_cuts->Fill(P_hgcer_npeSum);
 	  h2_XY_cherenkov_DENO->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
 	}      
-    }
-  //I am here
-  
-  //...Sample of the each particle selected with HGC detector.........................................
-  TH1D *h1_NPE_1_CUT        = new TH1D("h1_NPE_1_CUT","HGC CUT = > 6.0; HGC NPE;", 300, 0.0, 40);
-  TH2D *h2_XY_cherenkov_NUM        = new TH2D("h2_XY_cherenkov_NUM","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
-  for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++)
-    {
-      SHMS_EVENTS->GetEntry(i);
-      if(P_hgcer_npeSum  < 6.0 || P_aero_npeSum  < 1.0 || P_aero_yAtCer < -30 || P_aero_yAtCer > 31 || P_hod_goodscinhit == 0 || P_hod_goodstarttime == 0 || P_dc_InsideDipoleExit == 0 || (P_hod_betanotrack < 0.5 && P_hod_betanotrack > 1.4) || !Pion_cutg->IsInside(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)), P_RF_time)) continue;  // P_dc_InsideDipoleExit == 0 || 
-      
-      if(P_CTime_ePion > 42 && P_CTime_ePion < 46)  // select promt peak
-	{	
+      if(PI_NUM_HGC)
+	{
 	  h1_NPE_1_CUT->Fill(P_hgcer_npeSum);
 	  h2_XY_cherenkov_NUM->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
-	  h1_pion_mm->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));
 	}
-      if((P_CTime_ePion > 30 && P_CTime_ePion < 38) || (P_CTime_ePion > 50 && P_CTime_ePion < 66))  // select random bunches
-	{
-	  h1_pion_mm_random->Fill(sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss)));	
-	}
+      h1_P_cal_etottracknorm->Fill(P_cal_etottracknorm);
+      
     }
-  Double_t pi_sc;
+  // PION EFFICIECNY
+
+  Double_t PI_X =  h1_NPE_1_CUT->GetEntries(); 
+  Double_t PI_Y =  h1_npeSum_nohgc_cuts->GetEntries(); 
+
+  cout<< "PION EFF HGC" << (PI_X/PI_Y)*100 << "pm "<< sqrt(1/(PI_X) + 1/(PI_Y))*100<<endl;
+  //Error calcualtions
+  
+  /*Double_t pi_sc;
   pi_sc = 1.0/6.0;  // No. of background peaks selected to remove the random background
   h1_pion_mm_random->Scale(pi_sc); 
   h1_pion_mm_norandom = (TH1D*)h1_pion_mm->Clone("h1_pion_mm_norandom");
@@ -197,6 +219,8 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
   Int_t Highx  = MMAxis->FindBin(0.963);
   Double_t Pi_mm_BinIntegral = h1_pion_mm_norandom->Integral(Lowx, Highx);
   cout<<" Number of Pions = "<<Pi_mm_BinIntegral<<endl;
+  */
+
   
   //... Efficiecny ...................................................................................
   TH2D *h2_EFF     = new TH2D("h2_EFF","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
@@ -227,9 +251,10 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
   PION_EFFICIECNY->cd();
   h1_npeSum_nohgc_cuts->Write();
   h1_NPE_1_CUT->Write();
-  h1_pion_mm->Write();
-  h1_pion_mm_norandom->Write();
+  // h1_pion_mm->Write();
+  //  h1_pion_mm_norandom->Write();
   h2_EFF->Write();
+  h1_P_cal_etottracknorm->Write();
   OutHisto_file->Close();
   //Save the TCutGs open this when needed 
   /*  cutg1->SaveAs(Outpath1+"/" + "TCutG1_" + TOutFilename  +".txt");
