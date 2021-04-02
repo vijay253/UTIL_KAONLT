@@ -161,6 +161,10 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
   TH1D *h1_NPE_1_CUT        = new TH1D("h1_NPE_1_CUT","HGC CUT = > 1.5; HGC NPE;", 300, 0.0, 40);
   TH2D *h2_XY_cherenkov_NUM        = new TH2D("h2_XY_cherenkov_NUM","Efficiency; Y Position (cm); X Position (cm);", 60, -30, 30.0, 80, -40, 40.0 );   
   TH1D *h1_P_cal_etottracknorm = new TH1D("h1_P_cal_etottracknorm","P_cal_etottracknorm; P_cal_etottracknorm;", 300, 0.0, 2.0);
+  TH1D *h1_test1 = new TH1D("h1_test1"," Zero bin entry of HGC; Pion MM;", 300, 0.0, 2.0);
+  TH1D *h1_test2 = new TH1D("h1_test2"," Zero bin entry of HGC; Kaon MM;", 300, 0.0, 2.0);
+  TH1D *h1_test3 = new TH1D("h1_tes3"," Zero bin entry of HGC; Proton MM;", 300, 0.0, 2.0);
+  TH1D *h1_test = new TH1D("h1_test"," After zero bin entry of HGC; Pion MM;", 300, 0.0, 2.0);
 
   Double_t PI_DENO_HGC;
   Double_t PI_NUM_HGC;
@@ -176,7 +180,9 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
       Double_t HGC_CUT5;          // AEROGEL POSITON CUTS
 
       Double_t Pi_mm = sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((MPi*MPi) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss));
-  
+      Double_t K_mm = sqrt(abs(e_miss*e_miss - p_miss*p_miss));
+      Double_t P_mm = sqrt(pow((e_miss + (sqrt((MK*MK) + (P_gtr_p*P_gtr_p))) - (sqrt((Mp*Mp) + (P_gtr_p*P_gtr_p)))), 2) - (p_miss*p_miss));  
+
       HGC_CUT1 = P_hod_goodscinhit == 1 && P_hod_goodstarttime == 1 && P_dc_InsideDipoleExit == 1;
       HGC_CUT2 = P_CTime_ePion > 42 && P_CTime_ePion < 46 && P_cal_etottracknorm <0.7; 
       HGC_CUT3 = P_RF_time > 1.469 && Pi_mm > 0.901 && P_RF_time < 2.603 && Pi_mm < 1.054;
@@ -186,25 +192,38 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
       PI_DENO_HGC = HGC_CUT1 && HGC_CUT2 && HGC_CUT3 && HGC_CUT4 && HGC_CUT5; 
       PI_NUM_HGC  =  P_hgcer_npeSum > 1.5 && PI_DENO_HGC;
 
+
       if(PI_DENO_HGC)
 	{
 	  h1_npeSum_nohgc_cuts->Fill(P_hgcer_npeSum);
 	  h2_XY_cherenkov_DENO->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
+	  h1_P_cal_etottracknorm->Fill(P_cal_etottracknorm);
+
 	}      
       if(PI_NUM_HGC)
 	{
 	  h1_NPE_1_CUT->Fill(P_hgcer_npeSum);
 	  h2_XY_cherenkov_NUM->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
 	}
-      h1_P_cal_etottracknorm->Fill(P_cal_etottracknorm);
-      
+     
+      if(HGC_CUT1&&HGC_CUT2&&P_hgcer_npeSum < pow(10,-6) && P_aero_npeSum  > 1.5&&HGC_CUT5)	
+	{
+	  h1_test1->Fill(Pi_mm);
+	  h1_test2->Fill(K_mm);
+	  h1_test3->Fill(P_mm);
+	}
+      if(HGC_CUT1&&HGC_CUT2&&P_hgcer_npeSum > pow(10,-6) && P_aero_npeSum  > 1.5&&HGC_CUT5)	
+	{
+	  h1_test->Fill(Pi_mm);
+	}
     }
+  
   // PION EFFICIECNY
 
   Double_t PI_X =  h1_NPE_1_CUT->GetEntries(); 
   Double_t PI_Y =  h1_npeSum_nohgc_cuts->GetEntries(); 
 
-  cout<< "PION EFF HGC" << (PI_X/PI_Y)*100 << "pm "<< sqrt(1/(PI_X) + 1/(PI_Y))*100<<endl;
+  cout<< "PION EFF HGC = " << (PI_X/PI_Y)*100 << " +/- "<< sqrt(1/(PI_X) + 1/(PI_Y))*100<<endl;
   //Error calcualtions
   
   /*Double_t pi_sc;
@@ -255,6 +274,10 @@ void EFFICIENCY(string InFilename = "", string OutFilename = "")
   //  h1_pion_mm_norandom->Write();
   h2_EFF->Write();
   h1_P_cal_etottracknorm->Write();
+  h1_test1->Write();
+  h1_test2->Write();
+  h1_test3->Write();
+  h1_test->Write();
   OutHisto_file->Close();
   //Save the TCutGs open this when needed 
   /*  cutg1->SaveAs(Outpath1+"/" + "TCutG1_" + TOutFilename  +".txt");
