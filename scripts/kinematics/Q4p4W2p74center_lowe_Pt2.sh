@@ -2,6 +2,13 @@
 
 # 07/05/20 - Stephen Kay, University of Regina
 # Runs the analysis for the setting indicated, in this case it is split into two halves due to a change in the beam conditions
+RUNPREFIX=$1
+if [[ -z "$1" ]]; then
+    echo "I need a Run Prefix!"
+    echo "Please provide a run prefix as input"
+    exit 2
+fi
+
 # Simply hadd the two halves together if you want
 
 echo "Starting analysis of Q2 = 4.4, W = 2.74, central angle, low espilon setting"
@@ -30,7 +37,7 @@ RunListFile="${UTILPATH}/scripts/kinematics/Q4p4W2p74center_lowe_Pt2"
 while IFS='' read -r line || [[ -n "$line" ]]; do
     runNum=$line
     RootName+="${runNum}_-1_Analysed_Data.root "
-    eval '"$SCRIPTPATH" $runNum -1'
+    eval '"$SCRIPTPATH" $RunPrefix $runNum -1'
 done < "$RunListFile"
 sleep 5
 cd "${UTILPATH}/scripts/kaonyield/OUTPUT"
