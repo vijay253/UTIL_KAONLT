@@ -75,6 +75,24 @@ e_tree = up.open(rootName)["T"]
 CTime_eKCoinTime_ROC1           = e_tree.array("CTime.eKCoinTime_ROC1")
 CTime_ePiCoinTime_ROC1          = e_tree.array("CTime.ePiCoinTime_ROC1")
 CTime_epCoinTime_ROC1           = e_tree.array("CTime.epCoinTime_ROC1")
+#P_hgcer_goodAdcTdcDiffTime      = e_tree.array("P.hgcer.goodAdcTdcDiffTime")
+P_hod_goodscinhit               = e_tree.array("P.hod.goodscinhit")
+P_hod_betanotrack               = e_tree.array("P.hod.betanotrack")
+P_hod_goodstarttime             = e_tree.array("P.hod.goodstarttime")
+P_dc_InsideDipoleExit           = e_tree.array("P.dc.InsideDipoleExit")
+P_dc_1x1_nhit                   = e_tree.array("P.dc.1x1.nhit")
+P_dc_1x2_nhit                   = e_tree.array("P.dc.1x2.nhit")
+P_dc_2x1_nhit                   = e_tree.array("P.dc.2x1.nhit")
+P_dc_2x2_nhit                   = e_tree.array("P.dc.2x2.nhit")
+P_dc_1u1_nhit                   = e_tree.array("P.dc.1u1.nhit")
+P_dc_1u2_nhit                   = e_tree.array("P.dc.1u2.nhit")
+P_dc_2u1_nhit                   = e_tree.array("P.dc.2u1.nhit")
+P_dc_2u2_nhit                   = e_tree.array("P.dc.2u2.nhit")
+P_dc_1v1_nhit                   = e_tree.array("P.dc.1v1.nhit")
+P_dc_1v2_nhit                   = e_tree.array("P.dc.1v2.nhit")
+P_dc_2v1_nhit                   = e_tree.array("P.dc.2v1.nhit")
+P_dc_2v2_nhit                   = e_tree.array("P.dc.2v2.nhit")
+P_dc_ntrack                     = e_tree.array("P.dc.ntrack")
 P_RF_tdcTime                    = e_tree.array("T.coin.pRF_tdcTime")
 P_hod_fpHitsTime                = e_tree.array("P.hod.fpHitsTime")
 H_cal_etotnorm                  = e_tree.array("H.cal.etotnorm")
@@ -87,6 +105,7 @@ P_gtr_yp                        = e_tree.array("P.gtr.ph") # ypfp -> Phi
 P_gtr_p                         = e_tree.array("P.gtr.p")
 P_gtr_dp                        = e_tree.array("P.gtr.dp")
 P_cal_etotnorm                  = e_tree.array("P.cal.etotnorm")
+P_cal_etottracknorm             = e_tree.array("P.cal.etottracknorm")
 P_aero_npeSum                   = e_tree.array("P.aero.npeSum")
 P_hgcer_npeSum                  = e_tree.array("P.hgcer.npeSum")
 P_hgcer_xAtCer                  = e_tree.array("P.hgcer.xAtCer")
@@ -102,7 +121,7 @@ pmiss                           = e_tree.array("P.kin.secondary.pmiss")
 RF_time = np.array([ ((RFTime-StartTime + RF_Offset)%(BunchSpacing)) for (RFTime, StartTime) in zip(P_RF_tdcTime, P_hod_fpHitsTime)]) # In python x % y is taking the modulo y of x               
 r = klt.pyRoot()
 # Specify the file which contains the cuts we want to use
-fout = '%s/UTIL_KAONLT/DB/CUTS/run_type/pid_cuts.cuts' % REPLAYPATH
+fout = '%s/UTIL_KAONLT/DB/CUTS/run_type/test.cuts' % REPLAYPATH
 # read in cuts file and make dictionary
 c = klt.pyPlot(None)
 readDict = c.read_dict(fout,runNum)
@@ -138,14 +157,14 @@ def make_cutDict(cut,inputDict=None):
 
 # Add the cuts that we want to use from our specified file to the cut dictionary, note, we're only adding two of our three defined cuts to our cut dict
 # Acceptance, beta and calorimeter cuts applied  
-cutDict = make_cutDict("Acc_beta_cal_cuts")
+cutDict = make_cutDict("Acceptance_beta_cuts")
 c = klt.pyPlot(cutDict)
 
 # Define a function to return a dictionary of the events we want
 # Arrays we generate in our dict should all be of the same length (in terms of # elements in the array) to keep things simple
 def SHMS_events(): 
-    NoCut_Events_SHMS = [CTime_eKCoinTime_ROC1, CTime_ePiCoinTime_ROC1, CTime_epCoinTime_ROC1, RF_time, H_cal_etotnorm, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer,  P_aero_xAtCer, P_aero_yAtCer, P_cal_fly_earray, P_cal_pr_eplane, P_gtr_x, P_gtr_y, emiss, pmiss]
-    SHMS_Events_Info = [(CTeK, CTePi, CTeP, RFtime, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, RFtime, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*NoCut_Events_SHMS)]
+    NoCut_Events_SHMS = [CTime_eKCoinTime_ROC1, CTime_ePiCoinTime_ROC1, CTime_epCoinTime_ROC1, P_hod_goodscinhit, P_hod_betanotrack, P_hod_goodstarttime, P_dc_InsideDipoleExit, P_dc_1x1_nhit,P_dc_1x2_nhit, P_dc_2x1_nhit, P_dc_2x2_nhit, P_dc_1u1_nhit, P_dc_1u2_nhit, P_dc_2u1_nhit, P_dc_2u2_nhit, P_dc_1v1_nhit,P_dc_1v2_nhit, P_dc_2v1_nhit, P_dc_2v2_nhit, P_dc_ntrack, RF_time, H_cal_etotnorm, P_gtr_beta, P_gtr_xp, P_gtr_yp, P_gtr_p, P_gtr_dp, P_cal_etotnorm, P_cal_etottracknorm, P_aero_npeSum, P_hgcer_npeSum, P_hgcer_xAtCer, P_hgcer_yAtCer,  P_aero_xAtCer, P_aero_yAtCer, P_cal_fly_earray, P_cal_pr_eplane, P_gtr_x, P_gtr_y, emiss, pmiss]
+    SHMS_Events_Info = [(CTeK, CTePi, CTeP, Phodgood, Phodbet, Phodgoodstime, Pdcexitdipole, P_dc_1x1, P_dc_1x2,P_dc_2x1,P_dc_2x2,P_dc_1u1,P_dc_1u2,P_dc_2u1,P_dc_2u2,P_dc_1v1,P_dc_1v2,P_dc_2v1,P_dc_2v2,Pntrack, RFtime, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Ptottrack, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, Phodgood, Phodbet, Phodgoodstime, Pdcexitdipole, P_dc_1x1, P_dc_1x2,P_dc_2x1,P_dc_2x2,P_dc_1u1,P_dc_1u2,P_dc_2u1,P_dc_2u2,P_dc_1v1,P_dc_1v2,P_dc_2v1,P_dc_2v2,Pntrack, RFtime, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Ptottrack, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*NoCut_Events_SHMS)]
 
     # Create (currently empty) arrays of our SHMS events for Cut1 and Cut2, we also have a temp array of our uncut data
     Cut_Events_SHMS_tmp = NoCut_Events_SHMS
@@ -153,10 +172,10 @@ def SHMS_events():
 
     #Apply our cuts to the data and save our new arrays
     for arr in   Cut_Events_SHMS_tmp:
-        SHMS_Events_wCuts.append(c.add_cut(arr, "Acc_beta_cal_cuts"))
+        SHMS_Events_wCuts.append(c.add_cut(arr, "Acceptance_beta_cuts"))
               
     # Again, strictly force this to be an array and NOT a list
-    P_Events_wCuts = [(CTeK, CTePi, CTeP, RFtime, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP,RFtime, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*SHMS_Events_wCuts)]
+    P_Events_wCuts = [(CTeK, CTePi, CTeP, Phodgood, Phodbet, Phodgoodstime, Pdcexitdipole, P_dc_1x1, P_dc_1x2,P_dc_2x1,P_dc_2x2,P_dc_1u1,P_dc_1u2,P_dc_2u1,P_dc_2u2,P_dc_1v1,P_dc_1v2,P_dc_2v1,P_dc_2v2,Pntrack, RFtime, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot, Ptottrack, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) for (CTeK, CTePi, CTeP, Phodgood, Phodbet, Phodgoodstime, Pdcexitdipole, P_dc_1x1, P_dc_1x2,P_dc_2x1,P_dc_2x2,P_dc_1u1,P_dc_1u2,P_dc_2u1,P_dc_2u2,P_dc_1v1,P_dc_1v2,P_dc_2v1,P_dc_2v2,Pntrack, RFtime, HCal, PBeta, Pxp, Pyp, PP, PDel, Ptot,Ptottrack, Paernpe, Phgnpe, Pxat, Pyat, Paeroxat, Paeroyat, Pfly, Ppr, Pxtr, Pytr, Pemiss, Ppmiss) in zip(*SHMS_Events_wCuts)]
     SHMS_Events = {
         "SHMS_Events": SHMS_Events_Info,
         "SHMS_Events_wCuts": P_Events_wCuts,
@@ -171,7 +190,7 @@ def main():
     # This is just the list of branches we use from the initial root file for each dict
     # They're the "headers" of the data frame we create - i.e. they're going to be the branches in our new root file
     # Note - I don't like re-defining this here as it's very prone to errors if you included (or removed something) earlier but didn't modify it here
-    SHMS_Data_Header = ["CTime_eKCoinTime_ROC1","CTime_ePiCoinTime_ROC1","CTime_epCoinTime_ROC1","RF_time", "H_cal_etotnorm", "P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm", "P_aero_npeSum", "P_hgcer_npeSum", "P_hgcer_xAtCer", "P_hgcer_yAtCer", "P_aero_xAtCer", "P_aero_yAtCer","P_cal_fly_earray", "P_cal_pr_eplane", "P_gtr_x", "P_gtr_y", "emiss", "pmiss"]
+    SHMS_Data_Header = ["CTime_eKCoinTime_ROC1","CTime_ePiCoinTime_ROC1","CTime_epCoinTime_ROC1", "P_hod_goodscinhit", "P_hod_betanotrack", "P_hod_goodstarttime", "P_dc_InsideDipoleExit", "P_dc_1x1_nhit","P_dc_1x2_nhit", "P_dc_2x1_nhit", "P_dc_2x2_nhit", "P_dc_1u1_nhit", "P_dc_1u2_nhit", "P_dc_2u1_nhit", "P_dc_2u2_nhit", "P_dc_1v1_nhit","P_dc_1v2_nhit", "P_dc_2v1_nhit", "P_dc_2v2_nhit", "P_dc_ntrack","RF_time", "H_cal_etotnorm", "P_gtr_beta","P_gtr_xp","P_gtr_yp","P_gtr_p","P_gtr_dp","P_cal_etotnorm", "P_cal_etottracknorm", "P_aero_npeSum", "P_hgcer_npeSum", "P_hgcer_xAtCer", "P_hgcer_yAtCer", "P_aero_xAtCer", "P_aero_yAtCer","P_cal_fly_earray", "P_cal_pr_eplane", "P_gtr_x", "P_gtr_y", "emiss", "pmiss"]
     data = {} # Create an empty dictionary
 
     d = SHMS_Events_Data  
