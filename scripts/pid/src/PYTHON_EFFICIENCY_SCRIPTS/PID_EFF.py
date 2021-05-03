@@ -121,7 +121,7 @@ pmiss                           = e_tree.array("P.kin.secondary.pmiss")
 RF_time = np.array([ ((RFTime-StartTime + RF_Offset)%(BunchSpacing)) for (RFTime, StartTime) in zip(P_RF_tdcTime, P_hod_fpHitsTime)]) # In python x % y is taking the modulo y of x               
 r = klt.pyRoot()
 # Specify the file which contains the cuts we want to use
-fout = '%s/UTIL_KAONLT/DB/CUTS/run_type/test.cuts' % REPLAYPATH
+fout = '%s/UTIL_KAONLT/DB/CUTS/run_type/Cuts_file.cuts' % REPLAYPATH
 # read in cuts file and make dictionary
 c = klt.pyPlot(None)
 readDict = c.read_dict(fout,runNum)
