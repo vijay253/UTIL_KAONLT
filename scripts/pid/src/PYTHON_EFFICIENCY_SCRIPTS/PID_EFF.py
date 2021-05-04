@@ -123,7 +123,7 @@ r = klt.pyRoot()
 # Specify the file which contains the cuts we want to use
 fout = '%s/UTIL_KAONLT/DB/CUTS/run_type/Cuts_file.cuts' % REPLAYPATH
 # read in cuts file and make dictionary
-c = klt.pyPlot(REPLAYPATH,DEBUG=False)
+c = klt.pyPlot(REPLAYPATH,DEBUG=True)
 readDict = c.read_dict(fout,runNum)
 # This method calls several methods in kaonlt package. It is required to create properly formated
 # dictionaries. The evaluation must be in the analysis script because the analysis variables (i.e. the
@@ -157,7 +157,7 @@ def make_cutDict(cut,inputDict=None):
 
 # Add the cuts that we want to use from our specified file to the cut dictionary, note, we're only adding two of our three defined cuts to our cut dict
 # Acceptance, beta and calorimeter cuts applied  
-cutDict = make_cutDict("Acceptance_beta_cuts", cutDict)
+cutDict = make_cutDict("Acceptance_beta_cuts")
 c = klt.pyPlot(REPLAYPATH,cutDict)
 
 # Define a function to return a dictionary of the events we want
