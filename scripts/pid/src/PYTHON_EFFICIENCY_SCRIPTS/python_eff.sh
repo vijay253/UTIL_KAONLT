@@ -31,7 +31,7 @@ if [[ "${HOSTNAME}" = *"farm"* ]]; then
     source "$REPLAYPATH/setup.sh"
 elif [[ "${HOSTNAME}" = *"qcd"* ]]; then
     REPLAYPATH="/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
-    source /site/12gev_phys/softenv.sh 2.1
+    source /site/12gev_phys/softenv.sh 2.3
     cd "/group/c-kaonlt/hcana/"
     source "/group/c-kaonlt/hcana/setup.sh" 
     cd "$REPLAYPATH"
@@ -45,8 +45,11 @@ elif [[ "${HOSTNAME}" = *"trottar"* ]]; then
 fi
 
 source /apps/root/6.18.04/setroot_CUE.bash
+
 cd ${REPLAYPATH}/UTIL_KAONLT/scripts/pid/src/PYTHON_EFFICIENCY_SCRIPTS/
 python3  PID_EFF.py ${RUNNUMBER} ${MAXEVENTS}
+
+#python3 test.py ${RUNNUMBER} ${MAXEVENTS}
 
 #cd ${REPLAYPATH}/UTIL_KAONLT/scripts/pid/src/PYTHON_EFFICIENCY_SCRIPTS/OUTPUT/
 #root -b -q  "${REPLAYPATH}/UTIL_KAONLT/scripts/pid/src/PYTHON_EFFICIENCY_SCRIPTS/OUTPUT/PION_MM.C(\"pid_eff_${RUNNUMBER}_${MAXEVENTS}.root\", \"PION1_MM_${RUNNUMBER}_${MAXEVENTS}\")"

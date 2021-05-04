@@ -157,7 +157,7 @@ def make_cutDict(cut,inputDict=None):
 
 # Add the cuts that we want to use from our specified file to the cut dictionary, note, we're only adding two of our three defined cuts to our cut dict
 # Acceptance, beta and calorimeter cuts applied  
-cutDict = make_cutDict("Acceptance_beta_cuts")
+cutDict = make_cutDict("Acceptance_beta_cuts", cutDict)
 c = klt.pyPlot(cutDict)
 
 # Define a function to return a dictionary of the events we want
