@@ -1,0 +1,9 @@
+########################################
+# CUTS FOR THE PID STUDY        
+# CUT1 FOR PION SAMPLE
+# CUT2 FOR KAON SAMPLE
+# CUT3 FOR PROTON SAMPLE
+########################################
+CUT1 = accept.delta+accept.p_pfp-accept.delta.H_gtr_dp+pid.p_picut-pid.p_picut.P_hgcer_npeSum-pid.p_picut.P_aero_npeSum-pid.p_picut.P_cal_etotnorm
+CUT2 = accept.delta+accept.p_pfp-accept.delta.H_gtr_dp+pid.p_picut-pid.p_picut.P_hgcer_npeSum-pid.p_picut.P_aero_npeSum-pid.p_picut.P_cal_etotnorm 
+CUT3 = accept.delta+accept.p_pfp-accept.delta.H_gtr_dp+pid.p_picut-pid.p_picut.P_hgcer_npeSum-pid.p_picut.P_aero_npeSum-pid.p_picut.P_cal_etotnorm
