@@ -21,16 +21,18 @@ echo "######################################################"
 
 # Set path depending upon hostname. Change or add more as needed  
 if [[ "${HOSTNAME}" = *"farm"* ]]; then  
-    REPLAYPATH="/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
+    REPLAYPATH="/group/c-pionlt/USERS/${USER}/hallc_replay_lt"
     source /site/12gev_phys/softenv.sh 2.3
     if [[ "${HOSTNAME}" != *"ifarm"* ]]; then
 	source /site/12gev_phys/softenv.sh 2.3
+	source /apps/root/6.18.04/setroot_CUE.bash
     fi
     cd "$REPLAYPATH"
     source "$REPLAYPATH/setup.sh"
 elif [[ "${HOSTNAME}" = *"qcd"* ]]; then
-    REPLAYPATH="/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
+    REPLAYPATH="/group/c-pionlt/USERS/${USER}/hallc_replay_lt"
     source /site/12gev_phys/softenv.sh 2.3
+    source /apps/root/6.18.04/setroot_CUE.bash  
     cd "$REPLAYPATH"
     source "$REPLAYPATH/setup.sh" 
 elif [[ "${HOSTNAME}" = *"cdaq"* ]]; then
@@ -54,7 +56,7 @@ fi
 TestingVar=$((1))
 while IFS='' read -r line || [[ -n "$line" ]]; do
     runNum=$line
-    if [ ! -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_-1_CTPeak_Data.root" ]; then
+    if [ ! -f "${UTILPATH}/OUTPUT/Analysis/KaonLT/${runNum}_-1_CTPeak_Data.root" ]; then
 	echo "CTPeak analysis not found for run $runNum in ${UTILPATH}/scripts/CoinTimePeak/OUTPUT/"
 	echo "${runNum}" >> "${UTILPATH}/scripts/CoinTimePeak/Kinematics/${KINEMATIC}_MissingCTAnalysis"
 	TestingVar=$((TestingVar+1))
@@ -69,11 +71,11 @@ elif [ $TestingVar != 1 ]; then
     if [ $Autosub == 1 ]; then
 	while IFS='' read -r line || [[ -n "$line" ]]; do
 	    runNum=$line
-	    if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_-1_CTPeak_Data.root" ]; then
-		rm "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_-1_CTPeak_Data.root"
+	    if [ -f "${UTILPATH}/OUTPUT/Analysis/KaonLT/${runNum}_-1_CTPeak_Data.root" ]; then
+		rm "${UTILPATH}/OUTPUT/Analysis/KaonLT/${runNum}_-1_CTPeak_Data.root"
 	    fi
-	    if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/Kaon_coin_replay_production_${runNum}_-1.root" ]; then
-		rm "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/Kaon_coin_replay_production_${runNum}_-1.root"
+	    if [ -f "${UTILPATH}/ROOTfiles/Analysis/KaonLT/Pion_coin_replay_production_${runNum}_-1.root" ]; then
+		rm "${UTILPATH}/ROOTfiles/Analysis/KaonLT/Pion_coin_replay_production_${runNum}_-1.root"
 	    fi
 	done < "${UTILPATH}/scripts/CoinTimePeak/Kinematics/${KINEMATIC}_MissingCTAnalysis"
 	yes y | eval "$REPLAYPATH/UTIL_BATCH/batch_scripts/run_batch_CTPeak_Analysis.sh ${KINEMATIC}_MissingCTAnalysis"
@@ -81,11 +83,10 @@ elif [ $TestingVar != 1 ]; then
 	echo "Analyses missing, list copied to UTIL_BATCH directory, run on farm if desired"
 	read -p "Process python script for missing replays/analyses interactively? <Y/N> " prompt2
 	if [[ $prompt2 == "y" || $prompt2 == "Y" || $prompt2 == "yes" || $prompt2 == "Yes" ]]; then
-	    source /apps/root/6.18.04/setroot_CUE.bash
 	    while IFS='' read -r line || [[ -n "$line" ]]; do
 		runNum=$line
-		if [ ! -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_-1_CTPeak_Data.root" ]; then
-		    python3 $UTILPATH/scripts/CoinTimePeak/src/CoinTimePeak.py "Kaon_coin_replay_production" ${runNum} "-1" 
+		if [ ! -f "${UTILPATH}/OUTPUT/Analysis/KaonLT/${runNum}_-1_CTPeak_Data.root" ]; then
+		    python3 $UTILPATH/scripts/CoinTimePeak/src/CoinTimePeak.py "Pion_coin_replay_production" ${runNum} "-1" 
 		fi
 	    done < "$RunListFile"
 	    else echo "Not processing python script interactively"
@@ -94,13 +95,13 @@ elif [ $TestingVar != 1 ]; then
 fi
 
 if [ $TestingVar == 1 ]; then
-    if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv" ]; then
-	rm "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv"
-    else touch "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv"
+    if [ -f "${UTILPATH}/OUTPUT/Analysis/KaonLT/${KINEMATIC}_Output.csv" ]; then
+	rm "${UTILPATH}/OUTPUT/Analysis/KaonLT/${KINEMATIC}_Output.csv"
+    else touch "${UTILPATH}/OUTPUT/Analysis/KaonLT/${KINEMATIC}_Output.csv"
     fi
     while IFS='' read -r line || [[ -n "$line" ]]; do
 	runNum=$line
-	OutputFile="${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${runNum}_Out_tmp"
+	OutputFile="${UTILPATH}/OUTPUT/Analysis/KaonLT/${runNum}_Out_tmp"
 	if [ -f ${OutputFile} ]; then
 	    rm ${OutputFile}
 	else touch ${OutputFile}
@@ -108,13 +109,13 @@ if [ $TestingVar == 1 ]; then
 	root -b -l -q "${UTILPATH}/scripts/CoinTimePeak/PlotCoinPeak.C(\"${runNum}_-1_CTPeak_Data.root\", \"${runNum}_CTOut\")" >> ${OutputFile}
 	sleep 1
 	Data=$(sed -n "/${runNum},/p" $OutputFile)
-	echo ${Data} >> "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv"
+	echo ${Data} >> "${UTILPATH}/OUTPUT/Analysis/KaonLT/${KINEMATIC}_Output.csv"
 	sleep 1
 	rm ${OutputFile}
     done < "$RunListFile"
 fi
 
-if [ -f "${UTILPATH}/scripts/CoinTimePeak/OUTPUT/${KINEMATIC}_Output.csv" ]; then
+if [ -f "${UTILPATH}/OUTPUT/Analysis/KaonLT/${KINEMATIC}_Output.csv" ]; then
     root -b -l -q "${UTILPATH}/scripts/CoinTimePeak/PlotKinematic.C(\"${KINEMATIC}\")" 
 fi
 
