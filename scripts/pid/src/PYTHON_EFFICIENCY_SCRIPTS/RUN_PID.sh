@@ -28,22 +28,11 @@ if [[ "${HOSTNAME}" = *"farm"* ]]; then
     source "/group/c-kaonlt/hcana/setup.sh"
     cd "$REPLAYPATH"
     source "$REPLAYPATH/setup.sh"
-#elif [[ "${HOSTNAME}" = *"qcd"* ]]; then
- #   REPLAYPATH="/group/c-kaonlt/USERS/${USER}/hallc_replay_lt"
-  #  source /site/12gev_phys/softenv.sh 2.3
-   # cd "/group/c-kaonlt/hcana/"
-    #source "/group/c-kaonlt/hcana/setup.sh" 
-    #cd "$REPLAYPATH"
-    #source "$REPLAYPATH/setup.sh" 
-#elif [[ "${HOSTNAME}" = *"cdaq"* ]]; then
- #   REPLAYPATH="/home/cdaq/hallc-online/hallc_replay_lt"
-#elif [[ "${HOSTNAME}" = *"phys.uregina.ca"* ]]; then
- #   REPLAYPATH="/home/${USER}/work/JLab/hallc_replay_lt"
-#elif [[ "${HOSTNAME}" = *"trottar"* ]]; then
- #   REPLAYPATH="/home/trottar/Analysis/hallc_replay_lt"
 fi
 
 source /apps/root/6.18.04/setroot_CUE.bash
 
 cd ${REPLAYPATH}/UTIL_KAONLT/scripts/pid/src/PYTHON_EFFICIENCY_SCRIPTS/
+
 python3  PID_EFF.py ${RUNNUMBER} ${MAXEVENTS}
+
