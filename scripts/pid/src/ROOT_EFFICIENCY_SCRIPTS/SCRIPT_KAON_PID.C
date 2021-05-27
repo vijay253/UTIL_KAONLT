@@ -375,8 +375,8 @@ void SCRIPT_KAON_PID(string InFilename = "", string OutFilename = "")
   H1_HG_NPE_DENO2->Write();
   H2_HG_XY_CHER_DENO2->Write();
   H2_HGC_EFF2->Write();
-  TDirectory *AERO_PION_EFF = OutHisto_file->mkdir("AERO_PION_EFF");
-  AERO_PION_EFF->cd();
+  TDirectory *AERO_KAON_EFF = OutHisto_file->mkdir("AERO_KAON_EFF");
+  AERO_KAON_EFF->cd();
   H2_AERO_EFF->Write();
 
   OutHisto_file->Close();
