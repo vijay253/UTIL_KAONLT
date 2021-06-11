@@ -165,10 +165,10 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
   TH2D *H2_HG_XY_CHER_DENO2            = new TH2D("H2_HG_XY_CHER_DENO2","XY CHER (MM CUT); P_hgcer_yAtCer; P_hgcer_xAtCer;", 60, -30, 30.0, 80, -40, 40.0 ); 
   TH2D *H2_HG_XY_CHER_NUM2             = new TH2D("H2_HG_XY_CHER_NUM2","XY CHER (MM CUT); P_hgcer_yAtCer; P_hgcer_xAtCer;", 60, -30, 30.0, 80, -40, 40.0 );   
   TH1D *H1_MM1                         = new TH1D("H1_MM1"," PROTON MM ; P_kin_secondary_MMp;", 300, 0.0, 2.0);
-  TH1D *H1_MM2                         = new TH1D("H1_MM2"," PROTON MM (HOLE CUT OFF); P_kin_secondary_MMp;", 300, 0.0, 2.0);
+  TH1D *H1_MM2                         = new TH1D("H1_MM2"," PROTON MM; P_kin_secondary_MMp;", 300, 0.0, 2.0);
+  TH1D *H1_MM                          = new TH1D("H1_MM"," PROTON MM (Background Sub); P_kin_secondary_MMp;", 300, 0.0, 2.0);
   TH1D *H1_EPROTON_COIN                = new TH1D("H1_EPROTON_COIN"," EPROTON COIN TIME; P_CTime_eProton;", 300, -40.0, 40.0);
   TH1D *H1_RFTime                      = new TH1D("H1_RFTime"," RFTime; RFTime_SHMS_RFtimeDist;", 300, 0.0, 4.5);
-
 
   Double_t PI_DENO_HGC;
   Double_t PI_NUM_HGC;
@@ -184,6 +184,7 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
       Double_t HGC_CUT5;          // AEROGEL POSITON CUTS
       Double_t HGC_CUT6;         // OUTSIDE REGION OF THE HOLE
       Double_t HGC_CUT7;        //  RFTIME CUT
+      Double_t HGC_CUT8;        //  RANDOM SELECTION
    
       HGC_CUT1 = P_hod_goodscinhit == 1 && P_hod_goodstarttime == 1 && P_dc_InsideDipoleExit == 1 && P_hod_betanotrack > 0.5 && P_hod_betanotrack < 1.4;
       HGC_CUT2 = P_CTime_eProton > -2.0 && P_CTime_eProton < 2.0 && P_cal_etottracknorm <0.7; 
@@ -192,8 +193,9 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
       HGC_CUT5 = P_aero_yAtCer > -30 && P_aero_yAtCer < 31;
       HGC_CUT6 = (Pion_cutg->IsInside(PI_X_VARIABLE, PI_Y_VARIABLE));
       HGC_CUT7 = RFTime_SHMS_RFtimeDist > 0.0 && RFTime_SHMS_RFtimeDist < 4.0;
+      HGC_CUT8 = (P_CTime_eProton > -14.0 && P_CTime_eProton < -6.0) || (P_CTime_eProton > 6.0 && P_CTime_eProton < 22.0);
      
-      PI_DENO_HGC = HGC_CUT1 && HGC_CUT2 && HGC_CUT3 && HGC_CUT4 && HGC_CUT5 && HGC_CUT7; 
+      PI_DENO_HGC = HGC_CUT1 && HGC_CUT2 && HGC_CUT4 && HGC_CUT5 && HGC_CUT7; 
       PI_NUM_HGC  =  P_hgcer_npeSum < 0.1 && PI_DENO_HGC;
     
       if(P_hgcer_npeSum > pow(10, -6) && HGC_CUT1 && HGC_CUT2)
@@ -201,12 +203,7 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
 	  H2_HG_AERO_NPE->Fill(P_hgcer_npeSum, P_aero_npeSum);
 	}
 
-      if(HGC_CUT1 && HGC_CUT2 && HGC_CUT4 && HGC_CUT5 && HGC_CUT7)
-	{
-	  H1_MM2->Fill(P_kin_secondary_MMp);	
-	}
-
-
+  
       // PROTON sample without the MM cut
       if(HGC_CUT1 && HGC_CUT2 && HGC_CUT4 && HGC_CUT5 && HGC_CUT7)
 	{
@@ -214,6 +211,7 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
 	  H2_HG_XY_CHER_DENO1->Fill(P_hgcer_yAtCer, P_hgcer_xAtCer);
 	  //	  H1_KAON_MM1->Fill(P_kin_secondary_MMK);	
 	}      	
+
 	  
       if(P_hgcer_npeSum < 0.1 && HGC_CUT1 && HGC_CUT2 && HGC_CUT4 && HGC_CUT5 && HGC_CUT7)
 	{
@@ -225,6 +223,12 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
 	  H2_MM_RFTime->Fill(P_kin_secondary_MMp, RFTime_SHMS_RFtimeDist);
 	}
 	  
+      if(P_hgcer_npeSum < 0.1 && HGC_CUT1 && HGC_CUT4 && HGC_CUT5 && HGC_CUT7 && HGC_CUT8)
+	{
+	  //  H1_EPROTON_COIN->Fill(P_CTime_eProton);
+	  H1_MM2->Fill(P_kin_secondary_MMp);	
+	}
+
       
       // Pion sample with the MM cut      
       if(PI_DENO_HGC)
@@ -242,7 +246,10 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
       
 	
     }
-  
+
+  H1_MM2->Scale(1.0/6.0);
+  H1_MM1->Add(H1_MM2, -1);       
+
   // PION EFFICIECNY
 
   Double_t PI_HGC_X1 =  H1_HG_NPE_NUM1->GetEntries(); 
@@ -265,17 +272,12 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
   */
 
   //  Integrate the selected range to get the pions inside the pion peak
-  TAxis *MMAxis1 = H1_MM2->GetXaxis();
-  Int_t Lowx1   = MMAxis1->FindBin(0.901);    // select pion peak
-  Int_t Highx1  = MMAxis1->FindBin(1.054);
-  Double_t Pi_mm_BinIntegral1 = H1_MM2->Integral(Lowx1, Highx1);
-
+ 
   TAxis *MMAxis2 = H1_MM1->GetXaxis();
   Int_t Lowx2   = MMAxis2->FindBin(0.901);    // select pion peak
   Int_t Highx2  = MMAxis2->FindBin(1.054);
   Double_t Pi_mm_BinIntegral2 = H1_MM1->Integral(Lowx2, Highx2);
   
-  cout<<" NO. OF PROTON                = "<<Pi_mm_BinIntegral1<<endl;
   cout<<" NO. OF PROTON (HOLE CUT OFF) = "<<Pi_mm_BinIntegral2<<endl;
   
   //... Efficiecny ...................................................................................
@@ -289,6 +291,7 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
   H2_HGC_EFF2       = (TH2D*)H2_HG_XY_CHER_NUM2->Clone("H2_HGC_EFF2");
   H2_HGC_EFF2->Sumw2();
   H2_HGC_EFF2->Divide(H2_HG_XY_CHER_DENO2);
+  //  H2_HGC_EFF2->Add(H2_HG_XY_CHER_NUM2, 1);
   H2_HGC_EFF2->SetTitle("EFFICIENCY (MM CUT)");
 
   //  h2_efficiency->GetYaxis()->SetRangeUser(0.6,1.4);
@@ -365,6 +368,7 @@ void SCRIPT_PROTON_PID(string InFilename = "", string OutFilename = "")
   H1_RFTime->Write();
   H2_HG_AERO_NPE->Write();
   H1_MM1->Write();
+  H1_MM2->Write();
   H1_HG_NPE_DENO1->Write();
   H1_HG_NPE_NUM1->Write();
   H2_HGC_EFF1->GetListOfFunctions()->Add(cutg1,"L");
