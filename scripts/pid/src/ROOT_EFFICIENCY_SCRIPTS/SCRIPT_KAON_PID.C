@@ -72,16 +72,7 @@ void SCRIPT_KAON_PID(string InFilename = "", string OutFilename = "")
   TString foutpdf = Outpath1+"/" + TOutFilename + ".pdf";
   
   
-  
-  //#################################################################### 
-  
-  Double_t Mp    = 0.93828;      // Mass of Proton
-  Double_t MPi   = 0.13957018;  // Mass of Pion
-  Double_t MK    = 0.493677;   // Mass of Kaon
-  
-  //#################################################################### 
-  
-  // Particles information with acceptnce cuts ONLY...
+    // Particles information with acceptnce cuts ONLY...
   
   TTree* SHMS_EVENTS  = (TTree*)InFile->Get("SHMS_PION_SAMPLE"); Long64_t nEntries_SHMS_EVENTS  = (Long64_t)SHMS_EVENTS->GetEntries();   // InFile
   Double_t RFTime_SHMS_RFtimeDist ;SHMS_EVENTS->SetBranchAddress("RFTime_SHMS_RFtimeDist", &RFTime_SHMS_RFtimeDist);
