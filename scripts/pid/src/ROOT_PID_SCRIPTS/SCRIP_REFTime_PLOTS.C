@@ -77,7 +77,7 @@ void SCRIP_REFTime_PLOTS(string InFilename = "", string OutFilename = "")
   Double_t T_coin_pFADC_TREF_ROC2_adcPulseTimeRaw; SHMS_EVENTS->SetBranchAddress("T_coin_pFADC_TREF_ROC2_adcPulseTimeRaw", &T_coin_pFADC_TREF_ROC2_adcPulseTimeRaw);
   
   // Hist for filling up the REFTime
-  TH1D *H1_REFTime      = new TH1D("H1_REFTime","REFTime; T_coin_pFADC_TREF_ROC2_adcPulseTimeRaw;", 300, 5000, 8000);
+  TH1D *H1_REFTime      = new TH1D("H1_REFTime","REFTime; T_coin_pFADC_TREF_ROC2_adcPulseTimeRaw;", 300, 0.0, 8000);
   
   for(Long64_t i = 0; i < nEntries_SHMS_EVENTS; i++)
     {
@@ -90,7 +90,9 @@ void SCRIP_REFTime_PLOTS(string InFilename = "", string OutFilename = "")
     }
   TCanvas *c = new TCanvas ("c");
   c->cd(1);
+  // H1_REFTime->Setlogy();
   H1_REFTime->Draw("");
   //Now save the TCanvas
+   c->SetLogy();
   c->Print(foutpdf);
 }
